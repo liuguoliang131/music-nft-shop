@@ -21,7 +21,8 @@
 		color: #fff;
 		padding: 0 40rpx;
 		position: relative;
-	
+		font-family: 'PingFang SC';
+
 		&-header {
 			display: flex;
 			align-items: center;
@@ -29,5 +30,4 @@
 			padding: 40rpx 0 30rpx 0;
 		}
 	}
-	
 </style>

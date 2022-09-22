@@ -11,7 +11,7 @@
 			"style": {
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "登录",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": false
 			}
 
 		},
@@ -28,8 +28,24 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/customerService/customerService",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	],
+	    ,{
+            "path" : "pages/preOrderDetails/preOrderDetails",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "元音符",
