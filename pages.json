@@ -7,7 +7,25 @@
 				"navigationBarTitleText":"元音符"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/collections/collections",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的藏品",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/collectionsDetail/collectionsDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "元音符",
