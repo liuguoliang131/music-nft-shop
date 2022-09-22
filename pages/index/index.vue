@@ -1,8 +1,8 @@
 <template>
 	<view class="container">
 		<view class="container-header">
-			<view class="user-center">
-				<image src="../../static/logo.png" mode=""></image>
+			<view class="user-center" @click="handleClickUserCenter">
+				<image src="https://avatars.githubusercontent.com/u/56402715?v=4" mode=""></image>
 				<text>未登录</text>
 			</view>
 			<view class="tag">
@@ -58,28 +58,15 @@
 
 		},
 		methods: {
-
+			handleClickUserCenter(){
+				console.log("check user login")
+			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.container {
-		flex: auto;
-		min-height: 100vh;
-		background-color: $uni-bg-color;
-		color: #fff;
-		padding: 0 40rpx;
-		position: relative;
-
-		&-header {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			padding: 40rpx 0 30rpx 0;
-		}
-	}
-
+	
 	.user-center {
 		display: flex;
 		align-items: center;
