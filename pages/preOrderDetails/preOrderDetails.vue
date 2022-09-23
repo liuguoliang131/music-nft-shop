@@ -10,7 +10,10 @@
 				</div>
 
 			</view>
-			<view class="row1">最新梦想金曲</view>
+			<view class="row1">
+				<image src="../../static/Frame 1000006238.png" mode=""></image>
+				最新梦想金曲
+			</view>
 			<view class="row2">10月08日10:00 发售 <text>限量2万份</text></view>
 			<view class="price">
 				<text class="rmb">￥</text>
@@ -217,11 +220,20 @@
 
 
 			.row1 {
+				display: flex;
+				align-items: center;
+				justify-content: center;
 				margin-top: 25rpx;
 				font-weight: 500;
 				font-size: 36rpx;
 				text-align: center;
 				color: #ECECEC;
+
+				image {
+					width: 84rpx;
+					height: 40rpx;
+					margin-right: 4rpx;
+				}
 
 
 			}
@@ -230,6 +242,10 @@
 				margin-top: 9rpx;
 				font-size: 26rpx;
 				color: #AEAEAE;
+
+				text {
+					margin-left: 16rpx;
+				}
 			}
 
 			.price {
