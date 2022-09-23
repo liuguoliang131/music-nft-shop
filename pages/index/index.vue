@@ -12,8 +12,13 @@
 		</view>
 
 		<view class="container-body">
-			<view class="search-bar">
-				按发行时间
+			<view class="search-bar" @click="handleChangeOrder">
+				 <view class="upAndDown">
+				 	<text class="cuIcon-triangleupfill" :style="`${order?'color : #fff' :'color : #343434'};line-height: 22rpx;margin-top:2px`" ></text>
+				 	<text class="cuIcon-triangledownfill" :style="`${!order ?'color : #fff' :'color : #343434'};line-height: 22rpx;`" ></text>
+				 </view>
+				 
+				 按发行时间
 			</view>
 			<view class="list">
 				<view class="list-item" v-for="item in 3" :key='item'>
@@ -38,10 +43,11 @@
 			</view>
 
 		</view>
-		<view class="container-bottom">
+		<view class="container-bottom" v-if="!loginFlag">
 			<view class="need-login">
 				<text>元音符-原创音乐聚集地</text>
 				<button class="to-login">登录</button>
+				<text class="cuIcon-close" @click="handleCloseLogintag"></text>
 			</view>
 		</view>
 	</view>
@@ -51,7 +57,8 @@
 	export default {
 		data() {
 			return {
-				loginFlag: false
+				loginFlag: false,
+				order : true
 			}
 		},
 		onLoad() {
@@ -60,6 +67,12 @@
 		methods: {
 			handleClickUserCenter(){
 				console.log("check user login")
+			},
+			handleChangeOrder(){
+				this.order = !this.order
+			},
+			handleCloseLogintag(){
+				this.loginFlag = true
 			}
 		}
 	}
@@ -82,6 +95,13 @@
 			font-size: 12px;
 			color: #f5f5f5;
 		}
+	}
+	.upAndDown{
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		height: 40rpx;
+		font-size: 16px;
 	}
 
 	.tag {
@@ -106,6 +126,8 @@
 
 	.search-bar {
 		font-size: 12px;
+		display: flex;
+		align-items: center;
 	}
 
 	.list {

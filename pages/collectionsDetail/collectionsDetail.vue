@@ -293,8 +293,8 @@
 				word-break:break-all;
 			}
 			.key{
-				width: 240rpx;
-				min-width: 240rpx;
+				width: 120rpx;
+				min-width: 120rpx;
 				text-align: right;
 				margin-left: 20rpx;
 				height: auto;
@@ -347,12 +347,12 @@
 		position: relative;
 		display: inline-block;
 		vertical-align: middle;
-		width: calc(100vw - 80rpx);
-		border-radius: 10upx;
+		width: calc(100vw - 240rpx);
+		border-radius: 40rpx;
 		overflow: hidden;
 		background-color: #F6F6F6;
 		color: #1D1d1d;
-		
+		padding: 40rpx;
 	}
 	
 	.cu-modal.bottom-modal::before {
