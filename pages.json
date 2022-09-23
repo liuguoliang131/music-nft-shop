@@ -72,6 +72,22 @@
 			}
 
 		}
+	,{
+			"path" : "pages/preOrderDetails/preOrderDetails",
+			"style" :
+			{
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/orderList/orderList",
+			"style": {
+				"navigationBarTitleText": "订单",
+				"enablePullDownRefresh": false
+			}
+
+		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
