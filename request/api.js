@@ -23,3 +23,15 @@ export const h5_collections_index_list = '/h5/collections_index/list'
  * @description  订单列表
  */
 export const h5_order_list = 'h5/collections_user/orderList'
+
+
+/**
+ * @description 订单详情
+ */
+export const h5_order_detail = '/h5/collections_user/orderInfo'
+
+
+/**
+ * @description 专辑详情
+ */
+export const h5_collections_index_info = '/h5/collections_index/info'
