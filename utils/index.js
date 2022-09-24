@@ -1,7 +1,6 @@
 import {
 	processName
-}
-'./uniKey.js'
+} from './uniKey.js'
 console.log('processName', processName)
 export const getToken = () => {
 

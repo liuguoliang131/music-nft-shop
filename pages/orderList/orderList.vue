@@ -8,46 +8,46 @@
 		
 		
 		
-		<view class="order-body">
-			<view class="order-body-item" v-for="item in 10" :key='item' @click="handleGoToDetail">
+		<scroll-view class="order-body" scroll-y style="height: calc(100vh - 210rpx);" @scrolltolower='handleScrollTolower'>
+			<view class="order-body-item" v-for="(item , index) in list" :key='index' @click="handleGoToDetail">
 				<view class="order-body-item-imageBox">
 					<view class="order-body-item-imageBox-image"
-						:style="`background-image:url(https://y.qq.com/music/photo_new/T002R300x300M000002GBegP0KlpSG.jpg?max_age=2592000)`">
+						:style="`background-image:url(${item.index_img})`">
 					</view>
 					<view class="order-body-item-imageBox-level">
-						SSR
+						{{item.evaluate_type}}
 					</view>
 				</view>
 				<view class="order-body-item-box">
 					<view class="order-body-item-box-flex">
 						<view class="order-body-item-title">
-							最新新梦想金曲
+							{{item.title}}
 						</view>
 						<view class="order-body-item-type">
-							已完成 <text class="cuIcon-right"></text>
+							{{item.order_status | filterStatus}} <text class="cuIcon-right"></text>
 						</view>
 					</view>
 					<view class="order-body-item-box-flex">
 						<view class="order-body-item-price">
-							实付金额 ￥19990.00
+							实付金额 ￥{{item.order_total_price}}
 						</view>
 						<view class="order-body-item-type">
-							× 100
+							× {{item.buy_num}}
 						</view>
 					</view>
 					
 					<view class="order-body-item-box-flex">
 						<view class="order-body-item-tag">
-							包含10首歌曲
+							包含{{item.singles_num}}首歌曲
 						</view>
-						<view style="display: flex;align-items: center;" v-if="item % 2 === 0">
+						<view style="display: flex;align-items: center;" v-if="item.order_status === 1">
 							<button class="my-btn">取消订单</button>
 							<button class="my-btn">去支付</button>
 						</view>
 					</view>
 				</view>
 			</view>
-		</view>
+		</scroll-view>
 	</view>
 </template>
 
@@ -57,16 +57,60 @@
 			return {
 				navList: ['全部', '待支付', '已取消', '已完成'],
 				activeNav: 1,
+				page : 1,
+				list :[]
+			}
+		},
+		onLoad() {
+			this.getList()
+		},
+		filters: {
+			filterStatus(e) {
+				const list = {
+					0: '待支付',
+					1: '已取消',
+					2: '已完成'
+				}
+				return list[e] || '已完成'
 			}
 		},
 		methods: {
+			getList(){
+				const item = {
+					title : '最新新梦想',
+					index_img : 'https://y.qq.com/music/photo_new/T002R300x300M000002GBegP0KlpSG.jpg?max_age=2592000',
+					buy_price : '19999',
+					buy_num : 100,
+					order_total_price : 19999,
+					evaluate_type : 'SSR',
+					rare_type : '稀有',
+					singles_num : 10,
+					order_status : 1
+				}
+				this.list = [item , item ,item ,item , item ,item ,item ,item , item ,item ,item ,item]
+			},
 			handleClickNavItem(e){
 				this.activeNav = e
+				this.page = 1
+				this.getList()
 			},
 			handleGoToDetail(){
 				uni.navigateTo({
 					url:'/pages/collectionsDetail/collectionsDetail'
 				})
+			},
+			handleScrollTolower() {
+				if (window.requestAnimationFrame && typeof window.requestAnimationFrame === 'function') {
+					window.requestAnimationFrame(() => {
+						this.page++
+						this.getList()
+					})
+				}else{
+					setTimeout(()=>{
+						this.page++
+						this.getList()
+					},17)
+				}
 			}
 		}
 	}
@@ -74,6 +118,7 @@
 
 <style lang="scss" scoped>
 	.order {
+		max-height: 100vh;
 		&-nav {
 			height: 80rpx;
 			width: 100%;

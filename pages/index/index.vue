@@ -13,34 +13,36 @@
 
 		<view class="container-body">
 			<view class="search-bar" @click="handleChangeOrder">
-				 <view class="upAndDown">
-				 	<text class="cuIcon-triangleupfill" :style="`${order?'color : #fff' :'color : #343434'};line-height: 22rpx;margin-top:2px`" ></text>
-				 	<text class="cuIcon-triangledownfill" :style="`${!order ?'color : #fff' :'color : #343434'};line-height: 22rpx;`" ></text>
-				 </view>
-				 
-				 按发行时间
+				<view class="upAndDown">
+					<text class="cuIcon-triangleupfill"
+						:style="`${order === 1?'color : #fff' :'color : #343434'};line-height: 22rpx;margin-top:2px`"></text>
+					<text class="cuIcon-triangledownfill"
+						:style="`${order === 2 ?'color : #fff' :'color : #343434'};line-height: 22rpx;`"></text>
+				</view>
+
+				按发行时间
 			</view>
-			<view class="list">
-				<view class="list-item" v-for="item in 3" :key='item'>
+			<scroll-view class="list" style="height:calc(100vh - 220rpx)" scroll-y @scrolltolower='handleScrollTolower'>
+				<view class="list-item" v-for="(item , index) in list" :key='index'>
 					<view class="list-item-image-box">
 						<image class="list-item-image"
-							src="https://y.qq.com/music/photo_new/T002R300x300M000002GBegP0KlpSG.jpg?max_age=2592000">
+							:src="item.product_item_id.index_img">
 						</image>
 						<view class="list-item-level">
-							SSR
+							{{item.product_item_id.evaluate_type}}
 						</view>
 					</view>
 					<view class="list-item-box">
-						<view class="list-item-title">最新梦想金曲</view>
-						<view class="list-item-time">10月08日 10:00发售</view>
-						<view class="list-item-tag">限量2万份</view>
+						<view class="list-item-title">{{item.name}}</view>
+						<view class="list-item-time">{{item.product_item_id.sale_time}}开售</view>
+						<view class="list-item-tag">{{item.product_item_id.rare_type}}</view>
 						<view class="list-item-price-box">
-							<view class="list-item-price">￥19.90</view>
-							<view class="list-item-price-dit active">未开售</view>
+							<view class="list-item-price">￥{{item.product_item_id.sale_price}}</view>
+							<view class="list-item-price-dit active">{{item.product_item_id.sale_status | filterStatus}}</view>
 						</view>
 					</view>
 				</view>
-			</view>
+			</scroll-view>
 
 		</view>
 		<view class="container-bottom" v-if="!loginFlag">
@@ -54,32 +56,88 @@
 </template>
 
 <script>
+	import {
+		post
+	} from '@/request/index.js'
+	import {
+		h5_collections_index_list
+	} from '@/request/api.js'
 	export default {
 		data() {
 			return {
 				loginFlag: false,
-				order : true
+				order: 1,
+				page: 1,
+				list : [],
 			}
 		},
 		onLoad() {
-
+			this.getList()
+		},
+		filters: {
+			filterStatus(e) {
+				const list = {
+					0: '未开售',
+					1: '售卖中',
+					2: '售罄'
+				}
+				return list[e] || '售罄'
+			}
 		},
 		methods: {
-			handleClickUserCenter(){
+			getList() {
+				console.log(this.page)
+				// post(h5_collections_index_list , {
+				// 	page : 1,
+				// 	sort : this.order
+				// }).then(res =>{
+				// 	console.log(res)
+				// })
+				
+				
+				const listItem =  {
+					name: '最新梦想金曲',
+					product_item_id: {
+						index_img: 'https://y.qq.com/music/photo_new/T002R300x300M000002GBegP0KlpSG.jpg?max_age=2592000',
+						sale_time: '10月08日 10:00',
+						stock_num: '2万份',
+						sale_price: '19.90',
+						sale_status: 1,
+						evaluate_type : 'SSR',
+						rare_type : '稀有'
+					}
+				}
+				
+				this.list = [listItem , listItem , listItem , listItem , listItem ,listItem ,listItem ,listItem ,listItem]
+			},
+			handleClickUserCenter() {
 				console.log("check user login")
 			},
-			handleChangeOrder(){
-				this.order = !this.order
+			handleChangeOrder() {
+				this.order = this.order === 1 ? 2 : 1
+				this.getList()
 			},
-			handleCloseLogintag(){
+			handleCloseLogintag() {
 				this.loginFlag = true
+			},
+			handleScrollTolower() {
+				if (window.requestAnimationFrame && typeof window.requestAnimationFrame === 'function') {
+					window.requestAnimationFrame(() => {
+						this.page++
+						this.getList()
+					})
+				}else{
+					setTimeout(()=>{
+						this.page++
+						this.getList()
+					},17)
+				}
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	
 	.user-center {
 		display: flex;
 		align-items: center;
@@ -96,7 +154,8 @@
 			color: #f5f5f5;
 		}
 	}
-	.upAndDown{
+
+	.upAndDown {
 		display: flex;
 		align-items: center;
 		flex-direction: column;
@@ -131,7 +190,7 @@
 	}
 
 	.list {
-		padding-top: 20rpx;
+		padding: 20rpx 0;
 
 		&-item {
 			border-radius: 12px;

@@ -4,24 +4,24 @@
 			专辑信息
 		</view>
 
-		<view class="flex mt-2">
-			<image src="https://y.qq.com/music/photo_new/T002R300x300M000002GBegP0KlpSG.jpg?max_age=2592000"
+		<view class=" mt-2" style="display: flex;align-items: center;">
+			<image :src="detail.index_img"
 				class="image" mode=""></image>
 			<view class="box">
 				<view class="box-title">
-					最新梦想金曲
+					{{detail.name}}
 				</view>
 				<view class="number">
-					包含10首作品
+					包含{{detail.singles_num}}首作品
 				</view>
 				<view class="number">
-					发 行 方 元音符
+					发 行 方 {{detail.publish_author}}
 				</view>
 				<view class="number">
-					发行时间 2022-08-01
+					发行时间 {{detail.publish_time}}
 				</view>
 				<view class="number price">
-					发行价格 ¥19.90元/张
+					发行价格 ¥{{detail.sale_price}}元/张
 				</view>
 			</view>
 		</view>
@@ -29,67 +29,46 @@
 			认证信息
 		</view>
 		<view class="flex">
-			<view class="key number">
+			<view class="key number" style="width: 250rpx;">
 				Record Number
 			</view>
-			<view class="number">
-				#001
+			<view class="number" style="flex-flow: wrap;">
+				{{detail.code_num}}
 			</view>
 		</view>
 		<view class="flex">
-			<view class="key number">
+			<view class="key number" style="width: 250rpx;">
 				Contract Address
 			</view>
-			<view class="number">
-				0xf9ec07f93e729...
+			<view class="number" style="flex-flow: wrap;">
+				{{detail.contract_address}}
 			</view>
 		</view>
 		<view class="flex">
-			<view class="key number">
+			<view class="key number" style="width: 250rpx;">
 				Token ID
 			</view>
-			<view class="number">
-				#1557552839199234
+			<view class="number" style="flex-flow: wrap;">
+				{{detail.token_id}}
 			</view>
 		</view>
 		<view class="flex">
-			<view class="key number">
+			<view class="key number" style="width: 250rpx;">
 				Token Standard
 			</view>
-			<view class="number">
-				#1557552839199234
+			<view class="number" style="flex-flow: wrap;">
+				{{detail.token_standard}}
 			</view>
 		</view>
 
 
-		<view class="title mt-2">
-			作品一名称
-		</view>
-		<view class="content">
-			那些不经意想起的便是记忆里最深刻的，原来没有争吵也可以走到散场。奔赴多年也换不来永远。爱意随风起，风止意难平，故事的结尾总配不上极致温柔的开头。
-		</view>
-
-		<view class="title mt-2">
-			作品二名称
-		</view>
-		<view class="content">
-			那些不经意想起的便是记忆里最深刻的，原来没有争吵也可以走到散场。奔赴多年也换不来永远。爱意随风起，风止意难平，故事的结尾总配不上极致温柔的开头。
-		</view>
-
-
-		<view class="title mt-2">
-			作品三名称
-		</view>
-		<view class="content">
-			那些不经意想起的便是记忆里最深刻的，原来没有争吵也可以走到散场。奔赴多年也换不来永远。爱意随风起，风止意难平，故事的结尾总配不上极致温柔的开头。
-		</view>
-
-
-		<view class="title mt-2">
-			作品四名称
-		</view>
-		<view class="content">
-			那些不经意想起的便是记忆里最深刻的，原来没有争吵也可以走到散场。奔赴多年也换不来永远。爱意随风起，风止意难平，故事的结尾总配不上极致温柔的开头。
+		<view class="" v-for="(item , index) in detail.music_list" :key='index'>
+			<view class="title mt-2">
+				{{item.name}}
+			</view>
+			<view class="content">
+				{{item.desc}}
+			</view>
 		</view>
 		
 		<view class="container-bottom">
@@ -157,7 +136,54 @@
 	export default {
 		data() {
 			return {
-				show : false
+				show : false,
+				detail :{
+					name: '最新梦想金曲',
+					index_img: 'https://y.qq.com/music/photo_new/T002R300x300M000002GBegP0KlpSG.jpg?max_age=2592000',
+					code_num: '#001',
+					sale_price: '19.90',
+					evaluate_type : 'SSR',
+					rare_type : '稀有',
+					publish_author:'元音符',
+					publish_time:'2022年09月24日',
+					singles_num:10,
+					contract_address:'HUIHIOIOJIOi9090HUHIUHI8787HIHIU',
+					token_id : 'HUIHIOIOJIOi9090HUHIUHI8787HIHIU',
+					token_standard:'HUIHIOIOJIOi9090HUHIUHI8787HIHIUHUIHIOIOJIOi9090HUHIUHI8787HIHIUHUIHIOIOJIOi9090HUHIUHI8787HIHIU',
+					certificate:{
+						code : 'a8s7d83gqds78tyg3',
+						name : '测试名称',
+						block_chain_hash : 'NIHIJHIIJI7878HJIHIUHIU89--',
+						publish_author : '元音符',
+						publish_time : '2022年09月24日'
+					},
+					music_list :[
+						{
+							name : '测试名称一',
+							desc : '那些不经意想起的便是记忆里最深刻的，原来没有争吵也可以走到散场。奔赴多年也换不来永远。爱意随风起，风止意难平，故事的结尾总配不上极致温柔的开头。'
+						},
+						{
+							name : '测试名称二',
+							desc : '那些不经意想起的便是记忆里最深刻的，原来没有争吵也可以走到散场。奔赴多年也换不来永远。爱意随风起，风止意难平，故事的结尾总配不上极致温柔的开头。'
+						},
+						{
+							name : '测试名称三',
+							desc : '那些不经意想起的便是记忆里最深刻的，原来没有争吵也可以走到散场。奔赴多年也换不来永远。爱意随风起，风止意难平，故事的结尾总配不上极致温柔的开头。'
+						},
+						{
+							name : '测试名称四',
+							desc : '那些不经意想起的便是记忆里最深刻的，原来没有争吵也可以走到散场。奔赴多年也换不来永远。爱意随风起，风止意难平，故事的结尾总配不上极致温柔的开头。'
+						},
+						{
+							name : '测试名称五',
+							desc : '那些不经意想起的便是记忆里最深刻的，原来没有争吵也可以走到散场。奔赴多年也换不来永远。爱意随风起，风止意难平，故事的结尾总配不上极致温柔的开头。'
+						},
+						{
+							name : '测试名称六',
+							desc : '那些不经意想起的便是记忆里最深刻的，原来没有争吵也可以走到散场。奔赴多年也换不来永远。爱意随风起，风止意难平，故事的结尾总配不上极致温柔的开头。'
+						}
+					]
+				}
 			}
 		},
 		methods: {
@@ -172,6 +198,9 @@
 </script>
 
 <style lang="scss" scoped>
+	.container{
+		padding-bottom: 120rpx;
+	}
 	.title {
 		font-size: 13px;
 		color: #AB9449;
@@ -279,32 +308,32 @@
 		padding: 20rpx;
 		border-top: 1px solid #EBEBEB;
 		margin-top: 20rpx;
-		.flex{
-			display: flex;
-			align-items: flex-start;
-			justify-content: center;
-			// flex-wrap: wrap;
-			flex-shrink: 0;
-			
-			.number{
-				// flex: 1;
-				text-align: left;
-				width: calc(100% - 240rpx);
-				word-break:break-all;
-			}
-			.key{
-				width: 120rpx;
-				min-width: 120rpx;
-				text-align: right;
-				margin-left: 20rpx;
-				height: auto;
-				
-			}
-		}
+		
 	}
 	
 	
-	
+	.flex{
+		display: flex;
+		align-items: flex-start;
+		justify-content: center;
+		// flex-wrap: wrap;
+		flex-shrink: 0;
+		
+		.number{
+			// flex: 1;
+			text-align: left;
+			width: calc(100% - 240rpx);
+			word-break:break-all;
+		}
+		.key{
+			width: 120rpx;
+			min-width: 120rpx;
+			text-align: right;
+			margin-left: 20rpx;
+			height: auto;
+			
+		}
+	}
 	
 	
 	.cu-modal {

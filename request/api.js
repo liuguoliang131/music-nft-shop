@@ -10,3 +10,16 @@ export const h5_conllections_buy_pay_type_list = '/h5/conllections_buy/pay_type_
 export const h5_conllections_buy_pay = '/h5/conllections_buy/pay'
 // 6、支付成功展示
 export const h5_conllections_buy_showsuccess = '/h5/conllections_buy/showsuccess'
+
+
+
+/**
+ * @description 首页列表
+ */
+export const h5_collections_index_list = '/h5/collections_index/list'
+
+
+/**
+ * @description  订单列表
+ */
+export const h5_order_list = 'h5/collections_user/orderList'

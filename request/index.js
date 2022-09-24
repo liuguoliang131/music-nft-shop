@@ -6,6 +6,7 @@ const token = 'x-token'
 // 设置请求头方法
 const getHeader = (data) => {
 	const ts = new Date().getTime()
+	console.log(store)
 	const headers = {
 		'x-token': store.state.user.token,
 		ts,
