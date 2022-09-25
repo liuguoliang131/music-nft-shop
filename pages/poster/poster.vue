@@ -1,14 +1,14 @@
 <template>
 	<view class="container">
 		<view class="nav">
-			<image class="nav-left" src="../../static/Frame 1000006270.png" mode=""></image>
+			<image @tap="handleBack()" class="nav-left" src="../../static/Frame 1000006270.png" mode=""></image>
 		</view>
 		<view class="content">
 			<view class="box1">
-				<canvas ref="Canvas" class="thecanvas" canvas-id="firstCanvas"></canvas>
+				<canvas ref="Canvas" class="thecanvas" type="2d" canvas-id="firstCanvas"></canvas>
 			</view>
 			<view class="box2">
-				<view class="save">点击保存海报到相册</view>
+				<view class="save" @tap="handleSavePhoto()">点击保存海报到相册</view>
 			</view>
 			<view class="box3">
 				可分享至微信或朋友圈
@@ -20,26 +20,214 @@
 </template>
 
 <script>
+	import QRCode from 'qrcodejs2'
+	import {
+		isApp,
+		saveBase64Image
+	} from '../../utils/index.js'
 	export default {
 		data() {
 			return {
-
+				context: null,
+				posterData: {
+					poster_url: '',
+					ava_url: '',
+					user_name: '',
+					code: ''
+				}
 			};
 		},
 		methods: {
-			initCanvas() {
-				// console.log('this.$refs', this.$refs)
-				// var ctx = uni.createCanvasContext('firstCanvas')
-				// const bg = new Image()
-				// bg.load = () => {
-				// 	console.log('bg')
-				// 	ctx.drawImage(bg, 0, 0, 630, 774)
-				// }
-				// bg.src = require('../../static/分享-分享图.png')
+			handleBack() {
+				uni.navigateBack({
+					delta: 1, //返回层数，2则上上页
+				})
+			},
+			// 生成二维码函数
+			getQrcode(qWidth, qHeight, qText, qRender, dom) {
+				return new QRCode(dom, {
+					width: qWidth,
+					height: qHeight,
+					text: qText,
+					render: qRender,
+					correctLevel: 1
+				})
+			},
+			async downloadFile(imgSrc) {
+				return new Promise((resolve, errs) => {
+					uni.getImageInfo({
+						src: imgSrc,
+						success: function(image) {
+							resolve(image.tempFilePath);
+						},
+						fail(err) {
+							errs(err);
+						}
+					});
+				});
+			},
+
+			async initCanvas() {
+
+				var context = uni.createCanvasContext('firstCanvas', this)
+				const bgurl =
+					'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fphoto%2F2011-5-29%2Fenterdesk.com-F65D26B61244263D3A0F77230BCB9F16.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666675133&t=eec4a20e79b97c01f3804c90192c5dd1'
+				const bg = await this.downloadFile(bgurl)
+				context.drawImage(bg, 0, 0, 630, 774)
+				this.$nextTick(() => {
+					context.draw();
+				})
+
+			},
+			handleSavePhoto() {
+				console.log('save')
+				uni.canvasToTempFilePath({ // res.tempFilePath临时路径
+					canvasId: 'firstCanvas',
+					success: (res) => {
+						console.log('res', res)
+						if (isApp()) {
+							saveBase64Image(res.tempFilePath)
+						} else {
+							const btn = document.createElement('a')
+							btn.download = '分享海报'
+							btn.href = res.tempFilePath
+							btn.click()
+						}
+						// uni.saveImageToPhotosAlbum({ // 保存本地
+						// 	filePath: res.tempFilePath,
+						// 	success: (response) => {
+						// 		console.log(response, 'success');
+						// 	},
+						// 	fail: (response) => {}
+						// })
+					},
+					fail: (error) => {
+						console.log(error)
+					}
+				})
 			}
 		},
 		mounted() {
-			this.initCanvas()
+			// this.initCanvas()
+		},
+		onReady: function(e) {
+			const that = this
+			// 获取父盒子宽度
+
+			let device = uni.getSystemInfo().then(res => {
+				console.log('device', res[1])
+				const widowWidth = res[1].windowWidth //屏幕宽度
+				const scaleNumber = 2 // 展示的是几倍图  越大越清晰
+				// canvas.width = canvas.offsetWidth * scaleNumber
+				// canvas.height = canvas.offsetHeight * scaleNumber
+				// 参照比例
+				const scaleWidth = 315
+				const scaleScreenWidth = 375 //屏幕宽度
+				const scaleHeight = 387
+				const bg = {
+					x: 0,
+					y: 0,
+					width: scaleWidth * widowWidth / scaleScreenWidth,
+					height: scaleHeight * widowWidth / scaleScreenWidth,
+					radius: 8 * widowWidth / scaleScreenWidth
+				}
+				const ava = {
+					x: 0,
+					y: 0,
+					width: 0,
+					height: 0
+				} // 头像
+				ava.x = 12 * widowWidth / scaleScreenWidth
+				ava.y = 16 * widowWidth / scaleScreenWidth
+				ava.width = 30 * widowWidth / scaleScreenWidth
+				ava.height = 30 * widowWidth / scaleScreenWidth
+				// 文本
+				const title = {
+					x: 47 * widowWidth / scaleScreenWidth,
+					y: 37 * widowWidth / scaleScreenWidth,
+					fontSize: 16 * widowWidth / scaleScreenWidth,
+					color: '#1C1C1E',
+					text: '昵称123'
+				}
+				const tips = {
+					x: 121.5 * widowWidth / scaleScreenWidth,
+					y: 358 * widowWidth / scaleScreenWidth,
+					fontSize: 12 * widowWidth / scaleScreenWidth,
+					color: '#1C1C1E',
+					text: '扫码开始试听'
+				}
+				// 二维码
+				const qr = {
+					x: 97.5 * widowWidth / scaleScreenWidth,
+					y: 218 * widowWidth / scaleScreenWidth,
+					width: 120 * widowWidth / scaleScreenWidth,
+					height: 120 * widowWidth / scaleScreenWidth
+				}
+				that.context = uni.createCanvasContext('firstCanvas', that)
+				console.log('that.context', that.context)
+				// this.$refs.Canvas.style.borderRadius = bg.radius + 'px'
+				console.log(that.$refs.Canvas)
+
+				const bgurl =
+					'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fphoto%2F2011-5-29%2Fenterdesk.com-F65D26B61244263D3A0F77230BCB9F16.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666675133&t=eec4a20e79b97c01f3804c90192c5dd1'
+				const avaurl =
+					'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-10-20%2F5f8eace52a8ff.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666683588&t=4296afb3ffe7983a07a9d16d8b3ccbbf'
+				uni.downloadFile({
+					url: bgurl,
+					success(bgres) {
+						that.context.drawImage(bgres.tempFilePath, bg.x, bg.y, bg.width, bg.height)
+						that.context.setFontSize(title.fontSize) // 字号
+						that.context.setFillStyle('Roboto ' + title.color) // 字体颜色
+						that.context.fillText(title.text, title.x, title.y); // （文字，x，y）
+						// tips
+						that.context.setFontSize(tips.fontSize) // 字号
+						that.context.setFillStyle(tips.color) // 字体颜色
+						that.context.fillText(tips.text, tips.x, tips.y); // （文字，x，y）
+						// that.context.draw();
+						// 生成二维码
+						const qrCanvas = document.createElement('div')
+						qrCanvas.height = scaleNumber * qr.height
+						qrCanvas.width = scaleNumber * qr.width
+						const shareUrl = `giao`
+						const qrcodeObj = that.getQrcode(qr.width, qr.height, shareUrl,
+							'canvas', qrCanvas)
+						const codeCanvas = qrcodeObj._el.querySelector('canvas')
+						const code2Url = codeCanvas.toDataURL('image/png')
+						console.log('code2Url', code2Url)
+						uni.downloadFile({
+							url: code2Url,
+							success(code2res) {
+								that.context.drawImage(code2Url, qr.x,
+									qr.y, qr.width,
+									qr.height)
+								// 创建完后绘制头像
+								uni.downloadFile({
+									url: avaurl,
+									success(avares) {
+										that.context.arc(ava.x + (ava.width / 2), ava
+											.y + (
+												ava.height / 2),
+											ava.width /
+											2, 0, Math.PI *
+											2)
+										that.context.clip()
+										that.context.beginPath()
+										that.context.drawImage(avares.tempFilePath, ava
+											.x,
+											ava.y, ava.width,
+											ava.height)
+										that.context.draw();
+
+
+									}
+								})
+							}
+						})
+
+					}
+				})
+			})
+
 		}
 	}
 </script>
@@ -78,7 +266,7 @@
 					width: 630rpx;
 					height: 774rpx;
 					background: #E7E7E7;
-					border-radius: 16rpx;
+					border-radius: 16rpx !important;
 				}
 			}
 
@@ -98,6 +286,7 @@
 					background: #D10910;
 					border-radius: 44px;
 					color: rgba(236, 236, 236, 1);
+					font-size: 32rpx;
 
 					&:active {
 						background-color: rgba(209, 9, 16, 0.6);

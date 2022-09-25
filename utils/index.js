@@ -78,3 +78,36 @@ export const openAppPage = (pageJSON) => {
 	}
 
 }
+// 保存内存图片到本地 base64
+export const saveBase64Image = (base64Img) => {
+	HSApp.postMessage(JSON.stringify({
+		type: 'saveBase64Image',
+		params: {
+			img: base64Img
+		}
+	}))
+}
+// 保存url图片到本地
+export const saveUrlImage = (img) => {
+	HSApp.postMessage(JSON.stringify({
+		type: 'saveUrlImage',
+		params: {
+			img
+		}
+	}))
+}
+// 判断应用系统
+export const isWhatSysTem = () => {
+	const userMessage = navigator.userAgent
+	const isAndroid = userMessage.indexOf('Andriod') > -1 || userMessage.indexOf('Adr') > -1 // 当前为Andriod环境
+	// console.log('isAndroid', isAndroid)
+	const isIOS = !!userMessage.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) // 当前为IOS环境
+	// console.log('isIOS', isIOS)
+	if (isAndroid) {
+		return 1
+	} else if (isIOS) {
+		return 2
+	} else {
+		return 3
+	}
+}
