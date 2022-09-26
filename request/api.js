@@ -10,8 +10,18 @@ export const h5_conllections_buy_pay_type_list = '/h5/conllections_buy/pay_type_
 export const h5_conllections_buy_pay = '/h5/conllections_buy/pay'
 // 6、支付成功展示
 export const h5_conllections_buy_showsuccess = '/h5/conllections_buy/showsuccess'
-
-
+// 7、登录
+export const h5_base_login = '/h5/base/login'
+// 8、验证码
+export const h5_base_captcha = '/h5/base/captcha'
+// 9、获取用户信息
+export const h5_user_info = '/h5/user/info'
+// 10、分享海报信息
+export const h5_collections_index_sharePoster = '/h5/collections_index/sharePoster'
+// 11、藏品列表
+export const h5_collections_user_collectionList = '/h5/collections_user/collectionList'
+// 12、藏品详情
+export const h5_collections_user_collectionInfo = '/h5/collections_user/collectionInfo'
 
 /**
  * @description 首页列表

@@ -6,21 +6,24 @@
 		<view class="main">
 			<view class="form">
 				<view class="form-item phone">
-					<input class="uni-input" type="number" placeholder="请输入手机号码" />
+					<input class="uni-input" maxlength="11" type="number" placeholder="请输入手机号码" v-model="form.phone" />
 				</view>
 				<view class="form-item captcha">
-					<input class="uni-input" type="number" placeholder="请输入验证码" />
-					<view class="getcaptcha" @tap="handGetCaptcha()">获取验证码</view>
+					<input class="uni-input" maxlength="6" type="number" placeholder="请输入验证码" v-model="form.captcha" />
+					<view v-if="!timer" class="getcaptcha" @tap="handGetCaptcha()">获取验证码</view>
+					<view v-else class="getcaptcha">{{countDown}}</view>
 				</view>
 				<view class="agree">
-					<checkbox :value="agree" class="checkbox" />
+					<checkbox-group @change="handCheckboxChange($event)" name="agree">
+						<checkbox class="checkbox" :value="true" />
+					</checkbox-group>
 					<text class="agree-label">
 						未注册的手机号，登录时将自动进行注册，<br />且代表您已同意
 						<text>《用户协议》</text>和<text>《隐私政策》</text>
 					</text>
 				</view>
 				<view class="sub">
-					<view class="submit">登录</view>
+					<view class="submit" @tap="handValid()">登录</view>
 				</view>
 			</view>
 		</view>
@@ -32,6 +35,10 @@
 
 <script>
 	import config from '../../utils/uniKey.js'
+	import {
+		h5_base_login,
+		h5_base_captcha
+	} from '../../request/api.js'
 	export default {
 		data() {
 			return {
@@ -40,32 +47,110 @@
 					captcha: ''
 				},
 				agree: false,
-				timer: null
+				timer: null,
+				countDown: 0
 			};
 		},
 		methods: {
+			handCheckboxChange(e) {
+				this.agree = !this.agree
+			},
 			// 获取验证码
-			handGetCaptcha() {
-				if (this.timer) {
-					return false
+			async handGetCaptcha() {
+				if (!/^[1]{1}[0-9]{10}$/.test(this.form.phone)) {
+					console.log(this.form.phone)
+					return uni.showToast({
+						title: '手机号码不符合规则',
+						icon: 'error'
+					})
 				}
-
+				const res = await this.$post(h5_base_captcha, {
+					phone: this.form.phone,
+					use_type: 6
+				})
+				console.log(res)
+				if (res.code !== 0) {
+					return uni.showToast({
+						title: res.msg,
+						icon: 'error'
+					})
+				}
 				uni.showToast({
 					title: '已发送',
 					icon: 'success'
 				})
+				this.countDown = 60
+				this.timer = setInterval(() => {
+					if (this.countDown === 1) {
+						clearInterval(this.timer)
+						this.timer = null
+					}
+					this.countDown--
+				}, 1000)
 
 			},
 			// 点击登录
 			handValid() {
+				if (!this.agree) {
+					return uni.showToast({
+						title: '请勾选同意用户协议和隐私政策',
+						icon: 'error'
+					})
+				}
+				if (!/^[1]{1}[0-9]{10}$/.test(this.form.phone)) {
+					console.log(this.form.phone)
+					return uni.showToast({
+						title: '手机号码不符合规则',
+						icon: 'error'
+					})
+				}
+				if (!/^[0-9]{6}$/.test(this.form.captcha)) {
+					return uni.showToast({
+						title: '验证码不符合规则',
+						icon: 'error'
+					})
+				}
+				this.login()
 
 			},
 			login() {
-
+				this.$post(h5_base_login, {
+					phone: this.form.phone,
+					captcha: this.form.captcha
+				}).then(res => {
+					console.log(res)
+					if (res.code !== 0) {
+						return uni.showToast({
+							icon: 'error',
+							title: res.msg
+						})
+					}
+					this.$store.commit('user/set_token', res.data.token)
+					this.$store.commit('user/set_userInfo', res.data.user_info)
+					uni.showToast({
+						icon: 'success',
+						title: '登录成功'
+					})
+					if (getCurrentPages().length > 1) {
+						uni.navigateBack({
+							delta: 1
+						})
+					} else {
+						uni.redirectTo({
+							url: '/pages/index/index'
+						})
+					}
+				}).catch(error => {
+					console.log('error', error)
+					uni.showToast({
+						icon: 'error',
+						title: 'error'
+					})
+				})
 			}
 		},
 		onLoad() {
-			console.log(config.BASE_URL);
+
 		}
 	}
 </script>

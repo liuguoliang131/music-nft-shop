@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+js-md5@^0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/js-md5/-/js-md5-0.7.3.tgz#b4f2fbb0b327455f598d6727e38ec272cd09c3f2"
+  integrity sha512-ZC41vPSTLKGwIRjqDh8DfXoCrdQIyBgspJVPXHBGu4nZlAEvG3nf+jO9avM9RmLiGakg7vz974ms99nEV0tmTQ==
+
 qrcodejs2@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/qrcodejs2/-/qrcodejs2-0.0.2.tgz#465afe5e39f19facecb932c11f7a186109146ae1"

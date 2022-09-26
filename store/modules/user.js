@@ -1,10 +1,24 @@
 import {
 	setToken,
-	getToken
+	getToken,
+	setUserInfo,
+	getUserInfo
 } from '../../utils/index'
 export default {
 	namespaced: true,
 	state: {
-		token: getToken() || ''
+		token: getToken() || '',
+		userInfo: getUserInfo() || null
+	},
+	mutations: {
+		set_token(state, data) {
+			setToken(data)
+			state.token = data
+		},
+		set_userInfo(state, data) {
+			setUserInfo(data)
+			state.userInfo = data
+		}
+
 	}
 }

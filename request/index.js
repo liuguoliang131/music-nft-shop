@@ -1,13 +1,14 @@
 import config from '../utils/uniKey.js'
 import store from '../store/index.js'
+import md5 from 'js-md5'
 const onlykey = 'U6LMVF9aNxg7Jgw5TMqL0CHiw4aT8ipuqlNCkdA9H50=' // key
-const token = 'x-token'
 
 // 设置请求头方法
 const getHeader = (data) => {
 	const ts = new Date().getTime()
-	console.log(store)
+	console.log('store', store)
 	const headers = {
+		'app-id': 'yyf_h5',
 		'x-token': store.state.user.token,
 		ts,
 		ak: 'hanhou-app',
@@ -26,16 +27,18 @@ const getHeader = (data) => {
 // post
 export const post = function(url, data = {}) {
 	uni.showLoading({
-		title: '加载中'
+		title: '加载中',
+		mask: true
 	});
 	return new Promise((resolve, reject) => {
 		uni.request({
 			header: getHeader(data),
 			timeout: 5000,
 			method: 'POST',
-			url: config.BASE_URL + url,
+			url: config.BASE_URL + '/api' + url,
 			data,
 			success(res) {
+				console.log('post success', res)
 				resolve(res.data)
 			},
 			fail(res) {
