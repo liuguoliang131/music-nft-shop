@@ -174,3 +174,27 @@ export const isWhatSysTem = () => {
 		return 3
 	}
 }
+// 返回年月日时分秒
+export const getTimeData = (date) => {
+	const time = new Date(date)
+	let y = time.getFullYear()
+	let mon = time.getMonth() + 1
+	let dd = time.getDate()
+	let hh = time.getHours()
+	let MM = time.getMinutes()
+	let ss = time.getSeconds()
+	y = y < 10 ? `0${y}` : y
+	mon = mon < 10 ? `0${mon}` : mon
+	dd = dd < 10 ? `0${dd}` : dd
+	hh = hh < 10 ? `0${hh}` : hh
+	MM = MM < 10 ? `0${MM}` : MM
+	ss = ss < 10 ? `0${ss}` : ss
+	return {
+		y,
+		mon,
+		dd,
+		hh,
+		MM,
+		ss
+	}
+}

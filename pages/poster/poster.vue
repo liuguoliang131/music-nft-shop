@@ -28,6 +28,7 @@
 	export default {
 		data() {
 			return {
+				product_item_id: '',
 				context: null,
 				posterData: {
 					poster_url: '',
@@ -67,18 +68,6 @@
 				});
 			},
 
-			async initCanvas() {
-
-				var context = uni.createCanvasContext('firstCanvas', this)
-				const bgurl =
-					'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fphoto%2F2011-5-29%2Fenterdesk.com-F65D26B61244263D3A0F77230BCB9F16.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666675133&t=eec4a20e79b97c01f3804c90192c5dd1'
-				const bg = await this.downloadFile(bgurl)
-				context.drawImage(bg, 0, 0, 630, 774)
-				this.$nextTick(() => {
-					context.draw();
-				})
-
-			},
 			handleSavePhoto() {
 				console.log('save')
 				uni.canvasToTempFilePath({ // res.tempFilePath临时路径
@@ -105,128 +94,164 @@
 						console.log(error)
 					}
 				})
+			},
+			async getInfo() {
+				try {
+					// const res = await this.$post(h5_collections_index_sharePoster, {
+					// 	product_item_id: this.product_item_id
+					// })
+					// if (res.code !== 0) {
+					// 	return uni.showToast({
+					// 		title: res.msg,
+					// 		icon: 'error'
+					// 	})
+					// }
+					const res = {
+						data: {
+							user_name: '窝里giao',
+							user_avatar: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-10-20%2F5f8eace52a8ff.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666683588&t=4296afb3ffe7983a07a9d16d8b3ccbbf',
+							poster_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fphoto%2F2011-5-29%2Fenterdesk.com-F65D26B61244263D3A0F77230BCB9F16.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666675133&t=eec4a20e79b97c01f3804c90192c5dd1',
+							share_sign: 'xasdasfasfadas'
+						}
+					}
+					this.initCanvas(res.data)
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						icon: 'error',
+						title: e.message
+					})
+				}
+			},
+			initCanvas(data) {
+				const that = this
+				// 获取父盒子宽度
+
+				let device = uni.getSystemInfo().then(res => {
+					console.log('device', res[1])
+					const widowWidth = res[1].windowWidth //屏幕宽度
+
+					// 参照比例
+					const scaleWidth = 315
+					const scaleScreenWidth = 375 //屏幕宽度
+					const scaleHeight = 387
+					const bg = {
+						url: data.poster_url,
+						x: 0,
+						y: 0,
+						width: scaleWidth * widowWidth / scaleScreenWidth,
+						height: scaleHeight * widowWidth / scaleScreenWidth,
+						radius: 8 * widowWidth / scaleScreenWidth
+					}
+					const ava = {
+						url: data.user_avatar,
+						x: 0,
+						y: 0,
+						width: 0,
+						height: 0
+					} // 头像
+					ava.x = 12 * widowWidth / scaleScreenWidth
+					ava.y = 16 * widowWidth / scaleScreenWidth
+					ava.width = 30 * widowWidth / scaleScreenWidth
+					ava.height = 30 * widowWidth / scaleScreenWidth
+					// 文本
+					const title = {
+						x: 47 * widowWidth / scaleScreenWidth,
+						y: 37 * widowWidth / scaleScreenWidth,
+						fontSize: 16 * widowWidth / scaleScreenWidth,
+						color: '#1C1C1E',
+						text: data.user_name
+					}
+					const tips = {
+						x: 121.5 * widowWidth / scaleScreenWidth,
+						y: 358 * widowWidth / scaleScreenWidth,
+						fontSize: 12 * widowWidth / scaleScreenWidth,
+						color: '#1C1C1E',
+						text: '扫码开始试听'
+					}
+					// 二维码
+					const qr = {
+						x: 97.5 * widowWidth / scaleScreenWidth,
+						y: 218 * widowWidth / scaleScreenWidth,
+						width: 120 * widowWidth / scaleScreenWidth,
+						height: 120 * widowWidth / scaleScreenWidth,
+						shareUrl: window.location.protocol + '//' + window.location.host +
+							`/#/pages/preOrderDetails/preOrderDetails?product_item_id=${this.product_item_id}&share_sign=${data.share_sign}`,
+					}
+
+					// 生成二维码
+					const qrCanvas = document.createElement('div')
+					qrCanvas.height = qr.height
+					qrCanvas.width = qr.width
+					const qrcodeObj = that.getQrcode(qr.width, qr.height, qr.shareUrl,
+						'canvas', qrCanvas)
+					const codeCanvas = qrcodeObj._el.querySelector('canvas')
+					const code2Url = codeCanvas.toDataURL('image/png')
+					console.log('code2Url', code2Url)
+
+
+					that.context = uni.createCanvasContext('firstCanvas', that)
+					console.log('that.context', that.context)
+					// this.$refs.Canvas.style.borderRadius = bg.radius + 'px'
+					console.log(that.$refs.Canvas)
+
+					uni.downloadFile({
+						url: bg.url,
+						success(bgres) {
+							that.context.drawImage(bgres.tempFilePath, bg.x, bg.y, bg.width, bg.height)
+							that.context.setFontSize(title.fontSize) // 字号
+							that.context.setFillStyle('Roboto ' + title.color) // 字体颜色
+							that.context.fillText(title.text, title.x, title.y); // （文字，x，y）
+							// tips
+							that.context.setFontSize(tips.fontSize) // 字号
+							that.context.setFillStyle(tips.color) // 字体颜色
+							that.context.fillText(tips.text, tips.x, tips.y); // （文字，x，y）
+							// that.context.draw();
+							uni.downloadFile({
+								url: code2Url,
+								success(code2res) {
+									that.context.drawImage(code2Url, qr.x,
+										qr.y, qr.width,
+										qr.height)
+									// 创建完后绘制头像
+									uni.downloadFile({
+										url: ava.url,
+										success(avares) {
+											that.context.arc(ava.x + (ava.width / 2), ava
+												.y + (
+													ava.height / 2),
+												ava.width /
+												2, 0, Math.PI *
+												2)
+											that.context.clip()
+											that.context.beginPath()
+											that.context.drawImage(avares.tempFilePath, ava
+												.x,
+												ava.y, ava.width,
+												ava.height)
+											that.context.draw();
+
+
+										}
+									})
+								}
+							})
+
+						}
+					})
+				})
 			}
 		},
 		mounted() {
 			// this.initCanvas()
 		},
+		onLoad(option) {
+			console.log('poster onload', option)
+			this.product_item_id = option.product_item_id
+		},
 		onReady: function(e) {
-			const that = this
-			// 获取父盒子宽度
-
-			let device = uni.getSystemInfo().then(res => {
-				console.log('device', res[1])
-				const widowWidth = res[1].windowWidth //屏幕宽度
-				const scaleNumber = 2 // 展示的是几倍图  越大越清晰
-				// canvas.width = canvas.offsetWidth * scaleNumber
-				// canvas.height = canvas.offsetHeight * scaleNumber
-				// 参照比例
-				const scaleWidth = 315
-				const scaleScreenWidth = 375 //屏幕宽度
-				const scaleHeight = 387
-				const bg = {
-					x: 0,
-					y: 0,
-					width: scaleWidth * widowWidth / scaleScreenWidth,
-					height: scaleHeight * widowWidth / scaleScreenWidth,
-					radius: 8 * widowWidth / scaleScreenWidth
-				}
-				const ava = {
-					x: 0,
-					y: 0,
-					width: 0,
-					height: 0
-				} // 头像
-				ava.x = 12 * widowWidth / scaleScreenWidth
-				ava.y = 16 * widowWidth / scaleScreenWidth
-				ava.width = 30 * widowWidth / scaleScreenWidth
-				ava.height = 30 * widowWidth / scaleScreenWidth
-				// 文本
-				const title = {
-					x: 47 * widowWidth / scaleScreenWidth,
-					y: 37 * widowWidth / scaleScreenWidth,
-					fontSize: 16 * widowWidth / scaleScreenWidth,
-					color: '#1C1C1E',
-					text: '昵称123'
-				}
-				const tips = {
-					x: 121.5 * widowWidth / scaleScreenWidth,
-					y: 358 * widowWidth / scaleScreenWidth,
-					fontSize: 12 * widowWidth / scaleScreenWidth,
-					color: '#1C1C1E',
-					text: '扫码开始试听'
-				}
-				// 二维码
-				const qr = {
-					x: 97.5 * widowWidth / scaleScreenWidth,
-					y: 218 * widowWidth / scaleScreenWidth,
-					width: 120 * widowWidth / scaleScreenWidth,
-					height: 120 * widowWidth / scaleScreenWidth
-				}
-				that.context = uni.createCanvasContext('firstCanvas', that)
-				console.log('that.context', that.context)
-				// this.$refs.Canvas.style.borderRadius = bg.radius + 'px'
-				console.log(that.$refs.Canvas)
-
-				const bgurl =
-					'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fphoto%2F2011-5-29%2Fenterdesk.com-F65D26B61244263D3A0F77230BCB9F16.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666675133&t=eec4a20e79b97c01f3804c90192c5dd1'
-				const avaurl =
-					'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-10-20%2F5f8eace52a8ff.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666683588&t=4296afb3ffe7983a07a9d16d8b3ccbbf'
-				uni.downloadFile({
-					url: bgurl,
-					success(bgres) {
-						that.context.drawImage(bgres.tempFilePath, bg.x, bg.y, bg.width, bg.height)
-						that.context.setFontSize(title.fontSize) // 字号
-						that.context.setFillStyle('Roboto ' + title.color) // 字体颜色
-						that.context.fillText(title.text, title.x, title.y); // （文字，x，y）
-						// tips
-						that.context.setFontSize(tips.fontSize) // 字号
-						that.context.setFillStyle(tips.color) // 字体颜色
-						that.context.fillText(tips.text, tips.x, tips.y); // （文字，x，y）
-						// that.context.draw();
-						// 生成二维码
-						const qrCanvas = document.createElement('div')
-						qrCanvas.height = scaleNumber * qr.height
-						qrCanvas.width = scaleNumber * qr.width
-						const shareUrl = `giao`
-						const qrcodeObj = that.getQrcode(qr.width, qr.height, shareUrl,
-							'canvas', qrCanvas)
-						const codeCanvas = qrcodeObj._el.querySelector('canvas')
-						const code2Url = codeCanvas.toDataURL('image/png')
-						console.log('code2Url', code2Url)
-						uni.downloadFile({
-							url: code2Url,
-							success(code2res) {
-								that.context.drawImage(code2Url, qr.x,
-									qr.y, qr.width,
-									qr.height)
-								// 创建完后绘制头像
-								uni.downloadFile({
-									url: avaurl,
-									success(avares) {
-										that.context.arc(ava.x + (ava.width / 2), ava
-											.y + (
-												ava.height / 2),
-											ava.width /
-											2, 0, Math.PI *
-											2)
-										that.context.clip()
-										that.context.beginPath()
-										that.context.drawImage(avares.tempFilePath, ava
-											.x,
-											ava.y, ava.width,
-											ava.height)
-										that.context.draw();
-
-
-									}
-								})
-							}
-						})
-
-					}
-				})
-			})
+			console.log('poster onready')
+			this.getInfo()
 
 		}
 	}

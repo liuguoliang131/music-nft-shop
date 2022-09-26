@@ -6,23 +6,23 @@
 		</view>
 		<view class="box1">
 			<view class="box1-l">
-				<image class="box1-l-cover" src="../../static/唱首歌给你听.png"></image>
+				<image class="box1-l-cover" :src="data.index_url"></image>
 				<view class="box1-l-border"></view>
 			</view>
 			<view class="box1-r">
-				<view class="box1-r-0">最新梦想单曲</view>
-				<view class="box1-r-1">包含10首作品</view>
+				<view class="box1-r-0">{{data.product_name}}</view>
+				<view class="box1-r-1">包含{{data.singles_num}}首作品</view>
 				<view class="box1-r-2">
 					<text class="r-1-l">发行方</text>
-					<text class="r-1-r">元音符</text>
+					<text class="r-1-r">{{data.publish_author_name}}</text>
 				</view>
 				<view class="box1-r-2">
 					<text class="r-1-l">发行时间</text>
-					<text class="r-1-r">2022-10-12</text>
+					<text class="r-1-r">{{data.publish_time}}</text>
 				</view>
 				<view class="box1-r-2">
 					<text class="r-1-l">发行价格</text>
-					<text class="r-1-r">￥19.90/张</text>
+					<text class="r-1-r">￥{{data.pay_price}}/张</text>
 				</view>
 			</view>
 		</view>
@@ -33,23 +33,23 @@
 		<view class="box2">
 			<view class="box2-row">
 				<view class="box2-row-l">Contract Address</view>
-				<view class="box2-row-r">0xf9ec07f93e7290xf9ec07f93e7290xf9ec07f93e729</view>
+				<view class="box2-row-r">{{data.contract_address}}</view>
 			</view>
 			<view class="box2-row">
 				<view class="box2-row-l">Token ID</view>
-				<view class="box2-row-r">0xf9ec07f93e729</view>
+				<view class="box2-row-r">{{data.token_id}}</view>
 			</view>
 			<view class="box2-row">
 				<view class="box2-row-l">Token Standard</view>
-				<view class="box2-row-r">0xf9ec07f93e729</view>
+				<view class="box2-row-r">{{data.token_standard}}</view>
 			</view>
 		</view>
 		<view class="box3">
 			<view class="box3-row">
 				<text class="row-1">实付</text>
 				<text class="row-2">￥</text>
-				<text class="row-3">19.90</text>
-				<text class="row-4">合计1张</text>
+				<text class="row-3">{{data.total}}</text>
+				<text class="row-4">合计{{data.buy_num}}张</text>
 			</view>
 		</view>
 		<view class="fixed-bottom">
@@ -59,14 +59,144 @@
 </template>
 
 <script>
+	import {
+		getTimeData
+	} from '../../utils/index.js'
 	export default {
 		data() {
 			return {
+				product_item_id: '',
+				buy_num: '',
+				data: {
 
+				}
 			}
 		},
 		methods: {
+			getInfo() {
+				try {
+					// const res = await this.$post(h5_collections_buy_checkout,{
+					// 	product_item_id:this.product_item_id,
+					// 	buy_num:this.buy_num
+					// })
+					// if(res.code!==0) {
+					// 	return uni.showToast({
+					// 		title:res.msg,
+					// 		icon:'error'
+					// 	})
+					// }
+					// this.data = res.data.info
+					const res = {
+						data: {
+							info: {
+								product_id: 1,
+								// 产品id	
+								product_item_id: 1,
+								// 产品明细id	
+								product_name: 'giao',
+								// 产品名称	
+								singles_num: 12,
+								// 包含单曲数量	
+								publish_type: 2,
+								// 发行类型  1、单曲  2、专辑  3、歌单  4、EP	
+								publish_type_note: '啊实打实打算',
+								// 发行类型文案	
+								publish_time: 123415414512,
+								// 发行时间	
+								publish_author_name: '元音符发行方',
+								// 发行方	
+								index_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-10-20%2F5f8eace52a8ff.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666683588&t=4296afb3ffe7983a07a9d16d8b3ccbbf',
+								// 发行封面图	
+								pay_price: '55.09',
+								// 实付价格	
+								buy_num: 3,
+								// 购买数量	
+								contract_address: 'zxcadfasf123qasdfq',
+								// 链上合约地址	
+								token_id: 'adasdasd123asfdsdf',
+								// 链上token_id	
+								token_standard: 'asdsad123asdasd234'
+								// 链上token标准
+							}
+						}
+					}
+					const date1 = getTimeData(res.data.info.publish_time)
+					res.data.info.publish_time = `${date1.y}-${date1.mon}-${date1.dd}`
+					res.data.info.total = (res.data.info.buy_num * res.data.info.pay_price).toFixed(2)
+					this.data = res.data.info
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						title: e.message,
+						icon: 'error'
+					})
+				}
+			},
+			// 下单 去支付
+			async handOrder() {
+				try {
+					const res = await this.$post(h5_collections_buy_submit, {
+						product_item_id: this.product_item_id,
+						buy_num: this.buy_num
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
+					}
+					uni.showLoading({
+						title: '加载中',
+						mask: true
+					})
+					setTimeout(() => {
+						uni.hideLoading()
+						this.getOrderResult(res.data.order_no)
 
+					}, 2200)
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						title: e.message,
+						icon: 'error'
+					})
+				}
+			},
+			// 获取下单结果
+			async getOrderResult(order_no) {
+				try {
+					// const res = await this.$post(h5_collections_buy_result, {
+					// 	order_no
+					// })
+					// if (res.code !== 0) {
+					// 	return uni.showToast({
+					// 		title: res.msg,
+					// 		icon: 'error'
+					// 	})
+					// }
+					const res = {
+						data: {
+							order_no: "12313",
+							order_price: '50.22',
+							count_down: 300 //倒计时 秒
+						}
+					}
+					uni.navigateTo({
+						url: `/pages/cashier/cashier?product_item_id=${this.product_item_id}&order_no=${res.data.order_no}`
+					})
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						title: e.message,
+						icon: 'error'
+					})
+				}
+			}
+		},
+		onLoad(option) {
+			this.product_item_id = Number(option.product_item_id || 1)
+			this.buy_num = Number(option.buy_num || 1)
+			this.getInfo()
 		}
 	}
 </script>

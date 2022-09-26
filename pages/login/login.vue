@@ -36,6 +36,9 @@
 <script>
 	import config from '../../utils/uniKey.js'
 	import {
+		getHashQuery
+	} from '../../utils/index.js'
+	import {
 		h5_base_login,
 		h5_base_captcha
 	} from '../../request/api.js'
@@ -114,10 +117,17 @@
 
 			},
 			login() {
-				this.$post(h5_base_login, {
+				const {
+					query
+				} = getHashQuery()
+				const data = {
 					phone: this.form.phone,
 					captcha: this.form.captcha
-				}).then(res => {
+				}
+				if (query.share_sign) {
+					data.share_sign = query.share_sign
+				}
+				this.$post(h5_base_login, data).then(res => {
 					console.log(res)
 					if (res.code !== 0) {
 						return uni.showToast({

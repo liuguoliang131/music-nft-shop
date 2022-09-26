@@ -6,18 +6,22 @@
 				<div class="cover-content">
 					<image class="cover-img" src="../../static/image 6.png"></image>
 					<image class="cover-turn" src="../../static/Frame 77.png" mode=""></image>
-					<image class="cover-play" src="../../static/Frame 62.png" mode=""></image>
+					<!-- <image class="cover-play" src="../../static/Frame 62.png" mode=""></image> -->
 				</div>
 
 			</view>
 			<view class="row1">
-				<image src="../../static/Frame 1000006238.png" mode=""></image>
-				最新梦想金曲
+				<image v-if="data.rare_type==='SSR'" src="../../static/Frame 1000006238.png" mode=""></image>
+				<image v-else-if="data.rare_type==='UR'" src="../../static/Frame 1000006237.png" mode=""></image>
+				<image v-else-if="data.rare_type==='R'" src="../../static/Frame 1000006236.png" mode=""></image>
+				<image v-else-if="data.rare_type==='N'" src="../../static/Frame 1000006235.png" mode=""></image>
+				<image v-else-if="data.rare_type==='SR'" src="../../static/Frame 1000006234.png" mode=""></image>
+				{{data.name}}
 			</view>
-			<view class="row2">10月08日10:00 发售 <text>限量2万份</text></view>
+			<view class="row2">{{data.sale_time}}&nbsp;发售 <text>限量{{data.stock_num}}份</text></view>
 			<view class="price">
 				<text class="rmb">￥</text>
-				<text class="count">123</text>
+				<text class="count">{{data.sale_price}}</text>
 				<text class="unit">/张</text>
 			</view>
 		</view>
@@ -28,43 +32,44 @@
 					<view class="row2">
 						<view class="row2-1">
 							<text class="row2-1-l">专辑名称</text>
-							<text class="row2-1-r">最新梦想金曲</text>
+							<text class="row2-1-r">{{data.name}}</text>
 						</view>
 						<view class="row2-1">
 							<text class="row2-1-l">稀有度</text>
-							<text class="row2-1-r">SSR</text>
+							<text class="row2-1-r">{{data.rare_type}}</text>
 						</view>
 						<view class="row2-1">
 							<text class="row2-1-l">发行量</text>
-							<text class="row2-1-r">2万份</text>
+							<text class="row2-1-r">{{data.stock_num}}份</text>
 						</view>
 						<view class="row2-1">
 							<text class="row2-1-l">发行方</text>
-							<text class="row2-1-r">元音符</text>
+							<text class="row2-1-r">{{data.publish_author}}</text>
 						</view>
 						<view class="row2-1">
 							<text class="row2-1-l">发行时间</text>
-							<text class="row2-1-r">2022-08-01</text>
+							<text class="row2-1-r">{{data.publish_time}}</text>
 						</view>
 					</view>
 					<view class="row3">
 						购买须知
 					</view>
 					<view class="row4">
-						1.用户点击“购买”后2分钟内未付款，则订单将自动取消。专辑一经售卖，概不退货
+						<!-- 1.用户点击“购买”后2分钟内未付款，则订单将自动取消。专辑一经售卖，概不退货
 						<br />
 						2.专辑的版权由发行方、原创者所有，用户不得将其用于任何商业用途。
 						<br />
-						3.最终解释权归官方所有。
+						3.最终解释权归官方所有。 -->
+						{{data.buy_notice}}
 					</view>
 				</view>
 			</view>
 			<view class="card cardbox2">
 				<view class="card-body">
-					<view class="work" v-for="item in 4" :key="item">
-						<view class="row1">作品一名称</view>
+					<view class="work" v-for="(item,idx) in data.music_list" :key="idx">
+						<view class="row1">{{item.name}}</view>
 						<view class="row2">
-							有没有一位遥远的爱人，让你怕表达出来的思念之情都成为她前行的负担，也许明天、也许某年，你知道只要她会还，你什么都愿。
+							{{item.desc}}
 						</view>
 					</view>
 				</view>
@@ -72,7 +77,7 @@
 		</view>
 		<view class="h120"></view>
 		<view class="preOrderDetails-footer">
-			<view class="abs">
+			<view class="abs" @tap="handShare()">
 				<image class="abs-img" src="../../static/share.png"></image>
 				<text class="abs-text">分享</text>
 			</view>
@@ -85,10 +90,10 @@
 					<image class="i-img" src="../../static/唱首歌给你听.png" mode=""></image>
 					<view class="img-line"></view>
 					<view class="i-title">
-						<view class="title-t">最新梦想金曲</view>
+						<view class="title-t">{{data.name}}</view>
 						<view class="title-p">
 							发行价格
-							<text class="title-p-rmb">￥19.90</text>
+							<text class="title-p-rmb">￥{{data.sale_price}}</text>
 							/张
 						</view>
 					</view>
@@ -102,13 +107,13 @@
 						数量
 					</view>
 					<view class="number-count">
-						<text class="minus">
+						<view class="minus" @tap="handMinus()">
 							<image class="minus-img" src="../../static/Frame 1000006244.png" mode=""></image>
-						</text>
-						<input type="number" name="" id="">
-						<text class="plus">
+						</view>
+						<input type="number" maxlength="3" name="" id="" v-model="count" @blur="onCountChange()">
+						<view class="plus" @tap="handPlus()">
 							<image class="plus-img" src="../../static/Group 1000004650.png" mode=""></image>
-						</text>
+						</view>
 					</view>
 				</view>
 				<view class="popup-e">
@@ -117,11 +122,11 @@
 					</view>
 					<view class="e-price">
 						<text class="rmb">￥</text>
-						<text class="count">19.09</text>
+						<text class="count">{{total}}</text>
 					</view>
 				</view>
 				<view class="popup-d">
-					<view class="d-btn">立即抢购</view>
+					<view class="d-btn" @tap="handOrder()">立即抢购</view>
 				</view>
 				<view class="popup-c">
 					喜欢的话，就不要错过哦！
@@ -133,17 +138,161 @@
 
 <script>
 	import WybPopup from '@/components/wyb-popup/wyb-popup.vue'
+	import {
+		h5_collections_index_info
+	} from '../../request/api.js'
+	import {
+		getTimeData
+	} from '../../utils/index.js'
 	export default {
 		components: {
 			WybPopup
 		},
 		data() {
 			return {
-				show_pop: false
+				product_item_id: '',
+				show_pop: false,
+				data: {
+					name: '',
+					product_item_id: '',
+					index_img: '',
+					sale_time: '',
+					stock_num: 0,
+					remain_stock_num: '',
+					sale_price: '',
+					sale_status: '',
+					rare_type: '',
+					evaluate_type: '',
+					publish_author: '',
+					publish_time: '',
+					singles_num: '',
+					buy_notice: '',
+					music_list: [],
+					is_login: ''
+				},
+				count: 1
 			};
 		},
+		computed: {
+			total() {
+				if (!this.data.sale_price) {
+					return 0
+				}
+				return (this.count * this.data.sale_price).toFixed(2)
+			}
+		},
 		methods: {
+			async getDetails(product_item_id) {
+				try {
+					// const res = await this.$post(h5_collections_index_info, {
+					// 	product_item_id
+					// })
+					// console.log(res)
+					// if (res.code !== 0) {
+					// 	return uni.showToast({
+					// 		icon: 'error',
+					// 		title: res.msg
+					// 	})
+					// }
+					const res = {
+						data: {
+							name: 'asdasd',
+							product_item_id: '1',
+							index_img: '',
+							sale_time: 1664183310324,
+							stock_num: 111,
+							remain_stock_num: 100,
+							sale_price: '50.55',
+							sale_status: 0,
+							rare_type: 'SSR',
+							evaluate_type: '',
+							publish_author: '发行商A',
+							publish_time: 1664183310324,
+							singles_num: 5,
+							buy_notice: '购买须知:啊实打实大大',
+							music_list: [{
+								name: '作品A',
+								desc: '简介AAAAAAAAAAAAASDDDDDDDDDSADSASD',
+								music_url: '',
+								music_time: 12345
+							}, {
+								name: '作品B',
+								desc: '简介AAAAAAAAAAAAASDDDDDDDDDSADSASD',
+								music_url: '',
+								music_time: 12345
+							}, {
+								name: '作品C',
+								desc: '简介AAAAAAAAAAAAASDDDDDDDDDSADSASD',
+								music_url: '',
+								music_time: 12345
+							}, {
+								name: '作品D',
+								desc: '简介AAAAAAAAAAAAASDDDDDDDDDSADSASD',
+								music_url: '',
+								music_time: 12345
+							}, ],
+							is_login: 1
+						}
+					}
+					const date = getTimeData(res.data.sale_time)
+					const date1 = getTimeData(res.data.publish_time)
+					res.data.sale_time = `${date.mon}月${date.dd}日${date.hh}:${date.MM}`
+					res.data.publish_time = `${date1.y}-${date1.mon}-${date1.dd}`
+					this.data = res.data
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						icon: 'error',
+						title: e.message
+					})
+				}
+			},
+			// 数量改变
+			onCountChange() {
+				if (this.count > 100) {
+					uni.showToast({
+						icon: 'none',
+						title: '单次购买数量不可超过100张',
+						duration: 3000
+					})
+					this.count = 100
+				} else if (this.count < 1) {
+					this.count = 1
+				}
+			},
+			// -1
+			handMinus() {
+				if (this.count > 1) {
+					this.count--
+				}
 
+			},
+			// +1
+			handPlus() {
+				if (this.count < 100) {
+					this.count++
+				}
+			},
+			// 分享
+			handShare() {
+				uni.navigateTo({
+					url: `/pages/poster/poster?product_item_id=${this.product_item_id}`
+				})
+			},
+			// 立即抢购
+			handOrder() {
+				uni.navigateTo({
+					url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}`
+				})
+			}
+		},
+		onLoad(option) {
+			console.log('onload', option)
+			this.product_item_id = option.product_item_id
+			this.getDetails(option.product_item_id || 1)
+		},
+		created() {
+			console.log('created')
 		}
 	}
 </script>
@@ -202,7 +351,7 @@
 						transform-origin: 50% 50%;
 						width: 327rpx;
 						height: 327rpx;
-						animation: 3.7s turning linear infinite;
+						// animation: 3.7s turning linear infinite;
 					}
 
 					.cover-play {
@@ -367,6 +516,8 @@
 				justify-content: center;
 				align-items: center;
 
+
+
 				.abs-img {
 					width: 42rpx;
 					height: 42rpx;
@@ -380,10 +531,10 @@
 					font-size: 22rpx;
 					transform: scale(0.95);
 					color: #ECECEC;
+				}
 
-					&:active {
-						color: rgba(134, 134, 134, 1);
-					}
+				&:active .abs-text {
+					color: rgba(134, 134, 134, 1);
 				}
 			}
 
@@ -408,6 +559,14 @@
 
 		/deep/.icon-close {
 			font-size: 36rpx;
+		}
+
+		/deep/.wyb-popup-box {
+			z-index: 998 !important;
+		}
+
+		/deep/.wyb-popup-mask {
+			z-index: 997 !important;
 		}
 
 		.popup-content {
@@ -449,13 +608,9 @@
 					}
 
 					.title-p {
-						display: flex;
-						align-items: center;
-						justify-content: center;
+						display: inline-block;
 						margin-left: 16rpx;
-						width: 275rpx;
-						height: 44rpx;
-						line-height: 44rpx;
+						padding: 10rpx 16rpx;
 						font-size: 24rpx;
 						background: rgba(220, 45, 30, 0.2);
 						mix-blend-mode: normal;
@@ -591,6 +746,11 @@
 					font-weight: 500;
 					font-size: 32rpx;
 					color: #ECECEC;
+
+					&:active {
+						background-color: rgba(209, 9, 16, 0.6);
+						color: rgba(134, 134, 134, 1);
+					}
 				}
 
 			}
