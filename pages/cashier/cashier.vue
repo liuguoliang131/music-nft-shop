@@ -3,36 +3,192 @@
 		<view class="box1">
 			<view class="price">
 				<text class="rmb">￥</text>
-				<text class="count">19.90</text>
+				<text class="count">{{order_price}}</text>
 			</view>
 			<view class="time">
 				<text class="time-text">剩余支付时间</text>
-				<text class="time-count">01:21</text>
+				<text class="time-count">{{displayTime}}</text>
 			</view>
 		</view>
 		<view class="box2">
-			<view class="box2-item">
+			<view class="box2-item" v-for="(item,idx) in list" :key="item.pay_id">
 				<image class="icon" src="../../static/wx.png"></image>
-				<view class="text">微信</view>
-				<view class="radio">
-					<view class="nocheck"></view>
-					<image class="checked" src="../../static/Frame 1000006268.png"></image>
+				<view class="text">{{item.pay_name}}</view>
+				<view class="radio" @click="handSelect(idx)">
+					<image v-show="item.checked" class="checked" src="../../static/Frame 1000006268.png"></image>
+					<view v-show="!item.checked" class="nocheck"></view>
 				</view>
 			</view>
 			<view class="empty-cell"></view>
 		</view>
 		<view class="box3">
-			<view class="submit">立即支付</view>
+			<view class="submit" @tap="handPay()">立即支付</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		h5_collections_buy_result,
+		h5_conllections_buy_pay_type_list,
+		h5_collections_buy_pay
+	} from '../../request/api.js'
+	import {
+		requestPayment
+	} from '../../request/index.js'
 	export default {
 		data() {
 			return {
-
+				timer: null,
+				product_item_id: '',
+				count_down: '',
+				order_no: '',
+				order_price: '',
+				displayTime: '',
+				list: []
 			};
+		},
+		methods: {
+			// 获取下单结果
+			async getOrderResult() {
+				try {
+					// const res = await this.$post(h5_collections_buy_result, {
+					// 	order_no:this.order_no
+					// })
+					// if (res.code !== 0) {
+					// 	return uni.showToast({
+					// 		title: res.msg,
+					// 		icon: 'error'
+					// 	})
+					// }
+					const res = {
+						data: {
+							order_no: "12313",
+							order_price: '50.22',
+							count_down: 300 //倒计时 秒
+						}
+					}
+					this.order_no = res.data.order_no
+					this.order_price = res.data.order_price
+					this.count_down = res.data.count_down
+					this.startCountDown()
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						title: e.message,
+						icon: 'error'
+					})
+				}
+			},
+			// 开启倒计时
+			startCountDown() {
+				this.timer = setInterval(() => {
+					if (this.count_down === 1) {
+						clearInterval(this.timer)
+						uni.showToast({
+							title: '订单已失效请重新下单，即将为您返回到详情页',
+							mask: true,
+							duration: 3000
+						})
+						setTimeout(() => {
+							uni.navigateBack({
+								delta: 2
+							})
+						}, 3000)
+					}
+					this.count_down--
+					let minute = parseInt(this.count_down / 60)
+					let second = parseInt(this.count_down % 60)
+					minute = minute < 10 ? '0' + minute : minute
+					second = second < 10 ? '0' + second : second
+					this.displayTime = minute + ':' + second
+				}, 1000)
+			},
+			// 获取支付方式列表
+			async getPayType() {
+				try {
+					// const res = await this.$post(h5_conllections_buy_pay_type_list, {
+					// 	module_type: 1
+					// })
+					// if (res.code !== 0) {
+					// 	return uni.showToast({
+					// 		title: res.msg,
+					// 		icon: 'error'
+					// 	})
+					// }
+					const res = {
+						data: [{
+								pay_id: '1',
+								pay_name: '微信',
+								pay_img_url: '图标url',
+								tag: '标签文案'
+							},
+							{
+								pay_id: '2',
+								pay_name: '支付宝',
+								pay_img_url: '图标url',
+								tag: '标签文案'
+							},
+						]
+					}
+					res.data.forEach((item, idx) => {
+						item.checked = !idx
+					})
+					this.list = res.data || []
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						title: error.message,
+						icon: 'error'
+					})
+				}
+			},
+			// 选择方式
+			handSelect(idx) {
+				this.list.forEach(item => item.checked = false)
+				this.list[idx].checked = true
+			},
+			// 支付
+			async handPay() {
+				try {
+					// const res = await this.$post(h5_collections_buy_pay,{
+					// 	order_no:this.order_no,
+					// 	pay_id:this.list.find(item=>item.checked).pay_id
+					// })
+					// if(res.code!==0) {
+					// 	return uni.showToast({
+					// 		title:res.msg,
+					// 		icon:'error'
+					// 	})
+					// }
+					const res = {
+						data: {
+							pay_string: '', //支付宝支付串
+							wx_pay_string: 'https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?prepay_id=wx2016121516420242444321ca0631331346&package=1405458241'
+						}
+					}
+					const url = Object.keys(res.data).find(key => {
+						return res.data[key]
+					})
+
+					console.log('pay')
+					window.location.href = url
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						title: e.message,
+						icon: 'error'
+					})
+				}
+			}
+
+		},
+		onLoad(option) {
+			this.product_item_id = Number(option.product_item_id)
+			this.order_no = option.order_no
+			this.order_price = option.order_price || '123'
+			this.getOrderResult()
+			this.getPayType()
 		}
 	}
 </script>

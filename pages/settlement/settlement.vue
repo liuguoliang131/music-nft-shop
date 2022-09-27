@@ -52,7 +52,7 @@
 				<text class="row-4">合计{{data.buy_num}}张</text>
 			</view>
 		</view>
-		<view class="fixed-bottom">
+		<view class="fixed-bottom" @tap="handOrder()">
 			去支付
 		</view>
 	</view>
@@ -135,15 +135,20 @@
 			// 下单 去支付
 			async handOrder() {
 				try {
-					const res = await this.$post(h5_collections_buy_submit, {
-						product_item_id: this.product_item_id,
-						buy_num: this.buy_num
-					})
-					if (res.code !== 0) {
-						return uni.showToast({
-							title: res.msg,
-							icon: 'error'
-						})
+					// const res = await this.$post(h5_collections_buy_submit, {
+					// 	product_item_id: this.product_item_id,
+					// 	buy_num: this.buy_num
+					// })
+					// if (res.code !== 0) {
+					// 	return uni.showToast({
+					// 		title: res.msg,
+					// 		icon: 'error'
+					// 	})
+					// }
+					const res = {
+						data: {
+							order_no: '12312'
+						}
 					}
 					uni.showLoading({
 						title: '加载中',
@@ -182,7 +187,7 @@
 						}
 					}
 					uni.navigateTo({
-						url: `/pages/cashier/cashier?product_item_id=${this.product_item_id}&order_no=${res.data.order_no}`
+						url: `/pages/cashier/cashier?product_item_id=${this.product_item_id}&order_no=${res.data.order_no}&order_price=${res.data.order_price}&count_down=${res.data.count_down*1000}`
 					})
 				} catch (e) {
 					//TODO handle the exception

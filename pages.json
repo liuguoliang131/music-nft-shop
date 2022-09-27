@@ -88,7 +88,16 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/userAgreement/userAgreement",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "元音符",

@@ -19,7 +19,8 @@
 					</checkbox-group>
 					<text class="agree-label">
 						未注册的手机号，登录时将自动进行注册，<br />且代表您已同意
-						<text>《用户协议》</text>和<text>《隐私政策》</text>
+						<text @tap="handView('https://h5.shenglangnft.com/base/agreement')">《用户协议》</text>和<text
+							@tap="handView('https://h5.shenglangnft.com/base/privacy_policy')">《隐私政策》</text>
 					</text>
 				</view>
 				<view class="sub">
@@ -55,6 +56,12 @@
 			};
 		},
 		methods: {
+			// 查看协议
+			handView(url) {
+				uni.navigateTo({
+					url: `/pages/userAgreement/userAgreement?url=${url}`
+				})
+			},
 			handCheckboxChange(e) {
 				this.agree = !this.agree
 			},
