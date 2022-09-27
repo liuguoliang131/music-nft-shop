@@ -6,14 +6,13 @@
 	"versionCode": "100",
 	"transformPx": false,
 	"h5": {
+
 		"devServer": {
 			"disableHostCheck": true,
-			"port": 8080,
 			"proxy": {
 				"/api": {
 					"target": "http://t.h5.shenglangnft.com",
 					"changeOrigin": true,
-					"secure": true,
 					"pathRewrite": {
 						"^/api": ""
 					}
