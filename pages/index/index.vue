@@ -23,22 +23,22 @@
 				按发行时间
 			</view>
 			<scroll-view class="list" style="height:calc(100vh - 220rpx)" scroll-y @scrolltolower='handleScrollTolower'>
-				<view class="list-item" v-for="(item , index) in list" :key='index'>
+				<view @tap="handViewDetail(item)" class="list-item" v-for="(item , index) in list" :key='index'>
 					<view class="list-item-image-box">
-						<image class="list-item-image"
-							:src="item.product_item_id.index_img">
+						<image class="list-item-image" :src="item.index_img">
 						</image>
 						<view class="list-item-level">
-							{{item.product_item_id.evaluate_type}}
+							{{item.evaluate_type}}
 						</view>
 					</view>
 					<view class="list-item-box">
 						<view class="list-item-title">{{item.name}}</view>
-						<view class="list-item-time">{{item.product_item_id.sale_time}}开售</view>
-						<view class="list-item-tag">{{item.product_item_id.rare_type}}</view>
+						<view class="list-item-time">{{item.sale_time}}开售</view>
+						<view class="list-item-tag">{{item.rare_type}}</view>
 						<view class="list-item-price-box">
-							<view class="list-item-price">￥{{item.product_item_id.sale_price}}</view>
-							<view class="list-item-price-dit active">{{item.product_item_id.sale_status | filterStatus}}</view>
+							<view class="list-item-price">￥{{item.sale_price}}</view>
+							<view class="list-item-price-dit active">{{item.sale_status | filterStatus}}
+							</view>
 						</view>
 					</view>
 				</view>
@@ -68,7 +68,7 @@
 				loginFlag: false,
 				order: 1,
 				page: 1,
-				list : [],
+				list: [],
 			}
 		},
 		onLoad() {
@@ -87,28 +87,29 @@
 		methods: {
 			getList() {
 				console.log(this.page)
-				// post(h5_collections_index_list , {
-				// 	page : 1,
-				// 	sort : this.order
-				// }).then(res =>{
-				// 	console.log(res)
-				// })
-				
-				
-				const listItem =  {
-					name: '最新梦想金曲',
-					product_item_id: {
-						index_img: 'https://y.qq.com/music/photo_new/T002R300x300M000002GBegP0KlpSG.jpg?max_age=2592000',
-						sale_time: '10月08日 10:00',
-						stock_num: '2万份',
-						sale_price: '19.90',
-						sale_status: 1,
-						evaluate_type : 'SSR',
-						rare_type : '稀有'
-					}
-				}
-				
-				this.list = [listItem , listItem , listItem , listItem , listItem ,listItem ,listItem ,listItem ,listItem]
+				post(h5_collections_index_list, {
+					page: 1,
+					sort: this.order
+				}).then(res => {
+					console.log('res', res)
+					this.list = res.data.list || []
+				})
+
+
+				// const listItem = {
+				// 	name: '最新梦想金曲',
+				// 	product_item_id: {
+				// 		index_img: 'https://y.qq.com/music/photo_new/T002R300x300M000002GBegP0KlpSG.jpg?max_age=2592000',
+				// 		sale_time: '10月08日 10:00',
+				// 		stock_num: '2万份',
+				// 		sale_price: '19.90',
+				// 		sale_status: 1,
+				// 		evaluate_type: 'SSR',
+				// 		rare_type: '稀有'
+				// 	}
+				// }
+
+
 			},
 			handleClickUserCenter() {
 				console.log("check user login")
@@ -126,12 +127,18 @@
 						this.page++
 						this.getList()
 					})
-				}else{
-					setTimeout(()=>{
+				} else {
+					setTimeout(() => {
 						this.page++
 						this.getList()
-					},17)
+					}, 17)
 				}
+			},
+			// 去往详情
+			handViewDetail(item) {
+				uni.navigateTo({
+					url: `/pages/preOrderDetails/preOrderDetails?product_item_id=${item.product_item_id}`
+				})
 			}
 		}
 	}

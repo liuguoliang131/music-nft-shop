@@ -185,56 +185,56 @@
 		methods: {
 			async getDetails(product_item_id) {
 				try {
-					// const res = await this.$post(h5_collections_index_info, {
-					// 	product_item_id
-					// })
-					// console.log(res)
-					// if (res.code !== 0) {
-					// 	return uni.showToast({
-					// 		icon: 'error',
-					// 		title: res.msg
-					// 	})
-					// }
-					const res = {
-						data: {
-							name: 'asdasd',
-							product_item_id: '1',
-							index_img: '',
-							sale_time: 1664183310324,
-							stock_num: 111,
-							remain_stock_num: 100,
-							sale_price: '50.55',
-							sale_status: 0,
-							rare_type: 'SSR',
-							evaluate_type: '',
-							publish_author: '发行商A',
-							publish_time: 1664183310324,
-							singles_num: 5,
-							buy_notice: '购买须知:啊实打实大大',
-							music_list: [{
-								name: '作品A',
-								desc: '简介AAAAAAAAAAAAASDDDDDDDDDSADSASD',
-								music_url: '',
-								music_time: 12345
-							}, {
-								name: '作品B',
-								desc: '简介AAAAAAAAAAAAASDDDDDDDDDSADSASD',
-								music_url: '',
-								music_time: 12345
-							}, {
-								name: '作品C',
-								desc: '简介AAAAAAAAAAAAASDDDDDDDDDSADSASD',
-								music_url: '',
-								music_time: 12345
-							}, {
-								name: '作品D',
-								desc: '简介AAAAAAAAAAAAASDDDDDDDDDSADSASD',
-								music_url: '',
-								music_time: 12345
-							}, ],
-							is_login: 1
-						}
+					const res = await this.$post(h5_collections_index_info, {
+						product_item_id
+					})
+					console.log(res)
+					if (res.code !== 0) {
+						return uni.showToast({
+							icon: 'error',
+							title: res.msg
+						})
 					}
+					// const res = {
+					// 	data: {
+					// 		name: 'asdasd',
+					// 		product_item_id: '1',
+					// 		index_img: '',
+					// 		sale_time: 1664183310324,
+					// 		stock_num: 111,
+					// 		remain_stock_num: 100,
+					// 		sale_price: '50.55',
+					// 		sale_status: 0,
+					// 		rare_type: 'SSR',
+					// 		evaluate_type: '',
+					// 		publish_author: '发行商A',
+					// 		publish_time: 1664183310324,
+					// 		singles_num: 5,
+					// 		buy_notice: '购买须知:啊实打实大大',
+					// 		music_list: [{
+					// 			name: '作品A',
+					// 			desc: '简介AAAAAAAAAAAAASDDDDDDDDDSADSASD',
+					// 			music_url: '',
+					// 			music_time: 12345
+					// 		}, {
+					// 			name: '作品B',
+					// 			desc: '简介AAAAAAAAAAAAASDDDDDDDDDSADSASD',
+					// 			music_url: '',
+					// 			music_time: 12345
+					// 		}, {
+					// 			name: '作品C',
+					// 			desc: '简介AAAAAAAAAAAAASDDDDDDDDDSADSASD',
+					// 			music_url: '',
+					// 			music_time: 12345
+					// 		}, {
+					// 			name: '作品D',
+					// 			desc: '简介AAAAAAAAAAAAASDDDDDDDDDSADSASD',
+					// 			music_url: '',
+					// 			music_time: 12345
+					// 		}, ],
+					// 		is_login: 1
+					// 	}
+					// }
 					const date = getTimeData(res.data.sale_time)
 					const date1 = getTimeData(res.data.publish_time)
 					res.data.sale_time = `${date.mon}月${date.dd}日${date.hh}:${date.MM}`
@@ -287,24 +287,28 @@
 						product_item_id: this.product_item_id,
 						buy_num: this.count
 					})
-					if (res.code !== 0) {
-						if (res.code === 710) {
-							// 身份认证
-							uni.navigateTo({
-								url: `/pages/idAuth/idAuth`
-							})
-						} else {
-							return uni.showToast({
-								title: res.msg,
-								icon: 'error'
-							})
-						}
+					// if (res.code !== 0) {
+					// 	if (res.code === 710) {
+					// 		身份认证
+					// 		uni.navigateTo({
+					// 			url: `/pages/idAuth/idAuth`
+					// 		})
+					// 	} else {
+					// 		return uni.showToast({
+					// 			title: res.msg,
+					// 			icon: 'error'
+					// 		})
+					// 	}
 
-					} else {
-						uni.navigateTo({
-							url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}`
-						})
-					}
+					// } else {
+					// 	uni.navigateTo({
+					// 		url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}`
+					// 	})
+					// }
+
+					uni.navigateTo({
+						url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}`
+					})
 
 				} catch (e) {
 					//TODO handle the exception
@@ -318,8 +322,8 @@
 		},
 		onLoad(option) {
 			console.log('onload', option)
-			this.product_item_id = option.product_item_id || 6
-			this.getDetails(option.product_item_id || 1)
+			this.product_item_id = Number(option.product_item_id)
+			this.getDetails(this.product_item_id)
 		},
 		created() {
 			console.log('created')

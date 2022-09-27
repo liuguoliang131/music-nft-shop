@@ -77,53 +77,52 @@
 			}
 		},
 		methods: {
-			getInfo() {
+			async getInfo() {
 				try {
-					// const res = await this.$post(h5_conllections_buy_checkout,{
-					// 	product_item_id:this.product_item_id,
-					// 	buy_num:this.buy_num
-					// })
-					// if(res.code!==0) {
-					// 	return uni.showToast({
-					// 		title:res.msg,
-					// 		icon:'error'
-					// 	})
-					// }
-					// this.data = res.data.info
-					const res = {
-						data: {
-							info: {
-								product_id: 1,
-								// 产品id	
-								product_item_id: 1,
-								// 产品明细id	
-								product_name: 'giao',
-								// 产品名称	
-								singles_num: 12,
-								// 包含单曲数量	
-								publish_type: 2,
-								// 发行类型  1、单曲  2、专辑  3、歌单  4、EP	
-								publish_type_note: '啊实打实打算',
-								// 发行类型文案	
-								publish_time: 123415414512,
-								// 发行时间	
-								publish_author_name: '元音符发行方',
-								// 发行方	
-								index_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-10-20%2F5f8eace52a8ff.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666683588&t=4296afb3ffe7983a07a9d16d8b3ccbbf',
-								// 发行封面图	
-								pay_price: '55.09',
-								// 实付价格	
-								buy_num: 3,
-								// 购买数量	
-								contract_address: 'zxcadfasf123qasdfq',
-								// 链上合约地址	
-								token_id: 'adasdasd123asfdsdf',
-								// 链上token_id	
-								token_standard: 'asdsad123asdasd234'
-								// 链上token标准
-							}
-						}
+					const res = await this.$post(h5_conllections_buy_checkout, {
+						product_item_id: this.product_item_id,
+						buy_num: this.buy_num
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
 					}
+					// const res = {
+					// 	data: {
+					// 		info: {
+					// 			product_id: 1,
+					// 			// 产品id	
+					// 			product_item_id: 1,
+					// 			// 产品明细id	
+					// 			product_name: 'giao',
+					// 			// 产品名称	
+					// 			singles_num: 12,
+					// 			// 包含单曲数量	
+					// 			publish_type: 2,
+					// 			// 发行类型  1、单曲  2、专辑  3、歌单  4、EP	
+					// 			publish_type_note: '啊实打实打算',
+					// 			// 发行类型文案	
+					// 			publish_time: 123415414512,
+					// 			// 发行时间	
+					// 			publish_author_name: '元音符发行方',
+					// 			// 发行方	
+					// 			index_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-10-20%2F5f8eace52a8ff.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666683588&t=4296afb3ffe7983a07a9d16d8b3ccbbf',
+					// 			// 发行封面图	
+					// 			pay_price: '55.09',
+					// 			// 实付价格	
+					// 			buy_num: 3,
+					// 			// 购买数量	
+					// 			contract_address: 'zxcadfasf123qasdfq',
+					// 			// 链上合约地址	
+					// 			token_id: 'adasdasd123asfdsdf',
+					// 			// 链上token_id	
+					// 			token_standard: 'asdsad123asdasd234'
+					// 			// 链上token标准
+					// 		}
+					// 	}
+					// }
 					const date1 = getTimeData(res.data.info.publish_time)
 					res.data.info.publish_time = `${date1.y}-${date1.mon}-${date1.dd}`
 					res.data.info.total = (res.data.info.buy_num * res.data.info.pay_price).toFixed(2)
@@ -203,8 +202,8 @@
 			}
 		},
 		onLoad(option) {
-			this.product_item_id = Number(option.product_item_id || 1)
-			this.buy_num = Number(option.buy_num || 1)
+			this.product_item_id = Number(option.product_item_id)
+			this.buy_num = Number(option.buy_num)
 			this.getInfo()
 		}
 	}
