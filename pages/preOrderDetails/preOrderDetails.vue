@@ -139,7 +139,8 @@
 <script>
 	import WybPopup from '@/components/wyb-popup/wyb-popup.vue'
 	import {
-		h5_collections_index_info
+		h5_collections_index_info,
+		h5_conllections_buy_checkout
 	} from '../../request/api.js'
 	import {
 		getTimeData
@@ -280,15 +281,44 @@
 				})
 			},
 			// 立即抢购
-			handOrder() {
-				uni.navigateTo({
-					url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}`
-				})
+			async handOrder() {
+				try {
+					const res = await this.$post(h5_conllections_buy_checkout, {
+						product_item_id: this.product_item_id,
+						buy_num: this.count
+					})
+					if (res.code !== 0) {
+						if (res.code === 710) {
+							// 身份认证
+							uni.navigateTo({
+								url: `/pages/idAuth/idAuth`
+							})
+						} else {
+							return uni.showToast({
+								title: res.msg,
+								icon: 'error'
+							})
+						}
+
+					} else {
+						uni.navigateTo({
+							url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}`
+						})
+					}
+
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						title: e.message,
+						icon: 'error'
+					})
+				}
+
 			}
 		},
 		onLoad(option) {
 			console.log('onload', option)
-			this.product_item_id = option.product_item_id
+			this.product_item_id = option.product_item_id || 6
 			this.getDetails(option.product_item_id || 1)
 		},
 		created() {

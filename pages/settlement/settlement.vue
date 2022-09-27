@@ -62,6 +62,10 @@
 	import {
 		getTimeData
 	} from '../../utils/index.js'
+	import {
+		h5_conllections_buy_checkout,
+		h5_collections_buy_result
+	} from '../../request/api.js'
 	export default {
 		data() {
 			return {
@@ -75,7 +79,7 @@
 		methods: {
 			getInfo() {
 				try {
-					// const res = await this.$post(h5_collections_buy_checkout,{
+					// const res = await this.$post(h5_conllections_buy_checkout,{
 					// 	product_item_id:this.product_item_id,
 					// 	buy_num:this.buy_num
 					// })

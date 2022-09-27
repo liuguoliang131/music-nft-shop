@@ -1,7 +1,7 @@
 export const TOKEN = 'x-token'
 export const processName = process.env.NODE_ENV
 const development = {
-	BASE_URL: 'http://t.h5.shenglangnft.com'
+	BASE_URL: '/api'
 }
 const test = {
 	BASE_URL: 'http://t.h5.shenglangnft.com'

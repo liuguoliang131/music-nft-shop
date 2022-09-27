@@ -2,7 +2,7 @@
 	<view class="container">
 		<div class="row1">客服二维码</div>
 		<div class="row2">
-			<image class="code2" src="../../static/Mask group.png" mode=""></image>
+			<image class="code2" :src="customer_service" mode=""></image>
 		</div>
 		<div class="row3">长按识别二维码</div>
 		<div class="row4">
@@ -16,16 +16,19 @@
 		isApp,
 		saveBase64Image
 	} from '../../utils/index.js'
+	import {
+		h5_user_info
+	} from '../../request/api.js'
 	export default {
 		data() {
 			return {
-				imgUrl: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-10-20%2F5f8eace52a8ff.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666683588&t=4296afb3ffe7983a07a9d16d8b3ccbbf'
+				customer_service: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-10-20%2F5f8eace52a8ff.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666683588&t=4296afb3ffe7983a07a9d16d8b3ccbbf'
 			};
 		},
 		methods: {
 			handSave() {
 				uni.downloadFile({
-					url: this.imgUrl,
+					url: this.customer_service,
 					success({
 						tempFilePath
 					}) {
@@ -47,7 +50,29 @@
 					}
 				})
 
+			},
+			async getInfo() {
+				try {
+					const res = await this.$get(h5_user_info)
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
+					}
+					this.$store.commit('user/set_userInfo', res.data)
+					this.customer_service = res.data.customer_service
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						title: e.message,
+						icon: 'error'
+					})
+				}
 			}
+		},
+		created() {
+			this.getInfo()
 		}
 	}
 </script>

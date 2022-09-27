@@ -8,7 +8,6 @@
 	"h5": {
 		"devServer": {
 			"disableHostCheck": true,
-			"host": "0.0.0.0",
 			"port": 8080,
 			"proxy": {
 				"/api": {
@@ -16,12 +15,13 @@
 					"changeOrigin": true,
 					"secure": true,
 					"pathRewrite": {
-
-						"^/api": "/"
-
+						"^/api": ""
 					}
 				}
 			}
+		},
+		"router": {
+			"mode": "hash"
 		}
 	},
 	/* 5+App特有相关 */

@@ -97,6 +97,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/idAuth/idAuth",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
