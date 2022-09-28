@@ -40,7 +40,7 @@
 						</view>
 						<view class="row2-1">
 							<text class="row2-1-l">发行量</text>
-							<text class="row2-1-r">{{data.stock_num}}份</text>
+							<text class="row2-1-r">{{data.stock_num_desc}}份</text>
 						</view>
 						<view class="row2-1">
 							<text class="row2-1-l">发行方</text>
