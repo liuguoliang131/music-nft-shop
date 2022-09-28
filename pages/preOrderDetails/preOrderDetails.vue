@@ -284,7 +284,7 @@
 			async handOrder() {
 				try {
 					const res = await this.$get(h5_collections_user_if_approve)
-					if (res.code === 200) {
+					if (res.code === 200 || res.code === 0) {
 						uni.navigateTo({
 							url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}`
 						})
