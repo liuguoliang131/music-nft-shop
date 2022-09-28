@@ -22,7 +22,9 @@
 				<image v-else-if="data.rare_type==='SR'" src="../../static/Frame 1000006234.png" mode=""></image>
 				{{data.name}}
 			</view>
-			<view class="row2">{{data.sale_time1}}&nbsp;发售 <text>限量{{data.stock_num_desc}}万份</text></view>
+			<view class="row2">{{data.sale_time1}}&nbsp;{{data.sale_status===0?'未开售':(data.sale_status===1?'开售':'已售罄')}}
+				<text>限量{{data.stock_num_desc}}万份</text>
+			</view>
 			<view class="price">
 				<text class="rmb">￥</text>
 				<text class="count">{{data.sale_price}}</text>
@@ -58,13 +60,12 @@
 					<view class="row3">
 						购买须知
 					</view>
-					<view class="row4">
+					<view class="row4" v-html="data.buy_notice">
 						<!-- 1.用户点击“购买”后2分钟内未付款，则订单将自动取消。专辑一经售卖，概不退货
 						<br />
 						2.专辑的版权由发行方、原创者所有，用户不得将其用于任何商业用途。
 						<br />
 						3.最终解释权归官方所有。 -->
-						{{data.buy_notice}}
 					</view>
 				</view>
 			</view>
@@ -72,8 +73,7 @@
 				<view class="card-body">
 					<view class="work" v-for="(item,idx) in data.music_list" :key="idx">
 						<view class="row1">{{item.name}}</view>
-						<view class="row2">
-							{{item.desc}}
+						<view class="row2" v-html="item.desc">
 						</view>
 					</view>
 				</view>
@@ -632,9 +632,11 @@
 				}
 
 				.row4 {
+					width: 100%;
 					font-size: 26rpx;
 					line-height: 36rpx;
 					color: #AEAEAE;
+					white-space: pre-wrap; //识别换行符 并且超过父盒子宽度自动换行
 				}
 			}
 
@@ -659,6 +661,7 @@
 						font-size: 26rpx;
 						line-height: 36rpx;
 						color: #AEAEAE;
+						white-space: pre-wrap;
 					}
 
 					.row2:nth-last-child(1) {
