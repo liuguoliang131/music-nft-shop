@@ -159,6 +159,7 @@
 		data() {
 			return {
 				product_item_id: '',
+				share_sign: '',
 				show_pop: false,
 				data: {
 					name: '',
@@ -256,11 +257,12 @@
 					// 		is_login: 1
 					// 	}
 					// }
-					const date = getTimeData(res.data.sale_time)
-					const date1 = getTimeData(res.data.publish_time)
+					const date = getTimeData(res.data.sale_time * 1000)
+					const date1 = getTimeData(res.data.publish_time * 1000)
 					res.data.sale_time = `${date.mon}月${date.dd}日${date.hh}:${date.MM}`
 					res.data.publish_time = `${date1.y}-${date1.mon}-${date1.dd}`
 					this.data = res.data
+					// if(this.data.sale_status)
 				} catch (e) {
 					//TODO handle the exception
 					uni.showToast({
@@ -322,8 +324,12 @@
 					// 	})
 					// }
 					if (!this.data.is_login) {
+						let url = '/pages/login/login'
+						if (this.share_sign) {
+							url += `?share_sign=${this.share_sign}`
+						}
 						return uni.navigateTo({
-							url: '/pages/login/login'
+							url
 						})
 					}
 					const res = await this.$post(h5_conllections_buy_checkout, {
@@ -365,6 +371,7 @@
 		onLoad(option) {
 			console.log('onload', option)
 			this.product_item_id = Number(option.product_item_id)
+			this.share_sign = option.share_sign || ''
 			this.getDetails(this.product_item_id)
 		},
 		onShow() {

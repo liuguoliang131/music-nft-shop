@@ -66,9 +66,8 @@
 		getTimeData
 	} from '../../utils/index.js'
 	import {
-		h5_conllections_buy_checkout,
-		h5_collections_buy_submit,
-		h5_collections_buy_result
+		h5_conllections_buy_submit,
+		h5_conllections_buy_result
 	} from '../../request/api.js'
 	export default {
 		data() {
@@ -156,7 +155,7 @@
 			// 下单 去支付
 			async handOrder() {
 				try {
-					const res = await this.$post(h5_collections_buy_submit, {
+					const res = await this.$post(h5_conllections_buy_submit, {
 						product_item_id: this.product_item_id,
 						buy_num: this.buy_num
 					})
