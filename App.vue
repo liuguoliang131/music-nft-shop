@@ -2,19 +2,26 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
-			if (document.cookie) {
-				console.log(document.cookie)
-				const arr = document.cookie.split('&')
-				arr.forEach(item => {
-					if (item.includes('x-token')) {
-						const token = item.substring(8, item.length)
-						console.log('x-token', token)
-						window.localStorage.setItem('x-token', token)
+			try {
+				if (HSApp) {
+					if (document.cookie) {
+						console.log(document.cookie)
+						const arr = document.cookie.split('&')
+						arr.forEach(item => {
+							if (item.includes('x-token')) {
+								const token = item.substring(8, item.length)
+								console.log('x-token', token)
+								window.localStorage.setItem('x-token', token)
+							}
+						})
+					} else {
+						window.localStorage.removeItem('x-token')
 					}
-				})
-			} else {
-				window.localStorage.removeItem('x-token')
+				}
+			} catch (error) {
+				throw error
 			}
+
 		},
 		onShow: function() {
 			console.log('App Show')

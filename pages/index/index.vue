@@ -48,7 +48,7 @@
 		<view class="container-bottom" v-if="!loginFlag">
 			<view class="need-login">
 				<text>元音符-原创音乐聚集地</text>
-				<button class="to-login">登录</button>
+				<button class="to-login" @tap="handLogin()">登录</button>
 				<text class="cuIcon-close" @click="handleCloseLogintag"></text>
 			</view>
 		</view>
@@ -92,6 +92,7 @@
 					sort: this.order
 				}).then(res => {
 					console.log('res', res)
+					this.loginFlag = !res.data.is_login
 					this.list = res.data.list || []
 				})
 
@@ -138,6 +139,12 @@
 			handViewDetail(item) {
 				uni.navigateTo({
 					url: `/pages/preOrderDetails/preOrderDetails?product_item_id=${item.product_item_id}`
+				})
+			},
+			// 去往登录
+			handLogin() {
+				uni.navigateTo({
+					url: '/pages/login/login'
 				})
 			}
 		}
