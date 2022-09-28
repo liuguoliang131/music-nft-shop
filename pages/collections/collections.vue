@@ -6,7 +6,7 @@
 
 		<scroll-view scroll-y style="height: calc(100vh - 180rpx);padding-top: 84rpx;" @scrolltolower='handleScrollTolower'>
 			<view class="grid-box">
-				<view class="item" v-for="(item , index) in list " @click="handleGoToDetail" :key='index'>
+				<view class="item" v-for="(item , index) in list " @click="handleGoToDetail(item)" :key='index'>
 					<view class="item-image">
 						<view class="item-image-image"
 							:style="`background-image:url(${item.index_img})`">
@@ -49,32 +49,20 @@
 		},
 		methods: {
 			getList(){
-				console.log(this.page)
-				const listItem =  {
-					name: '最新梦想金曲',
-					index_img: 'https://y.qq.com/music/photo_new/T002R300x300M000002GBegP0KlpSG.jpg?max_age=2592000',
-					code_num: '#001',
-					price: '19.90',
-					evaluate_type : 'SSR',
-					rare_type : '稀有'
-				}
-				
-				this.list = [listItem , listItem , listItem , listItem , listItem ,listItem ,listItem ,listItem ,listItem]
-				
 				post(h5_collections_user_collectionList, {
-					page: this.page,
-					sort: this.order
+					page: this.page
 				}).then(res => {
 					console.log('res', res)
-					// this.list = [...res.data.list, ...this.list]
-					
+					if(res.data.list &&Array.isArray(res.data.list) ){
+						this.list = [...res.data.list, ...this.list]
+					}
 				})
 				
 				
 			},
-			handleGoToDetail() {
+			handleGoToDetail(e) {
 				uni.navigateTo({
-					url: '/pages/collectionsDetail/collectionsDetail'
+					url: '/pages/collectionsDetail/collectionsDetail?id='+e.owner_id + '&type=collection'
 				})
 			},
 			handleScrollTolower() {

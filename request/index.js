@@ -23,6 +23,7 @@ const getHeader = (data) => {
 		sortParams[idx] = key + '=' + data[key]
 	})
 	const afterUrl = sortParams.join('&') // 参数串
+	console.log(afterUrl)
 	let md5After = ''
 	if (afterUrl) {
 		md5After = afterUrl + '&ak=' + 'hanhou-app' + '&ts=' + ts + onlykey

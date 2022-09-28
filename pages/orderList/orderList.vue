@@ -9,7 +9,7 @@
 		
 		
 		<scroll-view class="order-body" scroll-y style="height: calc(100vh - 210rpx);" @scrolltolower='handleScrollTolower'>
-			<view class="order-body-item" v-for="(item , index) in list" :key='index' @click="handleGoToDetail">
+			<view class="order-body-item" v-for="(item , index) in list" :key='index' @click="handleGoToDetail(item)">
 				<view class="order-body-item-imageBox">
 					<view class="order-body-item-imageBox-image"
 						:style="`background-image:url(${item.index_img})`">
@@ -52,11 +52,13 @@
 </template>
 
 <script>
+	import { h5_order_list } from '../../request/api.js'
+	import { post } from '../../request/index.js'
 	export default {
 		data() {
 			return {
 				navList: ['全部', '待支付', '已取消', '已完成'],
-				activeNav: 1,
+				activeNav: 0,
 				page : 1,
 				list :[]
 			}
@@ -67,36 +69,32 @@
 		filters: {
 			filterStatus(e) {
 				const list = {
-					0: '待支付',
-					1: '已取消',
-					2: '已完成'
+					1: '待支付',
+					2: '已取消',
+					3: '已完成'
 				}
-				return list[e] || '已完成'
+				return list[e]
 			}
 		},
 		methods: {
-			getList(){
-				const item = {
-					title : '最新新梦想',
-					index_img : 'https://y.qq.com/music/photo_new/T002R300x300M000002GBegP0KlpSG.jpg?max_age=2592000',
-					buy_price : '19999',
-					buy_num : 100,
-					order_total_price : 19999,
-					evaluate_type : 'SSR',
-					rare_type : '稀有',
-					singles_num : 10,
-					order_status : 1
-				}
-				this.list = [item , item ,item ,item , item ,item ,item ,item , item ,item ,item ,item]
+			getList(){				
+				post(h5_order_list , {
+					page : this.page,
+					order_type : this.activeNav
+				}).then(res =>{
+					if(res.data &&Array.isArray(res.data) ){
+						this.list = [...res.data, ...this.list]
+					}
+				})
 			},
 			handleClickNavItem(e){
 				this.activeNav = e
 				this.page = 1
 				this.getList()
 			},
-			handleGoToDetail(){
+			handleGoToDetail(e){
 				uni.navigateTo({
-					url:'/pages/collectionsDetail/collectionsDetail'
+					url:'/pages/orderDetail/orderDetail?id='+e.order_id
 				})
 			},
 			handleScrollTolower() {
@@ -200,6 +198,11 @@
 				&-title{
 					color: #FFFFFF;
 					font-size: 14px;
+					white-space: nowrap;  
+					text-overflow:ellipsis; 
+					overflow:hidden;
+					width: calc(100vw - 400rpx);
+
 				}
 				&-price{
 					color: #E7573D;

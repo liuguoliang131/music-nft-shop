@@ -36,7 +36,7 @@ export const h5_collections_index_list = '/h5/collections_index/list'
 /**
  * @description  订单列表
  */
-export const h5_order_list = 'h5/collections_user/orderList'
+export const h5_order_list = '/h5/collections_user/orderList'
 
 
 /**

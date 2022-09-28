@@ -5,8 +5,7 @@
 		</view>
 
 		<view class=" mt-2" style="display: flex;align-items: center;">
-			<image :src="detail.index_img"
-				class="image" mode=""></image>
+			<image :src="detail.index_url" class="image" mode=""></image>
 			<view class="box">
 				<view class="box-title">
 					{{detail.name}}
@@ -21,7 +20,7 @@
 					发行时间 {{detail.publish_time}}
 				</view>
 				<view class="number price">
-					发行价格 ¥{{detail.sale_price}}元/张
+					发行价格 ¥{{detail.buy_price}}元/张
 				</view>
 			</view>
 		</view>
@@ -33,7 +32,7 @@
 				Record Number
 			</view>
 			<view class="number" style="flex-flow: wrap;">
-				{{detail.code_num}}
+				{{detail.code_num_min}}~{{detail.code_num_max}}
 			</view>
 		</view>
 		<view class="flex">
@@ -62,143 +61,137 @@
 		</view>
 
 
-		<view class="" v-for="(item , index) in detail.music_list" :key='index'>
-			<view class="title mt-2">
-				{{item.name}}
+
+
+
+		<view class="title mt-2">
+			订单信息
+		</view>
+		<view class="flex">
+			<view class="key number" style="width: 80rpx;">
+				订单编号
 			</view>
-			<view class="content">
-				{{item.desc}}
+			<view class="number" style="flex-flow: wrap;">
+				{{detail.order_no}}
 			</view>
 		</view>
 		
-		<view class="container-bottom">
-			<button class="my-btn" @click="showCre">查看证书</button>
-		</view>
-		
-	
-	<view class="cu-modal " :class="show ? 'show' : ''"  @click="hiddenCre">
-		<view class="cu-dialog" >
-			<view class="head">
-				
-				<image src="../../static/logo-black.jpg" class="head-logo"></image>
-				
-				<view class="head-title">
-					数字专辑证书
-				</view>
+		<view class="flex">
+			<view class="key number" style="width: 80rpx;">
+				创建时间
 			</view>
-			<view class="body">
-				<view class="flex">
-					<view class="key number">
-						编 号:
-					</view>
-					<view class="number">
-						{{detail.certificate.code}}
-					</view>
-				</view>
-				<view class="flex">
-					<view class="key number">
-						名 称:
-					</view>
-					<view class="number">
-						{{detail.certificate.name}}
-					</view>
-				</view>
-				<view class="flex">
-					<view class="key number">
-						发行方
-					</view>
-					<view class="number">
-						{{detail.certificate.publish_author}}
-					</view>
-				</view>
-				<view class="flex">
-					<view class="key number">
-						发行时间
-					</view>
-					<view class="number">
-						{{detail.certificate.publish_time}}
-					</view>
-				</view>
-				<view class="flex text"  >
-					<view class="key number">
-						哈希地址
-					</view>
-					<view class="number" style="flex-flow: wrap;">
-						{{detail.certificate.block_chain_hash}}
-					</view>
-				</view>
+			<view class="number" style="flex-flow: wrap;">
+				{{detail.order_create_time}}
 			</view>
 		</view>
-	</view>
 		
+		<view class="flex">
+			<view class="key number" style="width: 80rpx;">
+				支付时间
+			</view>
+			<view class="number" style="flex-flow: wrap;">
+				{{detail.pay_time}}
+			</view>
+		</view>
+		
+		<view class="flex">
+			<view class="key number" style="width: 80rpx;">
+				支付方式
+			</view>
+			<view class="number" style="flex-flow: wrap;">
+				{{detail.pay_type}}
+			</view>
+		</view>
+		
+		<view class="flex">
+			<view class="key number" style="width: 80rpx;">
+				购买数量
+			</view>
+			<view class="number" style="flex-flow: wrap;">
+				{{detail.buy_num}}
+			</view>
+		</view>
+		
+		<view class="flex price">
+			<view class="key number price" style="width: 80rpx;">
+				实付金额
+			</view>
+			<view class="number price" style="flex-flow: wrap;">
+				￥{{detail.pay_price}}
+			</view>
+		</view>
+
 	</view>
 </template>
 
 <script>
-	import {h5_collections_user_collectionInfo , h5_order_detail } from '../../request/api.js'
-	import { post } from '../../request/index.js'
+	import {
+		h5_collections_user_collectionInfo,
+		h5_order_detail
+	} from '../../request/api.js'
+	import {
+		post
+	} from '../../request/index.js'
 	export default {
 		data() {
 			return {
-				show : false,
-				detail :{
-					name: '最新梦想金曲',
-					index_img: 'https://y.qq.com/music/photo_new/T002R300x300M000002GBegP0KlpSG.jpg?max_age=2592000',
-					code_num: '#001',
-					sale_price: '19.90',
-					evaluate_type : 'SSR',
-					rare_type : '稀有',
-					publish_author:'元音符',
-					publish_time:'2022年09月24日',
-					singles_num:10,
-					contract_address:'HUIHIOIOJIOi9090HUHIUHI8787HIHIU',
-					token_id : 'HUIHIOIOJIOi9090HUHIUHI8787HIHIU',
-					token_standard:'HUIHIOIOJIOi9090HUHIUHI8787HIHIUHUIHIOIOJIOi9090HUHIUHI8787HIHIUHUIHIOIOJIOi9090HUHIUHI8787HIHIU',
-					certificate:{
-						code : 'a8s7d83gqds78tyg3',
-						name : '测试名称',
-						block_chain_hash : 'NIHIJHIIJI7878HJIHIUHIU89--',
-						publish_author : '元音符',
-						publish_time : '2022年09月24日'
-					},
-					music_list :[
-						{
-							name : '测试名称一',
-							desc : '那些不经意想起的便是记忆里最深刻的，原来没有争吵也可以走到散场。奔赴多年也换不来永远。爱意随风起，风止意难平，故事的结尾总配不上极致温柔的开头。'
-						}
-					]
+				show: false,
+				detail: {
+					"order_id": 5,
+					"product_item_id": 6,
+					"name": "0926测试藏品数据，测试数据005",
+					"singles_num": 1,
+					"publish_time": 1664193626,
+					"publish_author": "元音符",
+					"index_url": "https://file.yuanyinfu.com/collections/product/product-1664193625308.jpg",
+					"pay_price": "0.03",
+					"order_total_price": "0.03",
+					"buy_price": "0.01",
+					"buy_num": 3,
+					"contract_address": "",
+					"token_id": "",
+					"token_standard": "",
+					"order_no": "1574598920426754048",
+					"order_status": 2,
+					"pay_type": 0,
+					"order_create_time": 1664248749,
+					"pay_time": 0
 				}
 			}
 		},
 		onLoad(e) {
-			const id = e.id 
+			const id = e.id
 			const type = e.type || 'order'
-			if(type === "collection"){
+			if (type === "collection") {
 				this.getDetail(id)
-			}else{
+			} else {
 				this.getOrderDetail(id)
 			}
-			
+
 		},
 		methods: {
-			getDetail(e){
-				post(h5_collections_user_collectionInfo , {owner_id : Number(e)}).then(res =>{
+			getDetail(e) {
+				post(h5_collections_user_collectionInfo, {
+					owner_id: Number(e)
+				}).then(res => {
 					console.log(res)
 					this.detail = res.data
 				})
 			},
-			getOrderDetail(e){
-				post(h5_order_detail ,{order_id : Number(e)} ).then(res =>{
+			getOrderDetail(e) {
+				post(h5_order_detail, {
+					order_id: Number(e)
+				}).then(res => {
 					// this.detail = res.data
-					
-					
+
+
 					this.detail.index_img = res.data.index_url
 				})
 			},
-			showCre(){
+			showCre() {
 				this.show = true
 			},
-			hiddenCre(){
+			hiddenCre() {
 				this.show = false
 			}
 		}
@@ -206,9 +199,10 @@
 </script>
 
 <style lang="scss" scoped>
-	.container{
+	.container {
 		padding-bottom: 120rpx;
 	}
+
 	.title {
 		font-size: 13px;
 		color: #AB9449;
@@ -258,21 +252,21 @@
 		color: #8A8A8A;
 	}
 
-	.price {
-		color: #E7573D;
-	}
+
 
 	.content {
 		font-size: 12px;
 		color: #8A8A8A;
 		text-indent: 2rem;
 	}
-	.key{
+
+	.key {
 		width: 240rpx;
 		text-align: right;
 		padding-right: 10rpx;
 	}
-	.container-bottom{
+
+	.container-bottom {
 		position: fixed;
 		bottom: 0;
 		left: 0;
@@ -282,7 +276,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		.my-btn{
+
+		.my-btn {
 			height: 70rpx;
 			padding: 0rpx 80rpx;
 			display: inline-block;
@@ -291,59 +286,62 @@
 			background-color: #E8D18A;
 			border-radius: 40rpx;
 			font-size: 13px;
-			color: #847443 ;
+			color: #847443;
 		}
 	}
-	
-	
-	.head{
+
+
+	.head {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		padding-top: 40rpx;
-		&-logo{
+
+		&-logo {
 			width: 100rpx;
 			height: 140rpx;
 		}
-		&-title{
+
+		&-title {
 			color: #101010;
 			font-weight: 500;
 			font-size: 18px;
 		}
 	}
-	
-	.body{
+
+	.body {
 		padding: 20rpx;
 		border-top: 1px solid #EBEBEB;
 		margin-top: 20rpx;
-		
+
 	}
-	
-	
-	.flex{
+
+
+	.flex {
 		display: flex;
 		align-items: flex-start;
 		justify-content: center;
 		// flex-wrap: wrap;
 		flex-shrink: 0;
-		
-		.number{
+
+		.number {
 			// flex: 1;
 			text-align: left;
 			width: calc(100% - 240rpx);
-			word-break:break-all;
+			word-break: break-all;
 		}
-		.key{
+
+		.key {
 			width: 120rpx;
 			min-width: 120rpx;
 			text-align: right;
 			margin-left: 20rpx;
 			height: auto;
-			
+
 		}
 	}
-	
-	
+
+
 	.cu-modal {
 		position: fixed;
 		top: 0;
@@ -362,14 +360,14 @@
 		transition: all 0.3s ease-in-out 0s;
 		pointer-events: none;
 	}
-	
+
 	.cu-modal::before {
 		content: "\200B";
 		display: inline-block;
 		height: 100%;
 		vertical-align: middle;
 	}
-	
+
 	.cu-modal.show {
 		opacity: 1;
 		transition-duration: 0.3s;
@@ -379,7 +377,7 @@
 		overflow-y: auto;
 		pointer-events: auto;
 	}
-	
+
 	.cu-dialog {
 		position: relative;
 		display: inline-block;
@@ -391,29 +389,29 @@
 		color: #1D1d1d;
 		padding: 40rpx;
 	}
-	
+
 	.cu-modal.bottom-modal::before {
 		vertical-align: bottom;
 	}
-	
+
 	.cu-modal.bottom-modal .cu-dialog {
 		width: 100%;
 		border-radius: 0;
 	}
-	
+
 	.cu-modal.bottom-modal {
 		margin-bottom: -1000upx;
 	}
-	
+
 	.cu-modal.bottom-modal.show {
 		margin-bottom: 0;
 	}
-	
+
 	.cu-modal.drawer-modal {
 		transform: scale(1);
 		display: flex;
 	}
-	
+
 	.cu-modal.drawer-modal .cu-dialog {
 		height: 100%;
 		min-width: 200upx;
@@ -421,22 +419,25 @@
 		margin: initial;
 		transition-duration: 0.3s;
 	}
-	
+
 	.cu-modal.drawer-modal.justify-start .cu-dialog {
 		transform: translateX(-100%);
 	}
-	
+
 	.cu-modal.drawer-modal.justify-end .cu-dialog {
 		transform: translateX(100%);
 	}
-	
+
 	.cu-modal.drawer-modal.show .cu-dialog {
 		transform: translateX(0%);
 	}
-	.cu-modal .cu-dialog>.cu-bar:first-child .action{
-	  min-width: 100rpx;
-	  margin-right: 0;
-	  min-height: 100rpx;
+
+	.cu-modal .cu-dialog>.cu-bar:first-child .action {
+		min-width: 100rpx;
+		margin-right: 0;
+		min-height: 100rpx;
 	}
-	
+	.price {
+		color: #E7573D !important;
+	}
 </style>
