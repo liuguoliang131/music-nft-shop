@@ -22,7 +22,7 @@
 				<image v-else-if="data.rare_type==='SR'" src="../../static/Frame 1000006234.png" mode=""></image>
 				{{data.name}}
 			</view>
-			<view class="row2">{{data.sale_time}}&nbsp;发售 <text>限量{{data.stock_num_desc}}万份</text></view>
+			<view class="row2">{{data.sale_time1}}&nbsp;发售 <text>限量{{data.stock_num_desc}}万份</text></view>
 			<view class="price">
 				<text class="rmb">￥</text>
 				<text class="count">{{data.sale_price}}</text>
@@ -52,7 +52,7 @@
 						</view>
 						<view class="row2-1">
 							<text class="row2-1-l">发行时间</text>
-							<text class="row2-1-r">{{data.publish_time}}</text>
+							<text class="row2-1-r">{{data.publish_time1}}</text>
 						</view>
 					</view>
 					<view class="row3">
@@ -85,9 +85,9 @@
 				<image class="abs-img" src="../../static/share.png"></image>
 				<text class="abs-text">分享</text>
 			</view>
-			<view v-if="data.sale_status===0" class="footer-btn gray-btn">未开售</view>
+			<view v-if="data.sale_status===0" class="footer-btn" @tap="handOrLogin">{{countDown}}</view>
 			<view v-else-if="data.sale_status===1" class="footer-btn" @tap="$refs.popup.show()">立即抢购</view>
-			<view v-else-if="data.sale_status===2" class="footer-btn gray-btn">已售罄</view>
+			<view v-else-if="data.sale_status===2" class="footer-btn gray-btn" @tap="handOrLogin">已售罄</view>
 		</view>
 		<wyb-popup ref="popup" type="bottom" height="701" width="750" radius="6" bgColor="#1D1D1D"
 			:showCloseIcon="true">
@@ -177,9 +177,13 @@
 					singles_num: '',
 					buy_notice: '',
 					music_list: [],
-					is_login: ''
+					is_login: '',
+					publish_time1: '',
+					sale_time1: ''
 				},
-				count: 1
+				count: 1,
+				statusTimer: null,
+				countDown: ''
 			};
 		},
 		computed: {
@@ -259,16 +263,38 @@
 					// }
 					const date = getTimeData(res.data.sale_time * 1000)
 					const date1 = getTimeData(res.data.publish_time * 1000)
-					res.data.sale_time = `${date.mon}月${date.dd}日${date.hh}:${date.MM}`
-					res.data.publish_time = `${date1.y}-${date1.mon}-${date1.dd}`
+					res.data.sale_time1 = `${date.mon}月${date.dd}日${date.hh}:${date.MM}`
+					res.data.publish_time1 = `${date1.y}-${date1.mon}-${date1.dd}`
 					this.data = res.data
-					// if(this.data.sale_status)
+					this.handSetTimeout()
 				} catch (e) {
 					//TODO handle the exception
 					uni.showToast({
 						icon: 'error',
 						title: e.message
 					})
+				}
+			},
+			// 更新状态定时器
+			handSetTimeout() {
+				if (this.data.sale_status === 0) {
+					this.statusTimer = setInterval(() => {
+						const date = new Date().getTime()
+						const count = this.data.sale_time * 1000 - date
+						if (count > 0) {
+							let hh = parseInt(count / 1000 / 60 / 60)
+							let MM = parseInt(count / 1000 / 60 % 60)
+							let ss = parseInt(count / 1000 % 60)
+							hh = hh < 10 ? '0' + hh : hh
+							MM = MM < 10 ? '0' + MM : MM
+							ss = ss < 10 ? '0' + ss : ss
+							this.countDown = `距离开售 ${hh}时${MM}分${ss}秒`
+						} else {
+							this.getDetails(this.product_item_id)
+							clearTimeout(this.statusTimer)
+						}
+
+					}, 1000)
 				}
 			},
 			// 数量改变
@@ -303,6 +329,18 @@
 					url: `/pages/poster/poster?product_item_id=${this.product_item_id}`
 				})
 			},
+			// 是否去登录 
+			handOrLogin() {
+				if (!this.data.is_login) {
+					let url = '/pages/login/login'
+					if (this.share_sign) {
+						url += `?share_sign=${this.share_sign}`
+					}
+					return uni.navigateTo({
+						url
+					})
+				}
+			},
 			// 立即抢购
 			async handOrder() {
 				try {
@@ -334,7 +372,7 @@
 					}
 					const res = await this.$post(h5_conllections_buy_checkout, {
 						product_item_id: this.product_item_id,
-						buy_num: this.count
+						buy_num: Number(this.count)
 					})
 					if (res.code !== 0) {
 						if (res.code === 710) {
@@ -379,6 +417,9 @@
 		},
 		created() {
 			console.log('created')
+		},
+		beforeDestroy() {
+			clearTimeout(this.statusTimer)
 		}
 	}
 </script>
@@ -694,10 +735,10 @@
 			}
 
 			.gray-btn {
-				background: gray;
+				background: #7C7C7C;
 
 				&:active {
-					background-color: gray;
+					background: #7C7C7C;
 					color: #ECECEC;
 				}
 			}
