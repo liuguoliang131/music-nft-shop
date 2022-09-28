@@ -287,28 +287,32 @@
 						product_item_id: this.product_item_id,
 						buy_num: this.count
 					})
-					// if (res.code !== 0) {
-					// 	if (res.code === 710) {
-					// 		身份认证
-					// 		uni.navigateTo({
-					// 			url: `/pages/idAuth/idAuth`
-					// 		})
-					// 	} else {
-					// 		return uni.showToast({
-					// 			title: res.msg,
-					// 			icon: 'error'
-					// 		})
-					// 	}
+					if (res.code !== 0) {
+						if (res.code === 710) {
+							身份认证
+							// uni.navigateTo({
+							// 	url: `/pages/idAuth/idAuth`
+							// })
+							return uni.showToast({
+								title: res.msg,
+								icon: 'error'
+							})
+						} else {
+							return uni.showToast({
+								title: res.msg,
+								icon: 'error'
+							})
+						}
 
-					// } else {
-					// 	uni.navigateTo({
-					// 		url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}`
-					// 	})
-					// }
+					} else {
+						uni.navigateTo({
+							url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}`
+						})
+					}
 
-					uni.navigateTo({
-						url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}`
-					})
+					// uni.navigateTo({
+					// 	url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}`
+					// })
 
 				} catch (e) {
 					//TODO handle the exception

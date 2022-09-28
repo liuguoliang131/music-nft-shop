@@ -138,21 +138,21 @@
 			// 下单 去支付
 			async handOrder() {
 				try {
-					// const res = await this.$post(h5_collections_buy_submit, {
-					// 	product_item_id: this.product_item_id,
-					// 	buy_num: this.buy_num
-					// })
-					// if (res.code !== 0) {
-					// 	return uni.showToast({
-					// 		title: res.msg,
-					// 		icon: 'error'
-					// 	})
-					// }
-					const res = {
-						data: {
-							order_no: '12312'
-						}
+					const res = await this.$post(h5_collections_buy_submit, {
+						product_item_id: this.product_item_id,
+						buy_num: this.buy_num
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
 					}
+					// const res = {
+					// 	data: {
+					// 		order_no: '12312'
+					// 	}
+					// }
 					uni.showLoading({
 						title: '加载中',
 						mask: true
@@ -173,24 +173,24 @@
 			// 获取下单结果
 			async getOrderResult(order_no) {
 				try {
-					// const res = await this.$post(h5_collections_buy_result, {
-					// 	order_no
-					// })
-					// if (res.code !== 0) {
-					// 	return uni.showToast({
-					// 		title: res.msg,
-					// 		icon: 'error'
-					// 	})
-					// }
-					const res = {
-						data: {
-							order_no: "12313",
-							order_price: '50.22',
-							count_down: 300 //倒计时 秒
-						}
+					const res = await this.$post(h5_collections_buy_result, {
+						order_no
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
 					}
+					// const res = {
+					// 	data: {
+					// 		order_no: "12313",
+					// 		order_price: '50.22',
+					// 		count_down: 300 //倒计时 秒
+					// 	}
+					// }
 					uni.navigateTo({
-						url: `/pages/cashier/cashier?product_item_id=${this.product_item_id}&order_no=${res.data.order_no}&order_price=${res.data.order_price}&count_down=${res.data.count_down*1000}`
+						url: `/pages/cashier/cashier?product_item_id=${this.product_item_id}&order_no=${res.data.order_no}&order_price=${res.data.order_price}&count_down=${res.data.count_down}`
 					})
 				} catch (e) {
 					//TODO handle the exception

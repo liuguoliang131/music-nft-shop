@@ -4,11 +4,11 @@ const development = {
 	BASE_URL: 'http://t.h5.shenglangnft.com/api'
 }
 const test = {
-	BASE_URL: 'http://t.h5.shenglangnft.com'
+	BASE_URL: 'http://c.yuanyinfu.com'
 }
 const prod = {
 	// BASE_URL: 'http://h5.yuanyinfu.com'
-	BASE_URL: 'http://t.h5.shenglangnft.com'
+	BASE_URL: 'http://c.yuanyinfu.com'
 }
 let compileConfig = null
 if (processName === 'development') {

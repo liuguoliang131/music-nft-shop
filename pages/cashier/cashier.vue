@@ -52,22 +52,22 @@
 			// 获取下单结果
 			async getOrderResult() {
 				try {
-					// const res = await this.$post(h5_collections_buy_result, {
-					// 	order_no:this.order_no
-					// })
-					// if (res.code !== 0) {
-					// 	return uni.showToast({
-					// 		title: res.msg,
-					// 		icon: 'error'
-					// 	})
-					// }
-					const res = {
-						data: {
-							order_no: "12313",
-							order_price: '50.22',
-							count_down: 300 //倒计时 秒
-						}
+					const res = await this.$post(h5_collections_buy_result, {
+						order_no: this.order_no
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
 					}
+					// const res = {
+					// 	data: {
+					// 		order_no: "12313",
+					// 		order_price: '50.22',
+					// 		count_down: 300 //倒计时 秒
+					// 	}
+					// }
 					this.order_no = res.data.order_no
 					this.order_price = res.data.order_price
 					this.count_down = res.data.count_down
@@ -107,30 +107,30 @@
 			// 获取支付方式列表
 			async getPayType() {
 				try {
-					// const res = await this.$post(h5_conllections_buy_pay_type_list, {
-					// 	module_type: 1
-					// })
-					// if (res.code !== 0) {
-					// 	return uni.showToast({
-					// 		title: res.msg,
-					// 		icon: 'error'
-					// 	})
-					// }
-					const res = {
-						data: [{
-								pay_id: '1',
-								pay_name: '微信',
-								pay_img_url: '图标url',
-								tag: '标签文案'
-							},
-							{
-								pay_id: '2',
-								pay_name: '支付宝',
-								pay_img_url: '图标url',
-								tag: '标签文案'
-							},
-						]
+					const res = await this.$post(h5_conllections_buy_pay_type_list, {
+						module_type: 1
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
 					}
+					// const res = {
+					// 	data: [{
+					// 			pay_id: '1',
+					// 			pay_name: '微信',
+					// 			pay_img_url: '图标url',
+					// 			tag: '标签文案'
+					// 		},
+					// 		{
+					// 			pay_id: '2',
+					// 			pay_name: '支付宝',
+					// 			pay_img_url: '图标url',
+					// 			tag: '标签文案'
+					// 		},
+					// 	]
+					// }
 					res.data.forEach((item, idx) => {
 						item.checked = !idx
 					})
@@ -151,22 +151,22 @@
 			// 支付
 			async handPay() {
 				try {
-					// const res = await this.$post(h5_collections_buy_pay,{
-					// 	order_no:this.order_no,
-					// 	pay_id:this.list.find(item=>item.checked).pay_id
-					// })
-					// if(res.code!==0) {
-					// 	return uni.showToast({
-					// 		title:res.msg,
-					// 		icon:'error'
-					// 	})
-					// }
-					const res = {
-						data: {
-							pay_string: '', //支付宝支付串
-							wx_pay_string: 'https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?prepay_id=wx2016121516420242444321ca0631331346&package=1405458241'
-						}
+					const res = await this.$post(h5_collections_buy_pay, {
+						order_no: this.order_no,
+						pay_id: this.list.find(item => item.checked).pay_id
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
 					}
+					// const res = {
+					// 	data: {
+					// 		pay_string: '', //支付宝支付串
+					// 		wx_pay_string: 'https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?prepay_id=wx2016121516420242444321ca0631331346&package=1405458241'
+					// 	}
+					// }
 					const url = Object.keys(res.data).find(key => {
 						return res.data[key]
 					})
@@ -186,7 +186,7 @@
 		onLoad(option) {
 			this.product_item_id = Number(option.product_item_id)
 			this.order_no = option.order_no
-			this.order_price = option.order_price || '123'
+			this.order_price = option.order_price
 			this.getOrderResult()
 			this.getPayType()
 		}
