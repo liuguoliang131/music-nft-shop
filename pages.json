@@ -31,6 +31,7 @@
 		}, {
 			"path": "pages/customerService/customerService",
 			"style": {
+				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
@@ -38,6 +39,7 @@
 		}, {
 			"path": "pages/preOrderDetails/preOrderDetails",
 			"style": {
+				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
@@ -45,6 +47,7 @@
 		}, {
 			"path": "pages/settlement/settlement",
 			"style": {
+				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
@@ -52,6 +55,7 @@
 		}, {
 			"path": "pages/cashier/cashier",
 			"style": {
+				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
@@ -59,6 +63,7 @@
 		}, {
 			"path": "pages/paySuccess/paySuccess",
 			"style": {
+				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
@@ -71,15 +76,6 @@
 				"enablePullDownRefresh": false
 			}
 
-		}
-	,{
-			"path" : "pages/preOrderDetails/preOrderDetails",
-			"style" :
-			{
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-
 		}, {
 			"path": "pages/orderList/orderList",
 			"style": {
@@ -87,26 +83,24 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/userAgreement/userAgreement",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/idAuth/idAuth",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	    ,{
-            "path" : "pages/userAgreement/userAgreement",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/idAuth/idAuth",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "元音符",

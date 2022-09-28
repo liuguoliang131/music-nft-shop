@@ -43,9 +43,18 @@
 		},
 		methods: {
 			handleBack() {
-				uni.navigateBack({
-					delta: 1, //返回层数，2则上上页
-				})
+
+				let currentRoutes = getCurrentPages(); // 获取当前打开过的页面路由数组
+				console.log(currentRoutes)
+				if (currentRoutes.length === 1) {
+					uni.redirectTo({
+						url: '/pages/index/index'
+					})
+				} else {
+					uni.navigateBack({
+						delta: 1, //返回层数，2则上上页
+					})
+				}
 			},
 			// 生成二维码函数
 			getQrcode(qWidth, qHeight, qText, qRender, dom) {
@@ -263,6 +272,8 @@
 
 <style lang="scss">
 	.container {
+		padding-top: 88rpx;
+
 		.nav {
 			position: fixed;
 			top: 0;
@@ -273,6 +284,7 @@
 			width: 100%;
 			height: 88rpx;
 			background-color: #0D0D0D;
+			z-index: 10;
 
 			.nav-left {
 				position: absolute;
