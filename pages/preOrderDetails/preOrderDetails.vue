@@ -18,7 +18,7 @@
 				<image v-else-if="data.rare_type==='SR'" src="../../static/Frame 1000006234.png" mode=""></image>
 				{{data.name}}
 			</view>
-			<view class="row2">{{data.sale_time}}&nbsp;发售 <text>限量{{data.stock_num}}份</text></view>
+			<view class="row2">{{data.sale_time}}&nbsp;发售 <text>限量{{data.stock_num_desc}}万份</text></view>
 			<view class="price">
 				<text class="rmb">￥</text>
 				<text class="count">{{data.sale_price}}</text>
@@ -284,7 +284,7 @@
 			async handOrder() {
 				try {
 					const res = await this.$get(h5_collections_user_if_approve)
-					if (res.code === 200) {
+					if (res.code === 200 || res.code === 0) {
 						uni.navigateTo({
 							url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}`
 						})
@@ -399,14 +399,18 @@
 
 
 			.row1 {
-				display: flex;
-				align-items: center;
-				justify-content: center;
+				// display: flex;
+				// align-items: center;
+				// justify-content: center;
+				// width: 100%;
 				margin-top: 25rpx;
 				font-weight: 500;
 				font-size: 36rpx;
 				text-align: center;
 				color: #ECECEC;
+				overflow: hidden; // 溢出隐藏
+				white-space: nowrap; // 强制一行
+				text-overflow: ellipsis; // 文字溢出显示省略号
 
 				image {
 					width: 84rpx;
@@ -421,6 +425,9 @@
 				margin-top: 9rpx;
 				font-size: 26rpx;
 				color: #AEAEAE;
+				overflow: hidden; // 溢出隐藏
+				white-space: nowrap; // 强制一行
+				text-overflow: ellipsis; // 文字溢出显示省略号
 
 				text {
 					margin-left: 16rpx;
@@ -466,6 +473,9 @@
 						font-size: 26rpx;
 						line-height: 48rpx;
 						/* identical to box height, or 185% */
+						overflow: hidden; // 溢出隐藏
+						white-space: nowrap; // 强制一行
+						text-overflow: ellipsis; // 文字溢出显示省略号
 						color: #AEAEAE;
 
 						.row2-1-l {
@@ -473,7 +483,11 @@
 							width: 104rpx;
 						}
 
-						.row2-1-r {}
+						.row2-1-r {
+							overflow: hidden; // 溢出隐藏
+							white-space: nowrap; // 强制一行
+							text-overflow: ellipsis; // 文字溢出显示省略号
+						}
 					}
 				}
 
@@ -504,6 +518,9 @@
 						font-size: 32rpx;
 						line-height: 44rpx;
 						color: #AC9147;
+						overflow: hidden; // 溢出隐藏
+						white-space: nowrap; // 强制一行
+						text-overflow: ellipsis; // 文字溢出显示省略号
 					}
 
 					.row2 {
@@ -635,6 +652,11 @@
 						line-height: 44rpx;
 						color: #ECECEC;
 						padding-bottom: 20rpx;
+						width: 480rpx;
+						overflow: hidden; // 溢出隐藏
+						white-space: nowrap; // 强制一行
+						text-overflow: ellipsis; // 文字溢出显示省略号
+
 					}
 
 					.title-p {
