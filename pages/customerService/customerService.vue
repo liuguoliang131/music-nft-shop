@@ -1,5 +1,8 @@
 <template>
 	<view class="container">
+		<view class="nav">
+			<image @tap="handleBack()" class="nav-left" src="../../static/Frame 1000006270.png" mode=""></image>
+		</view>
 		<div class="row1">客服二维码</div>
 		<div class="row2">
 			<image class="code2" :src="customer_service" mode=""></image>
@@ -26,6 +29,20 @@
 			};
 		},
 		methods: {
+			handleBack() {
+
+				let currentRoutes = getCurrentPages(); // 获取当前打开过的页面路由数组
+				console.log(currentRoutes)
+				if (currentRoutes.length === 1) {
+					uni.redirectTo({
+						url: '/pages/index/index'
+					})
+				} else {
+					uni.navigateBack({
+						delta: 1, //返回层数，2则上上页
+					})
+				}
+			},
 			handSave() {
 				uni.downloadFile({
 					url: this.customer_service,
@@ -79,6 +96,28 @@
 
 <style lang="scss" scoped>
 	.container {
+		padding-top: 88rpx;
+
+		.nav {
+			position: fixed;
+			top: 0;
+			left: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 88rpx;
+			background-color: #0D0D0D;
+
+			.nav-left {
+				position: absolute;
+				top: 28rpx;
+				left: 28rpx;
+				width: 48rpx;
+				height: 48rpx;
+			}
+		}
+
 		.row1 {
 			padding-top: 232rpx;
 			font-weight: 600;

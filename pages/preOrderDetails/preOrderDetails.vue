@@ -1,11 +1,15 @@
 <template>
 	<!-- 预购专辑详情 -->
 	<view class="container">
+		<view class="nav">
+			<image @tap="handleBack()" class="nav-left" src="../../static/Frame 1000006272.png" mode=""></image>
+		</view>
 		<view class="preOrderDetails-header">
 			<view class="cover">
 				<div class="cover-content">
-					<image class="cover-img" src="../../static/image 6.png"></image>
+					<image class="cover-img" src="../../static/image-7 1-1.png"></image>
 					<image class="cover-turn" src="../../static/Frame 77.png" mode=""></image>
+					<image class="cover-turn1" :src="data.index_img" mode=""></image>
 					<!-- <image class="cover-play" src="../../static/Frame 62.png" mode=""></image> -->
 				</div>
 
@@ -18,7 +22,7 @@
 				<image v-else-if="data.rare_type==='SR'" src="../../static/Frame 1000006234.png" mode=""></image>
 				{{data.name}}
 			</view>
-			<view class="row2">{{data.sale_time}}&nbsp;发售 <text>限量{{data.stock_num_desc}}万份</text></view>
+			<view class="row2">{{data.sale_time1}}&nbsp;发售 <text>限量{{data.stock_num_desc}}万份</text></view>
 			<view class="price">
 				<text class="rmb">￥</text>
 				<text class="count">{{data.sale_price}}</text>
@@ -40,7 +44,7 @@
 						</view>
 						<view class="row2-1">
 							<text class="row2-1-l">发行量</text>
-							<text class="row2-1-r">{{data.stock_num}}份</text>
+							<text class="row2-1-r">{{data.stock_num_desc}}万份</text>
 						</view>
 						<view class="row2-1">
 							<text class="row2-1-l">发行方</text>
@@ -48,7 +52,7 @@
 						</view>
 						<view class="row2-1">
 							<text class="row2-1-l">发行时间</text>
-							<text class="row2-1-r">{{data.publish_time}}</text>
+							<text class="row2-1-r">{{data.publish_time1}}</text>
 						</view>
 					</view>
 					<view class="row3">
@@ -81,7 +85,9 @@
 				<image class="abs-img" src="../../static/share.png"></image>
 				<text class="abs-text">分享</text>
 			</view>
-			<view class="footer-btn" @tap="$refs.popup.show()">立即抢购</view>
+			<view v-if="data.sale_status===0" class="footer-btn" @tap="handOrLogin">{{countDown}}</view>
+			<view v-else-if="data.sale_status===1" class="footer-btn" @tap="$refs.popup.show()">立即抢购</view>
+			<view v-else-if="data.sale_status===2" class="footer-btn gray-btn" @tap="handOrLogin">已售罄</view>
 		</view>
 		<wyb-popup ref="popup" type="bottom" height="701" width="750" radius="6" bgColor="#1D1D1D"
 			:showCloseIcon="true">
@@ -140,7 +146,8 @@
 	import WybPopup from '@/components/wyb-popup/wyb-popup.vue'
 	import {
 		h5_collections_index_info,
-		h5_collections_user_if_approve
+		h5_collections_user_if_approve,
+		h5_conllections_buy_checkout
 	} from '../../request/api.js'
 	import {
 		getTimeData
@@ -152,6 +159,7 @@
 		data() {
 			return {
 				product_item_id: '',
+				share_sign: '',
 				show_pop: false,
 				data: {
 					name: '',
@@ -169,9 +177,13 @@
 					singles_num: '',
 					buy_notice: '',
 					music_list: [],
-					is_login: ''
+					is_login: '',
+					publish_time1: '',
+					sale_time1: ''
 				},
-				count: 1
+				count: 1,
+				statusTimer: null,
+				countDown: ''
 			};
 		},
 		computed: {
@@ -183,6 +195,20 @@
 			}
 		},
 		methods: {
+			handleBack() {
+
+				let currentRoutes = getCurrentPages(); // 获取当前打开过的页面路由数组
+				console.log(currentRoutes)
+				if (currentRoutes.length === 1) {
+					uni.redirectTo({
+						url: '/pages/index/index'
+					})
+				} else {
+					uni.navigateBack({
+						delta: 1, //返回层数，2则上上页
+					})
+				}
+			},
 			async getDetails(product_item_id) {
 				try {
 					const res = await this.$post(h5_collections_index_info, {
@@ -235,17 +261,40 @@
 					// 		is_login: 1
 					// 	}
 					// }
-					const date = getTimeData(res.data.sale_time)
-					const date1 = getTimeData(res.data.publish_time)
-					res.data.sale_time = `${date.mon}月${date.dd}日${date.hh}:${date.MM}`
-					res.data.publish_time = `${date1.y}-${date1.mon}-${date1.dd}`
+					const date = getTimeData(res.data.sale_time * 1000)
+					const date1 = getTimeData(res.data.publish_time * 1000)
+					res.data.sale_time1 = `${date.mon}月${date.dd}日${date.hh}:${date.MM}`
+					res.data.publish_time1 = `${date1.y}-${date1.mon}-${date1.dd}`
 					this.data = res.data
+					this.handSetTimeout()
 				} catch (e) {
 					//TODO handle the exception
 					uni.showToast({
 						icon: 'error',
 						title: e.message
 					})
+				}
+			},
+			// 更新状态定时器
+			handSetTimeout() {
+				if (this.data.sale_status === 0) {
+					this.statusTimer = setInterval(() => {
+						const date = new Date().getTime()
+						const count = this.data.sale_time * 1000 - date
+						if (count > 0) {
+							let hh = parseInt(count / 1000 / 60 / 60)
+							let MM = parseInt(count / 1000 / 60 % 60)
+							let ss = parseInt(count / 1000 % 60)
+							hh = hh < 10 ? '0' + hh : hh
+							MM = MM < 10 ? '0' + MM : MM
+							ss = ss < 10 ? '0' + ss : ss
+							this.countDown = `距离开售 ${hh}时${MM}分${ss}秒`
+						} else {
+							this.getDetails(this.product_item_id)
+							clearTimeout(this.statusTimer)
+						}
+
+					}, 1000)
 				}
 			},
 			// 数量改变
@@ -280,24 +329,68 @@
 					url: `/pages/poster/poster?product_item_id=${this.product_item_id}`
 				})
 			},
+			// 是否去登录 
+			handOrLogin() {
+				if (!this.data.is_login) {
+					let url = '/pages/login/login'
+					if (this.share_sign) {
+						url += `?share_sign=${this.share_sign}`
+					}
+					return uni.navigateTo({
+						url
+					})
+				}
+			},
 			// 立即抢购
 			async handOrder() {
 				try {
-					const res = await this.$get(h5_collections_user_if_approve)
-					if (res.code === 200 || res.code === 0) {
-						uni.navigateTo({
-							url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}`
+					// const res = await this.$get(h5_collections_user_if_approve)
+					// if (res.code === 200 || res.code === 0) {
+					// 	uni.navigateTo({
+					// 		url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}`
+					// 	})
+					// } else if (res.code === 7) {
+					// 	// 身份认证
+					// 	uni.navigateTo({
+					// 		url: `/pages/idAuth/idAuth`
+					// 	})
+
+					// } else {
+					// 	return uni.showToast({
+					// 		title: res.msg,
+					// 		icon: 'error'
+					// 	})
+					// }
+					if (!this.data.is_login) {
+						let url = '/pages/login/login'
+						if (this.share_sign) {
+							url += `?share_sign=${this.share_sign}`
+						}
+						return uni.navigateTo({
+							url
 						})
-					} else if (res.code === 7) {
-						// 身份认证
-						uni.navigateTo({
-							url: `/pages/idAuth/idAuth`
-						})
+					}
+					const res = await this.$post(h5_conllections_buy_checkout, {
+						product_item_id: this.product_item_id,
+						buy_num: Number(this.count)
+					})
+					if (res.code !== 0) {
+						if (res.code === 710) {
+							uni.navigateTo({
+								url: `/pages/idAuth/idAuth`
+							})
+						} else {
+							return uni.showToast({
+								title: res.msg,
+								icon: 'error'
+							})
+						}
 
 					} else {
-						return uni.showToast({
-							title: res.msg,
-							icon: 'error'
+						res.data.info.total = (res.data.info.buy_num * res.data.info.pay_price).toFixed(2)
+						const params = JSON.stringify(res.data.info)
+						uni.navigateTo({
+							url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}&params=${params}`
 						})
 					}
 
@@ -316,6 +409,7 @@
 		onLoad(option) {
 			console.log('onload', option)
 			this.product_item_id = Number(option.product_item_id)
+			this.share_sign = option.share_sign || ''
 			this.getDetails(this.product_item_id)
 		},
 		onShow() {
@@ -323,6 +417,9 @@
 		},
 		created() {
 			console.log('created')
+		},
+		beforeDestroy() {
+			clearTimeout(this.statusTimer)
 		}
 	}
 </script>
@@ -353,6 +450,28 @@
 
 	.container {
 		padding: 0 24rpx;
+		padding-top: 88rpx;
+
+		.nav {
+			position: fixed;
+			top: 0;
+			left: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 88rpx;
+			background-color: #0D0D0D;
+			z-index: 10;
+
+			.nav-left {
+				position: absolute;
+				top: 28rpx;
+				left: 28rpx;
+				width: 48rpx;
+				height: 48rpx;
+			}
+		}
 
 		.preOrderDetails-header {
 			text-align: center;
@@ -381,6 +500,18 @@
 						transform-origin: 50% 50%;
 						width: 327rpx;
 						height: 327rpx;
+						// animation: 3.7s turning linear infinite;
+					}
+
+					.cover-turn1 {
+						z-index: 2;
+						position: absolute;
+						top: 84.5rpx;
+						left: 84.5rpx;
+						transform-origin: 50% 50%;
+						width: 206rpx;
+						height: 206rpx;
+						border-radius: 103rpx;
 						// animation: 3.7s turning linear infinite;
 					}
 
@@ -600,6 +731,15 @@
 				&:active {
 					background-color: rgba(209, 9, 16, 0.6);
 					color: rgba(134, 134, 134, 1);
+				}
+			}
+
+			.gray-btn {
+				background: #7C7C7C;
+
+				&:active {
+					background: #7C7C7C;
+					color: #ECECEC;
 				}
 			}
 		}

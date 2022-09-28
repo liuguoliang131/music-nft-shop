@@ -1,5 +1,8 @@
 <template>
 	<view class="container">
+		<view class="nav">
+			<image @tap="handleBack()" class="nav-left" src="../../static/Frame 1000006272.png" mode=""></image>
+		</view>
 		<view class="title pt23">
 			<view class="title-l"></view>
 			<view class="title-r">专辑信息</view>
@@ -63,9 +66,8 @@
 		getTimeData
 	} from '../../utils/index.js'
 	import {
-		h5_conllections_buy_checkout,
-		h5_collections_buy_submit,
-		h5_collections_buy_result
+		h5_conllections_buy_submit,
+		h5_conllections_buy_result
 	} from '../../request/api.js'
 	export default {
 		data() {
@@ -78,6 +80,20 @@
 			}
 		},
 		methods: {
+			handleBack() {
+
+				let currentRoutes = getCurrentPages(); // 获取当前打开过的页面路由数组
+				console.log(currentRoutes)
+				if (currentRoutes.length === 1) {
+					uni.redirectTo({
+						url: '/pages/index/index'
+					})
+				} else {
+					uni.navigateBack({
+						delta: 1, //返回层数，2则上上页
+					})
+				}
+			},
 			async getInfo() {
 				try {
 					const res = await this.$post(h5_conllections_buy_checkout, {
@@ -139,7 +155,7 @@
 			// 下单 去支付
 			async handOrder() {
 				try {
-					const res = await this.$post(h5_collections_buy_submit, {
+					const res = await this.$post(h5_conllections_buy_submit, {
 						product_item_id: this.product_item_id,
 						buy_num: this.buy_num
 					})
@@ -205,7 +221,7 @@
 		onLoad(option) {
 			this.product_item_id = Number(option.product_item_id)
 			this.buy_num = Number(option.buy_num)
-			this.getInfo()
+			this.data = JSON.parse(option.params)
 		}
 	}
 </script>
@@ -213,6 +229,28 @@
 <style scoped lang="scss">
 	.container {
 		padding: 0;
+		padding-top: 88rpx;
+
+		.nav {
+			position: fixed;
+			top: 0;
+			left: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 88rpx;
+			background-color: #0D0D0D;
+			z-index: 10;
+
+			.nav-left {
+				position: absolute;
+				top: 28rpx;
+				left: 28rpx;
+				width: 48rpx;
+				height: 48rpx;
+			}
+		}
 
 		.title {
 			padding: 0 40rpx 0 40rpx;
@@ -273,13 +311,16 @@
 				margin-left: 41rpx;
 
 				.box1-r-0 {
-					display: flex;
-					align-items: center;
+					// display: flex;
+					// align-items: center;
+					width: 400rpx;
 					font-weight: 500;
 					font-size: 28rpx;
 					/* identical to box height */
-
 					color: #ECECEC;
+					overflow: hidden; // 溢出隐藏
+					white-space: nowrap; // 强制一行
+					text-overflow: ellipsis; // 文字溢出显示省略号
 				}
 
 				.box1-r-1 {
@@ -303,6 +344,13 @@
 
 					.r-1-l {
 						width: 128rpx;
+					}
+
+					.r-1-r {
+						width: 280rpx;
+						overflow: hidden; // 溢出隐藏
+						white-space: nowrap; // 强制一行
+						text-overflow: ellipsis; // 文字溢出显示省略号
 					}
 				}
 

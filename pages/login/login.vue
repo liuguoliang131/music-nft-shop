@@ -47,6 +47,7 @@
 	export default {
 		data() {
 			return {
+				share_sign: '',
 				form: {
 					phone: '',
 					captcha: ''
@@ -133,8 +134,8 @@
 						phone: this.form.phone,
 						captcha: this.form.captcha
 					}
-					if (query.share_sign) {
-						data.share_sign = query.share_sign
+					if (this.share_sign) {
+						data.share_sign = this.share_sign
 					}
 					const res = await this.$post(h5_base_login, data)
 					console.log(res)
@@ -179,8 +180,10 @@
 
 			}
 		},
-		onLoad() {
-
+		onLoad(option) {
+			if (option.share_sign) {
+				this.share_sign = option.share_sign
+			}
 		}
 	}
 </script>
