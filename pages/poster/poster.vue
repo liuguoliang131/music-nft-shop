@@ -25,6 +25,9 @@
 		isApp,
 		saveBase64Image
 	} from '../../utils/index.js'
+	import {
+		h5_collections_index_sharePoster
+	} from '../../request/api.js'
 	export default {
 		data() {
 			return {
@@ -117,6 +120,7 @@
 					this.initCanvas(res.data)
 				} catch (e) {
 					//TODO handle the exception
+					console.log('error', e)
 					uni.showToast({
 						icon: 'error',
 						title: e.message
@@ -247,7 +251,7 @@
 		},
 		onLoad(option) {
 			console.log('poster onload', option)
-			this.product_item_id = option.product_item_id
+			this.product_item_id = Number(option.product_item_id)
 		},
 		onReady: function(e) {
 			console.log('poster onready')

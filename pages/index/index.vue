@@ -65,7 +65,7 @@
 	export default {
 		data() {
 			return {
-				loginFlag: false,
+				loginFlag: true,
 				order: 1,
 				page: 1,
 				list: [],
