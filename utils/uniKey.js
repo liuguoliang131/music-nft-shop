@@ -7,7 +7,8 @@ const test = {
 	BASE_URL: 'http://t.h5.shenglangnft.com'
 }
 const prod = {
-	BASE_URL: 'http://h5.yuanyinfu.com'
+	// BASE_URL: 'http://h5.yuanyinfu.com'
+	BASE_URL: 'http://t.h5.shenglangnft.com'
 }
 let compileConfig = null
 if (processName === 'development') {
