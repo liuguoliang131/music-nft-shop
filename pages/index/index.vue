@@ -92,7 +92,7 @@
 					sort: this.order
 				}).then(res => {
 					console.log('res', res)
-					this.loginFlag = !res.data.is_login
+					this.loginFlag = !!res.data.is_login
 					this.list = res.data.list || []
 				})
 
