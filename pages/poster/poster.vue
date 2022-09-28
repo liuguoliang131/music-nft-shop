@@ -97,23 +97,23 @@
 			},
 			async getInfo() {
 				try {
-					// const res = await this.$post(h5_collections_index_sharePoster, {
-					// 	product_item_id: this.product_item_id
-					// })
-					// if (res.code !== 0) {
-					// 	return uni.showToast({
-					// 		title: res.msg,
-					// 		icon: 'error'
-					// 	})
-					// }
-					const res = {
-						data: {
-							user_name: '窝里giao',
-							user_avatar: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-10-20%2F5f8eace52a8ff.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666683588&t=4296afb3ffe7983a07a9d16d8b3ccbbf',
-							poster_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fphoto%2F2011-5-29%2Fenterdesk.com-F65D26B61244263D3A0F77230BCB9F16.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666675133&t=eec4a20e79b97c01f3804c90192c5dd1',
-							share_sign: 'xasdasfasfadas'
-						}
+					const res = await this.$post(h5_collections_index_sharePoster, {
+						product_item_id: this.product_item_id
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
 					}
+					// const res = {
+					// 	data: {
+					// 		user_name: '窝里giao',
+					// 		user_avatar: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-10-20%2F5f8eace52a8ff.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666683588&t=4296afb3ffe7983a07a9d16d8b3ccbbf',
+					// 		poster_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fphoto%2F2011-5-29%2Fenterdesk.com-F65D26B61244263D3A0F77230BCB9F16.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666675133&t=eec4a20e79b97c01f3804c90192c5dd1',
+					// 		share_sign: 'xasdasfasfadas'
+					// 	}
+					// }
 					this.initCanvas(res.data)
 				} catch (e) {
 					//TODO handle the exception
