@@ -306,7 +306,7 @@
 
 					} else {
 						uni.navigateTo({
-							url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}`
+							url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}`
 						})
 					}
 
