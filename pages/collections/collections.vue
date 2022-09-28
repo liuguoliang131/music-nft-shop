@@ -34,6 +34,8 @@
 </template>
 
 <script>
+	import {h5_collections_user_collectionList } from '../../request/api.js'
+	import { post } from '../../request/index.js'
 	export default {
 		data() {
 			return {
@@ -42,7 +44,7 @@
 				total_num : 10
 			}
 		},
-		onLoad(){
+		onShow(){
 			this.getList()
 		},
 		methods: {
@@ -58,6 +60,17 @@
 				}
 				
 				this.list = [listItem , listItem , listItem , listItem , listItem ,listItem ,listItem ,listItem ,listItem]
+				
+				post(h5_collections_user_collectionList, {
+					page: this.page,
+					sort: this.order
+				}).then(res => {
+					console.log('res', res)
+					// this.list = [...res.data.list, ...this.list]
+					
+				})
+				
+				
 			},
 			handleGoToDetail() {
 				uni.navigateTo({
