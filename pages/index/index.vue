@@ -78,7 +78,7 @@
 					avatar: '',
 					nick_name: ''
 				},
-				timer
+				timer: null
 			}
 		},
 		onLoad() {
@@ -96,7 +96,6 @@
 		},
 		methods: {
 			getList() {
-				console.log(this.page)
 				post(h5_collections_index_list, {
 					page: 1,
 					sort: this.order
