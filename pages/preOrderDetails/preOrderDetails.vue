@@ -289,7 +289,7 @@
 					})
 					if (res.code !== 0) {
 						if (res.code === 710) {
-							身份认证
+							// 身份认证
 							// uni.navigateTo({
 							// 	url: `/pages/idAuth/idAuth`
 							// })
