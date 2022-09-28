@@ -13,7 +13,7 @@
 				</view>
 				<view class="form-item captcha">
 					<input class="uni-input" maxlength="6" type="number" placeholder="请输入验证码" v-model="form.captcha" />
-					<view v-if="!timer" class="getcaptcha" @tap="handGetCaptcha()">获取验证码</view>
+					<view v-if="!timer" class="getcaptcha" @tap="handShowPopup">获取验证码</view>
 					<view v-else class="getcaptcha">{{countDown}}</view>
 				</view>
 				<view class="agree">
@@ -34,11 +34,20 @@
 		<view class="footer">
 			COPYRIGHT © 2022 HANHOU
 		</view>
+		<!-- <wyb-popup ref="popup" type="bottom" height="701" width="750" radius="6" bgColor="#1D1D1D"
+			:showCloseIcon="true">
+			<view class="popup-content">
+				<tf-verify-img @succeed="verifySuccess" @close="showVerify = false" v-if="showVerify"></tf-verify-img>
+			</view>
+		</wyb-popup> -->
+		<tf-verify-img @succeed="verifySuccess" @close="showVerify = false" v-if="showVerify"></tf-verify-img>
 	</view>
 </template>
 
 <script>
 	import config from '../../utils/uniKey.js'
+	import WybPopup from '../../components/wyb-popup/wyb-popup.vue'
+	import TfVerifyImg from '../../components/tf-verify-img/tf-verify-img.vue'
 	import {
 		getHashQuery
 	} from '../../utils/index.js'
@@ -48,6 +57,10 @@
 		h5_user_info
 	} from '../../request/api.js'
 	export default {
+		components: {
+			WybPopup,
+			TfVerifyImg
+		},
 		data() {
 			return {
 				share_sign: '',
@@ -55,6 +68,7 @@
 					phone: '',
 					captcha: ''
 				},
+				showVerify: false,
 				agree: false,
 				timer: null,
 				countDown: 0
@@ -84,8 +98,8 @@
 			handCheckboxChange(e) {
 				this.agree = !this.agree
 			},
-			// 获取验证码
-			async handGetCaptcha() {
+			// 打开弹窗
+			handShowPopup() {
 				if (!/^[1]{1}[0-9]{10}$/.test(this.form.phone)) {
 					console.log(this.form.phone)
 					return uni.showToast({
@@ -93,6 +107,17 @@
 						icon: 'error'
 					})
 				}
+				this.showVerify = true
+
+			},
+			// 滑动验证成功
+			verifySuccess() {
+				this.showVerify = false
+				this.handGetCaptcha()
+			},
+			// 获取验证码
+			async handGetCaptcha() {
+
 				const res = await this.$post(h5_base_captcha, {
 					phone: this.form.phone,
 					use_type: 6
@@ -373,5 +398,19 @@
 			text-align: center;
 			color: #868686;
 		}
+
+		/deep/.icon-close {
+			font-size: 36rpx;
+		}
+
+		/deep/.wyb-popup-box {
+			z-index: 998 !important;
+		}
+
+		/deep/.wyb-popup-mask {
+			z-index: 997 !important;
+		}
+
+		.popup-content {}
 	}
 </style>
