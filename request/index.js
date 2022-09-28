@@ -12,7 +12,8 @@ const getHeader = (data) => {
 	console.log('store', store)
 	const headers = {
 		'app-id': 'yyf_h5',
-		'x-token': store.state.user.token,
+		// 'x-token': store.state.user.token,
+		'x-token': 'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiOWVlMTFjNDktYmViYS00YmMyLWI1YzgtN2Q2OWFjOGU2NDNkIiwiSUQiOjEwMDAyMywiUGhvbmUiOiIxNTgwMTI1MjM5NSIsIkJ1ZmZlclRpbWUiOjg2NDAwLCJleHAiOjE2NjQ5NTk5MTksImlzcyI6IkhBSEFPbzYzMjQ2MzEiLCJuYmYiOjE2NjQzNTQxMTl9.NtG0AEV-8wiFz5WUNW05KF7_8TRXkf5IPoa-mgVRddiOzgan_HaBxrpaHSvE2q_DL6hdYXbOwBNLrhMDR-aoiQ',
 		ts,
 		ak: 'hanhou-app',
 		sign: ''
