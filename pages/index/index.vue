@@ -78,7 +78,7 @@
 					avatar: '',
 					nick_name: ''
 				},
-				timer
+				timer : undefined
 			}
 		},
 		onLoad() {
@@ -98,32 +98,15 @@
 			getList() {
 				console.log(this.page)
 				post(h5_collections_index_list, {
-					page: 1,
+					page: this.page,
 					sort: this.order
 				}).then(res => {
 					console.log('res', res)
 					this.loginFlag = !!res.data.is_login
 					this.list = [...res.data.list, ...this.list]
 				})
-
-
-				// const listItem = {
-				// 	name: '最新梦想金曲',
-				// 	product_item_id: {
-				// 		index_img: 'https://y.qq.com/music/photo_new/T002R300x300M000002GBegP0KlpSG.jpg?max_age=2592000',
-				// 		sale_time: '10月08日 10:00',
-				// 		stock_num: '2万份',
-				// 		sale_price: '19.90',
-				// 		sale_status: 1,
-				// 		evaluate_type: 'SSR',
-				// 		rare_type: '稀有'
-				// 	}
-				// }
-
-
 			},
 			handleClickUserCenter() {
-				console.log("check user login")
 				if (this.$store.state.user.token) {
 
 				} else {
@@ -281,12 +264,17 @@
 				display: flex;
 				flex-direction: column;
 				padding-left: 20rpx;
-				flex: auto;
+				// flex: auto;
+				width: calc(100vw - 380rpx);
 			}
 
 			&-title {
 				font-size: 16px;
 				font-weight: 500;
+				white-space: nowrap;  
+				 text-overflow:ellipsis; 
+				 overflow:hidden;
+
 			}
 
 			&-time {
