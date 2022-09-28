@@ -93,7 +93,7 @@
 				}).then(res => {
 					console.log('res', res)
 					this.loginFlag = !!res.data.is_login
-					this.list = res.data.list || []
+					this.list = [...res.data.list, ...this.list]
 				})
 
 
@@ -147,6 +147,12 @@
 					url: '/pages/login/login'
 				})
 			}
+		},
+		onShow() {
+			uni.$on('updateData', function(data) {
+				this.list = []
+				this.getList()
+			})
 		}
 	}
 </script>

@@ -22,6 +22,10 @@ export const h5_collections_index_sharePoster = '/h5/collections_index/sharePost
 export const h5_collections_user_collectionList = '/h5/collections_user/collectionList'
 // 12、藏品详情
 export const h5_collections_user_collectionInfo = '/h5/collections_user/collectionInfo'
+// 13、实名认证
+export const h5_collections_user_verified = '/h5/collections_user/verified'
+// 14、是否实名认证过
+export const h5_collections_user_if_approve = '/h5/collections_user/if_approve'
 
 /**
  * @description 首页列表

@@ -14,7 +14,8 @@
 					<input class="uni-input" maxlength="11" placeholder="真实姓名" v-model="form.name" />
 				</view>
 				<view class="form-item captcha">
-					<input class="uni-input" maxlength="18" type="text" placeholder="身份证号" v-model="form.id" />
+					<input class="uni-input" maxlength="18" type="text" placeholder="身份证号"
+						v-model="form.identification_number" />
 				</view>
 				<view class="tips">
 					提示：实名认证会关联到后续的账户提现，请录入您真实的身份信息
@@ -28,13 +29,15 @@
 </template>
 
 <script>
-	// import {} from '../../request/api.js'
+	import {
+		h5_collections_user_verified
+	} from '../../request/api.js'
 	export default {
 		data() {
 			return {
 				form: {
 					name: '',
-					id: ''
+					identification_number: ''
 				}
 			}
 		},
@@ -42,21 +45,28 @@
 			// 点击登录
 			async handValid() {
 				if (!/^[\u4e00-\u9fa5]{1,11}$/.test(this.form.name)) {
-					console.log(this.form.phone)
 					return uni.showToast({
 						title: '真实姓名只能是汉字',
 						icon: 'error'
 					})
 				}
 				if (!(/^[1-9]{1}[0-9Xx]{14,17}$/.test(
-						this.form.id))) {
+						this.form.identification_number))) {
 					return uni.showToast({
 						title: '身份证号不符合规则',
 						icon: 'error'
 					})
 				}
 				try {
-					// const res = await this.$post()
+					const res = await this.$post(h5_collections_user_verified, {
+						...this.form
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
+					}
 					uni.navigateBack({
 						delta: 1
 					})

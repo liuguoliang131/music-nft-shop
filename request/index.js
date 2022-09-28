@@ -65,7 +65,7 @@ export const get = function(url, params = {}) {
 	});
 	return new Promise((resolve, reject) => {
 		uni.request({
-			header: getHeader(data),
+			header: getHeader(params),
 			timeout: 5000,
 			method: 'GET',
 			url: config.BASE_URL + url,

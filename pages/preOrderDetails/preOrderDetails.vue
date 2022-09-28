@@ -140,7 +140,7 @@
 	import WybPopup from '@/components/wyb-popup/wyb-popup.vue'
 	import {
 		h5_collections_index_info,
-		h5_conllections_buy_checkout
+		h5_collections_user_if_approve
 	} from '../../request/api.js'
 	import {
 		getTimeData
@@ -283,39 +283,29 @@
 			// 立即抢购
 			async handOrder() {
 				try {
-					const res = await this.$post(h5_conllections_buy_checkout, {
-						product_item_id: this.product_item_id,
-						buy_num: this.count
-					})
+					const res = await this.$get(h5_collections_user_if_approve)
 					if (res.code !== 0) {
-						if (res.code === 710) {
-							// 身份认证
-							// uni.navigateTo({
-							// 	url: `/pages/idAuth/idAuth`
-							// })
-							return uni.showToast({
-								title: res.msg,
-								icon: 'error'
-							})
-						} else {
-							return uni.showToast({
-								title: res.msg,
-								icon: 'error'
-							})
-						}
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
 
-					} else {
+					}
+					if (res.data) {
 						uni.navigateTo({
 							url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}`
 						})
+					} else {
+						// 身份认证
+						uni.navigateTo({
+							url: `/pages/idAuth/idAuth`
+						})
 					}
 
-					// uni.navigateTo({
-					// 	url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}`
-					// })
 
 				} catch (e) {
 					//TODO handle the exception
+					console.log('error', e)
 					uni.showToast({
 						title: e.message,
 						icon: 'error'
@@ -328,6 +318,9 @@
 			console.log('onload', option)
 			this.product_item_id = Number(option.product_item_id)
 			this.getDetails(this.product_item_id)
+		},
+		onShow() {
+
 		},
 		created() {
 			console.log('created')

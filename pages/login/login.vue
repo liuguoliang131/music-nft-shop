@@ -149,6 +149,7 @@
 						title: '登录成功'
 					})
 					if (getCurrentPages().length > 1) {
+						uni.$emit('updateData', null)
 						uni.navigateBack({
 							delta: 1
 						})

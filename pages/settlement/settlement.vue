@@ -64,6 +64,7 @@
 	} from '../../utils/index.js'
 	import {
 		h5_conllections_buy_checkout,
+		h5_collections_buy_submit,
 		h5_collections_buy_result
 	} from '../../request/api.js'
 	export default {
