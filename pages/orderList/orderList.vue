@@ -47,6 +47,9 @@
 					</view>
 				</view>
 			</view>
+			<view class="center" v-if="list.length === 0">
+				暂无数据
+			</view>
 		</scroll-view>
 	</view>
 </template>
@@ -90,6 +93,7 @@
 			handleClickNavItem(e){
 				this.activeNav = e
 				this.page = 1
+				this.list = []
 				this.getList()
 			},
 			handleGoToDetail(e){
@@ -219,5 +223,14 @@
 			background-color: #E8D18A;
 			color: #333;
 		}
+	}
+	.center{
+		width: 100%;
+		height: 200rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 28rpx;
+		color: #666666;
 	}
 </style>
