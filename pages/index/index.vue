@@ -1,11 +1,15 @@
 <template>
 	<view class="container">
 		<view class="container-header">
-			<view class="user-center" @click="handleClickUserCenter">
-				<image src="https://avatars.githubusercontent.com/u/56402715?v=4" mode=""></image>
+			<view v-if="userInfo" class="user-center" @click="handleClickUserCenter">
+				<image class="avatar" :src="userInfo.avatar" mode=""></image>
+				<text>{{userInfo.nick_name||'未设置'}}</text>
+			</view>
+			<view v-else class="user-center" @click="handleClickUserCenter">
+				<text class="avatar"></text>
 				<text>未登录</text>
 			</view>
-			<view class="tag">
+			<view class="tag" @tap="handGoDownload">
 				<image src="../../static/logo.png" class="logo" mode=""></image>
 				<text>来自元音符</text>
 			</view>
@@ -62,6 +66,7 @@
 	import {
 		h5_collections_index_list
 	} from '@/request/api.js'
+	import config from '../../utils/uniKey.js'
 	export default {
 		data() {
 			return {
@@ -69,6 +74,11 @@
 				order: 1,
 				page: 1,
 				list: [],
+				userInfo: {
+					avatar: '',
+					nick_name: ''
+				},
+				timer
 			}
 		},
 		onLoad() {
@@ -114,6 +124,11 @@
 			},
 			handleClickUserCenter() {
 				console.log("check user login")
+				if (this.$store.state.user.token) {
+
+				} else {
+
+				}
 			},
 			handleChangeOrder() {
 				this.order = this.order === 1 ? 2 : 1
@@ -146,10 +161,26 @@
 				uni.navigateTo({
 					url: '/pages/login/login'
 				})
+			},
+			// 去下载
+			handGoDownload() {
+				uni.showToast({
+					title: '即将跳转到元音符App下载页面',
+					icon: 'none',
+					duration: 3000
+				})
+				if (this.timer) return false
+				this.timer = setTimeout(() => {
+					clearTimeout(this.timer)
+					this.timer = null
+					window.location.href = config.APP_DOWNLOAD_URL
+				}, 3000)
 			}
 		},
 		onShow() {
-			uni.$on('updateData', function(data) {
+			this.userInfo = JSON.parse(JSON.stringify(this.$store.state.user.userInfo))
+
+			uni.$on('updateData', (data) => {
 				this.list = []
 				this.getList()
 			})
@@ -162,7 +193,7 @@
 		display: flex;
 		align-items: center;
 
-		image {
+		.avatar {
 			width: 64rpx;
 			height: 64rpx;
 			border-radius: 50%;

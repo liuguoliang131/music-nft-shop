@@ -41,7 +41,8 @@
 	} from '../../utils/index.js'
 	import {
 		h5_base_login,
-		h5_base_captcha
+		h5_base_captcha,
+		h5_user_info
 	} from '../../request/api.js'
 	export default {
 		data() {
@@ -123,18 +124,19 @@
 				this.login()
 
 			},
-			login() {
-				const {
-					query
-				} = getHashQuery()
-				const data = {
-					phone: this.form.phone,
-					captcha: this.form.captcha
-				}
-				if (query.share_sign) {
-					data.share_sign = query.share_sign
-				}
-				this.$post(h5_base_login, data).then(res => {
+			async login() {
+				try {
+					const {
+						query
+					} = getHashQuery()
+					const data = {
+						phone: this.form.phone,
+						captcha: this.form.captcha
+					}
+					if (query.share_sign) {
+						data.share_sign = query.share_sign
+					}
+					const res = await this.$post(h5_base_login, data)
 					console.log(res)
 					if (res.code !== 0) {
 						return uni.showToast({
@@ -143,7 +145,14 @@
 						})
 					}
 					this.$store.commit('user/set_token', res.data.token)
-					this.$store.commit('user/set_userInfo', res.data.user_info)
+					const res1 = await this.$get(h5_user_info)
+					if (res1.code !== 0) {
+						return uni.showToast({
+							title: res1.msg,
+							icon: 'error'
+						})
+					}
+					this.$store.commit('user/set_userInfo', res1.data)
 					uni.showToast({
 						icon: 'success',
 						title: '登录成功'
@@ -158,13 +167,16 @@
 							url: '/pages/index/index'
 						})
 					}
-				}).catch(error => {
-					console.log('error', error)
+
+				} catch (e) {
+					//TODO handle the exception
+					console.log('error', e)
 					uni.showToast({
 						icon: 'error',
-						title: 'error'
+						title: e.message
 					})
-				})
+				}
+
 			}
 		},
 		onLoad() {

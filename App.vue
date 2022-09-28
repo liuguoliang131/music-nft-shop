@@ -1,9 +1,18 @@
 <script>
+	import {
+		getUserInfo,
+		setUserInfo,
+		getToken,
+		setToken,
+		isApp
+	} from 'utils/index.js'
+	import {
+		h5_user_info
+	} from 'request/api.js'
 	export default {
-		onLaunch: function() {
-			console.log('App Launch')
-			try {
-				if (HSApp) {
+		methods: {
+			onWebEntry() {
+				if (isApp()) {
 					if (document.cookie) {
 						console.log(document.cookie)
 						const arr = document.cookie.split('&')
@@ -11,17 +20,30 @@
 							if (item.includes('x-token')) {
 								const token = item.substring(8, item.length)
 								console.log('x-token', token)
-								window.localStorage.setItem('x-token', token)
+								this.$store.commit('user/set_token', token)
 							}
 						})
+						this.$get(h5_user_info).then(res => {
+							if (res.code !== 0) {
+								return uni.showToast({
+									title: res.msg,
+									icon: 'error'
+								})
+							}
+							this.$store.commit('user/set_userInfo', res.data)
+						})
+
 					} else {
-						window.localStorage.removeItem('x-token')
+						this.$store.commit('user/set_token', '')
+						this.$store.commit('user/set_userInfo', '')
 					}
 				}
-			} catch (error) {
-				throw error
 			}
+		},
 
+		onLaunch: function() {
+			console.log('App Launch')
+			this.onWebEntry()
 		},
 		onShow: function() {
 			console.log('App Show')

@@ -284,21 +284,20 @@
 			async handOrder() {
 				try {
 					const res = await this.$get(h5_collections_user_if_approve)
-					if (res.code !== 0) {
-						return uni.showToast({
-							title: res.msg,
-							icon: 'error'
-						})
-
-					}
-					if (res.data) {
+					if (res.code === 200) {
 						uni.navigateTo({
 							url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}`
 						})
-					} else {
+					} else if (res.code === 7) {
 						// 身份认证
 						uni.navigateTo({
 							url: `/pages/idAuth/idAuth`
+						})
+
+					} else {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
 						})
 					}
 

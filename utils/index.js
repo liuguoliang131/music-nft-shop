@@ -1,4 +1,4 @@
-import {
+import config, {
 	processName,
 	TOKEN,
 	USER_INFO
@@ -196,5 +196,31 @@ export const getTimeData = (date) => {
 		hh,
 		MM,
 		ss
+	}
+}
+
+// 如果在APP内 跳转   否则跳转到下载页
+let timer = null
+export const jumpBefore = (url, fail) => {
+	if (isApp()) {
+		uni.navigateTo({
+			url
+		})
+	} else {
+		if (fail) {
+			fail()
+		} else {
+			uni.showToast({
+				title: '即将跳转到元音符App下载页面',
+				icon: 'none',
+				duration: 3000
+			})
+			if (timer) return false
+			timer = setTimeout(() => {
+				clearTimeout(timer)
+				timer = null
+				window.location.href = config.APP_DOWNLOAD_URL
+			}, 3000)
+		}
 	}
 }

@@ -22,7 +22,13 @@ const getHeader = (data) => {
 		sortParams[idx] = key + '=' + data[key]
 	})
 	const afterUrl = sortParams.join('&') // 参数串
-	const sign = md5(afterUrl + '&ak=' + 'hanhou-app' + '&ts=' + ts + onlykey)
+	let md5After = ''
+	if (afterUrl) {
+		md5After = afterUrl + '&ak=' + 'hanhou-app' + '&ts=' + ts + onlykey
+	} else {
+		md5After = 'ak=' + 'hanhou-app' + '&ts=' + ts + onlykey
+	}
+	const sign = md5(md5After)
 	headers.sign = sign
 	return headers
 

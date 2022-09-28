@@ -7,6 +7,13 @@ import {
 	get
 } from './request/index.js'
 import store from './store/index.js'
+import {
+	getUserInfo,
+	setUserInfo,
+	getToken,
+	setToken,
+	isApp
+} from './utils/index.js'
 Vue.prototype.$store = store
 Vue.config.productionTip = false
 App.mpType = 'app'
