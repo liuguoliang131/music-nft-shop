@@ -7,13 +7,18 @@
 			<text class="title-l"></text>
 			最新梦想单曲
 		</view>
-		<view class="box">
-			<view class="list">
-				<view class="item" v-for="item in 29">{{item}}</view>
+		<view class="list">
+			<view class="item" v-for="(item,index) in 29">
+				<text class="item-name">
+					{{index+1<10?'0'+(index+1):index+1}}
+				</text>
+				<text class="item-author">
+					黑旗子
+				</text>
 			</view>
-			<view class="player">
-				播放器
-			</view>
+		</view>
+		<view class="player">
+			播放器
 		</view>
 	</view>
 </template>
@@ -72,7 +77,7 @@
 		}
 
 		.title {
-			position: absolute;
+			position: fixed;
 			top: 88rpx;
 			left: 0;
 			display: flex;
@@ -81,6 +86,7 @@
 			height: 82rpx;
 			font-size: 36rpx;
 			color: #AC9147;
+			background-color: $uni-bg-color;
 
 			.title-l {
 				width: 6rpx;
@@ -92,27 +98,27 @@
 			}
 		}
 
-		.box {
-			position: relative;
-			height: calc(100% - 88rpx);
+		.list {
+			padding-top: 170rpx;
+			padding-bottom: 120rpx;
+			width: 100%;
+			overflow-y: scroll;
 
-			.list {
-				flex: 1;
-				padding-top: 82rpx;
-				padding-bottom: 120rpx;
-				width: 100%;
-				overflow-y: scroll;
+			.item {
+				margin: 0 24rpx;
+				height: 102rpx;
+				border-bottom: 1rpx solid #363636;
 			}
-
-			.player {
-				position: fixed;
-				bottom: 0;
-				left: 0;
-				width: 100%;
-				height: 120rpx;
-				background-color: #fff;
-			}
-
 		}
+
+		.player {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 120rpx;
+			background-color: #fff;
+		}
+
 	}
 </style>
