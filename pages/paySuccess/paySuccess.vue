@@ -117,6 +117,7 @@
 				background: #FFFFFF;
 				border-radius: 90rpx;
 				color: #DC2D1E;
+				margin-right: 30rpx;
 
 				&:active {
 					background-color: rgba(255, 255, 255, 0.7);

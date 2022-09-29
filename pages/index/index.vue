@@ -1,12 +1,12 @@
 <template>
 	<view class="container">
 		<view class="container-header">
-			<view  @tap="handGoDownload">
+			<view @tap="handGoDownload">
 				<image src="../../static/logo-line.png" class="logo" mode=""></image>
 			</view>
 			<view v-if="userInfo" class="user-center" @click="handleClickUserCenter">
 				<image class="avatar" :src="userInfo.avatar" mode=""></image>
-				<text>{{userInfo.nick_name||'未设置'}}</text>
+				<text>{{userInfo.nick_name||userInfo.phone}}</text>
 			</view>
 			<view v-else class="user-center" @click="handleClickUserCenter">
 				<image class="avatar" src="../../static/userNotLogin.png" mode=""></image>
@@ -41,7 +41,7 @@
 						<view class="list-item-tag">限量{{item.stock_num_desc}}张</view>
 						<view class="list-item-price-box">
 							<view class="list-item-price">￥{{item.sale_price}}</view>
-							
+
 						</view>
 					</view>
 					<view style="min-width: 100rpx;">
@@ -311,7 +311,7 @@
 				font-weight: 500;
 				font-size: 16px;
 				line-height: 22px;
-				
+
 				color: #ECECEC;
 
 			}
@@ -368,7 +368,7 @@
 		text {
 			font-size: 16px;
 			line-height: 22px;
-			
+
 			color: #ECECEC;
 		}
 
@@ -410,7 +410,8 @@
 			opacity: 1;
 		}
 	}
-	.logo{
+
+	.logo {
 		width: 160rpx;
 		height: 48rpx;
 	}

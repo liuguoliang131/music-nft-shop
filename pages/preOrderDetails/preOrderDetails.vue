@@ -22,7 +22,8 @@
 				<image v-else-if="data.rare_type==='SR'" src="../../static/Frame 1000006234.png" mode=""></image>
 				{{data.name}}
 			</view>
-			<view class="row2">{{data.sale_time1}}&nbsp;{{data.sale_status===0?'未开售':(data.sale_status===1?'开售':'已售罄')}}
+			<view class="row2">
+				{{data.sale_time1}}&nbsp;{{data.sale_status===0?'未开售':(data.sale_status===1?'开售中':'已售罄')}}
 				<text>限量{{data.stock_num_desc}}张</text>
 			</view>
 			<view class="price">
@@ -85,9 +86,9 @@
 				<image class="abs-img" src="../../static/share.png"></image>
 				<text class="abs-text">分享</text>
 			</view>
-			<view v-if="data.sale_status===0" class="footer-btn noactive" @tap="handOrLogin">{{countDown}}</view>
+			<view v-if="data.sale_status===0" class="footer-btn noactive" @tap="handOrLogin(0)">{{countDown}}</view>
 			<view v-else-if="data.sale_status===1" class="footer-btn" @tap="$refs.popup.show()">立即抢购</view>
-			<view v-else-if="data.sale_status===2" class="footer-btn gray-btn" @tap="handOrLogin">已售罄</view>
+			<view v-else-if="data.sale_status===2" class="footer-btn gray-btn" @tap="handOrLogin(2)">已售罄</view>
 		</view>
 		<wyb-popup ref="popup" type="bottom" height="701" width="750" radius="6" bgColor="#1D1D1D"
 			:showCloseIcon="true">
@@ -330,10 +331,13 @@
 				})
 			},
 			// 是否去登录 
-			handOrLogin() {
-				uni.showToast({
-					title: '已售罄，感谢您的关注'
-				})
+			handOrLogin(status) {
+				if (status === 2) {
+					uni.showToast({
+						title: '已售罄，感谢您的关注'
+					})
+				}
+
 				if (!this.data.is_login) {
 					let url = '/pages/login/login'
 					if (this.share_sign) {
@@ -742,8 +746,8 @@
 			}
 
 			.noactive {
-				background: #D10910;
-				color: #ECECEC;
+				background: #D10910 !important;
+				color: #ECECEC !important;
 			}
 
 			.gray-btn {

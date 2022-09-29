@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<view class="notice">
-			最新梦想金曲 当前拥有{{total_num}}张
+			当前拥有{{total_num}}张
 		</view>
 
 		<scroll-view scroll-y style="height: calc(100vh - 180rpx);padding-top: 84rpx;"

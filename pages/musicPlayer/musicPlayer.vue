@@ -27,18 +27,21 @@
 					<text class="music-name">歌曲名</text>
 					<text class="music-author">歌手名</text>
 				</view>
-				<view class="progress">
-					<view class="box1">
-
-					</view>
-					<view class="box2">
-						<text class="box2-now">01:12</text>
-						<text class="box2-all">03:54</text>
-					</view>
+				<view class="box2">
+					<text class="box2-now">01:12</text>
+					<text class="box2-line">/</text>
+					<text class="box2-all">03:54</text>
 				</view>
 			</view>
 			<image class="player-icon" src="../../static/Frame 1000006041.png" mode=""></image>
 			<!-- <image class="player-icon" src="../../static/Frame 1000006042.png" mode=""></image> -->
+			<view class="progress">
+				<view class="bar"></view>
+				<view class="bar-red" ref="barRed">
+					<view class="red-btn" @touchmove="handTouchmove"></view>
+					<view class="red-line"></view>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -64,6 +67,16 @@
 						delta: 1, //返回层数，2则上上页
 					})
 				}
+			},
+			// 拖动进度条
+			handTouchmove(e) {
+				const clientWidth = window.innerWidth
+				const clientX = e.touches[0].pageX
+				const parentX = this.$refs.barRed.$el.offsetLeft
+				console.log('鼠标距离左侧', e.touches[0].pageX)
+				console.dir(this.$refs.barRed.$el.offsetLeft)
+				this.$refs.barRed.$el.style.left = clientX - 282 - 136 + 'px'
+
 			}
 		}
 	}
@@ -188,6 +201,7 @@
 
 			.player-c {
 				flex: 1;
+				height: 80rpx;
 				background-color: rgba(0, 0, 0, 0.1);
 
 				.music {
@@ -212,27 +226,73 @@
 					}
 				}
 
-				.progress {
-					height: 42rpx;
-					display: flex;
-					align-items: center;
+				.box2 {
+					padding-left: 300rpx;
+					background-color: pink;
+					width: 158rpx;
+					font-size: 20rpx;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
 
-					.box1 {
-						width: 308rpx;
-
-					}
-
-					.box2 {
-						background-color: pink;
-						width: 150rpx;
+					.box2-line {
+						margin: 0 8rpx;
 					}
 				}
+
+
+
 			}
 
 			.player-icon {
 				width: 72rpx;
 				height: 72rpx;
 				margin-right: 50rpx;
+			}
+
+			.progress {
+				position: absolute;
+				top: 60rpx;
+				left: 136rpx;
+				width: 300rpx;
+				height: 42rpx;
+				overflow: hidden;
+				display: flex;
+				align-items: center;
+
+				.bar {
+					width: 280rpx;
+					height: 3rpx;
+					background: #AEAEAE;
+				}
+
+				.bar-red {
+					position: absolute;
+					top: 0;
+					left: -50rpx;
+					display: flex;
+					align-items: center;
+					width: 280rpx;
+					height: 42rpx;
+
+					.red-line {
+						width: 280rpx;
+						height: 3rpx;
+						background: #D10910;
+					}
+
+					.red-btn {
+						position: absolute;
+						top: 12rpx;
+						right: -9rpx;
+						width: 18rpx;
+						height: 18rpx;
+						background: #D10910;
+						border-radius: 9rpx;
+					}
+				}
+
+
 			}
 		}
 
