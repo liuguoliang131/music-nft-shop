@@ -96,7 +96,7 @@
 			filterStatus(e) {
 				const list = {
 					0: '未开售',
-					1: '售卖中',
+					1: '开售中',
 					2: '已售罄'
 				}
 				return list[e] || '已售罄'
