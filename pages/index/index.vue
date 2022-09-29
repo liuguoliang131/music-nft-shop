@@ -1,9 +1,8 @@
 <template>
 	<view class="container">
 		<view class="container-header">
-			<view class="tag" @tap="handGoDownload">
-				<image src="../../static/logo.png" class="logo" mode=""></image>
-				<text>来自元音符</text>
+			<view  @tap="handGoDownload">
+				<image src="../../static/logo-line.png" class="logo" mode=""></image>
 			</view>
 			<view v-if="userInfo" class="user-center" @click="handleClickUserCenter">
 				<image class="avatar" :src="userInfo.avatar" mode=""></image>
@@ -42,9 +41,12 @@
 						<view class="list-item-tag">限量{{item.stock_num_desc}}张</view>
 						<view class="list-item-price-box">
 							<view class="list-item-price">￥{{item.sale_price}}</view>
-							<view class="list-item-price-dit" :class="item.sale_status === 2 ? '' :'active'">
-								{{item.sale_status | filterStatus}}
-							</view>
+							
+						</view>
+					</view>
+					<view style="min-width: 100rpx;">
+						<view class="list-item-price-dit">
+							{{item.sale_status | filterStatus}}
 						</view>
 					</view>
 				</view>
@@ -248,13 +250,13 @@
 		padding: 20rpx 0;
 
 		&-item {
-			border-radius: 12px;
+			border-radius: 10px;
 			border: 0.5px solid #5F5F5F;
 			border-radius: 10px;
 			// background-color: #454545;
-			padding: 20rpx 20rpx;
+			padding: 10rpx;
 			display: flex;
-			align-items: center;
+			align-items: flex-start;
 			margin-bottom: 40rpx;
 
 
@@ -282,7 +284,6 @@
 				border-radius: 10px 0 10px 0;
 				font-weight: 700;
 				color: #B17A0F;
-				transform: matrix(0.99, 0, -0.12, 1, 0, 0);
 				background: linear-gradient(102.78deg, #FFE476 0%, #FFEDBE 100%);
 			}
 
@@ -291,6 +292,7 @@
 				flex-direction: column;
 				padding-left: 20rpx;
 				flex: auto;
+				color: #AEAEAE;
 			}
 
 			&-title {
@@ -303,6 +305,14 @@
 				-webkit-line-clamp: 2; //行数
 				line-clamp: 2;
 				-webkit-box-orient: vertical; //盒子中内容竖直排列
+				font-family: 'PingFang SC';
+				font-style: normal;
+				font-weight: 500;
+				font-size: 16px;
+				line-height: 22px;
+				
+				color: #ECECEC;
+
 			}
 
 			&-time {
@@ -318,8 +328,8 @@
 			}
 
 			&-price {
-				font-size: 15px;
-				color: #E8D18A;
+				font-size: 18px;
+				color: #D10910;
 				font-weight: 500;
 
 				&-box {
@@ -331,13 +341,9 @@
 				}
 
 				&-dit {
-					font-size: 12px;
-					font-weight: 300;
-					color: #999;
-
-					&.active {
-						color: #E8938A;
-					}
+					font-size: 14px;
+					line-height: 20px;
+					color: #AC9147;
 				}
 			}
 		}
@@ -348,29 +354,31 @@
 		bottom: 20rpx;
 		left: 20rpx;
 		right: 20rpx;
-		background-color: #BC181E;
+		background-color: #201A17;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		padding: 0 40rpx;
 		border-radius: 50px;
-		height: 44px;
+		height: 55px;
 		-webkit-animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 		animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 
 		text {
-			font-size: 13px;
-			color: #000;
+			font-size: 16px;
+			line-height: 22px;
+			
+			color: #ECECEC;
 		}
 
 		.to-login {
 			padding: 0 60rpx;
-			height: 50rpx;
-			line-height: 50rpx;
-			border-radius: 50px;
-			background-color: #C9B679;
-			font-size: 12px;
-			color: #000;
+			height: 80rpx;
+			line-height: 80rpx;
+			font-size: 16px;
+			color: #ECECEC;
+			background: #D10910;
+			border-radius: 38px;
 		}
 	}
 
@@ -400,5 +408,9 @@
 			transform: translateY(0);
 			opacity: 1;
 		}
+	}
+	.logo{
+		width: 160rpx;
+		height: 48rpx;
 	}
 </style>
