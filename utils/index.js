@@ -224,3 +224,14 @@ export const jumpBefore = (url, fail) => {
 		}
 	}
 }
+
+export const filterTime = (time) =>{
+	const da = new Date(time);
+	var year = da.getFullYear();
+	var month = da.getMonth()+1;
+	var date = da.getDate();
+	const h = da.getHours() 
+	const m = da.getMinutes()
+	const s = da.getSeconds()
+	return `${[year,month,date].join('/') } ${[h,m,s].join(':')}`
+}

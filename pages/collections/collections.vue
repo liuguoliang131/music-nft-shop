@@ -111,45 +111,45 @@
 	.item {
 		// width: calc(50vw - 40rpx);
 		overflow: hidden;
-		background-color: #2D2B2B;
-		border-radius: 12px;
-		padding: 10rpx 20rpx;
+		padding: 10rpx 10rpx;
 		display: flex;
 		flex-direction: column;
+		border: 0.5px solid #5F5F5F;
+		border-radius: 10px;
 
 		&-image {
 			border-radius: 12px;
-			width: 100%;
-			height: auto;
+			width: calc(50vw - 70rpx);
+			height: calc(50vw - 70rpx);
 			position: relative;
 			padding-bottom: 20rpx;
 
 			&-image {
 				width: 100%;
-				aspect-ratio: 6/5;
+				height: 100%;
 				background-size: cover;
 				background-position: center center;
-				border-radius: 12px;
+				border-radius: 10px;
 			}
 
 			&-level {
 				position: absolute;
-				top: 20rpx;
+				top: 0;
 				left: 0;
-				width: 64rpx;
+				// width: 64rpx;
 				font-size: 12px;
-				color: #333;
-				background: linear-gradient(92.38deg, rgba(232, 209, 138, 1) 10.66%, rgba(171, 148, 73, 1) 94.64%);
-				padding: 4rpx 20rpx;
-				border-radius: 0 50px 50px 0;
+				background: linear-gradient(102.78deg, #FFE476 0%, #FFEDBE 100%);
+				padding: 8rpx 30rpx;
+				border-radius: 10px 0 10px 0;
 				font-weight: 500;
+				color: #B17A0F;
 			}
 		}
 
 		&-title {
 			font-size: 16px;
 			font-weight: 500;
-			color: #E8D18A;
+			// color: #E8D18A;
 		}
 
 		&-number {

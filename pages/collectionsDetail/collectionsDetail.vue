@@ -1,76 +1,89 @@
 <template>
-	<view class="container">
-		<view class="title">
-			专辑信息
-		</view>
-
-		<view class=" mt-2" style="display: flex;align-items: center;">
-			<image :src="detail.index_img"
-				class="image" mode=""></image>
-			<view class="box">
-				<view class="box-title">
-					{{detail.name}}
-				</view>
-				<view class="number">
-					包含{{detail.singles_num}}首作品
-				</view>
-				<view class="number">
-					发 行 方 {{detail.publish_author}}
-				</view>
-				<view class="number">
-					发行时间 {{detail.publish_time}}
-				</view>
-				<view class="number price">
-					发行价格 ¥{{detail.sale_price}}元/张
+	<view class="container collection">
+		
+		
+		<view class="collection-head">
+			<view class="collection-head-box" style="background-image: url(../../static/image-7%201-1.png);">
+				<view class="collection-head-box-1">
+					<image :src="detail.index_img" class="collection-head-box-image" mode=""></image>
 				</view>
 			</view>
-		</view>
-		<view class="title mt-2">
-			认证信息
-		</view>
-		<view class="flex">
-			<view class="key number" style="width: 250rpx;">
-				Record Number
+			<view class="collection-head-title">
+				<!-- <image src="../../static/Frame%201000006238.png" mode=""></image> -->
+				<text class="level">{{detail.rare_type}}</text>
+				<text>{{detail.name}}</text>
 			</view>
-			<view class="number" style="flex-flow: wrap;">
-				{{detail.code_num}}
+			<view class="collection-head-tags">
+				{{filterTimes(detail.publish_time)}}开售  限量{{detail.stock_num}}张
 			</view>
-		</view>
-		<view class="flex">
-			<view class="key number" style="width: 250rpx;">
-				Contract Address
-			</view>
-			<view class="number" style="flex-flow: wrap;">
-				{{detail.contract_address}}
-			</view>
-		</view>
-		<view class="flex">
-			<view class="key number" style="width: 250rpx;">
-				Token ID
-			</view>
-			<view class="number" style="flex-flow: wrap;">
-				{{detail.token_id}}
-			</view>
-		</view>
-		<view class="flex">
-			<view class="key number" style="width: 250rpx;">
-				Token Standard
-			</view>
-			<view class="number" style="flex-flow: wrap;">
-				{{detail.token_standard}}
-			</view>
-		</view>
-
-
-		<view class="" v-for="(item , index) in detail.music_list" :key='index'>
-			<view class="title mt-2">
-				{{item.name}}
-			</view>
-			<view class="content">
-				{{item.desc}}
+			<view class="collection-head-price price">
+				{{detail.sale_price}}元/张
 			</view>
 		</view>
 		
+		
+		
+		<view class="collection-box">
+			<view class="collection-box-box">
+				<view class="title">
+					专辑信息
+				</view>
+				
+				<view class="flex">
+					<view class="key number" style="width: 120rpx;">
+						专辑名称
+					</view>
+					<view class="number" style="flex-flow: wrap;">
+						{{detail.rare_type}}
+					</view>
+				</view>
+				<view class="flex">
+					<view class="key number" style="width: 120rpx;">
+						稀有度
+					</view>
+					<view class="number" style="flex-flow: wrap;">
+						{{detail.name}}
+					</view>
+				</view>
+				<view class="flex">
+					<view class="key number" style="width: 120rpx;">
+						发行量
+					</view>
+					<view class="number" style="flex-flow: wrap;">
+						{{detail.stock_num}}张
+					</view>
+				</view>
+				<view class="flex">
+					<view class="key number" style="width: 120rpx;">
+						发行方
+					</view>
+					<view class="number" style="flex-flow: wrap;">
+						{{detail.publish_author}}
+					</view>
+				</view>
+				<view class="flex">
+					<view class="key number" style="width: 120rpx;">
+						发行时间
+					</view>
+					<view class="number" style="flex-flow: wrap;">
+						{{detail.publish_time}}
+					</view>
+				</view>
+			
+			</view>
+		</view>
+		<view class="collection-box">
+			<view class="collection-box-box">
+				<view class="" v-for="(item , index) in detail.music_list" :key='index'>
+					<view class="title mt-2">
+						{{item.name}}
+					</view>
+					<view class="content">
+						{{item.desc}}
+					</view>
+				</view>
+			</view>
+		</view>
 		<view class="container-bottom">
 			<button class="my-btn" @click="showCre">查看证书</button>
 		</view>
@@ -137,6 +150,7 @@
 <script>
 	import {h5_collections_user_collectionInfo , h5_order_detail } from '../../request/api.js'
 	import { post } from '../../request/index.js'
+	import dayjs from 'dayjs'
 	export default {
 		data() {
 			return {
@@ -181,6 +195,9 @@
 			
 		},
 		methods: {
+			filterTimes(e){
+				return dayjs(e).format('YYYY/MM/DD HH:mm:ss')
+			},
 			getDetail(e){
 				post(h5_collections_user_collectionInfo , {owner_id : Number(e)}).then(res =>{
 					console.log(res)
@@ -209,23 +226,87 @@
 	.container{
 		padding-bottom: 120rpx;
 	}
+	.collection{
+		&-box{
+			background: #151516;
+			border-radius: 4px;
+			// width: 100%;
+			padding: 20rpx;
+			&-box{
+				background: #151516;
+				border: 0.5px solid #5B5B5B;
+				border-radius: 4px;
+				padding: 20rpx;
+			}
+		}
+		&-head{
+			width: 100%;
+			height: 800rpx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+			&-box{
+				width: 400rpx;
+				height: 400rpx;
+				background-position: center;
+				background-size: cover;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				&-1{
+					background-image: url(../../static/Frame%2077.png);
+					width: 326rpx;
+					height: 326rpx;
+					background-position: center;
+					background-size: cover;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
+				&-image{
+					width: 200rpx;
+					height: 200rpx;
+					border-radius: 50%;
+				}
+			}
+			&-title{
+				margin-top: 26rpx;
+				font-family: 'PingFang SC';
+				font-style: normal;
+				font-weight: 500;
+				font-size: 18px;
+				line-height: 25px;
+				text-align: center;
+				
+				color: #ECECEC;
+			}
+			&-tags{
+				margin-top: 9rpx;
+				font-weight: 400;
+				font-size: 13px;
+				line-height: 18px;
+				text-align: right;
+				color: #AEAEAE;
+			}
+		}
+	}
 	.title {
-		font-size: 13px;
+		font-size: 32rpx;
 		color: #AB9449;
 		font-weight: 500;
 		position: relative;
-		padding-left: 20rpx;
 
-		&::before {
-			content: '';
-			width: 10rpx;
-			height: 100%;
-			background-color: #AB9449;
-			position: absolute;
-			left: 0;
-			top: 0;
-			border-radius: 4px;
-		}
+		// &::before {
+		// 	content: '';
+		// 	width: 10rpx;
+		// 	height: 100%;
+		// 	background-color: #AB9449;
+		// 	position: absolute;
+		// 	left: 0;
+		// 	top: 0;
+		// 	border-radius: 4px;
+		// }
 	}
 
 	.mt-2 {
@@ -323,14 +404,16 @@
 	.flex{
 		display: flex;
 		align-items: flex-start;
-		justify-content: center;
+		// justify-content: center;
 		// flex-wrap: wrap;
 		flex-shrink: 0;
+		flex: 1;
+		width: 100%;
 		
 		.number{
 			// flex: 1;
 			text-align: left;
-			width: calc(100% - 240rpx);
+			width: calc(100% - 120rpx);
 			word-break:break-all;
 		}
 		.key{
@@ -438,5 +521,12 @@
 	  margin-right: 0;
 	  min-height: 100rpx;
 	}
-	
+	.level{
+		font-size: 12px;
+		background: linear-gradient(102.78deg, #FFE476 0%, #FFEDBE 100%);
+		padding: 8rpx 30rpx;
+		border-radius: 10px 0 10px 0;
+		font-weight: 500;
+		color: #B17A0F;
+	}
 </style>

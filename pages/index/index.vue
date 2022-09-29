@@ -1,6 +1,10 @@
 <template>
 	<view class="container">
 		<view class="container-header">
+			<view class="tag" @tap="handGoDownload">
+				<image src="../../static/logo.png" class="logo" mode=""></image>
+				<text>来自元音符</text>
+			</view>
 			<view v-if="userInfo" class="user-center" @click="handleClickUserCenter">
 				<image class="avatar" :src="userInfo.avatar" mode=""></image>
 				<text>{{userInfo.nick_name||'未设置'}}</text>
@@ -9,10 +13,7 @@
 				<text class="avatar"></text>
 				<text>未登录</text>
 			</view>
-			<view class="tag" @tap="handGoDownload">
-				<image src="../../static/logo.png" class="logo" mode=""></image>
-				<text>来自元音符</text>
-			</view>
+			
 		</view>
 
 		<view class="container-body">
@@ -41,7 +42,7 @@
 						<view class="list-item-tag">{{item.rare_type}}</view>
 						<view class="list-item-price-box">
 							<view class="list-item-price">￥{{item.sale_price}}</view>
-							<view class="list-item-price-dit active">{{item.sale_status | filterStatus}}
+							<view class="list-item-price-dit" :class="item.sale_status === 2 ? '' :'active'">{{item.sale_status | filterStatus}}
 							</view>
 						</view>
 					</view>
@@ -89,9 +90,9 @@
 				const list = {
 					0: '未开售',
 					1: '售卖中',
-					2: '售罄'
+					2: '已售罄'
 				}
-				return list[e] || '售罄'
+				return list[e] || '已售罄'
 			}
 		},
 		methods: {
@@ -122,11 +123,12 @@
 
 			},
 			handleClickUserCenter() {
-				console.log("check user login")
 				if (this.$store.state.user.token) {
-
+					uni.navigateTo({
+						url:'/pages/mine/mine'
+					})
 				} else {
-
+					this.handLogin()
 				}
 			},
 			handleChangeOrder() {
@@ -316,6 +318,7 @@
 				&-dit {
 					font-size: 12px;
 					font-weight: 300;
+					color: #999;
 
 					&.active {
 						color: #E8938A;

@@ -14,7 +14,7 @@
 					<view class="order-body-item-imageBox-image"
 						:style="`background-image:url(${item.index_img})`">
 					</view>
-					<view class="order-body-item-imageBox-level">
+					<view class="order-body-item-imageBox-level" v-if="item.evaluate_type">
 						{{item.evaluate_type}}
 					</view>
 				</view>
@@ -23,26 +23,34 @@
 						<view class="order-body-item-title">
 							{{item.title}}
 						</view>
-						<view class="order-body-item-type">
+						<view class="order-body-item-type" style="color: #D10910;">
 							{{item.order_status | filterStatus}} <text class="cuIcon-right"></text>
 						</view>
 					</view>
 					<view class="order-body-item-box-flex">
-						<view class="order-body-item-price">
-							实付金额 ￥{{item.order_total_price}}
-						</view>
-						<view class="order-body-item-type">
-							× {{item.buy_num}}
-						</view>
-					</view>
-					
-					<view class="order-body-item-box-flex">
+						
 						<view class="order-body-item-tag">
 							包含{{item.singles_num}}首歌曲
 						</view>
-						<view style="display: flex;align-items: center;" v-if="item.order_status === 1">
+						<view class="order-body-item-type">
+							{{item.buy_price}}
+						</view>
+					</view>
+					<view class="order-body-item-box-flex">
+						<view class="order-body-item-price" style="margin-left: auto;color: #666;font-size: 20rpx;">
+							× {{item.buy_num}}
+						</view>
+					</view>
+					<view class="order-body-item-box-flex">
+						<view class="order-body-item-price" style="margin-left: auto;">
+							实付金额 ￥{{item.order_total_price}}
+						</view>
+					</view>
+					
+					<view class="order-body-item-box-flex" v-if="item.order_status === 1">
+						<view style="display: flex;align-items: center;margin-left: auto;margin-top: 8rpx;" >
 							<button class="my-btn">取消订单</button>
-							<button class="my-btn">去支付</button>
+							<button class="my-btn" style="border-color: #C9A43D;color: #C9A43D;margin-left: 10rpx;">去支付</button>
 						</view>
 					</view>
 				</view>
@@ -171,15 +179,15 @@
 					}
 					&-level{
 						position: absolute;
-						top: 20rpx;
+						top: 0;
 						left: 0;
-						width: 64rpx;
+						// width: 64rpx;
 						font-size: 12px;
-						color: #333;
-						background: linear-gradient(92.38deg, rgba(232, 209, 138, 1) 10.66%, rgba(171, 148, 73, 1) 94.64%);
-						padding: 4rpx 20rpx;
-						border-radius: 0 50px 50px 0;
+						background: linear-gradient(102.78deg, #FFE476 0%, #FFEDBE 100%);
+						padding: 8rpx 30rpx;
+						border-radius: 10px 0 10px 0;
 						font-weight: 500;
+						color: #B17A0F;
 					}
 				}
 				&-box{
@@ -220,8 +228,12 @@
 			border-radius: 50px;
 			line-height: 40rpx;
 			font-size: 12px;
-			background-color: #E8D18A;
-			color: #333;
+			background-color: #0D0D0D;
+			color: #AEAEAE;
+			border: 1rpx solid  #666;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 	}
 	.center{
