@@ -25,7 +25,7 @@
 				</view>
 				<view class="box1-r-2">
 					<text class="r-1-l">发行价格</text>
-					<text class="r-1-r">￥{{data.pay_price}}/张</text>
+					<text class="r-1-r">￥{{data.price}}/张</text>
 				</view>
 			</view>
 		</view>
@@ -51,7 +51,7 @@
 			<view class="box3-row">
 				<text class="row-1">实付</text>
 				<text class="row-2">￥</text>
-				<text class="row-3">{{data.total}}</text>
+				<text class="row-3">{{data.pay_price}}</text>
 				<text class="row-4">合计{{data.buy_num}}张</text>
 			</view>
 		</view>
