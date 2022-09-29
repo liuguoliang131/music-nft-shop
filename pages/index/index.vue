@@ -13,11 +13,11 @@
 				<text class="avatar"></text>
 				<text>未登录</text>
 			</view>
-			
+
 		</view>
 
 		<view class="container-body">
-			<view class="search-bar" @click="handleChangeOrder">
+			<view class="search-bar" v-show="list.length>2" @click="handleChangeOrder">
 				<view class="upAndDown">
 					<text class="cuIcon-triangleupfill"
 						:style="`${order === 1?'color : #fff' :'color : #343434'};line-height: 22rpx;margin-top:2px`"></text>
@@ -38,11 +38,12 @@
 					</view>
 					<view class="list-item-box">
 						<view class="list-item-title">{{item.name}}</view>
-						<view class="list-item-time">{{item.sale_time}}开售</view>
-						<view class="list-item-tag">{{item.rare_type}}</view>
+						<view class="list-item-time">{{item.sale_time | filterTime}}开售</view>
+						<view class="list-item-tag">限量{{item.stock_num_desc}}份</view>
 						<view class="list-item-price-box">
 							<view class="list-item-price">￥{{item.sale_price}}</view>
-							<view class="list-item-price-dit" :class="item.sale_status === 2 ? '' :'active'">{{item.sale_status | filterStatus}}
+							<view class="list-item-price-dit" :class="item.sale_status === 2 ? '' :'active'">
+								{{item.sale_status | filterStatus}}
 							</view>
 						</view>
 					</view>
@@ -68,6 +69,9 @@
 		h5_collections_index_list
 	} from '@/request/api.js'
 	import config from '../../utils/uniKey.js'
+	import {
+		getTimeData
+	} from '../../utils/index.js'
 	export default {
 		data() {
 			return {
@@ -93,17 +97,24 @@
 					2: '已售罄'
 				}
 				return list[e] || '已售罄'
+			},
+			filterTime(time) {
+				const date = getTimeData(time * 1000)
+				return `${date.mon}月${date.dd} ${date.hh}:${date.MM}`
 			}
 		},
 		methods: {
 			getList() {
 				post(h5_collections_index_list, {
-					page: 1,
+					page: this.page,
 					sort: this.order
 				}).then(res => {
 					console.log('res', res)
 					this.loginFlag = !!res.data.is_login
-					this.list = [...res.data.list, ...this.list]
+					if (res.data.list) {
+						this.list = [...res.data.list, ...this.list]
+					}
+
 				})
 
 
@@ -125,7 +136,7 @@
 			handleClickUserCenter() {
 				if (this.$store.state.user.token) {
 					uni.navigateTo({
-						url:'/pages/mine/mine'
+						url: '/pages/mine/mine'
 					})
 				} else {
 					this.handLogin()
@@ -153,9 +164,16 @@
 			},
 			// 去往详情
 			handViewDetail(item) {
-				uni.navigateTo({
-					url: `/pages/preOrderDetails/preOrderDetails?product_item_id=${item.product_item_id}`
-				})
+				if (!this.$store.state.user.token) {
+					uni.navigateTo({
+						url: '/pages/login/login'
+					})
+				} else {
+					uni.navigateTo({
+						url: `/pages/preOrderDetails/preOrderDetails?product_item_id=${item.product_item_id}`
+					})
+				}
+
 			},
 			// 去往登录
 			handLogin() {
@@ -288,6 +306,13 @@
 			&-title {
 				font-size: 16px;
 				font-weight: 500;
+				text-overflow: -o-ellipsis-lastline;
+				overflow: hidden; //溢出内容隐藏
+				text-overflow: ellipsis; //文本溢出部分用省略号表示
+				display: -webkit-box; //特别显示模式
+				-webkit-line-clamp: 2; //行数
+				line-clamp: 2;
+				-webkit-box-orient: vertical; //盒子中内容竖直排列
 			}
 
 			&-time {

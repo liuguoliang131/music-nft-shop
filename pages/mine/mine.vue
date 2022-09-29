@@ -34,7 +34,7 @@
 				藏品订单
 				<text class="cuIcon-right mine-head-icon"></text>
 			</view>
-			<view class="mine-list-item">
+			<view class="mine-list-item" @click="goCustomer">
 				<image src="../../static/kefu.png" class="mine-list-item-image" mode=""></image>
 				联系客服
 				<text class="cuIcon-right mine-head-icon"></text>
@@ -84,6 +84,11 @@
 				this.$store.commit('user/set_userInfo', '')
 				uni.redirectTo({
 					url: '/pages/login/login'
+				})
+			},
+			goCustomer() {
+				uni.navigateTo({
+					url: '/pages/customerService/customerService'
 				})
 			}
 		},
