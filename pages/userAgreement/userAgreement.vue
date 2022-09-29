@@ -39,6 +39,7 @@
 <style lang="scss">
 	.container {
 		padding-top: 88rpx;
+		background-color: #fff;
 
 		.nav {
 			position: fixed;

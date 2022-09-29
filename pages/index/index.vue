@@ -170,6 +170,7 @@
 			},
 			// 去下载
 			handGoDownload() {
+				return false
 				uni.showToast({
 					title: '即将跳转到元音符App下载页面',
 					icon: 'none',
