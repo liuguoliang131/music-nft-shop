@@ -15,7 +15,7 @@
 		</view>
 		<view class="box2">
 			<view class="box2-item" v-for="(item,idx) in list" :key="item.pay_id">
-				<image class="icon" src="../../static/wx.png"></image>
+				<image class="icon" :src="item.pay_img_url"></image>
 				<view class="text">{{item.pay_name}}</view>
 				<view class="radio" @click="handSelect(idx)">
 					<image v-show="item.checked" class="checked" src="../../static/Frame 1000006268.png"></image>

@@ -85,7 +85,7 @@
 				<image class="abs-img" src="../../static/share.png"></image>
 				<text class="abs-text">分享</text>
 			</view>
-			<view v-if="data.sale_status===0" class="footer-btn" @tap="handOrLogin">{{countDown}}</view>
+			<view v-if="data.sale_status===0" class="footer-btn noactive" @tap="handOrLogin">{{countDown}}</view>
 			<view v-else-if="data.sale_status===1" class="footer-btn" @tap="$refs.popup.show()">立即抢购</view>
 			<view v-else-if="data.sale_status===2" class="footer-btn gray-btn" @tap="handOrLogin">已售罄</view>
 		</view>
@@ -331,6 +331,9 @@
 			},
 			// 是否去登录 
 			handOrLogin() {
+				uni.showToast({
+					title: '已售罄，感谢您的关注'
+				})
 				if (!this.data.is_login) {
 					let url = '/pages/login/login'
 					if (this.share_sign) {
@@ -547,6 +550,7 @@
 					width: 84rpx;
 					height: 40rpx;
 					margin-right: 4rpx;
+					vertical-align: middle;
 				}
 
 
@@ -735,6 +739,11 @@
 					background-color: rgba(209, 9, 16, 0.6);
 					color: rgba(134, 134, 134, 1);
 				}
+			}
+
+			.noactive {
+				background: #D10910;
+				color: #ECECEC;
 			}
 
 			.gray-btn {

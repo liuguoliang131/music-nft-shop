@@ -99,10 +99,17 @@
 				"enablePullDownRefresh": false
 			}
 
-		},{
-			"path" : "pages/orderDetail/orderDetail",
-			"style" :
-			{
+		}, {
+			"path": "pages/orderDetail/orderDetail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/musicPlayer/musicPlayer",
+			"style": {
+				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
