@@ -80,6 +80,8 @@
 				})
 			},
 			goToLogin() {
+				this.$store.commit('user/set_token', '')
+				this.$store.commit('user/set_userInfo', '')
 				uni.redirectTo({
 					url: '/pages/login/login'
 				})

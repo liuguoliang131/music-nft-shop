@@ -3,13 +3,13 @@
 		<view class="nav">
 			<image @tap="handleBack()" class="nav-left" src="../../static/Frame 1000006270.png" mode=""></image>
 		</view>
+		<view class="title">
+			<text class="title-l"></text>
+			最新梦想单曲
+		</view>
 		<view class="box">
-			<view class="title">
-				<text class="title-l"></text>
-				最新梦想单曲
-			</view>
 			<view class="list">
-				<view class="item" v-for="item in 2">{{item}}</view>
+				<view class="item" v-for="item in 29">{{item}}</view>
 			</view>
 			<view class="player">
 				播放器
@@ -46,6 +46,7 @@
 
 <style lang="scss">
 	.container {
+		position: relative;
 		box-sizing: border-box;
 		padding: 0;
 		padding-top: 88rpx;
@@ -70,30 +71,30 @@
 			}
 		}
 
+		.title {
+			position: absolute;
+			top: 88rpx;
+			left: 0;
+			display: flex;
+			align-items: center;
+			width: 100%;
+			height: 82rpx;
+			font-size: 36rpx;
+			color: #AC9147;
+
+			.title-l {
+				width: 6rpx;
+				height: 32rpx;
+				margin-left: 40rpx;
+				margin-right: 20rpx;
+				border-radius: 2rpx;
+				background: #AC9147;
+			}
+		}
+
 		.box {
 			position: relative;
 			height: calc(100% - 88rpx);
-
-			.title {
-				position: absolute;
-				top: 0;
-				left: 0;
-				display: flex;
-				align-items: center;
-				width: 100%;
-				height: 82rpx;
-				font-size: 36rpx;
-				color: #AC9147;
-
-				.title-l {
-					width: 6rpx;
-					height: 32rpx;
-					margin-left: 40rpx;
-					margin-right: 20rpx;
-					border-radius: 2rpx;
-					background: #AC9147;
-				}
-			}
 
 			.list {
 				flex: 1;
