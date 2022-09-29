@@ -49,3 +49,10 @@ export const h5_order_detail = '/h5/collections_user/orderInfo'
  * @description 专辑详情
  */
 export const h5_collections_index_info = '/h5/collections_index/info'
+
+
+/**
+ * @description 取消订单
+ */
+
+export const h5_order_cancle = '/h5/collections_order/cancel'

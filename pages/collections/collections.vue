@@ -12,7 +12,7 @@
 						<view class="item-image-image" :style="`background-image:url(${item.index_img})`">
 						</view>
 						<view class="item-image-level">
-							{{item.evaluate_type}}
+							{{item.rare_type}}
 						</view>
 					</view>
 					<view class="item-title">
@@ -64,6 +64,8 @@
 					if (res.data.list && Array.isArray(res.data.list)) {
 						this.list = [...res.data.list, ...this.list]
 						this.total_num = res.data.total_num || 0
+					}else{
+						this.page = this.page -1
 					}
 				})
 

@@ -49,7 +49,7 @@
 					
 					<view class="order-body-item-box-flex" v-if="item.order_status === 1">
 						<view style="display: flex;align-items: center;margin-left: auto;margin-top: 8rpx;" >
-							<button class="my-btn" @click.stop="handleClickCancle">取消订单</button>
+							<button class="my-btn" @click.stop="handleClickCancle(item)">取消订单</button>
 							<button class="my-btn" style="border-color: #C9A43D;color: #C9A43D;margin-left: 10rpx;">去支付</button>
 						</view>
 					</view>
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-	import { h5_order_list } from '../../request/api.js'
+	import { h5_order_list , h5_order_cancle } from '../../request/api.js'
 	import { post } from '../../request/index.js'
 	export default {
 		data() {
@@ -123,7 +123,7 @@
 					},17)
 				}
 			},
-			handleClickCancle(){
+			handleClickCancle(e){
 				uni.showModal({
 					title:'提示',
 					confirmColor:'确认取消',
@@ -133,7 +133,13 @@
 					cancelColor:'#999999',
 					success(e) {
 						if(e.confirm){
-							
+							post({
+								order_id : e.order_id
+							}).then(res =>{
+								uni.showToast({
+									title:'取消成功'
+								})
+							})
 						}else{
 							
 						}

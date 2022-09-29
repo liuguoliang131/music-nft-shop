@@ -5,7 +5,7 @@
 		</view>
 
 		<view class=" mt-2" style="display: flex;align-items: center;">
-			<image :src="detail.index_url" class="image" mode=""></image>
+			<image :src="detail.index_url" class="image" style="min-width: 120px;height: 120px;" mode=""></image>
 			<view class="box">
 				<view class="box-title">
 					{{detail.name}}
