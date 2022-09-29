@@ -27,7 +27,15 @@
 					<text class="music-name">歌曲名</text>
 					<text class="music-author">歌手名</text>
 				</view>
-				<view class="progress">进度条</view>
+				<view class="progress">
+					<view class="box1">
+
+					</view>
+					<view class="box2">
+						<text class="box2-now">01:12</text>
+						<text class="box2-all">03:54</text>
+					</view>
+				</view>
 			</view>
 			<image class="player-icon" src="../../static/Frame 1000006041.png" mode=""></image>
 			<!-- <image class="player-icon" src="../../static/Frame 1000006042.png" mode=""></image> -->
@@ -206,6 +214,18 @@
 
 				.progress {
 					height: 42rpx;
+					display: flex;
+					align-items: center;
+
+					.box1 {
+						width: 308rpx;
+
+					}
+
+					.box2 {
+						background-color: pink;
+						width: 150rpx;
+					}
 				}
 			}
 
@@ -213,7 +233,6 @@
 				width: 72rpx;
 				height: 72rpx;
 				margin-right: 50rpx;
-				margin-left: 21rpx;
 			}
 		}
 

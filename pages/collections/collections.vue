@@ -4,12 +4,12 @@
 			最新梦想金曲 当前拥有{{total_num}}张
 		</view>
 
-		<scroll-view scroll-y style="height: calc(100vh - 180rpx);padding-top: 84rpx;" @scrolltolower='handleScrollTolower'>
+		<scroll-view scroll-y style="height: calc(100vh - 180rpx);padding-top: 84rpx;"
+			@scrolltolower='handleScrollTolower'>
 			<view class="grid-box">
 				<view class="item" v-for="(item , index) in list " @click="handleGoToDetail(item)" :key='index'>
 					<view class="item-image">
-						<view class="item-image-image"
-							:style="`background-image:url(${item.index_img})`">
+						<view class="item-image-image" :style="`background-image:url(${item.index_img})`">
 						</view>
 						<view class="item-image-level">
 							{{item.evaluate_type}}
@@ -29,40 +29,45 @@
 				</view>
 			</view>
 		</scroll-view>
-			
+
 	</view>
 </template>
 
 <script>
-	import {h5_collections_user_collectionList } from '../../request/api.js'
-	import { post } from '../../request/index.js'
+	import {
+		h5_collections_user_collectionList
+	} from '../../request/api.js'
+	import {
+		post
+	} from '../../request/index.js'
 	export default {
 		data() {
 			return {
-				page : 1,
-				list : [],
-				total_num : 10
+				page: 1,
+				list: [],
+				total_num: 0
 			}
 		},
-		onShow(){
+		onShow() {
 			this.getList()
 		},
 		methods: {
-			getList(){
+			getList() {
 				post(h5_collections_user_collectionList, {
 					page: this.page
 				}).then(res => {
 					console.log('res', res)
-					if(res.data.list &&Array.isArray(res.data.list) ){
+					if (res.data.list && Array.isArray(res.data.list)) {
 						this.list = [...res.data.list, ...this.list]
+						this.total_num = res.data.total_num || 0
 					}
 				})
-				
-				
+
+
 			},
 			handleGoToDetail(e) {
 				uni.navigateTo({
-					url: '/pages/collectionsDetail/collectionsDetail?id='+e.owner_id + '&type=collection'
+					url: '/pages/collectionsDetail/collectionsDetail?id=' + e.owner_id + '&type=collection'
 				})
 			},
 			handleScrollTolower() {
@@ -71,11 +76,11 @@
 						this.page++
 						this.getList()
 					})
-				}else{
-					setTimeout(()=>{
+				} else {
+					setTimeout(() => {
 						this.page++
 						this.getList()
-					},17)
+					}, 17)
 				}
 			}
 		}
@@ -83,9 +88,10 @@
 </script>
 
 <style lang="scss" scoped>
-	.container{
+	.container {
 		max-height: 100vh;
 	}
+
 	.notice {
 		position: absolute;
 		top: 0;
@@ -101,7 +107,7 @@
 	}
 
 	.grid-box {
-		
+
 		padding-bottom: 20rpx;
 		display: grid;
 		grid-template-columns: 1fr 1fr;

@@ -23,7 +23,7 @@
 				{{data.name}}
 			</view>
 			<view class="row2">{{data.sale_time1}}&nbsp;{{data.sale_status===0?'未开售':(data.sale_status===1?'开售':'已售罄')}}
-				<text>限量{{data.stock_num_desc}}份</text>
+				<text>限量{{data.stock_num_desc}}张</text>
 			</view>
 			<view class="price">
 				<text class="rmb">￥</text>
@@ -46,7 +46,7 @@
 						</view>
 						<view class="row2-1">
 							<text class="row2-1-l">发行量</text>
-							<text class="row2-1-r">{{data.stock_num_desc}}份</text>
+							<text class="row2-1-r">{{data.stock_num_desc}}张</text>
 						</view>
 						<view class="row2-1">
 							<text class="row2-1-l">发行方</text>
@@ -93,7 +93,7 @@
 			:showCloseIcon="true">
 			<view class="popup-content">
 				<view class="popup-i">
-					<image class="i-img" src="../../static/唱首歌给你听.png" mode=""></image>
+					<image class="i-img" :src="data.index_img" mode=""></image>
 					<view class="img-line"></view>
 					<view class="i-title">
 						<view class="title-t">{{data.name}}</view>

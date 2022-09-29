@@ -18,7 +18,7 @@
 		{
 			"path": "pages/collections/collections",
 			"style": {
-				"navigationBarTitleText": "我的藏品",
+				"navigationBarTitleText": "我的专辑",
 				"enablePullDownRefresh": false
 			}
 		}, {
@@ -79,7 +79,7 @@
 		}, {
 			"path": "pages/orderList/orderList",
 			"style": {
-				"navigationBarTitleText": "订单",
+				"navigationBarTitleText": "专辑订单",
 				"enablePullDownRefresh": false
 			}
 
@@ -114,17 +114,15 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	    ,{
-            "path" : "pages/mine/mine",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "我的",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "元音符",

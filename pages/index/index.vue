@@ -33,13 +33,13 @@
 						<image class="list-item-image" :src="item.index_img">
 						</image>
 						<view class="list-item-level">
-							{{item.evaluate_type}}
+							{{item.rare_type}}
 						</view>
 					</view>
 					<view class="list-item-box">
 						<view class="list-item-title">{{item.name}}</view>
-						<view class="list-item-time">{{filterTime1(item.sale_time)}}开售</view>
-						<view class="list-item-tag">限量{{item.stock_num_desc}}份</view>
+						<view class="list-item-time">{{filterTime1(item.sale_time*1000)}}开售</view>
+						<view class="list-item-tag">限量{{item.stock_num_desc}}张</view>
 						<view class="list-item-price-box">
 							<view class="list-item-price">￥{{item.sale_price}}</view>
 							<view class="list-item-price-dit" :class="item.sale_status === 2 ? '' :'active'">
@@ -69,7 +69,10 @@
 		h5_collections_index_list
 	} from '@/request/api.js'
 	import config from '../../utils/uniKey.js'
-	import {filterTime } from '../../utils/index.js'
+	import {
+		filterTime,
+		getTimeData
+	} from '../../utils/index.js'
 	export default {
 		data() {
 			return {
@@ -98,8 +101,9 @@
 			}
 		},
 		methods: {
-			filterTime1(e){
-				return filterTime(e)
+			filterTime1(e) {
+				const date = getTimeData(e)
+				return `${date.mon}月${date.dd}日 ${date.hh}:${date.MM}`
 			},
 			getList() {
 				post(h5_collections_index_list, {
