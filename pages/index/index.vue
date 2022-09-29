@@ -10,10 +10,10 @@
 				<text>{{userInfo.nick_name||'未设置'}}</text>
 			</view>
 			<view v-else class="user-center" @click="handleClickUserCenter">
-				<text class="avatar"></text>
+				<image class="avatar" src="../../static/userNotLogin.png" mode=""></image>
 				<text>未登录</text>
 			</view>
-			
+
 		</view>
 
 		<view class="container-body">
@@ -38,7 +38,7 @@
 					</view>
 					<view class="list-item-box">
 						<view class="list-item-title">{{item.name}}</view>
-						<view class="list-item-time">{{item.sale_time}}开售</view>
+						<view class="list-item-time">{{filterTime1(item.sale_time)}}开售</view>
 						<view class="list-item-tag">{{item.rare_type}}</view>
 						<view class="list-item-price-box">
 							<view class="list-item-price">￥{{item.sale_price}}</view>
@@ -68,6 +68,7 @@
 		h5_collections_index_list
 	} from '@/request/api.js'
 	import config from '../../utils/uniKey.js'
+	import {filterTime } from '../../utils/index.js'
 	export default {
 		data() {
 			return {
@@ -96,6 +97,9 @@
 			}
 		},
 		methods: {
+			filterTime1(e){
+				return filterTime(e)
+			},
 			getList() {
 				post(h5_collections_index_list, {
 					page: 1,
@@ -103,24 +107,8 @@
 				}).then(res => {
 					console.log('res', res)
 					this.loginFlag = !!res.data.is_login
-					this.list = [...res.data.list, ...this.list]
+					this.list = [ ...this.list,...res.data.list]
 				})
-
-
-				// const listItem = {
-				// 	name: '最新梦想金曲',
-				// 	product_item_id: {
-				// 		index_img: 'https://y.qq.com/music/photo_new/T002R300x300M000002GBegP0KlpSG.jpg?max_age=2592000',
-				// 		sale_time: '10月08日 10:00',
-				// 		stock_num: '2万份',
-				// 		sale_price: '19.90',
-				// 		sale_status: 1,
-				// 		evaluate_type: 'SSR',
-				// 		rare_type: '稀有'
-				// 	}
-				// }
-
-
 			},
 			handleClickUserCenter() {
 				if (this.$store.state.user.token) {
@@ -246,8 +234,10 @@
 
 		&-item {
 			border-radius: 12px;
-			background-color: #454545;
-			padding: 30rpx 28rpx;
+			border: 0.5px solid #5F5F5F;
+			border-radius: 10px;
+			// background-color: #454545;
+			padding: 20rpx 20rpx;
 			display: flex;
 			align-items: center;
 			margin-bottom: 40rpx;
@@ -267,15 +257,18 @@
 
 			&-level {
 				position: absolute;
-				top: 20rpx;
+				top: 0;
 				left: 0;
 				width: 64rpx;
 				font-size: 12px;
 				color: #333;
 				background: linear-gradient(92.38deg, rgba(232, 209, 138, 1) 10.66%, rgba(171, 148, 73, 1) 94.64%);
 				padding: 4rpx 20rpx;
-				border-radius: 0 50px 50px 0;
-				font-weight: 500;
+				border-radius: 10px 0 10px 0;
+				font-weight: 700;
+				color: #B17A0F;
+				transform: matrix(0.99, 0, -0.12, 1, 0, 0);
+				background: linear-gradient(102.78deg, #FFE476 0%, #FFEDBE 100%);
 			}
 
 			&-box {
