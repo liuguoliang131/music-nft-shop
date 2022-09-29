@@ -74,7 +74,23 @@
 	}
 
 
-
+	.no-data{
+		width: 100%;
+		height: 400rpx;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		color: #999;
+		font-size: 12px;
+		text-align: center;
+		image{
+			width: 120rpx;
+			height: 120rpx;
+			margin-bottom: 20rpx;
+		}
+		
+	}
 
 
 

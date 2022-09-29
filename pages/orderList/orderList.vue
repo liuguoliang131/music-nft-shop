@@ -14,8 +14,8 @@
 					<view class="order-body-item-imageBox-image"
 						:style="`background-image:url(${item.index_img})`">
 					</view>
-					<view class="order-body-item-imageBox-level" v-if="item.evaluate_type">
-						{{item.evaluate_type}}
+					<view class="order-body-item-imageBox-level" v-if="item.rare_type">
+						{{item.rare_type}}
 					</view>
 				</view>
 				<view class="order-body-item-box">
@@ -30,10 +30,10 @@
 					<view class="order-body-item-box-flex">
 						
 						<view class="order-body-item-tag">
-							包含{{item.singles_num}}首歌曲
+							包含{{item.singles_num}}首单曲
 						</view>
 						<view class="order-body-item-type">
-							{{item.buy_price}}
+							￥{{item.buy_price}}
 						</view>
 					</view>
 					<view class="order-body-item-box-flex">
@@ -49,14 +49,15 @@
 					
 					<view class="order-body-item-box-flex" v-if="item.order_status === 1">
 						<view style="display: flex;align-items: center;margin-left: auto;margin-top: 8rpx;" >
-							<button class="my-btn">取消订单</button>
+							<button class="my-btn" @click.stop="handleClickCancle">取消订单</button>
 							<button class="my-btn" style="border-color: #C9A43D;color: #C9A43D;margin-left: 10rpx;">去支付</button>
 						</view>
 					</view>
 				</view>
 			</view>
-			<view class="center" v-if="list.length === 0">
-				暂无数据
+			<view class="no-data" v-if="list.length===0">
+				<image src="../../static/no-data.png" mode=""></image>
+				暂无数据~
 			</view>
 		</scroll-view>
 	</view>
@@ -121,6 +122,23 @@
 						this.getList()
 					},17)
 				}
+			},
+			handleClickCancle(){
+				uni.showModal({
+					title:'提示',
+					confirmColor:'确认取消',
+					cancelText:'返回',
+					confirmColor:'#DC2D1E',
+					content:'是否确认取消订单？',
+					cancelColor:'#999999',
+					success(e) {
+						if(e.confirm){
+							
+						}else{
+							
+						}
+					}
+				})
 			}
 		}
 	}

@@ -11,23 +11,23 @@
 					{{detail.name}}
 				</view>
 				<view class="number">
-					包含{{detail.singles_num}}首作品
+					包含{{detail.singles_num}}首单曲
 				</view>
 				<view class="number">
 					发 行 方 {{detail.publish_author}}
 				</view>
 				<view class="number">
-					发行时间 {{detail.publish_time}}
+					发行时间 {{filterTimes(detail.publish_time * 1000)}}
 				</view>
 				<view class="number price">
-					发行价格 ¥{{detail.buy_price}}元/张
+					发行价格 ¥{{detail.buy_price}}/张
 				</view>
 			</view>
 		</view>
 		<view class="title mt-2">
 			认证信息
 		</view>
-		<view class="flex">
+		<view class="flex" v-if="detail.order_status === 3">
 			<view class="key number" style="width: 250rpx;">
 				Record Number
 			</view>
@@ -81,7 +81,7 @@
 				创建时间
 			</view>
 			<view class="number" style="flex-flow: wrap;">
-				{{detail.order_create_time}}
+				{{filterTimes(detail.order_create_time * 1000)}}
 			</view>
 		</view>
 		
@@ -90,7 +90,7 @@
 				支付时间
 			</view>
 			<view class="number" style="flex-flow: wrap;">
-				{{detail.pay_time}}
+				{{filterTimes(detail.pay_time * 1000)}}
 			</view>
 		</view>
 		
@@ -99,7 +99,7 @@
 				支付方式
 			</view>
 			<view class="number" style="flex-flow: wrap;">
-				{{detail.pay_type}}
+				{{detail.pay_type | filterPayType}}
 			</view>
 		</view>
 		
@@ -120,7 +120,12 @@
 				￥{{detail.pay_price}}
 			</view>
 		</view>
-
+		<view class="container-btn" v-if="detail.order_status === 1">
+			去支付
+		</view>
+		<view class="container-btn cancel" v-if="detail.order_status === 2">
+			已取消
+		</view>
 	</view>
 </template>
 
@@ -132,60 +137,60 @@
 	import {
 		post
 	} from '../../request/index.js'
+	import dayjs from 'dayjs'
 	export default {
 		data() {
 			return {
 				show: false,
 				detail: {
-					"order_id": 5,
-					"product_item_id": 6,
-					"name": "0926测试藏品数据，测试数据005",
+					"order_id": null,
+					"product_item_id": null,
+					"name": "",
 					"singles_num": 1,
-					"publish_time": 1664193626,
+					"publish_time": '',
 					"publish_author": "元音符",
-					"index_url": "https://file.yuanyinfu.com/collections/product/product-1664193625308.jpg",
-					"pay_price": "0.03",
-					"order_total_price": "0.03",
-					"buy_price": "0.01",
+					"index_url": "",
+					"pay_price": "",
+					"order_total_price": "",
+					"buy_price": "",
 					"buy_num": 3,
 					"contract_address": "",
 					"token_id": "",
 					"token_standard": "",
-					"order_no": "1574598920426754048",
-					"order_status": 2,
+					"order_no": "",
+					"order_status": 0,
 					"pay_type": 0,
-					"order_create_time": 1664248749,
+					"order_create_time": '',
 					"pay_time": 0
 				}
 			}
 		},
 		onLoad(e) {
 			const id = e.id
-			const type = e.type || 'order'
-			if (type === "collection") {
-				this.getDetail(id)
-			} else {
-				this.getOrderDetail(id)
-			}
+			this.getOrderDetail(id)
 
 		},
+		filters:{
+			filterPayType(e){
+				console.log(e)
+				const list = {
+					1 : '支付宝',
+					2:'微信',
+					3:'银行卡',
+					4:'零钱'
+				}
+				return list[e] || '未知'
+			}
+		},
 		methods: {
-			getDetail(e) {
-				post(h5_collections_user_collectionInfo, {
-					owner_id: Number(e)
-				}).then(res => {
-					console.log(res)
-					this.detail = res.data
-				})
+			filterTimes(e){
+				return dayjs(e).format('YYYY/MM/DD HH:mm:ss')
 			},
 			getOrderDetail(e) {
 				post(h5_order_detail, {
 					order_id: Number(e)
 				}).then(res => {
-					// this.detail = res.data
-
-
-					this.detail.index_img = res.data.index_url
+					this.detail = res.data
 				})
 			},
 			showCre() {
@@ -201,6 +206,21 @@
 <style lang="scss" scoped>
 	.container {
 		padding-bottom: 120rpx;
+		&-btn{
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 98rpx;
+			background: #D10910;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			&.cancel{
+				background: #7C7C7C;
+				color: #fff;
+			}
+		}
 	}
 
 	.title {
@@ -439,5 +459,11 @@
 	}
 	.price {
 		color: #E7573D !important;
+	}
+	.number{
+		color: #AEAEAE;
+		&.key{
+			color: #666666;
+		}
 	}
 </style>

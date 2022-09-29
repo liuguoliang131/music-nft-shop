@@ -27,6 +27,10 @@
 						</view>
 					</view>
 				</view>
+				<view class="no-data" v-if="list.length===0">
+					<image src="../../static/no-data.png" mode=""></image>
+					暂无数据~
+				</view>
 			</view>
 		</scroll-view>
 
@@ -71,6 +75,7 @@
 				})
 			},
 			handleScrollTolower() {
+				if(this.list.length === this.total_num) return 
 				if (window.requestAnimationFrame && typeof window.requestAnimationFrame === 'function') {
 					window.requestAnimationFrame(() => {
 						this.page++

@@ -1,143 +1,134 @@
 <template>
 	<view class="container collection">
 		
-		
-		<view class="collection-head">
-			<view class="collection-head-box" style="background-image: url(../../static/image-7%201-1.png);">
-				<view class="collection-head-box-1">
-					<image :src="detail.index_img" class="collection-head-box-image" mode=""></image>
-				</view>
-			</view>
-			<view class="collection-head-title">
-				<!-- <image src="../../static/Frame%201000006238.png" mode=""></image> -->
-				<text class="level">{{detail.rare_type}}</text>
-				<text>{{detail.name}}</text>
-			</view>
-			<view class="collection-head-tags">
-				{{filterTimes(detail.publish_time)}}开售  限量{{detail.stock_num}}张
-			</view>
-			<view class="collection-head-price price">
-				{{detail.sale_price}}元/张
-			</view>
+		<view class="title">
+			专辑信息
 		</view>
-		
-		
-		
-		<view class="collection-box">
-			<view class="collection-box-box">
-				<view class="title">
-					专辑信息
+	
+		<view class=" mt-2" style="display: flex;align-items: center;">
+			<image :src="detail.index_img"
+				class="image" mode=""></image>
+			<view class="box">
+				<view class="box-title">
+					{{detail.name}}
 				</view>
-				
-				<view class="flex">
-					<view class="key number" style="width: 120rpx;">
-						专辑名称
-					</view>
-					<view class="number" style="flex-flow: wrap;">
-						{{detail.rare_type}}
-					</view>
+				<view class="number">
+					包含{{detail.singles_num}}首作品
 				</view>
-				<view class="flex">
-					<view class="key number" style="width: 120rpx;">
-						稀有度
-					</view>
-					<view class="number" style="flex-flow: wrap;">
-						{{detail.name}}
-					</view>
+				<view class="number">
+					发 行 方 {{detail.publish_author}}
 				</view>
-				<view class="flex">
-					<view class="key number" style="width: 120rpx;">
-						发行量
-					</view>
-					<view class="number" style="flex-flow: wrap;">
-						{{detail.stock_num}}张
-					</view>
+				<view class="number">
+					发行时间 {{detail.publish_time}}
 				</view>
-				<view class="flex">
-					<view class="key number" style="width: 120rpx;">
-						发行方
-					</view>
-					<view class="number" style="flex-flow: wrap;">
-						{{detail.publish_author}}
-					</view>
-				</view>
-				<view class="flex">
-					<view class="key number" style="width: 120rpx;">
-						发行时间
-					</view>
-					<view class="number" style="flex-flow: wrap;">
-						{{detail.publish_time}}
-					</view>
-				</view>
-			
-			</view>
-		</view>
-		<view class="collection-box">
-			<view class="collection-box-box">
-				<view class="" v-for="(item , index) in detail.music_list" :key='index'>
-					<view class="title mt-2">
-						{{item.name}}
-					</view>
-					<view class="content">
-						{{item.desc}}
-					</view>
+				<view class="number price">
+					发行价格 ¥{{detail.sale_price}}元/张
 				</view>
 			</view>
 		</view>
+		<view class="title mt-2">
+			认证信息
+		</view>
+		<view class="flex">
+			<view class="key number" style="width: 250rpx;">
+				Record Number
+			</view>
+			<view class="number" style="flex-flow: wrap;">
+				{{detail.code_num}}
+			</view>
+		</view>
+		<view class="flex">
+			<view class="key number" style="width: 250rpx;">
+				Contract Address
+			</view>
+			<view class="number" style="flex-flow: wrap;">
+				{{detail.contract_address}}
+			</view>
+		</view>
+		<view class="flex">
+			<view class="key number" style="width: 250rpx;">
+				Token ID
+			</view>
+			<view class="number" style="flex-flow: wrap;">
+				{{detail.token_id}}
+			</view>
+		</view>
+		<view class="flex">
+			<view class="key number" style="width: 250rpx;">
+				Token Standard
+			</view>
+			<view class="number" style="flex-flow: wrap;">
+				{{detail.token_standard}}
+			</view>
+		</view>
+	
+	
+		<view class="" v-for="(item , index) in detail.music_list" :key='index'>
+			<view class="title mt-2">
+				{{item.name}}
+			</view>
+			<view class="content" style="margin-top: 20rpx;">
+				{{item.desc}}
+			</view>
+		</view>
+		
 		<view class="container-bottom">
-			<button class="my-btn" @click="showCre">查看证书</button>
+			<div class="my-btn primary" @click="showCre">查看证书</div>
+			<div class="my-btn " @click="">欣赏专辑</div>
 		</view>
 		
 	
 	<view class="cu-modal " :class="show ? 'show' : ''"  @click="hiddenCre">
 		<view class="cu-dialog" >
-			<view class="head">
-				
-				<image src="../../static/logo-black.jpg" class="head-logo"></image>
-				
-				<view class="head-title">
-					数字专辑证书
-				</view>
-			</view>
-			<view class="body">
-				<view class="flex">
-					<view class="key number">
-						编 号:
-					</view>
-					<view class="number">
-						{{detail.certificate.code}}
+			<view style="border: 0.5px solid #AC9147;border-radius: 6px;padding: 10rpx;">
+				<view class="head">
+					
+					<image src="../../static/logo-black.jpg" class="head-logo"></image>
+					
+					<view class="head-title">
+						数字专辑证书
 					</view>
 				</view>
-				<view class="flex">
-					<view class="key number">
-						名 称:
+				<view class="body">
+					<view class="flex">
+						<view class="key number">
+							编 号:
+						</view>
+						<view class="number">
+							{{detail.certificate.code}}
+						</view>
 					</view>
-					<view class="number">
-						{{detail.certificate.name}}
+					<view class="flex">
+						<view class="key number">
+							名 称:
+						</view>
+						<view class="number">
+							{{detail.certificate.name}}
+						</view>
 					</view>
-				</view>
-				<view class="flex">
-					<view class="key number">
-						发行方
+					<view class="flex">
+						<view class="key number">
+							发行方
+						</view>
+						<view class="number">
+							{{detail.certificate.publish_author}}
+						</view>
 					</view>
-					<view class="number">
-						{{detail.certificate.publish_author}}
+					<view class="flex">
+						<view class="key number">
+							发行时间
+						</view>
+						<view class="number">
+							{{detail.certificate.publish_time}}
+						</view>
 					</view>
-				</view>
-				<view class="flex">
-					<view class="key number">
-						发行时间
-					</view>
-					<view class="number">
-						{{detail.certificate.publish_time}}
-					</view>
-				</view>
-				<view class="flex text"  >
-					<view class="key number">
-						哈希地址
-					</view>
-					<view class="number" style="flex-flow: wrap;">
-						{{detail.certificate.block_chain_hash}}
+					<view class="flex text"  >
+						<view class="key number">
+							哈希地址
+						</view>
+						<view class="number" style="flex-flow: wrap;">
+							{{detail.certificate.block_chain_hash}}
+						</view>
 					</view>
 				</view>
 			</view>
@@ -292,21 +283,22 @@
 		}
 	}
 	.title {
-		font-size: 32rpx;
+		font-size: 24rpx;
 		color: #AB9449;
 		font-weight: 500;
 		position: relative;
+		padding-left: 20rpx;
 
-		// &::before {
-		// 	content: '';
-		// 	width: 10rpx;
-		// 	height: 100%;
-		// 	background-color: #AB9449;
-		// 	position: absolute;
-		// 	left: 0;
-		// 	top: 0;
-		// 	border-radius: 4px;
-		// }
+		&::before {
+			content: '';
+			width: 10rpx;
+			height: 100%;
+			background-color: #AB9449;
+			position: absolute;
+			left: 0;
+			top: 0;
+			border-radius: 4px;
+		}
 	}
 
 	.mt-2 {
@@ -364,15 +356,20 @@
 		align-items: center;
 		justify-content: center;
 		.my-btn{
-			height: 70rpx;
-			padding: 0rpx 80rpx;
+			height: 100%;
+			width: 50vw;
 			display: inline-block;
-			line-height: 70rpx;
 			border: none;
-			background-color: #E8D18A;
-			border-radius: 40rpx;
-			font-size: 13px;
 			color: #847443 ;
+			background-color: #fff;
+			font-size: 14px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			&.primary{
+				background-color: #E8D18A;
+				color: #fff;
+			}
 		}
 	}
 	
@@ -382,6 +379,7 @@
 		flex-direction: column;
 		align-items: center;
 		padding-top: 40rpx;
+	
 		&-logo{
 			width: 100rpx;
 			height: 140rpx;
@@ -390,12 +388,30 @@
 			color: #101010;
 			font-weight: 500;
 			font-size: 18px;
+			position: relative;
+			&::before{
+				content: '';
+				width: 60rpx;
+				height: 2rpx;
+				background-color: #000;
+				position: absolute;
+				top: 50%;
+				left: calc(100% + 10rpx);
+			}
+			&::after{
+				content: '';
+				width: 60rpx;
+				height: 2rpx;
+				background-color: #000;
+				position: absolute;
+				top: 50%;
+				right: calc(100% + 10rpx);
+			}
 		}
 	}
 	
 	.body{
 		padding: 20rpx;
-		border-top: 1px solid #EBEBEB;
 		margin-top: 20rpx;
 		
 	}
@@ -468,11 +484,11 @@
 		display: inline-block;
 		vertical-align: middle;
 		width: calc(100vw - 240rpx);
-		border-radius: 40rpx;
+		border-radius: 6px;
 		overflow: hidden;
 		background-color: #F6F6F6;
 		color: #1D1d1d;
-		padding: 40rpx;
+		padding: 20rpx;
 	}
 	
 	.cu-modal.bottom-modal::before {
