@@ -153,31 +153,33 @@
 	export default {
 		data() {
 			return {
-				show: false,
-				detail: {
-					name: '最新梦想金曲',
-					index_img: 'https://y.qq.com/music/photo_new/T002R300x300M000002GBegP0KlpSG.jpg?max_age=2592000',
-					code_num: '#001',
-					sale_price: '19.90',
-					evaluate_type: 'SSR',
-					rare_type: '稀有',
-					publish_author: '元音符',
-					publish_time: '2022年09月24日',
-					singles_num: 10,
-					contract_address: 'HUIHIOIOJIOi9090HUHIUHI8787HIHIU',
-					token_id: 'HUIHIOIOJIOi9090HUHIUHI8787HIHIU',
-					token_standard: 'HUIHIOIOJIOi9090HUHIUHI8787HIHIUHUIHIOIOJIOi9090HUHIUHI8787HIHIUHUIHIOIOJIOi9090HUHIUHI8787HIHIU',
-					certificate: {
-						code: 'a8s7d83gqds78tyg3',
-						name: '测试名称',
-						block_chain_hash: 'NIHIJHIIJI7878HJIHIUHIU89--',
-						publish_author: '元音符',
-						publish_time: '2022年09月24日'
+				show : false,
+				detail :{
+					name: '',
+					index_img: '',
+					code_num: '',
+					sale_price: '',
+					evaluate_type : '',
+					rare_type : '',
+					publish_author:'',
+					publish_time:'',
+					singles_num: 0,
+					contract_address:'',
+					token_id : '',
+					token_standard:'',
+					certificate:{
+						code : '',
+						name : '',
+						block_chain_hash : '',
+						publish_author : '',
+						publish_time : ''
 					},
-					music_list: [{
-						name: '测试名称一',
-						desc: '那些不经意想起的便是记忆里最深刻的，原来没有争吵也可以走到散场。奔赴多年也换不来永远。爱意随风起，风止意难平，故事的结尾总配不上极致温柔的开头。'
-					}]
+					music_list :[
+						{
+							name : '',
+							desc : ''
+						}
+					]
 				}
 			}
 		},

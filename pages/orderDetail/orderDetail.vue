@@ -221,7 +221,7 @@
 					"name": "",
 					"singles_num": 1,
 					"publish_time": '',
-					"publish_author": "元音符",
+					"publish_author": "",
 					"index_url": "",
 					"pay_price": "",
 					"order_total_price": "",
