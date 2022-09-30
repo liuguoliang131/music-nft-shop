@@ -304,7 +304,7 @@
 			},
 			// 监听是否支付成功
 			listenPaySuccess() {
-				this.listenTimer = setTimeout(() => {
+				this.listenTimer = setInterval(() => {
 					this.$post(h5_conllections_buy_showsuccess, {
 						order_no: this.order_no
 					}).then(res => {
@@ -327,7 +327,7 @@
 							title: res.message
 						})
 					})
-				}, 1500)
+				}, 1000)
 			}
 
 		},
