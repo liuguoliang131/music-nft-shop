@@ -3,10 +3,6 @@ import config, {
 	TOKEN,
 	USER_INFO
 } from './uniKey.js'
-import post from '../request/index.js'
-import {
-	h5_collections_wechat_get_web_access_token
-} from '../request/api.js'
 console.log('utils')
 export const getToken = () => {
 	return window.localStorage.getItem(TOKEN) || ''
@@ -265,12 +261,16 @@ export const jumpWxAuthUrl = () => {
 	if (url.includes('code=') && !getOpenId()) {
 		let code = url.split('?')[1].split('&')[0].split('=')[1]
 		console.log('code', code)
-		post(h5_collections_wechat_get_web_access_token, {
-			code
-		}).then(res => {
-			console.log('获取openid then:', res)
-			setOpenId(res.data.open_id)
-		})
+		const getopenid_api = '/h5/collections_wechat/get_web_access_token'
+		// uni.request({
+		// 	url: getopenid_api
+		// })
+		// post(h5_collections_wechat_get_web_access_token, {
+		// 	code
+		// }).then(res => {
+		// 	console.log('获取openid then:', res)
+		// 	setOpenId(res.data.open_id)
+		// })
 	} else {
 		if (getOpenId()) {
 			return false
