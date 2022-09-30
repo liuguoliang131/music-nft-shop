@@ -122,7 +122,7 @@
 						<view class="minus" @tap="handMinus()">
 							<!-- <image class="minus-img" src="../../static/Frame 1000006244.png" mode=""></image> -->
 							<view class="minus-img">
-								<view :class="['h','active-icon']"></view>
+								<view :class="['h',this.count>1?'active-icon':'']"></view>
 							</view>
 						</view>
 						<input class="countc" type="number" maxlength="3" name="" id="" v-model="count"
@@ -130,8 +130,8 @@
 						<view class="plus" @tap="handPlus()">
 							<!-- <image class="plus-img" src="../../static/Group 1000004650.png" mode=""></image> -->
 							<view class="plus-img">
-								<view :class="['h','active-icon']"></view>
-								<view :class="['v','active-icon']"></view>
+								<view :class="['h',this.count<100?'active-icon':'']"></view>
+								<view :class="['v',this.count<100?'active-icon':'']"></view>
 							</view>
 						</view>
 					</view>
@@ -984,7 +984,7 @@
 					}
 
 					.active-icon {
-						background-color: #E8E8E8;
+						background-color: #E8E8E8 !important;
 					}
 				}
 
