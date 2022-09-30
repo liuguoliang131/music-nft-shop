@@ -67,10 +67,10 @@
 				}).then(res => {
 					console.log('res', res)
 					if (res.data.list && Array.isArray(res.data.list)) {
-						this.list = [ ...this.list,...res.data.list]
+						this.list = [...this.list, ...res.data.list]
 						this.total_num = res.data.total_num || 0
-					}else{
-						this.page = this.page -1
+					} else {
+						this.page = this.page - 1
 					}
 				})
 
@@ -82,7 +82,7 @@
 				})
 			},
 			handleScrollTolower() {
-				if(this.list.length === this.total_num) return 
+				if (this.list.length === this.total_num) return
 				if (window.requestAnimationFrame && typeof window.requestAnimationFrame === 'function') {
 					window.requestAnimationFrame(() => {
 						this.page++
@@ -105,9 +105,9 @@
 	}
 
 	.notice {
-		position: absolute;
-		top: 44px;
-		left: 0;
+		// position: absolute;
+		// top: 0;
+		// left: 0;
 		width: 100%;
 		height: 64rpx;
 		background: #252111;
@@ -157,7 +157,8 @@
 				left: 0;
 				width: 42px;
 				height: 20px;
-				image{
+
+				image {
 					width: 100%;
 					height: 100%;
 				}

@@ -1,19 +1,20 @@
 <template>
 	<view class="container order">
-		<cu-head/>
+		<cu-head />
 		<view class="order-nav">
-			<view class="order-nav-item" :class="index === activeNav ? 'active' : ''" v-for="( item , index ) in navList" :key='index' @click="handleClickNavItem(index)">
+			<view class="order-nav-item" :class="index === activeNav ? 'active' : ''"
+				v-for="( item , index ) in navList" :key='index' @click="handleClickNavItem(index)">
 				{{item}}
 			</view>
 		</view>
-		
-		
-		
-		<scroll-view class="order-body" scroll-y style="height: calc(100vh - 210rpx);" @scrolltolower='handleScrollTolower'>
+
+
+
+		<scroll-view class="order-body" scroll-y style="height: calc(100vh - 210rpx);"
+			@scrolltolower='handleScrollTolower'>
 			<view class="order-body-item" v-for="(item , index) in list" :key='index' @click="handleGoToDetail(item)">
 				<view class="order-body-item-imageBox">
-					<view class="order-body-item-imageBox-image"
-						:style="`background-image:url(${item.index_img})`">
+					<view class="order-body-item-imageBox-image" :style="`background-image:url(${item.index_img})`">
 					</view>
 					<view class="order-body-item-imageBox-level" v-if="item.rare_type">
 						<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
@@ -33,7 +34,7 @@
 						</view>
 					</view>
 					<view class="order-body-item-box-flex">
-						
+
 						<view class="order-body-item-tag">
 							包含{{item.singles_num}}首单曲
 						</view>
@@ -51,11 +52,12 @@
 							实付金额 ￥{{item.order_total_price}}
 						</view>
 					</view>
-					
+
 					<view class="order-body-item-box-flex" v-if="item.order_status === 1">
-						<view style="display: flex;align-items: center;margin-left: auto;margin-top: 8rpx;" >
+						<view style="display: flex;align-items: center;margin-left: auto;margin-top: 8rpx;">
 							<button class="my-btn" @click.stop="handleClickCancle(item)">取消订单</button>
-							<button class="my-btn" style="border-color: #C9A43D;color: #C9A43D;margin-left: 10rpx;">去支付</button>
+							<button class="my-btn" @click.stop="handleGoCashier(item)"
+								style="border-color: #C9A43D;color: #C9A43D;margin-left: 10rpx;">去支付</button>
 						</view>
 					</view>
 				</view>
@@ -69,15 +71,20 @@
 </template>
 
 <script>
-	import { h5_order_list , h5_order_cancle } from '../../request/api.js'
-	import { post } from '../../request/index.js'
+	import {
+		h5_order_list,
+		h5_order_cancle
+	} from '../../request/api.js'
+	import {
+		post
+	} from '../../request/index.js'
 	export default {
 		data() {
 			return {
 				navList: ['全部', '待支付', '已取消', '已完成'],
 				activeNav: 0,
-				page : 1,
-				list :[]
+				page: 1,
+				list: []
 			}
 		},
 		onLoad() {
@@ -94,25 +101,25 @@
 			}
 		},
 		methods: {
-			getList(){				
-				post(h5_order_list , {
-					page : this.page,
-					order_type : this.activeNav
-				}).then(res =>{
-					if(res.data &&Array.isArray(res.data) ){
-						this.list = [ ...this.list,...res.data]
+			getList() {
+				post(h5_order_list, {
+					page: this.page,
+					order_type: this.activeNav
+				}).then(res => {
+					if (res.data && Array.isArray(res.data)) {
+						this.list = [...this.list, ...res.data]
 					}
 				})
 			},
-			handleClickNavItem(e){
+			handleClickNavItem(e) {
 				this.activeNav = e
 				this.page = 1
 				this.list = []
 				this.getList()
 			},
-			handleGoToDetail(e){
+			handleGoToDetail(e) {
 				uni.navigateTo({
-					url:'/pages/orderDetail/orderDetail?id='+e.order_id
+					url: '/pages/orderDetail/orderDetail?id=' + e.order_id
 				})
 			},
 			handleScrollTolower() {
@@ -121,35 +128,43 @@
 						this.page++
 						this.getList()
 					})
-				}else{
-					setTimeout(()=>{
+				} else {
+					setTimeout(() => {
 						this.page++
 						this.getList()
-					},17)
+					}, 17)
 				}
 			},
-			handleClickCancle(a){
+			handleClickCancle(a) {
 				uni.showModal({
-					title:'提示',
-					confirmColor:'确认取消',
-					cancelText:'返回',
-					confirmColor:'#DC2D1E',
-					content:'是否确认取消订单？',
-					cancelColor:'#999999',
+					title: '提示',
+					confirmColor: '确认取消',
+					cancelText: '返回',
+					confirmColor: '#DC2D1E',
+					content: '是否确认取消订单？',
+					cancelColor: '#999999',
 					success(e) {
-						if(e.confirm){
-							post(h5_order_cancle,{
-								order_id : a.order_id
-							}).then(res =>{
+						if (e.confirm) {
+							post(h5_order_cancle, {
+								order_id: a.order_id
+							}).then(res => {
 								uni.showToast({
-									title:'取消成功'
+									title: '取消成功'
 								})
 								this.getList()
 							})
-						}else{
-							
+						} else {
+
 						}
 					}
+				})
+			},
+			// 去往收银台
+			handleGoCashier(item) {
+				let url =
+					`/pages/cashier/cashier?product_item_id=${item.product_item_id}&order_no=${item.order_no}&order_price=${item.order_total_price}`
+				uni.navigateTo({
+					url
 				})
 			}
 		}
@@ -159,6 +174,7 @@
 <style lang="scss" scoped>
 	.order {
 		max-height: 100vh;
+
 		&-nav {
 			height: 80rpx;
 			width: 100%;
@@ -168,13 +184,16 @@
 			color: #8A8A8A;
 			font-size: 14px;
 			text-align: center;
-			&-item{
+
+			&-item {
 				text-align: center;
 				width: 100rpx;
-				&.active{
+
+				&.active {
 					color: #D10910;
 					position: relative;
-					&::after{
+
+					&::after {
 						content: '';
 						bottom: -22rpx;
 						position: absolute;
@@ -185,40 +204,47 @@
 					}
 				}
 			}
-			
+
 		}
-		&-body{
+
+		&-body {
 			padding-top: 20rpx;
-			&-item{
+
+			&-item {
 				height: 200rpx;
 				padding: 20rpx 0;
 				width: 100%;
 				display: flex;
 				align-items: center;
 				border-bottom: 1px solid #343434;
-				&-imageBox{
+
+				&-imageBox {
 					width: 166rpx;
 					height: 166rpx;
 					position: relative;
-					&-image{
+
+					&-image {
 						width: 100%;
 						height: 100%;
 						border-radius: 24rpx;
 						background-size: cover;
 					}
-					&-level{
+
+					&-level {
 						position: absolute;
 						top: 0;
 						left: 0;
 						width: 42px;
 						height: 20px;
-						image{
+
+						image {
 							width: 100%;
 							height: 100%;
 						}
 					}
 				}
-				&-box{
+
+				&-box {
 					display: flex;
 					align-items: flex-start;
 					flex-direction: column;
@@ -228,26 +254,29 @@
 					padding: 20rpx;
 					color: #8A8A8A;
 					flex: auto;
-					&-flex{
+
+					&-flex {
 						display: flex;
 						align-items: center;
 						justify-content: space-between;
 						width: 100%;
 					}
 				}
-				&-title{
+
+				&-title {
 					color: #FFFFFF;
 					font-size: 14px;
-					white-space: nowrap;  
-					text-overflow:ellipsis; 
-					overflow:hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					overflow: hidden;
 					width: calc(100vw - 400rpx);
 
 				}
-			
+
 			}
 		}
-		.my-btn{
+
+		.my-btn {
 			border: none;
 			height: 40rpx;
 			border-radius: 50px;
@@ -255,14 +284,15 @@
 			font-size: 12px;
 			background-color: #0D0D0D;
 			color: #AEAEAE;
-			border: 1rpx solid  #666;
+			border: 1rpx solid #666;
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			font-weight: 500;
 		}
 	}
-	.center{
+
+	.center {
 		width: 100%;
 		height: 200rpx;
 		display: flex;

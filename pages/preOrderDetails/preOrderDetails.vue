@@ -344,11 +344,13 @@
 			handOrLogin(status) {
 				if (status === 2) {
 					uni.showToast({
-						title: '已售罄，感谢您的关注'
+						title: '已售罄，感谢您的关注',
+						icon: 'none'
 					})
 				} else if (status === 0) {
 					uni.showToast({
-						title: '未开售'
+						title: '未开售',
+						icon: 'none'
 					})
 				}
 
