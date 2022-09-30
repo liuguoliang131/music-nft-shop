@@ -1,7 +1,7 @@
 <template>
 	<view class="slots">
 		<view class="nav">
-			<image @tap="handleBack()" class="nav-left" src="../static/navLeft.png" mode=""></image>
+			<image @tap="navBack()" class="nav-left" src="../static/navLeft.png" mode=""></image>
 		</view>
 	</view>
 
