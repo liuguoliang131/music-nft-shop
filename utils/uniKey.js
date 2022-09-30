@@ -9,7 +9,7 @@ const test = {
 	BASE_URL: 'https://c.yuanyinfu.com',
 	APP_DOWNLOAD_URL: 'https://share.yuanyinfu.com/h5/app',
 	appURL: 'https://c.yuanyinfu.com', //本web地址
-	appId: '' //公众号id
+	appId: 'wxc71083a78fa68d77' //公众号id
 }
 const prod = {
 	// BASE_URL: 'http://h5.yuanyinfu.com'

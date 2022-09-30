@@ -262,9 +262,13 @@ export const jumpWxAuthUrl = () => {
 		let code = url.split('?')[1].split('&')[0].split('=')[1]
 		console.log('code', code)
 		const getopenid_api = '/h5/collections_wechat/get_web_access_token'
-		// uni.request({
-		// 	url: getopenid_api
-		// })
+		uni.request({
+			url: config.BASE_URL + getopenid_api
+		}).then(res => {
+			setOpenId(res.data.data.open_id)
+		}).catch(error => {
+			console.log(error)
+		})
 		// post(h5_collections_wechat_get_web_access_token, {
 		// 	code
 		// }).then(res => {
