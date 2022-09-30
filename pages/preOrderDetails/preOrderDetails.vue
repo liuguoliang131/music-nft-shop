@@ -73,6 +73,10 @@
 			</view>
 			<view class="card cardbox2">
 				<view class="card-body">
+					<view class="work" v-show="data.introduction">
+						<view class="row1">专辑介绍</view>
+						<view class="row2" v-html="data.introduction"></view>
+					</view>
 					<view class="work" v-for="(item,idx) in data.music_list" :key="idx">
 						<view class="row1">{{item.name}}</view>
 						<view class="row2" v-html="item.desc">
@@ -842,6 +846,7 @@
 						mix-blend-mode: normal;
 						border-radius: 22px;
 						color: rgba(220, 45, 30, 1);
+						color: #D10910;
 
 						.title-p-rmb {
 							padding-left: 4rpx;
