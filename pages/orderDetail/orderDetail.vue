@@ -96,7 +96,7 @@
 					购买数量
 				</view>
 				<view class="number" style="flex-flow: wrap;">
-					{{detail.buy_num}}
+					{{detail.buy_num}}张
 				</view>
 			</view>
 		</block>
@@ -134,7 +134,7 @@
 					购买数量
 				</view>
 				<view class="number" style="flex-flow: wrap;">
-					{{detail.buy_num}}
+					{{detail.buy_num}}张
 				</view>
 			</view>
 		</block>
