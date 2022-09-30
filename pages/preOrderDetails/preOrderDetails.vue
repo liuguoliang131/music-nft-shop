@@ -346,9 +346,13 @@
 					uni.showToast({
 						title: '已售罄，感谢您的关注'
 					})
+				} else if (status === 0) {
+					uni.showToast({
+						title: '未开售'
+					})
 				}
 
-				if (!this.data.is_login) {
+				if (!this.$store.state.user.token) {
 					let url = '/pages/login/login'
 					if (this.share_sign) {
 						url += `?share_sign=${this.share_sign}`
@@ -378,7 +382,7 @@
 					// 		icon: 'error'
 					// 	})
 					// }
-					if (!this.data.is_login) {
+					if (!this.$store.state.user.token) {
 						let url = '/pages/login/login'
 						if (this.share_sign) {
 							url += `?share_sign=${this.share_sign}`
