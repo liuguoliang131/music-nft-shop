@@ -36,6 +36,9 @@
 		h5_conllections_buy_showsuccess
 	} from '../../request/api.js'
 	import {
+		post1
+	} from '../../request/index.js'
+	import {
 		requestPayment
 	} from '../../request/index.js'
 	import CuHead from '../../components/cu-head.vue'
@@ -305,7 +308,7 @@
 			// 监听是否支付成功
 			listenPaySuccess() {
 				this.listenTimer = setInterval(() => {
-					this.$post(h5_conllections_buy_showsuccess, {
+					post1(h5_conllections_buy_showsuccess, {
 						order_no: this.order_no
 					}).then(res => {
 						if (res.code === 200) {
