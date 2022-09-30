@@ -32,7 +32,8 @@
 	import {
 		h5_conllections_buy_result,
 		h5_conllections_buy_pay_type_list,
-		h5_conllections_buy_pay
+		h5_conllections_buy_pay,
+		h5_conllections_buy_showsuccess
 	} from '../../request/api.js'
 	import {
 		requestPayment
@@ -304,23 +305,29 @@
 			// 监听是否支付成功
 			listenPaySuccess() {
 				this.listenTimer = setTimeout(() => {
-					// this.$post().then(res=>{
-					if (res.code !== 0) {
+					this.$post(h5_conllections_buy_showsuccess, {
+						order_no: this.order_no
+					}).then(res => {
+						if (res.code !== 0 || res.code !== 200) {
+							uni.showToast({
+								title: res.msg,
+								icon: 'none'
+							})
+							clearTimeout(this.listenTimer)
+						} else if (res.code === 200) {
+							uni.reLaunch({
+								url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}&order_id=${res.data.order_id}`
+							})
+						}
+						// 如果接收到 那么跳转到支付成功页面
+
+					}).catch(error => {
+						clearTimeout(this.listenTimer)
 						uni.showToast({
-							title: res.msg,
-							icon: 'none'
+							icon: 'error',
+							title: res.message
 						})
-					}
-					// 如果接收到 那么跳转到支付成功页面
-					uni.reLaunch({
-						url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}`
 					})
-					// }).catch(error => {
-					// 	uni.showToast({
-					// 		icon: 'error',
-					// 		title: res.message
-					// 	})
-					// })
 				}, 1500)
 			}
 

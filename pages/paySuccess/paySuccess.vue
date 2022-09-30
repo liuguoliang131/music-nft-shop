@@ -4,7 +4,7 @@
 		<view class="box1">
 			<image class="icon" src="../../static/Frame 41.png"></image>
 			<view class="row1">支付成功</view>
-			<view class="row2">实付 ￥3188.00</view>
+			<view class="row2">实付 ￥{{order_price}}</view>
 			<view class="row3">恭喜您已购买成功</view>
 		</view>
 		<view class="box2">
@@ -22,9 +22,15 @@
 		},
 		data() {
 			return {
+				order_no: '',
 				order_id: '',
-
+				order_price: '0.00',
+				product_item_id: ''
 			};
+		},
+		onLoad(option) {
+			this.order_id = option.order_id
+			this.order_price = option.order_price
 		},
 		methods: {
 			handleBack() {
