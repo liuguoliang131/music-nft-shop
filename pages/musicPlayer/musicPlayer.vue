@@ -6,16 +6,17 @@
 			最新梦想单曲
 		</view>
 		<view class="list">
-			<view class="item" v-for="(item,index) in music_list" :key="index">
+			<view class="item" v-for="(item,index) in music_list" :key="index" @tap="handSelect(item)">
 				<text class="item-idx">
 					{{index+1<10?'0'+(index+1):index+1}}
 				</text>
 				<text class="item-content">
-					<text class="name">歌曲名</text>
-					<text class="author">—歌手</text>
+					<text class="name">{{item.name}}</text>
+					<text class="author">{{item.singer}}</text>
 				</text>
-				<image class="item-icon" src="../../static/playIcon.png"></image>
-				<!-- <image class="item-icon" src="../../static/pauseIcon.png"></image> -->
+				<image v-if="item.checked" class="item-icon" src="../../static/pauseIcon.png"></image>
+				<image v-else class="item-icon" src="../../static/playIcon.png"></image>
+
 			</view>
 		</view>
 		<view class="player">
@@ -41,6 +42,8 @@
 				</view>
 			</view>
 		</view>
+		<audio id="audio1" :src="active.music_url" name="audio1" :controls="false" @error="onError" @play="onPlay"
+			@pause="onPause" @timeupdate="onTimeupdate" @ended="onEnded"></audio>
 	</view>
 </template>
 
@@ -50,18 +53,47 @@
 		data() {
 			return {
 				music_list: [{
-					"name": "0923-004单曲测试",
-					"desc": "04萤火虫的微光、独行的灯火，还是燎原的火把，都是值得被看见的女性力量，对别人来说，也许这些光亮微不足道，但对自己来说，每一个都是值得纪念的高光时刻",
-					"music_url": "https://media.shenglangnft.com/music/1663550442714210.mp3",
-					"music_time": 217
-				}]
+						"name": "0923-004单曲测试",
+						'singer': '哇哈哈',
+						"desc": "04萤火虫的微光、独行的灯火，还是燎原的火把，都是值得被看见的女性力量，对别人来说，也许这些光亮微不足道，但对自己来说，每一个都是值得纪念的高光时刻",
+						"music_url": "https://media.shenglangnft.com/music/1663550442714210.mp3",
+						"music_time": 217,
+						checked: true
+					},
+					{
+						"name": "0923-004单曲测试1",
+						'singer': 'giao',
+						"desc": "04萤火虫的微光、独行的灯火，还是燎原的火把，都是值得被看见的女性力量，对别人来说，也许这些光亮微不足道，但对自己来说，每一个都是值得纪念的高光时刻",
+						"music_url": "https://media.shenglangnft.com/music/166364042618769.wav",
+						"music_time": 217,
+						checked: false
+					}
+				],
+				active: {
+					"name": "",
+					'singer': '',
+					"desc": "",
+					"music_url": "",
+					"music_time": 0,
+					checked: true
+				}
 			};
 		},
 		components: {
 			CuHead
 		},
 		onLoad(option) {
-			this.music_list = JSON.parse(option.music_list || [])
+			if (option.music_list) {
+				const list = JSON.parse(option.music_list)
+				list.forEach((item, index) => {
+					item.checked = !index
+				})
+				this.music_list = list
+
+			}
+			// 一会删掉
+			this.active = this.music_list[0]
+
 		},
 		methods: {
 			handleBack() {
@@ -93,7 +125,28 @@
 				}
 				this.$refs.redLine.$el.style.width = nowWidth + 'px'
 
-			}
+			},
+			// 点击歌曲item
+			handSelect(item) {
+				if (item.checked) return false
+				this.music_list.forEach(item1 => item1.checked = false)
+				item.checked = true
+			},
+			onError(e) {
+				console.log('onError', e)
+			},
+			onPlay(e) {
+				console.log('onPlay', e)
+			},
+			onPause(e) {
+				console.log('onPause', e)
+			},
+			onTimeupdate(e) {
+				console.log('onTimeupdate', e)
+			},
+			onEnded(e) {
+				console.log('onEnded', e)
+			},
 		}
 	}
 </script>
