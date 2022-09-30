@@ -209,19 +209,36 @@
 							if (res.err_msg == "get_brand_wcpay_request:ok") {
 								// 使用以上方式判断前端返回,微信团队郑重提示：
 								//res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-								that.getUserInfo()
-								that.getShipHistory()
+								uni.showToast({
+									title: '支付成功',
+									icon: 'success'
+								})
 							}
 							// 支付过程中用户取消
-							if (res.err_msg == "get_brand_wcpay_request:cancel") {}
+							if (res.err_msg == "get_brand_wcpay_request:cancel") {
+								uni.showToast({
+									title: '支付取消',
+									icon: 'none'
+								})
+							}
 							// 支付失败
-							if (res.err_msg == "get_brand_wcpay_request:fail") {}
+							if (res.err_msg == "get_brand_wcpay_request:fail") {
+								uni.showToast({
+									title: '支付失败',
+									icon: 'error'
+								})
+							}
 							/**
 							 * 其它
 							 * 1、请检查预支付会话标识prepay_id是否已失效
 							 * 2、请求的appid与下单接口的appid是否一致
 							 * */
-							if (res.err_msg == "调用支付JSAPI缺少参数：total_fee") {}
+							if (res.err_msg == "调用支付JSAPI缺少参数：total_fee") {
+								uni.showToast({
+									title: '调用支付JSAPI缺少参数：total_fee',
+									icon: 'error'
+								})
+							}
 						})
 				}
 				// 检测支付环境中的
@@ -276,6 +293,7 @@
 
 				} catch (e) {
 					//TODO handle the exception
+					console.log(e)
 					uni.showToast({
 						title: e.message,
 						icon: 'error'
