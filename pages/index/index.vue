@@ -116,10 +116,11 @@
 					page: this.page,
 					sort: this.order
 				}).then(res => {
-					console.log('res', res)
 					this.loginFlag = !!res.data.is_login
 					if (res.data.list) {
 						this.list = [...this.list, ...res.data.list]
+					}else{
+						this.page = this.page - 1
 					}
 
 				})
