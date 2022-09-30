@@ -1,5 +1,6 @@
 <template>
 	<view class="container">
+		<cu-head></cu-head>
 		<view class="notice">
 			当前拥有{{total_num}}张
 		</view>
@@ -12,17 +13,21 @@
 						<view class="item-image-image" :style="`background-image:url(${item.index_img})`">
 						</view>
 						<view class="item-image-level">
-							{{item.rare_type}}
+							<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
+							<image v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
+							<image v-else-if="item.rare_type==='R'" src="../../static/R.png" mode=""></image>
+							<image v-else-if="item.rare_type==='N'" src="../../static/N.png" mode=""></image>
+							<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
 						</view>
 					</view>
 					<view class="item-title">
 						{{item.name}}
 					</view>
 					<view class="flex">
-						<view class="item-number">
+						<view class="item-number" style="font-size: 13px;">
 							{{item.code_num}}
 						</view>
-						<view class="item-price">
+						<view class="item-price" style="font-size: 16px;">
 							￥{{item.price}}
 						</view>
 					</view>
@@ -53,7 +58,7 @@
 			}
 		},
 		onShow() {
-			// this.getList()
+			this.getList()
 		},
 		methods: {
 			getList() {
@@ -101,16 +106,17 @@
 
 	.notice {
 		position: absolute;
-		top: 0;
+		top: 44px;
 		left: 0;
 		width: 100%;
 		height: 64rpx;
-		background-color: #494742;
+		background: #252111;
 		text-align: center;
-		line-height: 64rpx;
-		color: #BAB092;
-		font-size: 14px;
+		color: #AC9147;
 		z-index: 100vh;
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 64rpx;
 	}
 
 	.grid-box {
@@ -132,8 +138,8 @@
 
 		&-image {
 			border-radius: 12px;
-			width: calc(50vw - 70rpx);
-			height: calc(50vw - 70rpx);
+			width: calc(50vw - 50rpx);
+			height: calc(50vw - 60rpx);
 			position: relative;
 			padding-bottom: 20rpx;
 
@@ -149,13 +155,12 @@
 				position: absolute;
 				top: 0;
 				left: 0;
-				// width: 64rpx;
-				font-size: 12px;
-				background: linear-gradient(102.78deg, #FFE476 0%, #FFEDBE 100%);
-				padding: 8rpx 30rpx;
-				border-radius: 10px 0 10px 0;
-				font-weight: 500;
-				color: #B17A0F;
+				width: 42px;
+				height: 20px;
+				image{
+					width: 100%;
+					height: 100%;
+				}
 			}
 		}
 
@@ -172,6 +177,7 @@
 		&-price {
 			font-size: 12px;
 			color: #E8938A;
+			font-weight: 500;
 		}
 	}
 

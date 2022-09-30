@@ -1,9 +1,7 @@
 <template>
 	<!-- 预购专辑详情 -->
 	<view class="container">
-		<view class="nav">
-			<image @tap="handleBack()" class="nav-left" src="../../static/Frame 1000006272.png" mode=""></image>
-		</view>
+		<cu-head></cu-head>
 		<view class="preOrderDetails-header">
 			<view class="cover">
 				<div class="cover-content">
@@ -15,11 +13,11 @@
 
 			</view>
 			<view class="row1">
-				<image v-if="data.rare_type==='SSR'" src="../../static/Frame 1000006238.png" mode=""></image>
-				<image v-else-if="data.rare_type==='UR'" src="../../static/Frame 1000006237.png" mode=""></image>
-				<image v-else-if="data.rare_type==='R'" src="../../static/Frame 1000006236.png" mode=""></image>
-				<image v-else-if="data.rare_type==='N'" src="../../static/Frame 1000006235.png" mode=""></image>
-				<image v-else-if="data.rare_type==='SR'" src="../../static/Frame 1000006234.png" mode=""></image>
+			<image v-if="data.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
+			<image v-else-if="data.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
+			<image v-else-if="data.rare_type==='R'" src="../../static/R.png" mode=""></image>
+			<image v-else-if="data.rare_type==='N'" src="../../static/N.png" mode=""></image>
+			<image v-else-if="data.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
 				{{data.name}}
 			</view>
 			<view class="row2">
@@ -464,28 +462,7 @@
 
 	.container {
 		padding: 0 24rpx;
-		padding-top: 88rpx;
-
-		.nav {
-			position: fixed;
-			top: 0;
-			left: 0;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 100%;
-			height: 88rpx;
-			background-color: #0D0D0D;
-			z-index: 10;
-
-			.nav-left {
-				position: absolute;
-				top: 28rpx;
-				left: 28rpx;
-				width: 48rpx;
-				height: 48rpx;
-			}
-		}
+		
 
 		.preOrderDetails-header {
 			text-align: center;

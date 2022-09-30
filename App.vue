@@ -61,7 +61,7 @@
 		min-height: 100vh;
 		background-color: $uni-bg-color;
 		color: #fff;
-		padding: 0 40rpx;
+		padding: 0 20rpx;
 		position: relative;
 		font-family: 'PingFang SC';
 

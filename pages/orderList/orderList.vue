@@ -1,5 +1,6 @@
 <template>
 	<view class="container order">
+		<cu-head/>
 		<view class="order-nav">
 			<view class="order-nav-item" :class="index === activeNav ? 'active' : ''" v-for="( item , index ) in navList" :key='index' @click="handleClickNavItem(index)">
 				{{item}}
@@ -15,7 +16,11 @@
 						:style="`background-image:url(${item.index_img})`">
 					</view>
 					<view class="order-body-item-imageBox-level" v-if="item.rare_type">
-						{{item.rare_type}}
+						<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
+						<image v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
+						<image v-else-if="item.rare_type==='R'" src="../../static/R.png" mode=""></image>
+						<image v-else-if="item.rare_type==='N'" src="../../static/N.png" mode=""></image>
+						<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
 					</view>
 				</view>
 				<view class="order-body-item-box">
@@ -23,7 +28,7 @@
 						<view class="order-body-item-title">
 							{{item.title}}
 						</view>
-						<view class="order-body-item-type" style="color: #D10910;">
+						<view class="order-body-item-type" style="color: #D10910;font-size: 14px;font-weight: 500;">
 							{{item.order_status | filterStatus}} <text class="cuIcon-right"></text>
 						</view>
 					</view>
@@ -160,7 +165,6 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			border-bottom: 1px solid #343434;
 			color: #8A8A8A;
 			font-size: 14px;
 			text-align: center;
@@ -168,7 +172,7 @@
 				text-align: center;
 				width: 100rpx;
 				&.active{
-					color: #E7573D;
+					color: #D10910;
 					position: relative;
 					&::after{
 						content: '';
@@ -176,8 +180,8 @@
 						position: absolute;
 						left: 0;
 						width: 100rpx;
-						background-color: #E7573D;
-						height: 8rpx;
+						background-color: #D10910;
+						height: 3rpx;
 					}
 				}
 			}
@@ -206,13 +210,12 @@
 						position: absolute;
 						top: 0;
 						left: 0;
-						// width: 64rpx;
-						font-size: 12px;
-						background: linear-gradient(102.78deg, #FFE476 0%, #FFEDBE 100%);
-						padding: 8rpx 30rpx;
-						border-radius: 10px 0 10px 0;
-						font-weight: 500;
-						color: #B17A0F;
+						width: 42px;
+						height: 20px;
+						image{
+							width: 100%;
+							height: 100%;
+						}
 					}
 				}
 				&-box{
@@ -241,9 +244,6 @@
 					width: calc(100vw - 400rpx);
 
 				}
-				&-price{
-					color: #E7573D;
-				}
 			
 			}
 		}
@@ -259,6 +259,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			font-weight: 500;
 		}
 	}
 	.center{

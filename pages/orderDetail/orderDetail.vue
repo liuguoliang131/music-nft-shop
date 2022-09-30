@@ -1,11 +1,13 @@
 <template>
 	<view class="container">
+		<cu-head/>
+		
 		<view class="title">
 			专辑信息
 		</view>
 
-		<view class=" mt-2" style="display: flex;align-items: center;">
-			<image :src="detail.index_url" class="image" style="min-width: 120px;height: 120px;" mode=""></image>
+		<view class=" mt-2" style="display: flex;align-items: flex-start;">
+			<image :src="detail.index_url" class="image" style="width: 120px;height: 120px;" mode=""></image>
 			<view class="box">
 				<view class="box-title">
 					{{detail.name}}
@@ -19,44 +21,48 @@
 				<view class="number">
 					发行时间 {{filterTimes(detail.publish_time * 1000)}}
 				</view>
-				<view class="number price">
+				<view class="number">
 					发行价格 ¥{{detail.buy_price}}/张
 				</view>
 			</view>
 		</view>
-		<view class="title mt-2">
-			认证信息
-		</view>
-		<view class="flex" v-if="detail.order_status === 3">
-			<view class="key number" style="width: 250rpx;">
-				Record Number
+		
+		
+		<view class="border-bottom">
+			<view class="title mt-2">
+				认证信息
 			</view>
-			<view class="number" style="flex-flow: wrap;">
-				{{detail.code_num_min}}~{{detail.code_num_max}}
+			<view class="flex" v-if="detail.order_status === 3">
+				<view class="key number" style="width: 250rpx;">
+					Record Number
+				</view>
+				<view class="number" style="flex-flow: wrap;">
+					{{detail.code_num_min}}~{{detail.code_num_max}}
+				</view>
 			</view>
-		</view>
-		<view class="flex">
-			<view class="key number" style="width: 250rpx;">
-				Contract Address
+			<view class="flex">
+				<view class="key number" style="width: 250rpx;">
+					Contract Address
+				</view>
+				<view class="number" style="flex-flow: wrap;">
+					{{detail.contract_address}}
+				</view>
 			</view>
-			<view class="number" style="flex-flow: wrap;">
-				{{detail.contract_address}}
+			<view class="flex">
+				<view class="key number" style="width: 250rpx;">
+					Token ID
+				</view>
+				<view class="number" style="flex-flow: wrap;">
+					{{detail.token_id}}
+				</view>
 			</view>
-		</view>
-		<view class="flex">
-			<view class="key number" style="width: 250rpx;">
-				Token ID
-			</view>
-			<view class="number" style="flex-flow: wrap;">
-				{{detail.token_id}}
-			</view>
-		</view>
-		<view class="flex">
-			<view class="key number" style="width: 250rpx;">
-				Token Standard
-			</view>
-			<view class="number" style="flex-flow: wrap;">
-				{{detail.token_standard}}
+			<view class="flex">
+				<view class="key number" style="width: 250rpx;">
+					Token Standard
+				</view>
+				<view class="number" style="flex-flow: wrap;">
+					{{detail.token_standard}}
+				</view>
 			</view>
 		</view>
 
@@ -118,7 +124,7 @@
 					取消时间
 				</view>
 				<view class="number" style="flex-flow: wrap;">
-					{{filterTimes(detail.pay_time * 1000)}}
+					{{filterTimes(detail.cancel_time * 1000)}}
 				</view>
 			</view>
 
@@ -179,7 +185,7 @@
 			</view>
 
 			<view class="flex price">
-				<view class="key number price" style="width: 80rpx;">
+				<view class="key number price" style="width: 80rpx;color: #D10910;">
 					实付金额
 				</view>
 				<view class="number price" style="flex-flow: wrap;">
@@ -409,7 +415,6 @@
 	.flex {
 		display: flex;
 		align-items: flex-start;
-		justify-content: center;
 		// flex-wrap: wrap;
 		flex-shrink: 0;
 
@@ -537,5 +542,9 @@
 		&.key {
 			color: #666666;
 		}
+	}
+	.border-bottom{
+		border-bottom: 0.5px solid #363636;
+		padding: 18px 0;
 	}
 </style>
