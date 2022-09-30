@@ -76,7 +76,7 @@
 
 	.no-data{
 		width: 100%;
-		height: 400rpx;
+		height: 800rpx;
 		display: flex;
 		flex-direction: column;
 		align-items: center;

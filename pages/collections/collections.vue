@@ -27,10 +27,10 @@
 						</view>
 					</view>
 				</view>
-				<view class="no-data" v-if="list.length===0">
-					<image src="../../static/no-data.png" mode=""></image>
-					暂无数据~
-				</view>
+			</view>
+			<view class="no-data" v-if="list.length===0">
+				<image src="../../static/no-data.png" mode=""></image>
+				~ 空空如也，请先去选购 ~
 			</view>
 		</scroll-view>
 
@@ -53,7 +53,7 @@
 			}
 		},
 		onShow() {
-			this.getList()
+			// this.getList()
 		},
 		methods: {
 			getList() {
@@ -64,8 +64,8 @@
 					if (res.data.list && Array.isArray(res.data.list)) {
 						this.list = [...res.data.list, ...this.list]
 						this.total_num = res.data.total_num || 0
-					} else {
-						this.page = this.page - 1
+					}else{
+						this.page = this.page -1
 					}
 				})
 
@@ -77,7 +77,7 @@
 				})
 			},
 			handleScrollTolower() {
-				if (this.list.length === this.total_num) return
+				if(this.list.length === this.total_num) return 
 				if (window.requestAnimationFrame && typeof window.requestAnimationFrame === 'function') {
 					window.requestAnimationFrame(() => {
 						this.page++
@@ -180,9 +180,5 @@
 		align-items: center;
 		justify-content: space-between;
 		padding-top: 20rpx;
-	}
-
-	.no-data {
-		width: 670rpx;
 	}
 </style>
