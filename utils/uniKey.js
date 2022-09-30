@@ -11,7 +11,7 @@ const test = {
 }
 const prod = {
 	// BASE_URL: 'http://h5.yuanyinfu.com'
-	BASE_URL: 'https://c.yuanyinfu.com',
+	BASE_URL: 'https://yyf-h5.yuanyinfu.com',
 	APP_DOWNLOAD_URL: 'https://share.yuanyinfu.com/h5/app'
 }
 let compileConfig = null
