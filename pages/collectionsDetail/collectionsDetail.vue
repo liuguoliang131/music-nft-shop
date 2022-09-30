@@ -32,7 +32,7 @@
 				认证信息
 			</view>
 			<view class="flex">
-				<view class="key number" style="width: 250rpx;">
+				<view class="key number" style="width: 250rpx;text-align: right;text-align-last:right">
 					Record Number
 				</view>
 				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
@@ -40,7 +40,7 @@
 				</view>
 			</view>
 			<view class="flex">
-				<view class="key number" style="width: 250rpx;">
+				<view class="key number" style="width: 260rpx;text-align: right;text-align-last:right">
 					Contract Address
 				</view>
 				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
@@ -48,7 +48,7 @@
 				</view>
 			</view>
 			<view class="flex">
-				<view class="key number" style="width: 250rpx;">
+				<view class="key number" style="width: 250rpx;text-align: right;text-align-last:right">
 					Token ID
 				</view>
 				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
@@ -56,7 +56,7 @@
 				</view>
 			</view>
 			<view class="flex">
-				<view class="key number" style="width: 250rpx;">
+				<view class="key number" style="width: 250rpx;text-align: right;text-align-last:right">
 					Token Standard
 				</view>
 				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
