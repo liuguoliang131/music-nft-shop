@@ -20,10 +20,10 @@
 			</view>
 		</view>
 		<view class="player">
-			<audio id="audio1" ref="audio1" :src="active.music_url" :name="active.name" :controls="true"
-				@error="onError" @play="onPlay" @pause="onPause" @timeupdate="onTimeupdate" @ended="onEnded"></audio>
-			<!-- 	<wxy-audio src="https://jiustech.ygsjyxx.cn/uploads/school/202107/60fa690871806.mp3" :play.sync="audioPlay"
-				msshow :name="active.name" :author="item.singer"></wxy-audio> -->
+			<!-- 			<audio id="audio1" ref="audio1" :src="active.music_url" :name="active.name" :controls="true"
+				@error="onError" @play="onPlay" @pause="onPause" @timeupdate="onTimeupdate" @ended="onEnded"></audio> -->
+			<wxy-audio v-if="active.music_url" id="audio1" :src="active.music_url" :play.sync="audioPlay" autoplay>
+			</wxy-audio>
 		</view>
 
 	</view>
@@ -31,7 +31,11 @@
 
 <script>
 	import CuHead from '../../components/cu-head.vue'
+	import WxyAudio from '../../uni_modules/wxy-audio/components/wxy-audio/wxy-audio.vue'
 	export default {
+		components: {
+			WxyAudio
+		},
 		data() {
 			return {
 				name: '',
@@ -54,7 +58,7 @@
 				],
 				active: {
 					"name": "",
-					'singer': '',
+					'singer': "1",
 					"desc": "",
 					"music_url": "",
 					"music_time": 0,
@@ -76,7 +80,6 @@
 
 			}
 			this.name = option.name
-			// 一会删掉
 			this.active = this.music_list[0]
 
 		},
@@ -114,12 +117,13 @@
 			// 点击歌曲item
 			handSelect(item) {
 				if (item.checked) return false
+				this.audioPlay = false
 				this.music_list.forEach(item1 => item1.checked = false)
 				item.checked = true
 				this.active = item
 				// console.log(this.$refs.audio1.$el.children[0].play())
 				// this.$refs.audio1.$el.children[0].play()
-
+				this.audioPlay = true
 			},
 			onError(e) {
 				console.log('onError', e)
@@ -223,13 +227,13 @@
 			left: 0;
 			z-index: 10;
 			width: 100%;
-			height: 120rpx;
+			height: 102rpx;
 			background-color: #fff;
 			display: flex;
 			align-items: center;
 
 			#audio1 {
-				width: 100%;
+				width: 750rpx !important;
 
 				/deep/.uni-audio-default {
 					width: 100% !important;
