@@ -10,7 +10,7 @@
 					{{userInfo.phone?(userInfo.phone.substring(0,3)+'****'+userInfo.phone.substring(7,12)):''}}
 				</view>
 			</view>
-			<text class="cuIcon-right mine-head-icon"></text>
+			<!-- <text class="cuIcon-right mine-head-icon"></text> -->
 		</view>
 		<view class="mine-notice">
 			<view class="mine-notice-name">

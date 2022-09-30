@@ -9,10 +9,12 @@
 		<view class="main">
 			<view class="form">
 				<view class="form-item phone">
-					<input class="uni-input" maxlength="11" type="number" placeholder="请输入手机号码" v-model="form.phone" />
+					<input class="uni-input" maxlength="11" type="number" placeholder="请输入手机号码"
+						placeholder-style="color: #363636;" v-model="form.phone" />
 				</view>
 				<view class="form-item captcha">
-					<input class="uni-input" maxlength="6" type="number" placeholder="请输入验证码" v-model="form.captcha" />
+					<input class="uni-input" maxlength="6" type="number" placeholder="请输入验证码"
+						placeholder-style="color: #363636;" v-model="form.captcha" />
 					<view v-if="!timer" class="getcaptcha" @tap="handShowPopup">获取验证码</view>
 					<view v-else class="getcaptcha">{{countDown}}</view>
 				</view>
@@ -272,7 +274,7 @@
 			display: flex;
 			justify-content: center;
 			width: 100%;
-			padding-top: 200rpx;
+			padding-top: 50rpx;
 
 			.form {
 				width: 600rpx;
@@ -298,10 +300,6 @@
 						font-size: 28rpx;
 						color: #ECECEC;
 						font-size: 28rpx;
-
-						&::placeholder {
-							color: #363636;
-						}
 
 						&:hover {
 							border-bottom: 0.5rpx solid #ECECEC;

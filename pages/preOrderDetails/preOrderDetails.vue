@@ -787,7 +787,7 @@
 					width: 139rpx;
 					height: 139rpx;
 					border: 0.6rpx solid rgba(255, 255, 255, 0.2);
-					border-radius: 20px;
+					border-radius: 20rpx;
 					background-color: transparent;
 				}
 
@@ -882,7 +882,11 @@
 						.minus-img {
 							width: 62rpx;
 							height: 58rpx;
+							border-radius: 16rpx 0 0 16rpx;
+						}
 
+						&:active .minus-img {
+							background-color: rgba(134, 134, 134, 1);
 						}
 					}
 

@@ -20,9 +20,9 @@
 					<input class="uni-input" maxlength="18" type="text" placeholder="身份证号"
 						v-model="form.identification_number" />
 				</view>
-				<view class="tips">
+				<!-- 				<view class="tips">
 					提示：实名认证会关联到后续的账户提现，请录入您真实的身份信息
-				</view>
+				</view> -->
 				<view class="sub">
 					<view class="submit" @tap="handValid()">认证</view>
 				</view>
