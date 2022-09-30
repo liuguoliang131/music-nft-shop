@@ -925,6 +925,7 @@
 						height: 58rpx;
 						text-align: center;
 						font-size: 36rpx;
+						font-weight: 600;
 						color: #DC2D1E;
 					}
 
