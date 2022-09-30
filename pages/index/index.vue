@@ -29,8 +29,8 @@
 			<scroll-view class="list" style="height:calc(100vh - 220rpx)" scroll-y @scrolltolower='handleScrollTolower'>
 				<view @tap="handViewDetail(item)" class="list-item" v-for="(item , index) in list" :key='index'>
 					<view class="list-item-image-box">
-						<image class="list-item-image" :src="item.index_img">
 						</image>
+						<view class="list-item-image" :style="`background-image:url(${item.index_img})`"></view>
 						<view class="list-item-level">
 							<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
 							<image v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
@@ -48,7 +48,7 @@
 
 						</view>
 					</view>
-					<view style="min-width: 44px;">
+					<view style="flex-shrink: 0;">
 						<view class="list-item-price-dit" style="font-weight: 500;">
 							{{item.sale_status | filterStatus}}
 						</view>
@@ -269,6 +269,9 @@
 				width: 120px;
 				height: 120px;
 				border-radius: 12px;
+				background-size: cover;
+				background-position: center;
+				background-repeat: no-repeat;
 
 				&-box {
 					width: 240rpx;
