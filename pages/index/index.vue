@@ -44,7 +44,7 @@
 						<view class="list-item-time">{{filterTime1(item.sale_time*1000)}}开售</view>
 						<view class="list-item-tag">限量{{item.stock_num_desc}}张</view>
 						<view class="list-item-price-box">
-							<view class="list-item-price">￥{{item.sale_price}}</view>
+							<view class="list-item-price">￥<text style="font-weight: 600;font-size: 18px;">{{item.sale_price}}</text></view>
 
 						</view>
 					</view>
@@ -330,9 +330,9 @@
 			}
 
 			&-price {
-				font-size: 18px;
+				font-size: 14px;
 				color: #D10910;
-				font-weight: 500;
+				font-weight: 400;
 				margin-top: auto;
 
 				&-box {

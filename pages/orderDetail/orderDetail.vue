@@ -33,7 +33,7 @@
 				认证信息
 			</view>
 			<view class="flex" v-if="detail.order_status === 3">
-				<view class="key number" style="width: 250rpx;">
+				<view class="key number" style="width: 200rpx;">
 					Record Number
 				</view>
 				<view class="number" style="flex-flow: wrap;">
@@ -41,7 +41,7 @@
 				</view>
 			</view>
 			<view class="flex">
-				<view class="key number" style="width: 250rpx;">
+				<view class="key number" style="width: 200rpx;">
 					Contract Address
 				</view>
 				<view class="number" style="flex-flow: wrap;">
@@ -49,7 +49,7 @@
 				</view>
 			</view>
 			<view class="flex">
-				<view class="key number" style="width: 250rpx;">
+				<view class="key number" style="width: 200rpx;">
 					Token ID
 				</view>
 				<view class="number" style="flex-flow: wrap;">
@@ -57,7 +57,7 @@
 				</view>
 			</view>
 			<view class="flex">
-				<view class="key number" style="width: 250rpx;">
+				<view class="key number" style="width: 200rpx;">
 					Token Standard
 				</view>
 				<view class="number" style="flex-flow: wrap;">

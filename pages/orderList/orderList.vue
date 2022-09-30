@@ -47,7 +47,7 @@
 						</view>
 					</view>
 					<view class="order-body-item-box-flex">
-						<view class="order-body-item-price" style="margin-left: auto;">
+						<view class="order-body-item-price" style="margin-left: auto;color: #fff;">
 							实付金额 ￥{{item.order_total_price}}
 						</view>
 					</view>
@@ -55,7 +55,7 @@
 					<view class="order-body-item-box-flex" v-if="item.order_status === 1">
 						<view style="display: flex;align-items: center;margin-left: auto;margin-top: 8rpx;" >
 							<button class="my-btn" @click.stop="handleClickCancle(item)">取消订单</button>
-							<button class="my-btn" style="border-color: #C9A43D;color: #C9A43D;margin-left: 10rpx;">去支付</button>
+							<button class="my-btn"  @click.stop="handleClickGotoPay(item)" style="border-color: #C9A43D;color: #C9A43D;margin-left: 10rpx;">去支付</button>
 						</view>
 					</view>
 				</view>
@@ -141,16 +141,21 @@
 							post(h5_order_cancle,{
 								order_id : a.order_id
 							}).then(res =>{
+								this.getList()
 								uni.showToast({
 									title:'取消成功'
 								})
-								this.getList()
+								
 							})
 						}else{
 							
 						}
 					}
 				})
+			},
+			// 点击去支付
+			handleClickGotoPay(e){
+				
 			}
 		}
 	}
@@ -174,6 +179,8 @@
 				&.active{
 					color: #D10910;
 					position: relative;
+					font-weight: 600;
+					font-size: 16px;
 					&::after{
 						content: '';
 						bottom: -22rpx;

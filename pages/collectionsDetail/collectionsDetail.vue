@@ -6,7 +6,7 @@
 		</view>
 
 		<view class=" mt-2" style="display: flex;align-items: center;">
-			<image :src="detail.index_img" class="image" style="min-width: 120px;" mode=""></image>
+			<image :src="detail.index_img" class="image" style="width: 120px;height: 120px;" mode=""></image>
 			<view class="box" style="font-size: 13px;">
 				<view class="box-title">
 					{{detail.name}}
@@ -69,7 +69,7 @@
 			<view class="title mt-2">
 				{{item.name}}
 			</view>
-			<view class="content" style="margin-top: 20rpx;">
+			<view class="content" style="margin-top: 15rpx;">
 				{{item.desc}}
 			</view>
 		</view>
@@ -122,7 +122,7 @@
 								发行时间
 							</view>
 							<view class="number">
-								{{detail.certificate.publish_time}}
+								{{filterTimes(detail.certificate.publish_time * 1000 )}}
 							</view>
 						</view>
 						<view class="flex text">
@@ -235,6 +235,8 @@
 <style lang="scss" scoped>
 	.container {
 		padding-bottom: 120rpx;
+		padding-left: 40rpx;
+		padding-right: 40rpx;
 	}
 
 	.collection {
@@ -254,7 +256,7 @@
 
 		&-head {
 			width: 100%;
-			height: 800rpx;
+			// height: 800rpx;
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -268,6 +270,7 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
+				
 
 				&-1 {
 					background-image: url(../../static/Frame%2077.png);
@@ -330,7 +333,7 @@
 	}
 
 	.mt-2 {
-		margin-top: 20rpx;
+		margin-top: 39rpx;
 	}
 
 	.flex {
@@ -410,18 +413,13 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding-top: 40rpx;
-
-		&-logo {
-			width: 100rpx;
-			height: 140rpx;
-		}
-
+		// padding-top: 40rpx;
 		&-title {
 			color: #101010;
 			font-weight: 500;
 			font-size: 18px;
 			position: relative;
+			margin-top: 14rpx;
 
 			&::before {
 				content: '';
@@ -448,7 +446,7 @@
 	}
 
 	.body {
-		padding: 20rpx;
+		// padding: 20rpx;
 		margin-top: 20rpx;
 
 	}
