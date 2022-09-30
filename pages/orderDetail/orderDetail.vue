@@ -67,59 +67,126 @@
 		<view class="title mt-2">
 			订单信息
 		</view>
-		<view class="flex">
-			<view class="key number" style="width: 80rpx;">
-				订单编号
+		<block v-if="detail.order_status === 1">
+			<view class="flex">
+				<view class="key number" style="width: 80rpx;">
+					订单编号
+				</view>
+				<view class="number" style="flex-flow: wrap;">
+					{{detail.order_no}}
+				</view>
 			</view>
-			<view class="number" style="flex-flow: wrap;">
-				{{detail.order_no}}
+
+			<view class="flex">
+				<view class="key number" style="width: 80rpx;">
+					创建时间
+				</view>
+				<view class="number" style="flex-flow: wrap;">
+					{{filterTimes(detail.order_create_time * 1000)}}
+				</view>
 			</view>
-		</view>
-		
-		<view class="flex">
-			<view class="key number" style="width: 80rpx;">
-				创建时间
+			<view class="flex">
+				<view class="key number" style="width: 80rpx;">
+					购买数量
+				</view>
+				<view class="number" style="flex-flow: wrap;">
+					{{detail.buy_num}}
+				</view>
 			</view>
-			<view class="number" style="flex-flow: wrap;">
-				{{filterTimes(detail.order_create_time * 1000)}}
+		</block>
+		<block v-if="detail.order_status === 2">
+			<view class="flex">
+				<view class="key number" style="width: 80rpx;">
+					订单编号
+				</view>
+				<view class="number" style="flex-flow: wrap;">
+					{{detail.order_no}}
+				</view>
 			</view>
-		</view>
-		
-		<view class="flex">
-			<view class="key number" style="width: 80rpx;">
-				支付时间
+
+			<view class="flex">
+				<view class="key number" style="width: 80rpx;">
+					创建时间
+				</view>
+				<view class="number" style="flex-flow: wrap;">
+					{{filterTimes(detail.order_create_time * 1000)}}
+				</view>
 			</view>
-			<view class="number" style="flex-flow: wrap;">
-				{{filterTimes(detail.pay_time * 1000)}}
+
+			<view class="flex">
+				<view class="key number" style="width: 80rpx;">
+					取消时间
+				</view>
+				<view class="number" style="flex-flow: wrap;">
+					{{filterTimes(detail.pay_time * 1000)}}
+				</view>
 			</view>
-		</view>
-		
-		<view class="flex">
-			<view class="key number" style="width: 80rpx;">
-				支付方式
+
+
+			<view class="flex">
+				<view class="key number" style="width: 80rpx;">
+					购买数量
+				</view>
+				<view class="number" style="flex-flow: wrap;">
+					{{detail.buy_num}}
+				</view>
 			</view>
-			<view class="number" style="flex-flow: wrap;">
-				{{detail.pay_type | filterPayType}}
+		</block>
+		<block v-if="detail.order_status === 3">
+			<view class="flex">
+				<view class="key number" style="width: 80rpx;">
+					订单编号
+				</view>
+				<view class="number" style="flex-flow: wrap;">
+					{{detail.order_no}}
+				</view>
 			</view>
-		</view>
-		
-		<view class="flex">
-			<view class="key number" style="width: 80rpx;">
-				购买数量
+
+			<view class="flex">
+				<view class="key number" style="width: 80rpx;">
+					创建时间
+				</view>
+				<view class="number" style="flex-flow: wrap;">
+					{{filterTimes(detail.order_create_time * 1000)}}
+				</view>
 			</view>
-			<view class="number" style="flex-flow: wrap;">
-				{{detail.buy_num}}
+
+			<view class="flex">
+				<view class="key number" style="width: 80rpx;">
+					支付时间
+				</view>
+				<view class="number" style="flex-flow: wrap;">
+					{{filterTimes(detail.pay_time * 1000)}}
+				</view>
 			</view>
-		</view>
-		
-		<view class="flex price">
-			<view class="key number price" style="width: 80rpx;">
-				实付金额
+
+			<view class="flex">
+				<view class="key number" style="width: 80rpx;">
+					支付方式
+				</view>
+				<view class="number" style="flex-flow: wrap;">
+					{{detail.pay_type | filterPayType}}
+				</view>
 			</view>
-			<view class="number price" style="flex-flow: wrap;">
-				￥{{detail.pay_price}}
+
+			<view class="flex">
+				<view class="key number" style="width: 80rpx;">
+					购买数量
+				</view>
+				<view class="number" style="flex-flow: wrap;">
+					{{detail.buy_num}}
+				</view>
 			</view>
-		</view>
+
+			<view class="flex price">
+				<view class="key number price" style="width: 80rpx;">
+					实付金额
+				</view>
+				<view class="number price" style="flex-flow: wrap;">
+					￥{{detail.pay_price}}
+				</view>
+			</view>
+		</block>
 		<view class="container-btn" v-if="detail.order_status === 1">
 			去支付
 		</view>
@@ -170,20 +237,20 @@
 			this.getOrderDetail(id)
 
 		},
-		filters:{
-			filterPayType(e){
+		filters: {
+			filterPayType(e) {
 				console.log(e)
 				const list = {
-					1 : '支付宝',
-					2:'微信',
-					3:'银行卡',
-					4:'零钱'
+					1: '支付宝',
+					2: '微信',
+					3: '银行卡',
+					4: '零钱'
 				}
 				return list[e] || '未知'
 			}
 		},
 		methods: {
-			filterTimes(e){
+			filterTimes(e) {
 				return dayjs(e).format('YYYY/MM/DD HH:mm:ss')
 			},
 			getOrderDetail(e) {
@@ -206,7 +273,8 @@
 <style lang="scss" scoped>
 	.container {
 		padding-bottom: 120rpx;
-		&-btn{
+
+		&-btn {
 			position: fixed;
 			bottom: 0;
 			left: 0;
@@ -216,7 +284,8 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			&.cancel{
+
+			&.cancel {
 				background: #7C7C7C;
 				color: #fff;
 			}
@@ -457,12 +526,15 @@
 		margin-right: 0;
 		min-height: 100rpx;
 	}
+
 	.price {
 		color: #E7573D !important;
 	}
-	.number{
+
+	.number {
 		color: #AEAEAE;
-		&.key{
+
+		&.key {
 			color: #666666;
 		}
 	}

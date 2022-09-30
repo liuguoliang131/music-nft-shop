@@ -123,7 +123,7 @@
 					},17)
 				}
 			},
-			handleClickCancle(e){
+			handleClickCancle(a){
 				uni.showModal({
 					title:'提示',
 					confirmColor:'确认取消',
@@ -133,12 +133,13 @@
 					cancelColor:'#999999',
 					success(e) {
 						if(e.confirm){
-							post({
-								order_id : e.order_id
+							post(h5_order_cancle,{
+								order_id : a.order_id
 							}).then(res =>{
 								uni.showToast({
 									title:'取消成功'
 								})
+								this.getList()
 							})
 						}else{
 							
