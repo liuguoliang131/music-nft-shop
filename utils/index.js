@@ -288,6 +288,6 @@ export const jumpWxAuthUrl = () => {
 		return false
 	}
 	window.location.href =
-		`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${config.appId}&redirect_uri=${config.appURL}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`
+		`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${config.appId}&redirect_uri=${config.appURL}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
 
 }
