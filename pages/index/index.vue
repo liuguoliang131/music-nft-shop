@@ -118,10 +118,18 @@
 				}).then(res => {
 					this.loginFlag = !!res.data.is_login
 					if (res.data.list) {
-						this.list = [...this.list, ...res.data.list]
+						if(this.page === 1 ){
+							this.list = res.data.list
+						}else{
+							this.list = [...this.list, ...res.data.list]
+						}
+						
 					} else {
 						this.page = this.page - 1
 					}
+					
+					
+					
 
 				})
 			},

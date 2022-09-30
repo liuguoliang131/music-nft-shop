@@ -111,7 +111,14 @@
 					order_type: this.activeNav
 				}).then(res => {
 					if (res.data && Array.isArray(res.data)) {
-						this.list = [...this.list, ...res.data]
+						if(this.page === 1 ){
+							this.list = res.data.list
+						}else{
+							this.list = [...this.list, ...res.data.list]
+						}
+						
+					}else{
+						this.page = this.page -1
 					}
 				})
 			},
