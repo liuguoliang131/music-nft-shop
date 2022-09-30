@@ -93,6 +93,7 @@
 					this.startCountDown()
 				} catch (e) {
 					//TODO handle the exception
+					console.log(e)
 					uni.showToast({
 						title: e.message,
 						icon: 'error'
@@ -179,7 +180,7 @@
 			// 支付
 			async handPay() {
 				try {
-					const res = await this.$post(h5_collections_buy_pay, {
+					const res = await this.$post(h5_conllections_buy_pay, {
 						order_no: this.order_no,
 						pay_id: this.list.find(item => item.checked).pay_id
 					})
@@ -195,12 +196,12 @@
 					// 		wx_pay_string: 'https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?prepay_id=wx2016121516420242444321ca0631331346&package=1405458241'
 					// 	}
 					// }
-					const url = Object.keys(res.data).find(key => {
-						return res.data[key]
-					})
+					// const url = Object.keys(res.data).find(key => {
+					// 	return res.data[key]
+					// })
 
 					console.log('pay')
-					window.location.href = url
+					window.location.href = res.data.wx_pay_string
 				} catch (e) {
 					//TODO handle the exception
 					uni.showToast({

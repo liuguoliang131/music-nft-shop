@@ -34,7 +34,7 @@
 			<image class="player-icon" src="../../static/play.png" mode=""></image>
 			<!-- <image class="player-icon" src="../../static/pause.png" mode=""></image> -->
 			<view class="progress" ref="progress">
-				<view class="bar"></view>
+				<view class="bar" ref="progressBar"></view>
 				<view class="bar-red">
 					<view class="red-btn" @touchmove="handTouchmove"></view>
 					<view class="red-line" ref="redLine"></view>
@@ -72,12 +72,18 @@
 			},
 			// 拖动进度条
 			handTouchmove(e) {
-
 				const clientX = e.touches[0].pageX
 				const parentX = this.$refs.progress.$el.offsetLeft
+				const barWidth = this.$refs.progressBar.$el.offsetWidth //灰色进度条的总长
 				console.log('鼠标距离左侧', clientX)
 				console.log('进度条组件离左侧距离', parentX)
-				this.$refs.redLine.$el.style.width = clientX - parentX + 'px'
+				let nowWidth = clientX - parentX //现在宽度
+				if (nowWidth < 0) {
+					nowWidth = 0
+				} else if (nowWidth > barWidth) {
+					nowWidth = barWidth
+				}
+				this.$refs.redLine.$el.style.width = nowWidth + 'px'
 
 			}
 		}
