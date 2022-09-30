@@ -282,16 +282,17 @@ const getHeader = (data) => {
 
 }
 const getWebAccessToken = (data) => {
+	console.log('getWebAccessToken data', data)
 	const getopenid_api = '/h5/collections_wechat/get_web_access_token'
 	return new Promise((resolve, reject) => {
+		console.log('getWebAccessToken promise')
 		uni.request({
 			url: config.BASE_URL + getopenid_api,
 			method: 'post',
 			header: getHeader(data),
-			data: {
-				code
-			}
+			data
 		}).then(res => {
+			console.log('getWebAccessToken res', res)
 			if (res.data.code !== 0) {
 				reject(new Error(res.data.msg))
 				return false
@@ -301,6 +302,7 @@ const getWebAccessToken = (data) => {
 			}
 
 		}).catch(error => {
+			console.log('getWebAccessToken error', error)
 			reject(new Error(error.message))
 		})
 	})
