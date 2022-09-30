@@ -1,5 +1,6 @@
 <template>
 	<view class="container mine">
+		<cu-head></cu-head>
 		<view class="mine-head">
 			<image :src="userInfo.avatar" class="mine-head-image" mode=""></image>
 			<view class="mine-head-box">
@@ -26,18 +27,18 @@
 		<view class="mine-list">
 			<view class="mine-list-item" @click="goToCollections">
 				<image src="../../static/mine.png" class="mine-list-item-image" mode=""></image>
-				我的专辑
-				<text class="cuIcon-right mine-head-icon"></text>
+				我的藏品
+				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 			<view class="mine-list-item" @click="goToOrder">
 				<image src="../../static/order.png" class="mine-list-item-image" mode=""></image>
-				专辑订单
-				<text class="cuIcon-right mine-head-icon"></text>
+				藏品订单
+				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 			<view class="mine-list-item" @click="goCustomer">
 				<image src="../../static/kefu.png" class="mine-list-item-image" mode=""></image>
 				联系客服
-				<text class="cuIcon-right mine-head-icon"></text>
+				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 		</view>
 

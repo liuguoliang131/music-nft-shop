@@ -32,7 +32,11 @@
 						<image class="list-item-image" :src="item.index_img">
 						</image>
 						<view class="list-item-level">
-							{{item.rare_type}}
+							<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
+							<image v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
+							<image v-else-if="item.rare_type==='R'" src="../../static/R.png" mode=""></image>
+							<image v-else-if="item.rare_type==='N'" src="../../static/N.png" mode=""></image>
+							<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
 						</view>
 					</view>
 					<view class="list-item-box">
@@ -44,8 +48,8 @@
 
 						</view>
 					</view>
-					<view style="min-width: 100rpx;">
-						<view class="list-item-price-dit">
+					<view style="min-width: 44px;">
+						<view class="list-item-price-dit" style="font-weight: 500;">
 							{{item.sale_status | filterStatus}}
 						</view>
 					</view>
@@ -57,7 +61,7 @@
 			<view class="need-login">
 				<text>元音符-原创音乐聚集地</text>
 				<button class="to-login" @tap="handLogin()">登录</button>
-				<text class="cuIcon-close" @click="handleCloseLogintag"></text>
+				<text class="cuIcon-close" style="font-size: 16px;color: #686868" @click="handleCloseLogintag"></text>
 			</view>
 		</view>
 	</view>
@@ -255,15 +259,15 @@
 			border: 0.5px solid #5F5F5F;
 			border-radius: 10px;
 			// background-color: #454545;
-			padding: 10rpx;
+			padding: 8px 8px 10px 8px;
 			display: flex;
 			align-items: flex-start;
-			margin-bottom: 40rpx;
+			margin-bottom: 16rpx;
 
 
 			&-image {
-				width: 240rpx;
-				height: 240rpx;
+				width: 120px;
+				height: 120px;
 				border-radius: 12px;
 
 				&-box {
@@ -277,15 +281,12 @@
 				position: absolute;
 				top: 0;
 				left: 0;
-				width: 64rpx;
-				font-size: 12px;
-				color: #333;
-				background: linear-gradient(92.38deg, rgba(232, 209, 138, 1) 10.66%, rgba(171, 148, 73, 1) 94.64%);
-				padding: 4rpx 20rpx;
-				border-radius: 10px 0 10px 0;
-				font-weight: 700;
-				color: #B17A0F;
-				background: linear-gradient(102.78deg, #FFE476 0%, #FFEDBE 100%);
+				width: 42px;
+				height: 20px;
+				image{
+					width: 100%;
+					height: 100%;
+				}
 			}
 
 			&-box {
@@ -311,20 +312,20 @@
 				font-weight: 500;
 				font-size: 16px;
 				line-height: 22px;
-
 				color: #ECECEC;
+				
 
 			}
 
 			&-time {
-				margin-top: 20rpx;
+				margin-top: 8px;
 				height: 17px;
 				font-size: 12px;
 				text-align: left;
 			}
 
 			&-tag {
-				margin-top: 20rpx;
+				margin-top: 4rpx;
 				font-size: 12px;
 			}
 
@@ -332,6 +333,7 @@
 				font-size: 18px;
 				color: #D10910;
 				font-weight: 500;
+				margin-top: auto;
 
 				&-box {
 					display: flex;
@@ -352,7 +354,7 @@
 
 	.need-login {
 		position: fixed;
-		bottom: 20rpx;
+		bottom: 40px;
 		left: 20rpx;
 		right: 20rpx;
 		background-color: #201A17;
@@ -412,7 +414,7 @@
 	}
 
 	.logo {
-		width: 160rpx;
-		height: 48rpx;
+		width: 77px;
+		height: 24px;
 	}
 </style>

@@ -1,14 +1,14 @@
 <template>
 	<view class="container collection">
-		
+		<cu-head></cu-head>
 		<view class="title">
 			专辑信息
 		</view>
 	
 		<view class=" mt-2" style="display: flex;align-items: center;">
 			<image :src="detail.index_img"
-				class="image" mode=""></image>
-			<view class="box">
+				class="image" style="min-width: 120px;" mode=""></image>
+			<view class="box" style="font-size: 13px;">
 				<view class="box-title">
 					{{detail.name}}
 				</view>
@@ -21,44 +21,47 @@
 				<view class="number">
 					发行时间 {{detail.publish_time}}
 				</view>
-				<view class="number price">
+				<view class="number">
 					发行价格 ¥{{detail.sale_price}}元/张
 				</view>
 			</view>
 		</view>
-		<view class="title mt-2">
-			认证信息
-		</view>
-		<view class="flex">
-			<view class="key number" style="width: 250rpx;">
-				Record Number
+		
+		<view class="border-bottom">
+			<view class="title mt-2 ">
+				认证信息
 			</view>
-			<view class="number" style="flex-flow: wrap;">
-				{{detail.code_num}}
+			<view class="flex">
+				<view class="key number" style="width: 250rpx;">
+					Record Number
+				</view>
+				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
+					{{detail.code_num}}
+				</view>
 			</view>
-		</view>
-		<view class="flex">
-			<view class="key number" style="width: 250rpx;">
-				Contract Address
+			<view class="flex">
+				<view class="key number" style="width: 250rpx;">
+					Contract Address
+				</view>
+				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
+					{{detail.contract_address}}
+				</view>
 			</view>
-			<view class="number" style="flex-flow: wrap;">
-				{{detail.contract_address}}
+			<view class="flex">
+				<view class="key number" style="width: 250rpx;">
+					Token ID
+				</view>
+				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
+					{{detail.token_id}}
+				</view>
 			</view>
-		</view>
-		<view class="flex">
-			<view class="key number" style="width: 250rpx;">
-				Token ID
-			</view>
-			<view class="number" style="flex-flow: wrap;">
-				{{detail.token_id}}
-			</view>
-		</view>
-		<view class="flex">
-			<view class="key number" style="width: 250rpx;">
-				Token Standard
-			</view>
-			<view class="number" style="flex-flow: wrap;">
-				{{detail.token_standard}}
+			<view class="flex">
+				<view class="key number" style="width: 250rpx;">
+					Token Standard
+				</view>
+				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
+					{{detail.token_standard}}
+				</view>
 			</view>
 		</view>
 	
@@ -83,7 +86,7 @@
 			<view style="border: 0.5px solid #AC9147;border-radius: 6px;padding: 10rpx;">
 				<view class="head">
 					
-					<image src="../../static/logo-black.jpg" class="head-logo"></image>
+					<image src="../../static/logo-black.jpg" style="width: 49px;height: 65px;" class="head-logo"></image>
 					
 					<view class="head-title">
 						数字专辑证书
@@ -92,7 +95,7 @@
 				<view class="body">
 					<view class="flex">
 						<view class="key number">
-							编 号:
+							编号
 						</view>
 						<view class="number">
 							{{detail.certificate.code}}
@@ -100,7 +103,7 @@
 					</view>
 					<view class="flex">
 						<view class="key number">
-							名 称:
+							名称
 						</view>
 						<view class="number">
 							{{detail.certificate.name}}
@@ -338,7 +341,6 @@
 	.content {
 		font-size: 12px;
 		color: #8A8A8A;
-		text-indent: 2rem;
 	}
 	.key{
 		width: 240rpx;
@@ -362,12 +364,13 @@
 			border: none;
 			color: #847443 ;
 			background-color: #fff;
-			font-size: 14px;
+			font-size: 16px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			font-weight: 500;
 			&.primary{
-				background-color: #E8D18A;
+				background: #AC9147;
 				color: #fff;
 			}
 		}
@@ -392,20 +395,22 @@
 			&::before{
 				content: '';
 				width: 60rpx;
-				height: 2rpx;
-				background-color: #000;
+				height: 1rpx;
+				background-color: #666666;
 				position: absolute;
 				top: 50%;
 				left: calc(100% + 10rpx);
+				opacity: .8;
 			}
 			&::after{
 				content: '';
 				width: 60rpx;
-				height: 2rpx;
-				background-color: #000;
+				height: 1rpx;
+				background-color: #666666;
 				position: absolute;
 				top: 50%;
 				right: calc(100% + 10rpx);
+				opacity: .8;
 			}
 		}
 	}
@@ -420,8 +425,6 @@
 	.flex{
 		display: flex;
 		align-items: flex-start;
-		// justify-content: center;
-		// flex-wrap: wrap;
 		flex-shrink: 0;
 		flex: 1;
 		width: 100%;
@@ -431,14 +434,22 @@
 			text-align: left;
 			width: calc(100% - 120rpx);
 			word-break:break-all;
+			font-weight: 600;
+			font-size: 13px;
+			line-height: 18px;
+			color: #333333;
 		}
 		.key{
-			width: 120rpx;
-			min-width: 120rpx;
-			text-align: right;
+			width: 140rpx;
+			text-align: justify;
+		    text-align-last: justify;
 			margin-left: 20rpx;
 			height: auto;
+			font-weight: 400;
+			font-size: 13px;
+			text-align: right;
 			
+			color: #999999;
 		}
 	}
 	
@@ -544,5 +555,9 @@
 		border-radius: 10px 0 10px 0;
 		font-weight: 500;
 		color: #B17A0F;
+	}
+	.border-bottom{
+		border-bottom: 0.5px solid #363636;
+		padding: 18px 0;
 	}
 </style>
