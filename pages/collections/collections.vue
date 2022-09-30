@@ -27,7 +27,7 @@
 						<view class="item-number" style="font-size: 13px;">
 							{{item.code_num}}
 						</view>
-						<view class="item-price" >
+						<view class="item-price">
 							￥<text style="font-size: 16px;">{{item.price}}</text>
 						</view>
 					</view>
@@ -82,7 +82,7 @@
 				})
 			},
 			handleScrollTolower() {
-				if(this.list.length >= this.total_num) return
+				if (this.list.length >= this.total_num) return
 				if (window.requestAnimationFrame && typeof window.requestAnimationFrame === 'function') {
 					window.requestAnimationFrame(() => {
 						this.page++
@@ -177,7 +177,7 @@
 
 		&-price {
 			font-size: 12px;
-			color: #E8938A;
+			color: #D10910;
 			font-weight: 500;
 		}
 	}
