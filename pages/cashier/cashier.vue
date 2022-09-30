@@ -307,6 +307,7 @@
 			},
 			// 监听是否支付成功
 			listenPaySuccess() {
+				clearTimeout(this.listenTimer)
 				this.listenTimer = setInterval(() => {
 					post1(h5_conllections_buy_showsuccess, {
 						order_no: this.order_no
@@ -342,7 +343,11 @@
 			this.getPayType()
 		},
 		onShow() {
-			this.listenPaySuccess()
+			// this.startCountDown()
+		},
+		onHide() {
+			// clearTimeout(this.timer)
+			clearTimeout(this.listenTimer)
 		},
 		beforeDestroy() {
 			clearTimeout(this.timer)

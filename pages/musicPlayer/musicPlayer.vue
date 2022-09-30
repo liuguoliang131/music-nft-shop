@@ -113,7 +113,7 @@
 				item.checked = true
 				this.active = item
 				// console.log(this.$refs.audio1.$el.children[0].play())
-				this.$refs.audio1.$el.children[0].play()
+				// this.$refs.audio1.$el.children[0].play()
 
 			},
 			onError(e) {
