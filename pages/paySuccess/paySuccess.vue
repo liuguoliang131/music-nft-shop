@@ -8,8 +8,8 @@
 			<view class="row3">恭喜您已购买成功</view>
 		</view>
 		<view class="box2">
-			<view class="btn1">查看订单</view>
-			<view class="btn2">返回专辑</view>
+			<view class="btn1" @tap="handGoDetail">查看订单</view>
+			<view class="btn2" @tap="handBackIndex">返回专辑</view>
 		</view>
 	</view>
 </template>
@@ -22,6 +22,7 @@
 		},
 		data() {
 			return {
+				order_id: '',
 
 			};
 		},
@@ -39,7 +40,20 @@
 						delta: 1, //返回层数，2则上上页
 					})
 				}
+			},
+			// 去往订单详情
+			handGoDetail() {
+				uni.reLaunch({
+					url: '/pages/orderDetail/orderDetail?id=' + this.order_id
+				})
+			},
+			// 去往首页
+			handBackIndex() {
+				uni.reLaunch({
+					url: '/pages/index/index'
+				})
 			}
+
 		}
 	}
 </script>

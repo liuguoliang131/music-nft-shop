@@ -6,7 +6,7 @@
 			最新梦想单曲
 		</view>
 		<view class="list">
-			<view class="item" v-for="(item,index) in 29">
+			<view class="item" v-for="(item,index) in music_list" :key="index">
 				<text class="item-idx">
 					{{index+1<10?'0'+(index+1):index+1}}
 				</text>
@@ -49,11 +49,19 @@
 	export default {
 		data() {
 			return {
-
+				music_list: [{
+					"name": "0923-004单曲测试",
+					"desc": "04萤火虫的微光、独行的灯火，还是燎原的火把，都是值得被看见的女性力量，对别人来说，也许这些光亮微不足道，但对自己来说，每一个都是值得纪念的高光时刻",
+					"music_url": "https://media.shenglangnft.com/music/1663550442714210.mp3",
+					"music_time": 217
+				}]
 			};
 		},
 		components: {
 			CuHead
+		},
+		onLoad(option) {
+			this.music_list = JSON.parse(option.music_list || [])
 		},
 		methods: {
 			handleBack() {

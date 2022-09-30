@@ -47,7 +47,8 @@
 				order_no: '',
 				order_price: '',
 				displayTime: '',
-				list: []
+				list: [],
+				listenTimer: null //监听回调
 			};
 		},
 		components: {
@@ -209,6 +210,28 @@
 						icon: 'error'
 					})
 				}
+			},
+			// 监听是否支付成功
+			listenPaySuccess() {
+				this.listenTimer = setTimeout(() => {
+					// this.$post().then(res=>{
+					if (res.code !== 0) {
+						uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+					// 如果接收到 那么跳转到支付成功页面
+					uni.reLaunch({
+						url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}`
+					})
+					// }).catch(error => {
+					// 	uni.showToast({
+					// 		icon: 'error',
+					// 		title: res.message
+					// 	})
+					// })
+				}, 1500)
 			}
 
 		},
@@ -218,6 +241,13 @@
 			this.order_price = option.order_price
 			this.getOrderResult()
 			this.getPayType()
+		},
+		onShow() {
+			this.listenPaySuccess()
+		},
+		beforeDestroy() {
+			clearTimeout(this.timer)
+			clearTimeout(this.listenTimer)
 		}
 	}
 </script>

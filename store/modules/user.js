@@ -4,6 +4,7 @@ import {
 	setUserInfo,
 	getUserInfo
 } from '../../utils/index'
+console.log('store')
 export default {
 	namespaced: true,
 	state: {

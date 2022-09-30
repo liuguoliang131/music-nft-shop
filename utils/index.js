@@ -3,7 +3,7 @@ import config, {
 	TOKEN,
 	USER_INFO
 } from './uniKey.js'
-console.log('processName', processName)
+console.log('utils')
 export const getToken = () => {
 	return window.localStorage.getItem(TOKEN) || ''
 }
@@ -225,13 +225,73 @@ export const jumpBefore = (url, fail) => {
 	}
 }
 
-export const filterTime = (time) =>{
+export const filterTime = (time) => {
 	const da = new Date(time);
 	var year = da.getFullYear();
-	var month = da.getMonth()+1;
+	var month = da.getMonth() + 1;
 	var date = da.getDate();
-	const h = da.getHours() 
+	const h = da.getHours()
 	const m = da.getMinutes()
 	const s = da.getSeconds()
 	return `${[year,month,date].join('/') } ${[h,m,s].join(':')}`
+}
+// 判断是否是在微信内
+export const isWxBrowser = () => {
+	var useragent = window.navigator.userAgent
+	if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {
+		return true
+	} else {
+		return false
+	}
+}
+// 获取code
+export const getCode = () => {
+	return window.localStorage.getItem('code') || ''
+}
+export const setCode = (code) => {
+	window.localStorage.setItem('code', code)
+}
+// 获取openId
+export const getOpenId = () => {
+	return window.localStorage.getItem('openId') || ''
+}
+export const setOpenId = (openId) => {
+	window.localStorage.setItem('openId', openId)
+}
+// 跳转微信授权页
+export const jumpWxAuthUrl = () => {
+	console.log('processName', processName)
+	if (processName === 'development') {
+		return false
+	}
+	const url = window.location.href
+	if (url.includes('code=') && !getOpenId()) {
+		let code = url.split('?')[1].split('&')[0].split('=')[1]
+		console.log('code', code)
+		setCode(code) //存储code
+		// axios({
+		//   method: 'get',
+		//   url: host + h5_wx_getOpenid,
+		//   params: {
+		//     code
+		//   }
+		// }).then(res => {
+		//   console.log('获取openid then:', res)
+		//   store.commit('user/set_openId', res.data.model)
+		//   console.log('history', history)
+		//   // window.history.go(-2)
+		//   window.location.href = window.localStorage.getItem('littleBeeLink')
+		// })
+	}
+	if (getOpenId()) {
+		return false
+	}
+	if (getCode()) {
+		// 已经有code  去获取openid
+	} else {
+		window.location.href =
+			`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${config.appId}&redirect_uri=${config.appURL}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`
+	}
+
+
 }

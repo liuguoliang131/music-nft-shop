@@ -4,7 +4,9 @@
 		setUserInfo,
 		getToken,
 		setToken,
-		isApp
+		isApp,
+		isWxBrowser,
+		jumpWxAuthUrl
 	} from 'utils/index.js'
 	import {
 		h5_user_info
@@ -36,6 +38,10 @@
 					} else {
 						this.$store.commit('user/set_token', '')
 						this.$store.commit('user/set_userInfo', '')
+					}
+				} else {
+					if (isWxBrowser()) {
+						jumpWxAuthUrl()
 					}
 				}
 			}
@@ -74,7 +80,7 @@
 	}
 
 
-	.no-data{
+	.no-data {
 		width: 100%;
 		height: 800rpx;
 		display: flex;
@@ -84,12 +90,13 @@
 		color: #999;
 		font-size: 12px;
 		text-align: center;
-		image{
+
+		image {
 			width: 120rpx;
 			height: 120rpx;
 			margin-bottom: 20rpx;
 		}
-		
+
 	}
 
 
