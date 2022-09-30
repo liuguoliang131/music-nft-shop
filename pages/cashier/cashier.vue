@@ -13,7 +13,7 @@
 		</view>
 		<view class="box2">
 			<view class="box2-item" v-for="(item,idx) in list" :key="item.pay_id">
-				<image class="icon" :src="item.pay_img_url"></image>
+				<image class="icon" src="../../static/wx.png"></image>
 				<view class="text">{{item.pay_name}}</view>
 				<view class="radio" @click="handSelect(idx)">
 					<image v-show="item.checked" class="checked" src="../../static/select.png"></image>
@@ -30,9 +30,9 @@
 
 <script>
 	import {
-		h5_collections_buy_result,
+		h5_conllections_buy_result,
 		h5_conllections_buy_pay_type_list,
-		h5_collections_buy_pay
+		h5_conllections_buy_pay
 	} from '../../request/api.js'
 	import {
 		requestPayment
@@ -71,7 +71,7 @@
 			// 获取下单结果
 			async getOrderResult() {
 				try {
-					const res = await this.$post(h5_collections_buy_result, {
+					const res = await this.$post(h5_conllections_buy_result, {
 						order_no: this.order_no
 					})
 					if (res.code !== 0) {
@@ -88,7 +88,7 @@
 					// 	}
 					// }
 					this.order_no = res.data.order_no
-					this.order_price = res.data.order_price
+					this.order_price = res.data.order_price || res.data.amount
 					this.count_down = res.data.count_down
 					this.startCountDown()
 				} catch (e) {
@@ -110,9 +110,18 @@
 							duration: 3000
 						})
 						setTimeout(() => {
-							uni.navigateBack({
-								delta: 2
-							})
+							let currentRoutes = getCurrentPages(); // 获取当前打开过的页面路由数组
+							console.log(currentRoutes)
+							if (currentRoutes.length === 1) {
+								uni.redirectTo({
+									url: '/pages/index/index'
+								})
+							} else {
+								uni.navigateBack({
+									delta: 2
+								})
+							}
+
 						}, 3000)
 					}
 					this.count_down--
@@ -232,6 +241,7 @@
 
 				.count {
 					font-size: 58rpx;
+					font-weight: 600;
 				}
 			}
 

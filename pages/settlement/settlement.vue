@@ -417,6 +417,7 @@
 					font-size: 36rpx;
 					padding-right: 16rpx;
 					line-height: 50rpx;
+					font-weight: 600;
 				}
 
 				.row-4 {

@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
-		<cu-head/>
-		
+		<cu-head />
+
 		<view class="title">
 			专辑信息
 		</view>
@@ -26,8 +26,8 @@
 				</view>
 			</view>
 		</view>
-		
-		
+
+
 		<view class="border-bottom">
 			<view class="title mt-2">
 				认证信息
@@ -193,7 +193,7 @@
 				</view>
 			</view>
 		</block>
-		<view class="container-btn" v-if="detail.order_status === 1">
+		<view class="container-btn" v-if="detail.order_status === 1" @click.stop="handleGoCashier">
 			去支付
 		</view>
 		<view class="container-btn cancel" v-if="detail.order_status === 2">
@@ -270,6 +270,14 @@
 			},
 			hiddenCre() {
 				this.show = false
+			},
+			// 去往收银台
+			handleGoCashier(item) {
+				let url =
+					`/pages/cashier/cashier?product_item_id=${this.detail.product_item_id}&order_no=${this.detail.order_no}&order_price=${this.detail.order_total_price}`
+				uni.navigateTo({
+					url
+				})
 			}
 		}
 	}
@@ -542,7 +550,8 @@
 			color: #666666;
 		}
 	}
-	.border-bottom{
+
+	.border-bottom {
 		border-bottom: 0.5px solid #363636;
 		padding: 18px 0;
 	}

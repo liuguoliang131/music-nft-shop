@@ -73,6 +73,10 @@
 			</view>
 			<view class="card cardbox2">
 				<view class="card-body">
+					<view class="work" v-show="data.introduction">
+						<view class="row1">专辑介绍</view>
+						<view class="row2" v-html="data.introduction"></view>
+					</view>
 					<view class="work" v-for="(item,idx) in data.music_list" :key="idx">
 						<view class="row1">{{item.name}}</view>
 						<view class="row2" v-html="item.desc">
@@ -121,7 +125,8 @@
 								<view class="h"></view>
 							</view>
 						</view>
-						<input type="number" maxlength="3" name="" id="" v-model="count" @blur="onCountChange()">
+						<input class="countc" type="number" maxlength="3" name="" id="" v-model="count"
+							@blur="onCountChange()">
 						<view class="plus" @tap="handPlus()">
 							<!-- <image class="plus-img" src="../../static/Group 1000004650.png" mode=""></image> -->
 							<view class="plus-img">
@@ -344,11 +349,13 @@
 			handOrLogin(status) {
 				if (status === 2) {
 					uni.showToast({
-						title: '已售罄，感谢您的关注'
+						title: '已售罄，感谢您的关注',
+						icon: 'none'
 					})
 				} else if (status === 0) {
 					uni.showToast({
-						title: '未开售'
+						title: '未开售',
+						icon: 'none'
 					})
 				}
 
@@ -597,6 +604,7 @@
 				.count {
 					font-size: 36rpx;
 					margin-right: 4rpx;
+					font-weight: 600;
 				}
 
 				.unit {
@@ -838,12 +846,13 @@
 						mix-blend-mode: normal;
 						border-radius: 22px;
 						color: rgba(220, 45, 30, 1);
+						color: #D10910;
 
 						.title-p-rmb {
 							padding-left: 4rpx;
 							font-weight: 600;
 							font-size: 28rpx;
-							color: #DC2D1E;
+							color: #D10910;
 							transform: rotate(-0.39deg)
 						}
 					}
@@ -917,12 +926,13 @@
 						}
 					}
 
-					input {
+					uni-input.countc {
 						flex: 1;
 						height: 58rpx;
 						text-align: center;
 						font-size: 36rpx;
-						color: #DC2D1E;
+						font-weight: 600;
+						color: #D10910;
 					}
 
 					.plus {
@@ -996,6 +1006,7 @@
 
 					.count {
 						font-size: 40rpx;
+						font-weight: 600;
 					}
 				}
 			}
