@@ -627,6 +627,7 @@
 						.row2-1-l {
 							margin-right: 24rpx;
 							width: 104rpx;
+							text-align: right;
 						}
 
 						.row2-1-r {
