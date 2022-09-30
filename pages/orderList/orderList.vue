@@ -57,7 +57,7 @@
 			</view>
 			<view class="no-data" v-if="list.length===0">
 				<image src="../../static/no-data.png" mode=""></image>
-				暂无数据~
+				~您还没有相关订单~
 			</view>
 		</scroll-view>
 	</view>
