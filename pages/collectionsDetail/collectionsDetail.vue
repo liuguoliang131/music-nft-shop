@@ -4,7 +4,7 @@
 		<view class="title">
 			专辑信息
 		</view>
-	
+
 		<view class=" mt-2" style="display: flex;align-items: center;">
 			<image :src="detail.index_img"
 				class="image" style="min-width: 120px;" mode=""></image>
@@ -26,7 +26,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<view class="border-bottom">
 			<view class="title mt-2 ">
 				认证信息
@@ -64,8 +64,8 @@
 				</view>
 			</view>
 		</view>
-	
-	
+
+
 		<view class="" v-for="(item , index) in detail.music_list" :key='index'>
 			<view class="title mt-2">
 				{{item.name}}
@@ -74,20 +74,20 @@
 				{{item.desc}}
 			</view>
 		</view>
-		
+
 		<view class="container-bottom">
 			<div class="my-btn primary" @click="showCre">查看证书</div>
 			<div class="my-btn " @click="">欣赏专辑</div>
 		</view>
-		
-	
+
+
 	<view class="cu-modal " :class="show ? 'show' : ''"  @click="hiddenCre">
 		<view class="cu-dialog" >
 			<view style="border: 0.5px solid #AC9147;border-radius: 6px;padding: 10rpx;">
 				<view class="head">
-					
+
 					<image src="../../static/logo-black.jpg" style="width: 49px;height: 65px;" class="head-logo"></image>
-					
+
 					<view class="head-title">
 						数字专辑证书
 					</view>
@@ -137,7 +137,7 @@
 			</view>
 		</view>
 	</view>
-		
+
 	</view>
 </template>
 
@@ -179,14 +179,14 @@
 			}
 		},
 		onLoad(e) {
-			const id = e.id 
+			const id = e.id
 			const type = e.type || 'order'
 			if(type === "collection"){
 				this.getDetail(id)
 			}else{
 				this.getOrderDetail(id)
 			}
-			
+
 		},
 		methods: {
 			filterTimes(e){
@@ -201,8 +201,8 @@
 			getOrderDetail(e){
 				post(h5_order_detail ,{order_id : Number(e)} ).then(res =>{
 					// this.detail = res.data
-					
-					
+
+
 					this.detail.index_img = res.data.index_url
 				})
 			},
@@ -272,7 +272,7 @@
 				font-size: 18px;
 				line-height: 25px;
 				text-align: center;
-				
+
 				color: #ECECEC;
 			}
 			&-tags{
@@ -375,14 +375,14 @@
 			}
 		}
 	}
-	
-	
+
+
 	.head{
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		padding-top: 40rpx;
-	
+
 		&-logo{
 			width: 100rpx;
 			height: 140rpx;
@@ -414,21 +414,21 @@
 			}
 		}
 	}
-	
+
 	.body{
 		padding: 20rpx;
 		margin-top: 20rpx;
-		
+
 	}
-	
-	
+
+
 	.flex{
 		display: flex;
 		align-items: flex-start;
 		flex-shrink: 0;
 		flex: 1;
 		width: 100%;
-		
+
 		.number{
 			// flex: 1;
 			text-align: left;
@@ -448,12 +448,12 @@
 			font-weight: 400;
 			font-size: 13px;
 			text-align: right;
-			
+
 			color: #999999;
 		}
 	}
-	
-	
+
+
 	.cu-modal {
 		position: fixed;
 		top: 0;
@@ -472,14 +472,14 @@
 		transition: all 0.3s ease-in-out 0s;
 		pointer-events: none;
 	}
-	
+
 	.cu-modal::before {
 		content: "\200B";
 		display: inline-block;
 		height: 100%;
 		vertical-align: middle;
 	}
-	
+
 	.cu-modal.show {
 		opacity: 1;
 		transition-duration: 0.3s;
@@ -489,7 +489,7 @@
 		overflow-y: auto;
 		pointer-events: auto;
 	}
-	
+
 	.cu-dialog {
 		position: relative;
 		display: inline-block;
@@ -501,29 +501,29 @@
 		color: #1D1d1d;
 		padding: 20rpx;
 	}
-	
+
 	.cu-modal.bottom-modal::before {
 		vertical-align: bottom;
 	}
-	
+
 	.cu-modal.bottom-modal .cu-dialog {
 		width: 100%;
 		border-radius: 0;
 	}
-	
+
 	.cu-modal.bottom-modal {
 		margin-bottom: -1000upx;
 	}
-	
+
 	.cu-modal.bottom-modal.show {
 		margin-bottom: 0;
 	}
-	
+
 	.cu-modal.drawer-modal {
 		transform: scale(1);
 		display: flex;
 	}
-	
+
 	.cu-modal.drawer-modal .cu-dialog {
 		height: 100%;
 		min-width: 200upx;
@@ -531,15 +531,15 @@
 		margin: initial;
 		transition-duration: 0.3s;
 	}
-	
+
 	.cu-modal.drawer-modal.justify-start .cu-dialog {
 		transform: translateX(-100%);
 	}
-	
+
 	.cu-modal.drawer-modal.justify-end .cu-dialog {
 		transform: translateX(100%);
 	}
-	
+
 	.cu-modal.drawer-modal.show .cu-dialog {
 		transform: translateX(0%);
 	}

@@ -44,7 +44,7 @@ export const post = function(url, data = {}) {
 	return new Promise((resolve, reject) => {
 		uni.request({
 			header: getHeader(data),
-			timeout: 5000,
+			timeout: 20000,
 			method: 'POST',
 			url: config.BASE_URL + url,
 			data,

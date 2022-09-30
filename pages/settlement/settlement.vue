@@ -190,7 +190,7 @@
 			// 获取下单结果
 			async getOrderResult(order_no) {
 				try {
-					const res = await this.$post(h5_collections_buy_result, {
+					const res = await this.$post(h5_conllections_buy_result, {
 						order_no
 					})
 					if (res.code !== 0) {
