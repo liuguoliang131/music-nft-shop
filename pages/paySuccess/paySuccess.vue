@@ -1,8 +1,6 @@
 <template>
 	<view class="container">
-		<view class="nav">
-			<image @tap="handleBack()" class="nav-left" src="../../static/Frame 1000006272.png" mode=""></image>
-		</view>
+		<cu-head></cu-head>
 		<view class="box1">
 			<image class="icon" src="../../static/Frame 41.png"></image>
 			<view class="row1">支付成功</view>
@@ -17,7 +15,11 @@
 </template>
 
 <script>
+	import CuHead from '../../components/cu-head.vue'
 	export default {
+		components: {
+			CuHead
+		},
 		data() {
 			return {
 
@@ -45,28 +47,8 @@
 <style lang="scss">
 	.container {
 		padding: 0;
-		padding-top: 88rpx;
 
-		.nav {
-			position: fixed;
-			top: 0;
-			left: 0;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 100%;
-			height: 88rpx;
-			background-color: #0D0D0D;
-			z-index: 10;
 
-			.nav-left {
-				position: absolute;
-				top: 28rpx;
-				left: 28rpx;
-				width: 48rpx;
-				height: 48rpx;
-			}
-		}
 
 		.box1 {
 			display: flex;

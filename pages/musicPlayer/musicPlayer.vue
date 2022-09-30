@@ -1,8 +1,6 @@
 <template>
 	<view class="container">
-		<view class="nav">
-			<image @tap="handleBack()" class="nav-left" src="../../static/Frame 1000006270.png" mode=""></image>
-		</view>
+		<cu-head></cu-head>
 		<view class="title">
 			<text class="title-l"></text>
 			最新梦想单曲
@@ -16,8 +14,8 @@
 					<text class="name">歌曲名</text>
 					<text class="author">—歌手</text>
 				</text>
-				<image class="item-icon" src="../../static/Frame 1000006266.png"></image>
-				<!-- <image class="item-icon" src="../../static/Frame 1000006267.png"></image> -->
+				<image class="item-icon" src="../../static/playIcon.png"></image>
+				<!-- <image class="item-icon" src="../../static/pauseIcon.png"></image> -->
 			</view>
 		</view>
 		<view class="player">
@@ -33,8 +31,8 @@
 					<text class="box2-all">03:54</text>
 				</view>
 			</view>
-			<image class="player-icon" src="../../static/Frame 1000006041.png" mode=""></image>
-			<!-- <image class="player-icon" src="../../static/Frame 1000006042.png" mode=""></image> -->
+			<image class="player-icon" src="../../static/play.png" mode=""></image>
+			<!-- <image class="player-icon" src="../../static/pause.png" mode=""></image> -->
 			<view class="progress">
 				<view class="bar"></view>
 				<view class="bar-red" ref="barRed">
@@ -47,11 +45,15 @@
 </template>
 
 <script>
+	import CuHead from '../../components/cu-head.vue'
 	export default {
 		data() {
 			return {
 
 			};
+		},
+		components: {
+			CuHead
 		},
 		methods: {
 			handleBack() {
@@ -87,28 +89,7 @@
 		position: relative;
 		box-sizing: border-box;
 		padding: 0;
-		padding-top: 88rpx;
 
-		.nav {
-			position: fixed;
-			top: 0;
-			left: 0;
-			z-index: 10;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 100%;
-			height: 88rpx;
-			background-color: #0D0D0D;
-
-			.nav-left {
-				position: absolute;
-				top: 28rpx;
-				left: 28rpx;
-				width: 48rpx;
-				height: 48rpx;
-			}
-		}
 
 		.title {
 			position: fixed;

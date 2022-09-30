@@ -1,18 +1,20 @@
 <template>
 	<view class="container">
-		<view class="nav">
-			<image @tap="handleBack()" class="nav-left" src="../../static/Frame 1000006272.png" mode=""></image>
-		</view>
+		<cu-head></cu-head>
 		<web-view :src="url"></web-view>
 	</view>
 </template>
 
 <script>
+	import CuHead from '../../components/cu-head.vue'
 	export default {
 		data() {
 			return {
 				url: ''
 			}
+		},
+		components: {
+			CuHead
 		},
 		methods: {
 			handleBack() {
@@ -38,28 +40,27 @@
 
 <style lang="scss">
 	.container {
-		padding-top: 88rpx;
 		background-color: #fff;
 
-		.nav {
-			position: fixed;
-			top: 0;
-			left: 0;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 100%;
-			height: 88rpx;
-			background-color: #0D0D0D;
-			z-index: 10;
+		// .nav {
+		// 	position: fixed;
+		// 	top: 0;
+		// 	left: 0;
+		// 	display: flex;
+		// 	align-items: center;
+		// 	justify-content: center;
+		// 	width: 100%;
+		// 	height: 88rpx;
+		// 	background-color: #0D0D0D;
+		// 	z-index: 10;
 
-			.nav-left {
-				position: absolute;
-				top: 28rpx;
-				left: 28rpx;
-				width: 48rpx;
-				height: 48rpx;
-			}
-		}
+		// 	.nav-left {
+		// 		position: absolute;
+		// 		top: 28rpx;
+		// 		left: 28rpx;
+		// 		width: 48rpx;
+		// 		height: 48rpx;
+		// 	}
+		// }
 	}
 </style>

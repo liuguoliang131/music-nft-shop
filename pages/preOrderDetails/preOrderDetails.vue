@@ -1,23 +1,26 @@
 <template>
 	<!-- 预购专辑详情 -->
 	<view class="container">
+		<!-- <view class="nav">
+			<image @tap="handleBack()" class="nav-left" src="../../static/navLeft.png" mode=""></image>
+		</view> -->
 		<cu-head></cu-head>
 		<view class="preOrderDetails-header">
 			<view class="cover">
 				<div class="cover-content">
 					<image class="cover-img" src="../../static/image-7 1-1.png"></image>
-					<image class="cover-turn" src="../../static/Frame 77.png" mode=""></image>
+					<image class="cover-turn" src="../../static/turn.png" mode=""></image>
 					<image class="cover-turn1" :src="data.index_img" mode=""></image>
 					<!-- <image class="cover-play" src="../../static/Frame 62.png" mode=""></image> -->
 				</div>
 
 			</view>
 			<view class="row1">
-			<image v-if="data.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
-			<image v-else-if="data.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
-			<image v-else-if="data.rare_type==='R'" src="../../static/R.png" mode=""></image>
-			<image v-else-if="data.rare_type==='N'" src="../../static/N.png" mode=""></image>
-			<image v-else-if="data.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
+				<image v-if="data.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
+				<image v-else-if="data.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
+				<image v-else-if="data.rare_type==='R'" src="../../static/R.png" mode=""></image>
+				<image v-else-if="data.rare_type==='N'" src="../../static/N.png" mode=""></image>
+				<image v-else-if="data.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
 				{{data.name}}
 			</view>
 			<view class="row2">
@@ -104,7 +107,7 @@
 					</view>
 				</view>
 				<view class="popup-f">
-					<image class="popup-f-img" src="../../static/Frame 1000006250.png"></image>
+					<image class="popup-f-img" src="../../static/popupYf.png"></image>
 					<text>购买专辑可以永久聆听</text>
 				</view>
 				<view class="popup-count">
@@ -150,6 +153,7 @@
 
 <script>
 	import WybPopup from '@/components/wyb-popup/wyb-popup.vue'
+	import CuHead from '../../components/cu-head.vue'
 	import {
 		h5_collections_index_info,
 		h5_collections_user_if_approve,
@@ -160,7 +164,8 @@
 	} from '../../utils/index.js'
 	export default {
 		components: {
-			WybPopup
+			WybPopup,
+			CuHead
 		},
 		data() {
 			return {
@@ -462,7 +467,27 @@
 
 	.container {
 		padding: 0 24rpx;
-		
+
+		// .nav {
+		// 	position: fixed;
+		// 	top: 0;
+		// 	left: 0;
+		// 	display: flex;
+		// 	align-items: center;
+		// 	justify-content: center;
+		// 	width: 100%;
+		// 	height: 88rpx;
+		// 	background-color: #0D0D0D;
+		// 	z-index: 10;
+
+		// 	.nav-left {
+		// 		position: absolute;
+		// 		top: 28rpx;
+		// 		left: 28rpx;
+		// 		width: 48rpx;
+		// 		height: 48rpx;
+		// 	}
+		// }
 
 		.preOrderDetails-header {
 			text-align: center;

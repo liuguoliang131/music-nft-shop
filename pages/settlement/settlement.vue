@@ -1,8 +1,6 @@
 <template>
 	<view class="container">
-		<view class="nav">
-			<image @tap="handleBack()" class="nav-left" src="../../static/Frame 1000006272.png" mode=""></image>
-		</view>
+		<cu-head></cu-head>
 		<view class="title pt23">
 			<view class="title-l"></view>
 			<view class="title-r">专辑信息</view>
@@ -69,7 +67,11 @@
 		h5_conllections_buy_submit,
 		h5_conllections_buy_result
 	} from '../../request/api.js'
+	import CuHead from '../../components/cu-head.vue'
 	export default {
+		components: {
+			CuHead
+		},
 		data() {
 			return {
 				product_item_id: '',
@@ -229,28 +231,27 @@
 <style scoped lang="scss">
 	.container {
 		padding: 0;
-		padding-top: 88rpx;
 
-		.nav {
-			position: fixed;
-			top: 0;
-			left: 0;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 100%;
-			height: 88rpx;
-			background-color: #0D0D0D;
-			z-index: 10;
+		// .nav {
+		// 	position: fixed;
+		// 	top: 0;
+		// 	left: 0;
+		// 	display: flex;
+		// 	align-items: center;
+		// 	justify-content: center;
+		// 	width: 100%;
+		// 	height: 88rpx;
+		// 	background-color: #0D0D0D;
+		// 	z-index: 10;
 
-			.nav-left {
-				position: absolute;
-				top: 28rpx;
-				left: 28rpx;
-				width: 48rpx;
-				height: 48rpx;
-			}
-		}
+		// 	.nav-left {
+		// 		position: absolute;
+		// 		top: 28rpx;
+		// 		left: 28rpx;
+		// 		width: 48rpx;
+		// 		height: 48rpx;
+		// 	}
+		// }
 
 		.title {
 			padding: 0 40rpx 0 40rpx;

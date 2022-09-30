@@ -1,8 +1,6 @@
 <template>
 	<view class="container">
-		<view class="nav">
-			<image @tap="handleBack()" class="nav-left" src="../../static/Frame 1000006270.png" mode=""></image>
-		</view>
+		<cu-head></cu-head>
 		<div class="row1">客服二维码</div>
 		<div class="row2">
 			<image class="code2" :src="customer_service" mode=""></image>
@@ -22,11 +20,15 @@
 	import {
 		h5_user_info
 	} from '../../request/api.js'
+	import CuHead from '../../components/cu-head.vue'
 	export default {
 		data() {
 			return {
 				customer_service: ''
 			};
+		},
+		components: {
+			CuHead
 		},
 		methods: {
 			handleBack() {
@@ -96,7 +98,6 @@
 
 <style lang="scss" scoped>
 	.container {
-		padding-top: 88rpx;
 
 		.nav {
 			position: fixed;

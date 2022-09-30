@@ -1,8 +1,6 @@
 <template>
 	<view class="container">
-		<view class="nav">
-			<image @tap="handleBack()" class="nav-left" src="../../static/Frame 1000006270.png" mode=""></image>
-		</view>
+		<cu-head></cu-head>
 		<view class="header">
 			<image class="head-img" src="../../static/logo.png" alt=""></image>
 		</view>
@@ -47,6 +45,7 @@
 </template>
 
 <script>
+	import CuHead from '../../components/cu-head.vue'
 	import config from '../../utils/uniKey.js'
 	import WybPopup from '../../components/wyb-popup/wyb-popup.vue'
 	import TfVerifyImg from '../../components/tf-verify-img/tf-verify-img.vue'
@@ -61,7 +60,8 @@
 	export default {
 		components: {
 			WybPopup,
-			TfVerifyImg
+			TfVerifyImg,
+			CuHead
 		},
 		data() {
 			return {
@@ -234,28 +234,6 @@
 
 <style lang="scss" scoped>
 	.container {
-		padding-top: 88rpx;
-
-		.nav {
-			position: fixed;
-			top: 0;
-			left: 0;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 100%;
-			height: 88rpx;
-			background-color: #0D0D0D;
-			z-index: 10;
-
-			.nav-left {
-				position: absolute;
-				top: 28rpx;
-				left: 28rpx;
-				width: 48rpx;
-				height: 48rpx;
-			}
-		}
 
 		.header {
 			display: flex;

@@ -1,8 +1,6 @@
 <template>
 	<view class="container">
-		<view class="nav">
-			<image @tap="handleBack()" class="nav-left" src="../../static/Frame 1000006270.png" mode=""></image>
-		</view>
+		<cu-head></cu-head>
 		<view class="header">
 			<view class="header-text">
 				个人身份未认证
@@ -35,6 +33,7 @@
 	import {
 		h5_collections_user_verified
 	} from '../../request/api.js'
+	import CuHead from '../../components/cu-head.vue'
 	export default {
 		data() {
 			return {
@@ -43,6 +42,9 @@
 					identification_number: ''
 				}
 			}
+		},
+		components: {
+			CuHead
 		},
 		methods: {
 			handleBack() {
@@ -103,28 +105,8 @@
 <style lang="scss">
 	.container {
 		padding: 0 40rpx;
-		padding-top: 88rpx;
 
-		.nav {
-			position: fixed;
-			top: 0;
-			left: 0;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 100%;
-			height: 88rpx;
-			background-color: #0D0D0D;
-			z-index: 10;
 
-			.nav-left {
-				position: absolute;
-				top: 28rpx;
-				left: 28rpx;
-				width: 48rpx;
-				height: 48rpx;
-			}
-		}
 
 		.header {
 			box-sizing: border-box;
