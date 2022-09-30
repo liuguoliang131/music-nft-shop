@@ -180,7 +180,7 @@
 					购买数量
 				</view>
 				<view class="number" style="flex-flow: wrap;">
-					{{detail.buy_num}}
+					{{detail.buy_num}} 张
 				</view>
 			</view>
 
@@ -245,10 +245,9 @@
 		},
 		filters: {
 			filterPayType(e) {
-				console.log(e)
 				const list = {
 					1: '支付宝',
-					2: '微信',
+					2: '微信支付',
 					3: '银行卡',
 					4: '零钱'
 				}
