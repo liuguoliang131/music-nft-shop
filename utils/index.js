@@ -240,9 +240,9 @@ export const filterTime = (time) => {
 export const isWxBrowser = () => {
 	var useragent = window.navigator.userAgent
 	if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {
-		return true
-	} else {
 		return false
+	} else {
+		return true
 	}
 }
 // 获取code
@@ -283,11 +283,15 @@ export const jumpWxAuthUrl = () => {
 		//   // window.history.go(-2)
 		//   window.location.href = window.localStorage.getItem('littleBeeLink')
 		// })
+	} else {
+		if (getOpenId()) {
+			return false
+		} else {
+			window.location.href =
+				`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${config.appId}&redirect_uri=${config.appURL}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
+		}
 	}
-	if (getOpenId()) {
-		return false
-	}
-	window.location.href =
-		`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${config.appId}&redirect_uri=${config.appURL}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
+
+
 
 }

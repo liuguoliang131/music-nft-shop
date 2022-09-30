@@ -40,7 +40,10 @@
 						this.$store.commit('user/set_userInfo', '')
 					}
 				} else {
-					jumpWxAuthUrl()
+					if (isWxBrowser()) {
+						jumpWxAuthUrl()
+					}
+
 				}
 			}
 		},
