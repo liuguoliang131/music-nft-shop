@@ -3,6 +3,7 @@ import config, {
 	TOKEN,
 	USER_INFO
 } from './uniKey.js'
+// import {} from '../request/api.js'
 console.log('utils')
 export const getToken = () => {
 	return window.localStorage.getItem(TOKEN) || ''
@@ -286,12 +287,7 @@ export const jumpWxAuthUrl = () => {
 	if (getOpenId()) {
 		return false
 	}
-	if (getCode()) {
-		// 已经有code  去获取openid
-	} else {
-		window.location.href =
-			`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${config.appId}&redirect_uri=${config.appURL}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`
-	}
-
+	window.location.href =
+		`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${config.appId}&redirect_uri=${config.appURL}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`
 
 }
