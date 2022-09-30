@@ -56,7 +56,6 @@
 					<view class="order-body-item-box-flex" v-if="item.order_status === 1">
 						<view style="display: flex;align-items: center;margin-left: auto;margin-top: 8rpx;">
 							<button class="my-btn" @click.stop="handleClickCancle(item)">取消订单</button>
-							<button class="my-btn"  @click.stop="handleClickGotoPay(item)" style="border-color: #C9A43D;color: #C9A43D;margin-left: 10rpx;">去支付</button>
 							<button class="my-btn" @click.stop="handleGoCashier(item)"
 								style="border-color: #C9A43D;color: #C9A43D;margin-left: 10rpx;">去支付</button>
 						</view>
