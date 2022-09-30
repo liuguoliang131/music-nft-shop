@@ -315,7 +315,9 @@ export const jumpWxAuthUrl = () => {
 	if (url.includes('code=')) {
 		let code = url.split('?')[1].split('&')[0].split('=')[1]
 		console.log('code', code)
-		getWebAccessToken().then(res => {
+		getWebAccessToken({
+			code
+		}).then(res => {
 			// 删除地址url中的code  跳转
 			window.location.href = afterBackUrl
 		}).catch(error => {
