@@ -101,7 +101,11 @@
 			}
 		},
 		methods: {
-			getList() {
+			getList(e) {
+				if(e){
+					this.page = 1
+					this.list = []
+				}
 				post(h5_order_list, {
 					page: this.page,
 					order_type: this.activeNav
@@ -143,19 +147,17 @@
 					confirmColor: '#DC2D1E',
 					content: '是否确认取消订单？',
 					cancelColor: '#999999',
-					success(e) {
+					success :(e)=> {
 						if(e.confirm){
 							post(h5_order_cancle,{
 								order_id : a.order_id
 							}).then(res =>{
-								this.getList()
+								this.getList(1)
 								uni.showToast({
 									title: '取消成功'
 								})
 
 							})
-						} else {
-
 						}
 					}
 				})
