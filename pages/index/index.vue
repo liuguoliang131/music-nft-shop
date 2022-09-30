@@ -212,7 +212,7 @@
 
 		text {
 			margin-left: 20rpx;
-			font-size: 12px;
+			font-size: 24rpx;
 			color: #f5f5f5;
 		}
 	}
@@ -222,7 +222,7 @@
 		align-items: center;
 		flex-direction: column;
 		height: 40rpx;
-		font-size: 16px;
+		font-size: 32rpx;
 	}
 
 	.tag {
@@ -246,7 +246,7 @@
 	}
 
 	.search-bar {
-		font-size: 12px;
+		font-size: 24rpx;
 		display: flex;
 		align-items: center;
 	}
@@ -255,11 +255,10 @@
 		padding: 20rpx 0;
 
 		&-item {
+			border-radius: 20rpx;
+			border: 1rpx solid #5F5F5F;
 			border-radius: 10px;
-			border: 0.5px solid #5F5F5F;
-			border-radius: 10px;
-			// background-color: #454545;
-			padding: 8px 8px 10px 8px;
+			padding: 16rpx 16rpx 20rpx 16rpx;
 			display: flex;
 			align-items: flex-start;
 			margin-bottom: 16rpx;
@@ -281,8 +280,8 @@
 				position: absolute;
 				top: 0;
 				left: 0;
-				width: 42px;
-				height: 20px;
+				width: 84rpx;
+				height: 40rpx;
 
 				image {
 					width: 100%;
@@ -299,7 +298,7 @@
 			}
 
 			&-title {
-				font-size: 16px;
+				font-size: 32rpx;
 				font-weight: 500;
 				text-overflow: -o-ellipsis-lastline;
 				overflow: hidden; //溢出内容隐藏
@@ -311,27 +310,27 @@
 				font-family: 'PingFang SC';
 				font-style: normal;
 				font-weight: 500;
-				font-size: 16px;
-				line-height: 22px;
+				font-size: 32rpx;
+				line-height: 44rpx;
 				color: #ECECEC;
 
 
 			}
 
 			&-time {
-				margin-top: 8px;
-				height: 17px;
-				font-size: 12px;
+				margin-top: 16rpx;
+				height: 34rpx;
+				font-size: 24rpx;
 				text-align: left;
 			}
 
 			&-tag {
 				margin-top: 4rpx;
-				font-size: 12px;
+				font-size: 24rpx;
 			}
 
 			&-price {
-				font-size: 14px;
+				font-size: 28rpx;
 				color: #D10910;
 				font-weight: 400;
 				margin-top: auto;
@@ -345,8 +344,8 @@
 				}
 
 				&-dit {
-					font-size: 14px;
-					line-height: 20px;
+					font-size: 28rpx;
+					line-height: 40rpx;
 					color: #AC9147;
 				}
 			}
@@ -355,7 +354,7 @@
 
 	.need-login {
 		position: fixed;
-		bottom: 40px;
+		bottom: 80rpx;
 		left: 20rpx;
 		right: 20rpx;
 		background-color: #201A17;
@@ -363,14 +362,14 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 0 40rpx;
-		border-radius: 50px;
-		height: 55px;
+		border-radius: 100rpx;
+		height: 110rpx;
 		-webkit-animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 		animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 
 		text {
-			font-size: 16px;
-			line-height: 22px;
+			font-size: 32rpx;
+			line-height: 44rpx;
 
 			color: #ECECEC;
 		}
@@ -415,7 +414,7 @@
 	}
 
 	.logo {
-		width: 77px;
-		height: 24px;
+		width: 154rpx;
+		height: 48rpx;
 	}
 </style>

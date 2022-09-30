@@ -29,7 +29,7 @@
 						<view class="order-body-item-title">
 							{{item.title}}
 						</view>
-						<view class="order-body-item-type" style="color: #D10910;font-size: 14px;font-weight: 500;">
+						<view class="order-body-item-type" style="color: #D10910;font-size: 28rpx;font-weight: 500;">
 							{{item.order_status | filterStatus}} <text class="cuIcon-right"></text>
 						</view>
 					</view>
@@ -183,7 +183,7 @@
 			align-items: center;
 			justify-content: space-between;
 			color: #8A8A8A;
-			font-size: 14px;
+			font-size: 28rpx;
 			text-align: center;
 
 			&-item {
@@ -234,8 +234,8 @@
 						position: absolute;
 						top: 0;
 						left: 0;
-						width: 42px;
-						height: 20px;
+						width: 84rpx;
+						height: 40rpx;
 
 						image {
 							width: 100%;
@@ -249,7 +249,7 @@
 					align-items: flex-start;
 					flex-direction: column;
 					justify-content: space-between;
-					font-size: 12px;
+					font-size: 24rpx;
 					height: 80%;
 					padding: 20rpx;
 					color: #8A8A8A;
@@ -265,7 +265,7 @@
 
 				&-title {
 					color: #FFFFFF;
-					font-size: 14px;
+					font-size: 28rpx;
 					white-space: nowrap;
 					text-overflow: ellipsis;
 					overflow: hidden;
@@ -281,7 +281,7 @@
 			height: 40rpx;
 			border-radius: 50px;
 			line-height: 40rpx;
-			font-size: 12px;
+			font-size: 24rpx;
 			background-color: #0D0D0D;
 			color: #AEAEAE;
 			border: 1rpx solid #666;

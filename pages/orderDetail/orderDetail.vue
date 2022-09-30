@@ -306,7 +306,7 @@
 	}
 
 	.title {
-		font-size: 13px;
+		font-size: 26rpx;
 		color: #AB9449;
 		font-weight: 500;
 		position: relative;
@@ -320,7 +320,7 @@
 			position: absolute;
 			left: 0;
 			top: 0;
-			border-radius: 4px;
+			border-radius: 8rpx;
 		}
 	}
 
@@ -344,12 +344,12 @@
 	}
 
 	.box-title {
-		font-size: 14px;
+		font-size: 28rpx;
 		font-weight: 500;
 	}
 
 	.number {
-		font-size: 12px;
+		font-size: 24rpx;
 		margin-top: 20rpx;
 		color: #8A8A8A;
 	}
@@ -357,9 +357,8 @@
 
 
 	.content {
-		font-size: 12px;
+		font-size: 24rpx;
 		color: #8A8A8A;
-		text-indent: 2rem;
 	}
 
 	.key {
@@ -387,7 +386,7 @@
 			border: none;
 			background-color: #E8D18A;
 			border-radius: 40rpx;
-			font-size: 13px;
+			font-size: 26rpx;
 			color: #847443;
 		}
 	}
@@ -422,11 +421,9 @@
 	.flex {
 		display: flex;
 		align-items: flex-start;
-		// flex-wrap: wrap;
 		flex-shrink: 0;
 
 		.number {
-			// flex: 1;
 			text-align: left;
 			width: calc(100% - 240rpx);
 			word-break: break-all;
@@ -552,7 +549,7 @@
 	}
 
 	.border-bottom {
-		border-bottom: 0.5px solid #363636;
-		padding: 18px 0;
+		border-bottom: 1rpx solid #363636;
+		padding: 36rpx 0;
 	}
 </style>
