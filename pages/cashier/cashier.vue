@@ -284,11 +284,11 @@
 
 					console.log('pay')
 					if (pay_type === 'js') {
-						const params = res.data.wx_pay_string
+						const params = res.data.wx_pay_param
 						params.packageNew = params.package
 						this.paymentFn(params)
 					} else {
-						window.location.href = res.data.wx_pay_string.pay_string
+						window.location.href = res.data.wx_pay_param.pay_string
 					}
 
 				} catch (e) {
