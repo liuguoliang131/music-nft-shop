@@ -121,7 +121,8 @@
 								<view class="h"></view>
 							</view>
 						</view>
-						<input type="number" maxlength="3" name="" id="" v-model="count" @blur="onCountChange()">
+						<input class="countc" type="number" maxlength="3" name="" id="" v-model="count"
+							@blur="onCountChange()">
 						<view class="plus" @tap="handPlus()">
 							<!-- <image class="plus-img" src="../../static/Group 1000004650.png" mode=""></image> -->
 							<view class="plus-img">
@@ -846,7 +847,7 @@
 							padding-left: 4rpx;
 							font-weight: 600;
 							font-size: 28rpx;
-							color: #DC2D1E;
+							color: #D10910;
 							transform: rotate(-0.39deg)
 						}
 					}
@@ -920,13 +921,13 @@
 						}
 					}
 
-					input {
+					uni-input.countc {
 						flex: 1;
 						height: 58rpx;
 						text-align: center;
 						font-size: 36rpx;
 						font-weight: 600;
-						color: #DC2D1E;
+						color: #D10910;
 					}
 
 					.plus {
