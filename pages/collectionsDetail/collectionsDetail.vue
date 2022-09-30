@@ -18,7 +18,7 @@
 					发 行 方 {{detail.publish_author}}
 				</view>
 				<view class="number">
-					发行时间 {{detail.publish_time}}
+					发行时间 {{filterTimes(detail.publish_time * 1000 )}}
 				</view>
 				<view class="number">
 					发行价格 ¥{{detail.sale_price}}元/张

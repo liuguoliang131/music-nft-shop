@@ -67,7 +67,7 @@
 				}).then(res => {
 					console.log('res', res)
 					if (res.data.list && Array.isArray(res.data.list)) {
-						this.list = [...res.data.list, ...this.list]
+						this.list = [ ...this.list,...res.data.list]
 						this.total_num = res.data.total_num || 0
 					}else{
 						this.page = this.page -1
