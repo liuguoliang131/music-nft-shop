@@ -232,6 +232,8 @@
 						height: 100%;
 						border-radius: 24rpx;
 						background-size: cover;
+						background-position: center;
+						background-repeat: no-repeat;
 					}
 
 					&-level {
