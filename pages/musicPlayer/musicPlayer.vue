@@ -33,11 +33,11 @@
 			</view>
 			<image class="player-icon" src="../../static/play.png" mode=""></image>
 			<!-- <image class="player-icon" src="../../static/pause.png" mode=""></image> -->
-			<view class="progress">
+			<view class="progress" ref="progress">
 				<view class="bar"></view>
-				<view class="bar-red" ref="barRed">
+				<view class="bar-red">
 					<view class="red-btn" @touchmove="handTouchmove"></view>
-					<view class="red-line"></view>
+					<view class="red-line" ref="redLine"></view>
 				</view>
 			</view>
 		</view>
@@ -72,12 +72,12 @@
 			},
 			// 拖动进度条
 			handTouchmove(e) {
-				const clientWidth = window.innerWidth
+
 				const clientX = e.touches[0].pageX
-				const parentX = this.$refs.barRed.$el.offsetLeft
-				console.log('鼠标距离左侧', e.touches[0].pageX)
-				console.dir(this.$refs.barRed.$el.offsetLeft)
-				this.$refs.barRed.$el.style.left = clientX - 282 - 136 + 'px'
+				const parentX = this.$refs.progress.$el.offsetLeft
+				console.log('鼠标距离左侧', clientX)
+				console.log('进度条组件离左侧距离', parentX)
+				this.$refs.redLine.$el.style.width = clientX - parentX + 'px'
 
 			}
 		}
@@ -237,7 +237,6 @@
 				left: 136rpx;
 				width: 300rpx;
 				height: 42rpx;
-				overflow: hidden;
 				display: flex;
 				align-items: center;
 
@@ -250,14 +249,13 @@
 				.bar-red {
 					position: absolute;
 					top: 0;
-					left: -50rpx;
+					left: 0;
 					display: flex;
 					align-items: center;
-					width: 280rpx;
 					height: 42rpx;
 
 					.red-line {
-						width: 280rpx;
+						width: 20rpx;
 						height: 3rpx;
 						background: #D10910;
 					}

@@ -27,12 +27,12 @@
 		<view class="mine-list">
 			<view class="mine-list-item" @click="goToCollections">
 				<image src="../../static/mine.png" class="mine-list-item-image" mode=""></image>
-				我的藏品
+				我的专辑
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 			<view class="mine-list-item" @click="goToOrder">
 				<image src="../../static/order.png" class="mine-list-item-image" mode=""></image>
-				藏品订单
+				专辑订单
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 			<view class="mine-list-item" @click="goCustomer">
