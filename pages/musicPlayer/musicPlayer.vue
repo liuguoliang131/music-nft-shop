@@ -20,30 +20,10 @@
 			</view>
 		</view>
 		<view class="player">
-			<image class="cover" src="../../static/唱首歌给你听.png" mode=""></image>
-			<view class="player-c">
-				<view class="music">
-					<text class="music-name">歌曲名</text>
-					<text class="music-author">歌手名</text>
-				</view>
-				<view class="box2">
-					<text class="box2-now">01:12</text>
-					<text class="box2-line">/</text>
-					<text class="box2-all">03:54</text>
-				</view>
-			</view>
-			<image class="player-icon" src="../../static/play.png" mode=""></image>
-			<!-- <image class="player-icon" src="../../static/pause.png" mode=""></image> -->
-			<view class="progress" ref="progress">
-				<view class="bar" ref="progressBar"></view>
-				<view class="bar-red">
-					<view class="red-btn" @touchmove="handTouchmove"></view>
-					<view class="red-line" ref="redLine"></view>
-				</view>
-			</view>
+			<audio id="audio1" ref="audio1" :src="active.music_url" :name="active.name" :controls="true"
+				@error="onError" @play="onPlay" @pause="onPause" @timeupdate="onTimeupdate" @ended="onEnded"></audio>
 		</view>
-		<audio id="audio1" :src="active.music_url" name="audio1" :controls="false" @error="onError" @play="onPlay"
-			@pause="onPause" @timeupdate="onTimeupdate" @ended="onEnded"></audio>
+
 	</view>
 </template>
 
@@ -131,6 +111,10 @@
 				if (item.checked) return false
 				this.music_list.forEach(item1 => item1.checked = false)
 				item.checked = true
+				this.active = item
+				// console.log(this.$refs.audio1.$el.children[0].play())
+				this.$refs.audio1.$el.children[0].play()
+
 			},
 			onError(e) {
 				console.log('onError', e)
@@ -238,6 +222,14 @@
 			background-color: #fff;
 			display: flex;
 			align-items: center;
+
+			#audio1 {
+				width: 100%;
+
+				/deep/.uni-audio-default {
+					width: 100% !important;
+				}
+			}
 
 			.cover {
 				width: 90rpx;
