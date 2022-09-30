@@ -216,10 +216,9 @@
 							that.context.setFillStyle('Roboto ' + title.color) // 字体颜色
 							that.context.fillText(title.text, title.x, title.y); // （文字，x，y）
 							// tips
-							that.context.setFontSize(tips.fontSize) // 字号
-							that.context.setFillStyle(tips.color) // 字体颜色
-							that.context.fillText(tips.text, tips.x, tips.y); // （文字，x，y）
-							// that.context.draw();
+							// that.context.setFontSize(tips.fontSize) // 字号
+							// that.context.setFillStyle(tips.color) // 字体颜色
+							// that.context.fillText(tips.text, tips.x, tips.y); // （文字，x，y）
 							uni.downloadFile({
 								url: code2Url,
 								success(code2res) {

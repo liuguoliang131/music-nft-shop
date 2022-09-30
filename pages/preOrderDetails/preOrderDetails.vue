@@ -115,11 +115,18 @@
 					</view>
 					<view class="number-count">
 						<view class="minus" @tap="handMinus()">
-							<image class="minus-img" src="../../static/Frame 1000006244.png" mode=""></image>
+							<!-- <image class="minus-img" src="../../static/Frame 1000006244.png" mode=""></image> -->
+							<view class="minus-img">
+								<view class="h"></view>
+							</view>
 						</view>
 						<input type="number" maxlength="3" name="" id="" v-model="count" @blur="onCountChange()">
 						<view class="plus" @tap="handPlus()">
-							<image class="plus-img" src="../../static/Group 1000004650.png" mode=""></image>
+							<!-- <image class="plus-img" src="../../static/Group 1000004650.png" mode=""></image> -->
+							<view class="plus-img">
+								<view class="h"></view>
+								<view class="v"></view>
+							</view>
 						</view>
 					</view>
 				</view>
@@ -880,13 +887,26 @@
 						border-right: 1rpx solid #686868;
 
 						.minus-img {
+							position: relative;
 							width: 62rpx;
 							height: 58rpx;
 							border-radius: 16rpx 0 0 16rpx;
+
+							.h {
+								position: absolute;
+								top: 0;
+								left: 0;
+								right: 0;
+								bottom: 0;
+								margin: auto;
+								width: 32rpx;
+								height: 2rpx;
+								background-color: #686868;
+							}
 						}
 
-						&:active .minus-img {
-							background-color: rgba(134, 134, 134, 1);
+						&:active .minus-img .h {
+							background-color: #E8E8E8;
 						}
 					}
 
@@ -909,8 +929,39 @@
 						border-left: 1rpx solid #686868;
 
 						.plus-img {
-							width: 32rpx;
-							height: 32rpx;
+							position: relative;
+							width: 62rpx;
+							height: 58rpx;
+							border-radius: 0 16rpx 16rpx 0;
+
+							.h {
+								position: absolute;
+								top: 0;
+								left: 0;
+								right: 0;
+								bottom: 0;
+								margin: auto;
+								width: 32rpx;
+								height: 2rpx;
+								background-color: #686868;
+							}
+
+							.v {
+								position: absolute;
+								top: 0;
+								left: 0;
+								right: 0;
+								bottom: 0;
+								margin: auto;
+								width: 2rpx;
+								height: 32rpx;
+								background-color: #686868;
+							}
+						}
+
+						&:active .plus-img .h,
+						&:active .plus-img .v {
+							background-color: #E8E8E8;
 						}
 					}
 				}
