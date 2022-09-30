@@ -296,7 +296,6 @@
 		// }
 
 		.content {
-			padding-top: 88rpx;
 
 			.box1 {
 				padding-top: 80rpx;

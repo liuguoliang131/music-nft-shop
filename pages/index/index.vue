@@ -119,7 +119,7 @@
 					console.log('res', res)
 					this.loginFlag = !!res.data.is_login
 					if (res.data.list) {
-						this.list = [ ...this.list,...res.data.list]
+						this.list = [...this.list, ...res.data.list]
 					}
 
 				})
@@ -283,7 +283,8 @@
 				left: 0;
 				width: 42px;
 				height: 20px;
-				image{
+
+				image {
 					width: 100%;
 					height: 100%;
 				}
@@ -313,7 +314,7 @@
 				font-size: 16px;
 				line-height: 22px;
 				color: #ECECEC;
-				
+
 
 			}
 
@@ -332,7 +333,7 @@
 			&-price {
 				font-size: 18px;
 				color: #D10910;
-				font-weight: 500;
+				font-weight: 600;
 				margin-top: auto;
 
 				&-box {
