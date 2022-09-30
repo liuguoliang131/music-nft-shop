@@ -111,6 +111,9 @@
 			},
 			// 开启倒计时
 			startCountDown() {
+				if (this.timer) {
+					clearInterval(this.timer)
+				}
 				this.timer = setInterval(() => {
 					if (this.count_down <= 1) {
 						clearInterval(this.timer)
@@ -343,7 +346,7 @@
 			this.getPayType()
 		},
 		onShow() {
-			this.startCountDown()
+			this.listenPaySuccess()
 		},
 		onHide() {
 			// clearTimeout(this.timer)
