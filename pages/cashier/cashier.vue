@@ -241,6 +241,7 @@
 
 				.count {
 					font-size: 58rpx;
+					font-weight: 600;
 				}
 			}
 

@@ -599,6 +599,7 @@
 				.count {
 					font-size: 36rpx;
 					margin-right: 4rpx;
+					font-weight: 600;
 				}
 
 				.unit {
@@ -998,6 +999,7 @@
 
 					.count {
 						font-size: 40rpx;
+						font-weight: 600;
 					}
 				}
 			}
