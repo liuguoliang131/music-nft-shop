@@ -100,7 +100,7 @@
 					order_type : this.activeNav
 				}).then(res =>{
 					if(res.data &&Array.isArray(res.data) ){
-						this.list = [...res.data, ...this.list]
+						this.list = [ ...this.list,...res.data]
 					}
 				})
 			},

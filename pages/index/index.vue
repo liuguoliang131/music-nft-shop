@@ -119,7 +119,7 @@
 					console.log('res', res)
 					this.loginFlag = !!res.data.is_login
 					if (res.data.list) {
-						this.list = [...res.data.list, ...this.list]
+						this.list = [ ...this.list,...res.data.list]
 					}
 
 				})
