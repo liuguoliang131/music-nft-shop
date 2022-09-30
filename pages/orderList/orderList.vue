@@ -193,6 +193,8 @@
 				&.active {
 					color: #D10910;
 					position: relative;
+					font-weight: 700;
+					font-size: 15px;
 					&::after{
 						content: '';
 						bottom: -22rpx;
