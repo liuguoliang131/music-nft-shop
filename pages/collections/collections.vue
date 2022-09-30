@@ -64,8 +64,8 @@
 					if (res.data.list && Array.isArray(res.data.list)) {
 						this.list = [...res.data.list, ...this.list]
 						this.total_num = res.data.total_num || 0
-					}else{
-						this.page = this.page -1
+					} else {
+						this.page = this.page - 1
 					}
 				})
 
@@ -77,7 +77,7 @@
 				})
 			},
 			handleScrollTolower() {
-				if(this.list.length === this.total_num) return 
+				if (this.list.length === this.total_num) return
 				if (window.requestAnimationFrame && typeof window.requestAnimationFrame === 'function') {
 					window.requestAnimationFrame(() => {
 						this.page++
@@ -180,5 +180,9 @@
 		align-items: center;
 		justify-content: space-between;
 		padding-top: 20rpx;
+	}
+
+	.no-data {
+		width: 670rpx;
 	}
 </style>
