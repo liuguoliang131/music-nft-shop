@@ -253,28 +253,26 @@ export const setOpenId = (openId) => {
 }
 // 跳转微信授权页
 export const jumpWxAuthUrl = () => {
-	console.log('processName', processName)
+	console.log('jumpWxAuthUrl processName', processName)
 	if (processName === 'development') {
 		return false
 	}
 	const url = window.location.href
-	if (url.includes('code=') && !getOpenId()) {
+	if (url.includes('code=')) {
 		let code = url.split('?')[1].split('&')[0].split('=')[1]
 		console.log('code', code)
 		const getopenid_api = '/h5/collections_wechat/get_web_access_token'
 		uni.request({
-			url: config.BASE_URL + getopenid_api
+			url: config.BASE_URL + getopenid_api,
+			method: 'post',
+			data: {
+				code
+			}
 		}).then(res => {
 			setOpenId(res.data.data.open_id)
 		}).catch(error => {
 			console.log(error)
 		})
-		// post(h5_collections_wechat_get_web_access_token, {
-		// 	code
-		// }).then(res => {
-		// 	console.log('获取openid then:', res)
-		// 	setOpenId(res.data.open_id)
-		// })
 	} else {
 		if (getOpenId()) {
 			return false
