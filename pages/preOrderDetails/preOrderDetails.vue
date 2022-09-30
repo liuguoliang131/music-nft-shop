@@ -680,7 +680,7 @@
 					}
 
 					.row2:nth-last-child(1) {
-						padding-bottom: 17rpx;
+						padding-bottom: 24rpx;
 					}
 				}
 

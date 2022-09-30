@@ -271,7 +271,6 @@
 
 <style lang="scss">
 	.container {
-		padding-top: 88rpx;
 
 		.nav {
 			position: fixed;
