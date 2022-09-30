@@ -109,7 +109,7 @@
 			// 开启倒计时
 			startCountDown() {
 				this.timer = setInterval(() => {
-					if (this.count_down === 1) {
+					if (this.count_down <= 1) {
 						clearInterval(this.timer)
 						uni.showToast({
 							title: '订单已失效请重新下单，即将为您返回到详情页',
