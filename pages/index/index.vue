@@ -48,7 +48,7 @@
 
 						</view>
 					</view>
-					<view style="width: 88rpx;flex-shrink: 0;">
+					<view style="flex-shrink: 0;">
 						<view class="list-item-price-dit" style="font-weight: 500;">
 							{{item.sale_status | filterStatus}}
 						</view>
