@@ -283,6 +283,7 @@
 					// })
 
 					console.log('pay')
+					// 微信浏览器内支付 or H5支付
 					if (pay_type === 'js') {
 						const params = res.data.wx_pay_param
 						params.packageNew = params.package

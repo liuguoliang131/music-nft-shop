@@ -324,7 +324,10 @@ export const jumpWxAuthUrl = () => {
 			code
 		}).then(res => {
 			// 删除地址url中的code  跳转
-			window.location.href = afterBackUrl
+			if (window.sessionStorage('afterBackUrl')) {
+				window.location.href = window.sessionStorage('afterBackUrl')
+			}
+
 		}).catch(error => {
 			uni.showToast({
 				title: error.message,
