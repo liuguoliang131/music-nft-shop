@@ -19,7 +19,7 @@
 			<view class="search-bar" v-show="list.length>2" @click="handleChangeOrder">
 				<view class="upAndDown">
 					<text class="cuIcon-triangleupfill"
-						:style="`${order === 1?'color : #fff' :'color : #343434'};line-height: 22rpx;margin-top:2px`"></text>
+						:style="`${order === 1?'color : #fff' :'color : #343434'};line-height: 22rpx;margin-top:2rpx`"></text>
 					<text class="cuIcon-triangledownfill"
 						:style="`${order === 2 ?'color : #fff' :'color : #343434'};line-height: 22rpx;`"></text>
 				</view>
@@ -44,7 +44,7 @@
 						<view class="list-item-time">{{filterTime1(item.sale_time*1000)}}开售</view>
 						<view class="list-item-tag">限量{{item.stock_num_desc}}张</view>
 						<view class="list-item-price-box">
-							<view class="list-item-price">￥<text style="font-weight: 600;font-size: 18px;">{{item.sale_price}}</text></view>
+							<view class="list-item-price">￥<text class="count">{{item.sale_price}}</text></view>
 
 						</view>
 					</view>
@@ -61,7 +61,7 @@
 			<view class="need-login">
 				<text>元音符-原创音乐聚集地</text>
 				<button class="to-login" @tap="handLogin()">登录</button>
-				<text class="cuIcon-close" style="font-size: 16px;color: #686868" @click="handleCloseLogintag"></text>
+				<text class="cuIcon-close" style="font-size: 16rpx;color: #686868" @click="handleCloseLogintag"></text>
 			</view>
 		</view>
 	</view>
@@ -119,7 +119,7 @@
 					this.loginFlag = !!res.data.is_login
 					if (res.data.list) {
 						this.list = [...this.list, ...res.data.list]
-					}else{
+					} else {
 						this.page = this.page - 1
 					}
 
@@ -333,8 +333,11 @@
 			&-price {
 				font-size: 28rpx;
 				color: #D10910;
-				font-weight: 400;
 				margin-top: auto;
+
+				.count {
+					font-weight: 600;
+				}
 
 				&-box {
 					display: flex;
