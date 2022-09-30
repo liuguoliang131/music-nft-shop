@@ -5,8 +5,8 @@
 			专辑信息
 		</view>
 
-		<view class=" mt-2" style="display: flex;align-items: center;">
-			<image :src="detail.index_img" class="image" style="width: 120px;height: 120px;" mode=""></image>
+		<view class=" mt-2" style="display: flex;align-items: flex-start;">
+			<image :src="detail.index_img" class="image" style="width: 120px;height: 120px;flex-shrink: 0;" mode=""></image>
 			<view class="box" style="font-size: 13px;">
 				<view class="box-title">
 					{{detail.name}}
@@ -31,7 +31,7 @@
 				认证信息
 			</view>
 			<view class="flex">
-				<view class="key number" style="width: 270rpx;text-align: right;text-align-last:right">
+				<view class="key number" style="width: 220rpx;text-align: right;text-align-last:right;flex-shrink: 0;">
 					Record Number
 				</view>
 				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
@@ -39,7 +39,7 @@
 				</view>
 			</view>
 			<view class="flex">
-				<view class="key number" style="width: 270rpx;text-align: right;text-align-last:right">
+				<view class="key number" style="width: 220rpx;text-align: right;text-align-last:right;flex-shrink: 0;">
 					Contract Address
 				</view>
 				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
@@ -47,7 +47,7 @@
 				</view>
 			</view>
 			<view class="flex">
-				<view class="key number" style="width: 270rpx;text-align: right;text-align-last:right">
+				<view class="key number" style="width: 220rpx;text-align: right;text-align-last:right;flex-shrink: 0;">
 					Token ID
 				</view>
 				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
@@ -55,7 +55,7 @@
 				</view>
 			</view>
 			<view class="flex">
-				<view class="key number" style="width: 270rpx;text-align: right;text-align-last:right">
+				<view class="key number" style="width: 220rpx;text-align: right;text-align-last:right;flex-shrink: 0;">
 					Token Standard
 				</view>
 				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">

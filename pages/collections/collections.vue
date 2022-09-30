@@ -5,7 +5,7 @@
 			当前拥有{{total_num}}张
 		</view>
 
-		<scroll-view scroll-y style="height: calc(100vh - 180rpx);padding-top: 84rpx;"
+		<scroll-view scroll-y style="height: calc(100vh - 180rpx);padding-top: 30rpx;"
 			@scrolltolower='handleScrollTolower'>
 			<view class="grid-box">
 				<view class="item" v-for="(item , index) in list " @click="handleGoToDetail(item)" :key='index'>

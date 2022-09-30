@@ -38,7 +38,7 @@
 						<view class="order-body-item-tag">
 							包含{{item.singles_num}}首单曲
 						</view>
-						<view class="order-body-item-type">
+						<view class="order-body-item-type" style="margin-top: 16rpx;">
 							￥{{item.buy_price}}
 						</view>
 					</view>
@@ -48,12 +48,12 @@
 						</view>
 					</view>
 					<view class="order-body-item-box-flex">
-						<view class="order-body-item-price" style="margin-left: auto;color: #fff;">
+						<view class="order-body-item-price" style="margin-left: auto;color: #fff;margin-top: 10rpx;">
 							实付金额 ￥{{item.order_total_price}}
 						</view>
 					</view>
 
-					<view class="order-body-item-box-flex" v-if="item.order_status === 1">
+					<view class="order-body-item-box-flex" style="margin-top: 20rpx;" v-if="item.order_status === 1">
 						<view style="display: flex;align-items: center;margin-left: auto;margin-top: 8rpx;">
 							<button class="my-btn" @click.stop="handleClickCancle(item)">取消订单</button>
 							<button class="my-btn" @click.stop="handleGoCashier(item)"
@@ -215,11 +215,11 @@
 			padding-top: 20rpx;
 
 			&-item {
-				height: 200rpx;
+				// height: 200rpx;
 				padding: 20rpx 0;
 				width: 100%;
 				display: flex;
-				align-items: center;
+				align-items: flex-start;
 				border-bottom: 1px solid #343434;
 
 				&-imageBox {
@@ -255,7 +255,7 @@
 					justify-content: space-between;
 					font-size: 24rpx;
 					height: 80%;
-					padding: 20rpx;
+					padding: 0 20rpx;
 					color: #8A8A8A;
 					flex: auto;
 
@@ -282,9 +282,10 @@
 
 		.my-btn {
 			border: none;
-			height: 40rpx;
+			height: 50rpx;
 			border-radius: 50px;
-			line-height: 40rpx;
+			padding: 0 40rpx;
+			line-height: 50rpx;
 			font-size: 24rpx;
 			background-color: #0D0D0D;
 			color: #AEAEAE;

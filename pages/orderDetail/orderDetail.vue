@@ -7,7 +7,7 @@
 		</view>
 
 		<view class=" mt-2" style="display: flex;align-items: flex-start;">
-			<image :src="detail.index_url" class="image" style="width: 120px;height: 120px;" mode=""></image>
+			<image :src="detail.index_url" class="image" style="width: 120px;height: 120px;flex-shrink: 0;" mode=""></image>
 			<view class="box">
 				<view class="box-title">
 					{{detail.name}}
@@ -37,7 +37,7 @@
 					Record Number
 				</view>
 				<view class="number" style="flex-flow: wrap;">
-					{{detail.code_num_min}}~{{detail.code_num_max}}
+					{{detail.code_num_min === detail.code_num_max ? detail.code_num_max : `${detail.code_num_min}~${detail.code_num_max}`}}
 				</view>
 			</view>
 			<view class="flex">

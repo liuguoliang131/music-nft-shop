@@ -64,6 +64,8 @@
 		padding: 0 20rpx;
 		position: relative;
 		font-family: 'PingFang SC';
+		padding-bottom: 40rpx;
+		overflow: hidden;
 
 		&-header {
 			display: flex;
