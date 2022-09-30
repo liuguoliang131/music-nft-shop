@@ -1,5 +1,5 @@
 <template>
-	<view class="slots">
+	<view class="slots" v-show="isWeb">
 		<view class="nav">
 			<image @tap="navBack()" class="nav-left" src="../static/navLeft.png" mode=""></image>
 		</view>
@@ -8,11 +8,14 @@
 </template>
 
 <script>
+	import {
+		isApp
+	} from '../utils/index.js'
 	export default {
 		name: "cu-head",
 		data() {
 			return {
-
+				isWeb: false //是否是浏览器环境下
 			};
 		},
 		methods: {
@@ -27,6 +30,13 @@
 						delta: 1, //返回层数，2则上上页
 					})
 				}
+			}
+		},
+		created() {
+			if (isApp()) {
+				this.isWeb = false
+			} else {
+				this.isWeb = true
 			}
 		}
 	}
