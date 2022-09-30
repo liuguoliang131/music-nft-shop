@@ -3,7 +3,7 @@
 		<cu-head></cu-head>
 		<view class="title">
 			<text class="title-l"></text>
-			最新梦想单曲
+			{{name}}
 		</view>
 		<view class="list">
 			<view class="item" v-for="(item,index) in music_list" :key="index" @tap="handSelect(item)">
@@ -22,6 +22,8 @@
 		<view class="player">
 			<audio id="audio1" ref="audio1" :src="active.music_url" :name="active.name" :controls="true"
 				@error="onError" @play="onPlay" @pause="onPause" @timeupdate="onTimeupdate" @ended="onEnded"></audio>
+			<!-- 	<wxy-audio src="https://jiustech.ygsjyxx.cn/uploads/school/202107/60fa690871806.mp3" :play.sync="audioPlay"
+				msshow :name="active.name" :author="item.singer"></wxy-audio> -->
 		</view>
 
 	</view>
@@ -32,6 +34,7 @@
 	export default {
 		data() {
 			return {
+				name: '',
 				music_list: [{
 						"name": "0923-004单曲测试",
 						'singer': '哇哈哈',
@@ -56,7 +59,8 @@
 					"music_url": "",
 					"music_time": 0,
 					checked: true
-				}
+				},
+				audioPlay: false
 			};
 		},
 		components: {
@@ -71,6 +75,7 @@
 				this.music_list = list
 
 			}
+			this.name = option.name
 			// 一会删掉
 			this.active = this.music_list[0]
 

@@ -343,7 +343,7 @@
 			this.getPayType()
 		},
 		onShow() {
-			// this.startCountDown()
+			this.startCountDown()
 		},
 		onHide() {
 			// clearTimeout(this.timer)

@@ -6,7 +6,8 @@
 		</view>
 
 		<view class=" mt-2" style="display: flex;align-items: flex-start;">
-			<image :src="detail.index_img" class="image" style="width: 120px;height: 120px;flex-shrink: 0;" mode=""></image>
+			<image :src="detail.index_img" class="image" style="width: 120px;height: 120px;flex-shrink: 0;" mode="">
+			</image>
 			<view class="box" style="font-size: 13px;">
 				<view class="box-title">
 					{{detail.name}}
@@ -153,33 +154,31 @@
 	export default {
 		data() {
 			return {
-				show : false,
-				detail :{
+				show: false,
+				detail: {
 					name: '',
 					index_img: '',
 					code_num: '',
 					sale_price: '',
-					evaluate_type : '',
-					rare_type : '',
-					publish_author:'',
-					publish_time:'',
+					evaluate_type: '',
+					rare_type: '',
+					publish_author: '',
+					publish_time: '',
 					singles_num: 0,
-					contract_address:'',
-					token_id : '',
-					token_standard:'',
-					certificate:{
-						code : '',
-						name : '',
-						block_chain_hash : '',
-						publish_author : '',
-						publish_time : ''
+					contract_address: '',
+					token_id: '',
+					token_standard: '',
+					certificate: {
+						code: '',
+						name: '',
+						block_chain_hash: '',
+						publish_author: '',
+						publish_time: ''
 					},
-					music_list :[
-						{
-							name : '',
-							desc : ''
-						}
-					]
+					music_list: [{
+						name: '',
+						desc: ''
+					}]
 				}
 			}
 		},
@@ -224,7 +223,7 @@
 			// 欣赏专辑
 			handGoMusicPlayer() {
 				uni.navigateTo({
-					url: `/pages/musicPlayer/musicPlayer?owner_id=${this.detail.owner_id}&code_num=${this.detail.code_num}&product_item_id=${this.detail.product_item_id}&music_list=${JSON.stringify(this.detail.music_list)}`
+					url: `/pages/musicPlayer/musicPlayer?owner_id=${this.detail.owner_id}&code_num=${this.detail.code_num}&product_item_id=${this.detail.product_item_id}&music_list=${JSON.stringify(this.detail.music_list)}&name=${this.detail.name}`
 				})
 			}
 
@@ -270,7 +269,7 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				
+
 
 				&-1 {
 					background-image: url(../../static/Frame%2077.png);
@@ -413,6 +412,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+
 		// padding-top: 40rpx;
 		&-title {
 			color: #101010;
