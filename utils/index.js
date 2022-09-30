@@ -3,7 +3,10 @@ import config, {
 	TOKEN,
 	USER_INFO
 } from './uniKey.js'
-// import {} from '../request/api.js'
+import post from '../request/index.js'
+import {
+	h5_collections_wechat_get_web_access_token
+} from '../request/api.js'
 console.log('utils')
 export const getToken = () => {
 	return window.localStorage.getItem(TOKEN) || ''
@@ -245,13 +248,6 @@ export const isWxBrowser = () => {
 		return true
 	}
 }
-// 获取code
-export const getCode = () => {
-	return window.localStorage.getItem('code') || ''
-}
-export const setCode = (code) => {
-	window.localStorage.setItem('code', code)
-}
 // 获取openId
 export const getOpenId = () => {
 	return window.localStorage.getItem('openId') || ''
@@ -269,20 +265,12 @@ export const jumpWxAuthUrl = () => {
 	if (url.includes('code=') && !getOpenId()) {
 		let code = url.split('?')[1].split('&')[0].split('=')[1]
 		console.log('code', code)
-		setCode(code) //存储code
-		// axios({
-		//   method: 'get',
-		//   url: host + h5_wx_getOpenid,
-		//   params: {
-		//     code
-		//   }
-		// }).then(res => {
-		//   console.log('获取openid then:', res)
-		//   store.commit('user/set_openId', res.data.model)
-		//   console.log('history', history)
-		//   // window.history.go(-2)
-		//   window.location.href = window.localStorage.getItem('littleBeeLink')
-		// })
+		post(h5_collections_wechat_get_web_access_token, {
+			code
+		}).then(res => {
+			console.log('获取openid then:', res)
+			setOpenId(res.data.open_id)
+		})
 	} else {
 		if (getOpenId()) {
 			return false
