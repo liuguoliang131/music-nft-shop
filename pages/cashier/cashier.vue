@@ -318,7 +318,7 @@
 						if (res.code === 200) {
 							clearTimeout(this.timer)
 							clearTimeout(this.listenTimer)
-							uni.reLaunch({
+							uni.redirectTo({
 								url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}&order_id=${res.data.order_id}`
 							})
 						} else if (res.code !== 0 && res.code !== 200) {
