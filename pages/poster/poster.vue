@@ -9,7 +9,7 @@
 				<view v-if="isWx" class="save noactive">可截图邀请好友参与</view>
 				<view v-else class="save" @tap="handleSavePhoto()">点击保存海报到相册</view>
 			</view>
-			<view class="box3">
+			<view class="box3" v-show="!isWx">
 				可分享至微信或朋友圈
 				<image src="../../static/share-wx.png" mode=""></image>
 				<image src="../../static/share-friends.png" mode=""></image>
