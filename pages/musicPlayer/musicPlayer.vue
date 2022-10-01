@@ -123,7 +123,7 @@
 				this.active = item
 				// console.log(this.$refs.audio1.$el.children[0].play())
 				// this.$refs.audio1.$el.children[0].play()
-				this.audioPlay = true
+				// this.audioPlay = true
 			},
 			onError(e) {
 				console.log('onError', e)
