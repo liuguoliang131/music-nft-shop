@@ -6,7 +6,8 @@
 				<canvas ref="Canvas" class="thecanvas" type="2d" canvas-id="firstCanvas"></canvas>
 			</view>
 			<view class="box2">
-				<view class="save" @tap="handleSavePhoto()">点击保存海报到相册</view>
+				<view v-if="isWx" class="save noactive">可截图邀请好友参与</view>
+				<view v-else class="save" @tap="handleSavePhoto()">点击保存海报到相册</view>
 			</view>
 			<view class="box3">
 				可分享至微信或朋友圈
@@ -21,6 +22,7 @@
 	import QRCode from 'qrcodejs2'
 	import {
 		isApp,
+		isWxBrowser,
 		saveBase64Image
 	} from '../../utils/index.js'
 	import {
@@ -30,6 +32,7 @@
 	export default {
 		data() {
 			return {
+				isWx: false,
 				product_item_id: '',
 				context: null,
 				posterData: {
@@ -261,6 +264,7 @@
 		},
 		onLoad(option) {
 			console.log('poster onload', option)
+			this.isWx = isWxBrowser()
 			this.product_item_id = Number(option.product_item_id)
 		},
 		onReady: function(e) {
@@ -333,6 +337,13 @@
 						color: rgba(134, 134, 134, 1);
 					}
 
+				}
+
+				.noactive {
+					&:active {
+						background-color: #D10910;
+						color: rgba(236, 236, 236, 1);
+					}
 				}
 			}
 
