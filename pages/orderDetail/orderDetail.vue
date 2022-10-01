@@ -186,7 +186,7 @@
 			</view>
 
 			<view class="flex price">
-				<view class="key number price" width: 80rpx;color: #D10910;>
+				<view class="key number price" style="width: 80rpx;color: #D10910;">
 					实付金额
 				</view>
 				<view class="number price" style="flex-flow: wrap;">
