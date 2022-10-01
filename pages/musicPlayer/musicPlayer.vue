@@ -138,7 +138,6 @@
 
 		.title {
 			position: fixed;
-			top: 88rpx;
 			left: 0;
 			z-index: 10;
 			display: flex;
@@ -160,7 +159,7 @@
 		}
 
 		.list {
-			padding-top: 170rpx;
+			padding-top: 70rpx;
 			padding-bottom: 120rpx;
 			width: 100%;
 			overflow-y: scroll;
