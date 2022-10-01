@@ -275,7 +275,7 @@
 			// 去往收银台
 			handleGoCashier(item) {
 				let url =
-					`/pages/cashier/cashier?product_item_id=${this.detail.product_item_id}&order_no=${this.detail.order_no}&order_price=${this.detail.order_total_price}`
+					`/pages/cashier/cashier?product_item_id=${this.detail.product_item_id}&order_no=${this.detail.order_no}&order_price=${this.detail.order_total_price}$order_id=${this.detail.order_id}`
 				uni.navigateTo({
 					url
 				})
