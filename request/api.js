@@ -26,7 +26,8 @@ export const h5_collections_user_collectionInfo = '/h5/collections_user/collecti
 export const h5_collections_user_verified = '/h5/collections_user/verified'
 // 14、是否实名认证过
 export const h5_collections_user_if_approve = '/h5/collections_user/if_approve'
-
+// 15、获取openId
+export const h5_collections_wechat_get_web_access_token = '/h5/collections_wechat/get_web_access_token'
 /**
  * @description 首页列表
  */

@@ -4,12 +4,12 @@
 		<view class="box1">
 			<image class="icon" src="../../static/Frame 41.png"></image>
 			<view class="row1">支付成功</view>
-			<view class="row2">实付 ￥3188.00</view>
+			<view class="row2">实付 ￥{{order_price}}</view>
 			<view class="row3">恭喜您已购买成功</view>
 		</view>
 		<view class="box2">
-			<view class="btn1">查看订单</view>
-			<view class="btn2">返回专辑</view>
+			<view class="btn1" @tap="handGoDetail">查看订单</view>
+			<view class="btn2" @tap="handBackIndex">返回专辑</view>
 		</view>
 	</view>
 </template>
@@ -22,8 +22,15 @@
 		},
 		data() {
 			return {
-
+				order_no: '',
+				order_id: '',
+				order_price: '0.00',
+				product_item_id: ''
 			};
+		},
+		onLoad(option) {
+			this.order_id = option.order_id
+			this.order_price = option.order_price
 		},
 		methods: {
 			handleBack() {
@@ -39,7 +46,20 @@
 						delta: 1, //返回层数，2则上上页
 					})
 				}
+			},
+			// 去往订单详情
+			handGoDetail() {
+				uni.reLaunch({
+					url: '/pages/orderDetail/orderDetail?id=' + this.order_id
+				})
+			},
+			// 去往首页
+			handBackIndex() {
+				uni.reLaunch({
+					url: '/pages/index/index'
+				})
 			}
+
 		}
 	}
 </script>

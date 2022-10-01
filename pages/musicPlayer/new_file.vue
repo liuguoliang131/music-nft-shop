@@ -3,7 +3,7 @@
 		<cu-head></cu-head>
 		<view class="title">
 			<text class="title-l"></text>
-			{{name}}
+			最新梦想单曲
 		</view>
 		<view class="list">
 			<view class="item" v-for="(item,index) in music_list" :key="index" @tap="handSelect(item)">
@@ -20,25 +20,38 @@
 			</view>
 		</view>
 		<view class="player">
-			<!-- 			<audio id="audio1" ref="audio1" :src="active.music_url" :name="active.name" :controls="true"
-				@error="onError" @play="onPlay" @pause="onPause" @timeupdate="onTimeupdate" @ended="onEnded"></audio> -->
-			<wxy-audio v-if="active.music_url" id="audio1" :src="active.music_url" :play.sync="audioPlay" autoplay>
-			</wxy-audio>
+			<image class="cover" src="../../static/唱首歌给你听.png" mode=""></image>
+			<view class="player-c">
+				<view class="music">
+					<text class="music-name">歌曲名</text>
+					<text class="music-author">歌手名</text>
+				</view>
+				<view class="box2">
+					<text class="box2-now">01:12</text>
+					<text class="box2-line">/</text>
+					<text class="box2-all">03:54</text>
+				</view>
+			</view>
+			<image class="player-icon" src="../../static/play.png" mode=""></image>
+			<!-- <image class="player-icon" src="../../static/pause.png" mode=""></image> -->
+			<view class="progress" ref="progress">
+				<view class="bar" ref="progressBar"></view>
+				<view class="bar-red">
+					<view class="red-btn" @touchmove="handTouchmove"></view>
+					<view class="red-line" ref="redLine"></view>
+				</view>
+			</view>
 		</view>
-
+		<audio id="audio1" :src="active.music_url" name="audio1" :controls="false" @error="onError" @play="onPlay"
+			@pause="onPause" @timeupdate="onTimeupdate" @ended="onEnded"></audio>
 	</view>
 </template>
 
 <script>
 	import CuHead from '../../components/cu-head.vue'
-	import WxyAudio from '../../uni_modules/wxy-audio/components/wxy-audio/wxy-audio.vue'
 	export default {
-		components: {
-			WxyAudio
-		},
 		data() {
 			return {
-				name: '',
 				music_list: [{
 						"name": "0923-004单曲测试",
 						'singer': '哇哈哈',
@@ -58,13 +71,12 @@
 				],
 				active: {
 					"name": "",
-					'singer': "1",
+					'singer': '',
 					"desc": "",
 					"music_url": "",
 					"music_time": 0,
 					checked: true
-				},
-				audioPlay: false
+				}
 			};
 		},
 		components: {
@@ -79,7 +91,7 @@
 				this.music_list = list
 
 			}
-			this.name = option.name
+			// 一会删掉
 			this.active = this.music_list[0]
 
 		},
@@ -117,13 +129,8 @@
 			// 点击歌曲item
 			handSelect(item) {
 				if (item.checked) return false
-				this.audioPlay = false
 				this.music_list.forEach(item1 => item1.checked = false)
 				item.checked = true
-				this.active = item
-				// console.log(this.$refs.audio1.$el.children[0].play())
-				// this.$refs.audio1.$el.children[0].play()
-				this.audioPlay = true
 			},
 			onError(e) {
 				console.log('onError', e)
@@ -227,18 +234,10 @@
 			left: 0;
 			z-index: 10;
 			width: 100%;
-			height: 102rpx;
+			height: 120rpx;
 			background-color: #fff;
 			display: flex;
 			align-items: center;
-
-			#audio1 {
-				width: 750rpx !important;
-
-				/deep/.uni-audio-default {
-					width: 100% !important;
-				}
-			}
 
 			.cover {
 				width: 90rpx;

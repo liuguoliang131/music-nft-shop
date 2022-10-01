@@ -32,12 +32,20 @@
 	import {
 		h5_conllections_buy_result,
 		h5_conllections_buy_pay_type_list,
-		h5_conllections_buy_pay
+		h5_conllections_buy_pay,
+		h5_conllections_buy_showsuccess
 	} from '../../request/api.js'
+	import {
+		post1
+	} from '../../request/index.js'
 	import {
 		requestPayment
 	} from '../../request/index.js'
 	import CuHead from '../../components/cu-head.vue'
+	import {
+		isWxBrowser,
+		getOpenId
+	} from '../../utils/index.js'
 	export default {
 		data() {
 			return {
@@ -47,7 +55,8 @@
 				order_no: '',
 				order_price: '',
 				displayTime: '',
-				list: []
+				list: [],
+				listenTimer: null //监听回调
 			};
 		},
 		components: {
@@ -102,8 +111,11 @@
 			},
 			// 开启倒计时
 			startCountDown() {
+				if (this.timer) {
+					clearInterval(this.timer)
+				}
 				this.timer = setInterval(() => {
-					if (this.count_down === 1) {
+					if (this.count_down <= 1) {
 						clearInterval(this.timer)
 						uni.showToast({
 							title: '订单已失效请重新下单，即将为您返回到详情页',
@@ -177,13 +189,90 @@
 				this.list.forEach(item => item.checked = false)
 				this.list[idx].checked = true
 			},
+
+			paymentFn({
+				prepay_id,
+				app_id,
+				time_stamp,
+				nonce_str,
+				packageNew,
+				sign,
+				sign_type
+			}) {
+				const that = this
+
+				function onBridgeReady() {
+					WeixinJSBridge.invoke(
+						'getBrandWCPayRequest', {
+							"appId": app_id, //公众号名称，由商户传入
+							"timeStamp": time_stamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+							"nonceStr": nonce_str, // 支付签名随机串，不长于 32 位
+							"package": packageNew, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+							"signType": sign_type, // 微信支付V3的传入RSA,微信支付V2的传入格式与V2统一下单的签名格式保持一致
+							"paySign": sign
+						},
+						function(res) {
+							// 支付成功
+							if (res.err_msg == "get_brand_wcpay_request:ok") {
+								// 使用以上方式判断前端返回,微信团队郑重提示：
+								//res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+								uni.showToast({
+									title: '支付成功',
+									icon: 'success'
+								})
+							}
+							// 支付过程中用户取消
+							if (res.err_msg == "get_brand_wcpay_request:cancel") {
+								uni.showToast({
+									title: '支付取消',
+									icon: 'none'
+								})
+							}
+							// 支付失败
+							if (res.err_msg == "get_brand_wcpay_request:fail") {
+								uni.showToast({
+									title: '支付失败',
+									icon: 'error'
+								})
+							}
+							/**
+							 * 其它
+							 * 1、请检查预支付会话标识prepay_id是否已失效
+							 * 2、请求的appid与下单接口的appid是否一致
+							 * */
+							if (res.err_msg == "调用支付JSAPI缺少参数：total_fee") {
+								uni.showToast({
+									title: '调用支付JSAPI缺少参数：total_fee',
+									icon: 'error'
+								})
+							}
+						})
+				}
+				// 检测支付环境中的
+				// WeixinJSBridge
+				if (typeof WeixinJSBridge == "undefined") {
+					if (document.addEventListener) {
+						document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false)
+					} else if (document.attachEvent) {
+						document.attachEvent('WeixinJSBridgeReady', onBridgeReady)
+						document.attachEvent('onWeixinJSBridgeReady', onBridgeReady)
+					}
+				} else {
+					onBridgeReady()
+				}
+			},
 			// 支付
 			async handPay() {
 				try {
-					const res = await this.$post(h5_conllections_buy_pay, {
+					let pay_type = isWxBrowser() ? 'js' : 'h5'
+					let data = {
 						order_no: this.order_no,
-						pay_id: this.list.find(item => item.checked).pay_id
-					})
+						pay_id: this.list.find(item => item.checked).pay_id,
+						pay_type,
+						open_id: getOpenId() || ''
+					}
+
+					const res = await this.$post(h5_conllections_buy_pay, data)
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
@@ -201,14 +290,51 @@
 					// })
 
 					console.log('pay')
-					window.location.href = res.data.wx_pay_string
+					// 微信浏览器内支付 or H5支付
+					if (pay_type === 'js') {
+						const params = res.data.wx_pay_param
+						params.packageNew = params.package
+						this.paymentFn(params)
+					} else {
+						window.location.href = res.data.wx_pay_param.pay_string
+					}
+
 				} catch (e) {
 					//TODO handle the exception
+					console.log(e)
 					uni.showToast({
 						title: e.message,
 						icon: 'error'
 					})
 				}
+			},
+			// 监听是否支付成功
+			listenPaySuccess() {
+				clearTimeout(this.listenTimer)
+				this.listenTimer = setInterval(() => {
+					post1(h5_conllections_buy_showsuccess, {
+						order_no: this.order_no
+					}).then(res => {
+						if (res.code === 200) {
+							uni.reLaunch({
+								url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}&order_id=${res.data.order_id}`
+							})
+						} else if (res.code !== 0 && res.code !== 200) {
+							uni.showToast({
+								title: res.msg,
+								icon: 'none'
+							})
+							clearTimeout(this.listenTimer)
+						}
+
+					}).catch(error => {
+						clearTimeout(this.listenTimer)
+						uni.showToast({
+							icon: 'error',
+							title: res.message
+						})
+					})
+				}, 1000)
 			}
 
 		},
@@ -218,6 +344,17 @@
 			this.order_price = option.order_price
 			this.getOrderResult()
 			this.getPayType()
+		},
+		onShow() {
+			this.listenPaySuccess()
+		},
+		onHide() {
+			// clearTimeout(this.timer)
+			clearTimeout(this.listenTimer)
+		},
+		beforeDestroy() {
+			clearTimeout(this.timer)
+			clearTimeout(this.listenTimer)
 		}
 	}
 </script>

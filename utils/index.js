@@ -3,7 +3,8 @@ import config, {
 	TOKEN,
 	USER_INFO
 } from './uniKey.js'
-console.log('processName', processName)
+import md5 from 'js-md5'
+const onlykey = 'U6LMVF9aNxg7Jgw5TMqL0CHiw4aT8ipuqlNCkdA9H50=' // key
 export const getToken = () => {
 	return window.localStorage.getItem(TOKEN) || ''
 }
@@ -225,13 +226,128 @@ export const jumpBefore = (url, fail) => {
 	}
 }
 
-export const filterTime = (time) =>{
+export const filterTime = (time) => {
 	const da = new Date(time);
 	var year = da.getFullYear();
-	var month = da.getMonth()+1;
+	var month = da.getMonth() + 1;
 	var date = da.getDate();
-	const h = da.getHours() 
+	const h = da.getHours()
 	const m = da.getMinutes()
 	const s = da.getSeconds()
 	return `${[year,month,date].join('/') } ${[h,m,s].join(':')}`
+}
+// 判断是否是在微信内
+export const isWxBrowser = () => {
+	var useragent = window.navigator.userAgent
+	if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {
+		return false
+	} else {
+		return true
+	}
+}
+// 获取openId
+export const getOpenId = () => {
+	return window.localStorage.getItem('openId') || ''
+}
+export const setOpenId = (openId) => {
+	window.localStorage.setItem('openId', openId)
+}
+
+
+
+// 设置请求头方法
+const getHeader = (data) => {
+	const ts = new Date().getTime()
+	const headers = {
+		'app-id': 'yyf_h5',
+		'x-token': getToken(),
+		ts,
+		ak: 'hanhou-app',
+		sign: ''
+	}
+	const sortParams = []
+	Object.keys(data).sort().forEach((key, idx) => {
+		sortParams[idx] = key + '=' + data[key]
+	})
+	const afterUrl = sortParams.join('&') // 参数串
+	let md5After = ''
+	if (afterUrl) {
+		md5After = afterUrl + '&ak=' + 'hanhou-app' + '&ts=' + ts + onlykey
+	} else {
+		md5After = 'ak=' + 'hanhou-app' + '&ts=' + ts + onlykey
+	}
+	const sign = md5(md5After)
+	headers.sign = sign
+	return headers
+
+}
+const getWebAccessToken = (data) => {
+	console.log('getWebAccessToken data', data)
+	const getopenid_api = '/h5/collections_wechat/get_web_access_token'
+	return new Promise((resolve, reject) => {
+		uni.request({
+			timeout: 20000,
+			url: config.BASE_URL + getopenid_api,
+			method: 'post',
+			header: getHeader(data),
+			data,
+			success(res) {
+				if (res.data.code !== 0) {
+					reject(new Error(res.data.msg))
+					return false
+				} else {
+					setOpenId(res.data.data.open_id)
+					resolve(res.data)
+				}
+			},
+			fail(error) {
+				console.log('getWebAccessToken error', error)
+				reject(new Error(error.message))
+			},
+			complete() {
+
+			}
+		})
+	})
+}
+// 跳转微信授权页
+export const jumpWxAuthUrl = () => {
+	console.log('jumpWxAuthUrl processName', processName)
+	if (processName === 'development') {
+		return false
+	}
+	const url = window.location.href
+	if (url.includes('code=')) {
+		let code = url.split('?')[1].split('&')[0].split('=')[1]
+		console.log('code', code)
+		getWebAccessToken({
+			code
+		}).then(res => {
+			// 删除地址url中的code  跳转
+			if (window.sessionStorage.getItem('afterBackUrl')) {
+				window.location.href = window.sessionStorage.getItem('afterBackUrl')
+			}
+
+		}).catch(error => {
+			uni.showToast({
+				title: error.message,
+				icon: 'error'
+			})
+		})
+
+	} else {
+		if (getOpenId()) {
+			return false
+		} else {
+			// 离开时记录一下当前的地址 授权页返回code时跳转回这个地址
+			window.sessionStorage.setItem('afterBackUrl', window.location.href)
+			window.location.replace(
+				`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${config.appId}&redirect_uri=${config.appURL}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
+			)
+
+		}
+	}
+
+
+
 }
