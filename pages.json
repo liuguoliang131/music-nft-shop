@@ -20,21 +20,21 @@
 			"style": {
 				"navigationBarTitleText": "我的专辑",
 				"enablePullDownRefresh": false,
-				"navigationStyle":"custom"
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/collectionsDetail/collectionsDetail",
 			"style": {
 				"navigationBarTitleText": "详情",
 				"enablePullDownRefresh": false,
-				"navigationStyle":"custom"
+				"navigationStyle": "custom"
 			}
 
 		}, {
 			"path": "pages/customerService/customerService",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "联系客服",
 				"enablePullDownRefresh": false
 			}
 
@@ -42,7 +42,7 @@
 			"path": "pages/preOrderDetails/preOrderDetails",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "专辑详情",
 				"enablePullDownRefresh": false
 			}
 
@@ -50,7 +50,7 @@
 			"path": "pages/settlement/settlement",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "结算页",
 				"enablePullDownRefresh": false
 			}
 
@@ -58,7 +58,7 @@
 			"path": "pages/cashier/cashier",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "收银台",
 				"enablePullDownRefresh": false
 			}
 
@@ -66,7 +66,7 @@
 			"path": "pages/paySuccess/paySuccess",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "支付成功",
 				"enablePullDownRefresh": false
 			}
 
@@ -74,7 +74,7 @@
 			"path": "pages/poster/poster",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "专辑海报",
 				"enablePullDownRefresh": false
 			}
 
@@ -83,14 +83,14 @@
 			"style": {
 				"navigationBarTitleText": "专辑订单",
 				"enablePullDownRefresh": false,
-				"navigationStyle":"custom"
+				"navigationStyle": "custom"
 			}
 
 		}, {
 			"path": "pages/userAgreement/userAgreement",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "查看协议",
 				"enablePullDownRefresh": false
 			}
 
@@ -98,23 +98,23 @@
 			"path": "pages/idAuth/idAuth",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "身份认证",
 				"enablePullDownRefresh": false
 			}
 
 		}, {
 			"path": "pages/orderDetail/orderDetail",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "订单详情",
 				"enablePullDownRefresh": false,
-				"navigationStyle":"custom"
+				"navigationStyle": "custom"
 			}
 
 		}, {
 			"path": "pages/musicPlayer/musicPlayer",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "欣赏专辑",
 				"enablePullDownRefresh": false
 			}
 
@@ -123,7 +123,7 @@
 			"style": {
 				"navigationBarTitleText": "我的",
 				"enablePullDownRefresh": false,
-				"navigationStyle":"custom"
+				"navigationStyle": "custom"
 			}
 
 		}

@@ -5,8 +5,7 @@
 			当前拥有{{total_num}}张
 		</view>
 
-		<scroll-view scroll-y style="height: calc(100vh - 180rpx);padding-top: 30rpx;"
-			@scrolltolower='handleScrollTolower'>
+		<scroll-view scroll-y style="height: calc(100vh - 180rpx);" @scrolltolower='handleScrollTolower'>
 			<view class="grid-box">
 				<view class="item" v-for="(item , index) in list " @click="handleGoToDetail(item)" :key='index'>
 					<view class="item-image">
@@ -68,12 +67,12 @@
 					console.log('res', res)
 					if (res.data.list && Array.isArray(res.data.list)) {
 						this.total_num = res.data.total_num || 0
-						if(this.page === 1 ){
+						if (this.page === 1) {
 							this.list = res.data.list
-						}else{
+						} else {
 							this.list = [...this.list, ...res.data.list]
 						}
-						
+
 					} else {
 						this.page = this.page - 1
 					}

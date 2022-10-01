@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<!-- <cu-head></cu-head> -->
 		<view class="box1">
 			<image class="icon" src="../../static/Frame 41.png"></image>
 			<view class="row1">支付成功</view>
@@ -9,7 +9,7 @@
 		</view>
 		<view class="box2">
 			<view class="btn1" @tap="handGoDetail">查看订单</view>
-			<view class="btn2" @tap="handBackIndex">返回专辑</view>
+			<view class="btn2" @tap="handBackIndex">返回首页</view>
 		</view>
 	</view>
 </template>
