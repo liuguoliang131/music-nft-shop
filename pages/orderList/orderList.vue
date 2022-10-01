@@ -102,7 +102,7 @@
 		},
 		methods: {
 			getList(e) {
-				if(e){
+				if (e) {
 					this.page = 1
 					this.list = []
 				}
@@ -111,14 +111,16 @@
 					order_type: this.activeNav
 				}).then(res => {
 					if (res.data && Array.isArray(res.data)) {
-						if(this.page === 1 ){
-							this.list = res.data.list
-						}else{
-							this.list = [...this.list, ...res.data.list]
+						if (this.page === 1) {
+							console.log(1)
+							this.list = res.data
+						} else {
+							console.log(2)
+							this.list = [...this.list, ...res.data]
 						}
-						
-					}else{
-						this.page = this.page -1
+
+					} else {
+						this.page = this.page - 1
 					}
 				})
 			},
@@ -154,11 +156,11 @@
 					confirmColor: '#DC2D1E',
 					content: '是否确认取消订单？',
 					cancelColor: '#999999',
-					success :(e)=> {
-						if(e.confirm){
-							post(h5_order_cancle,{
-								order_id : a.order_id
-							}).then(res =>{
+					success: (e) => {
+						if (e.confirm) {
+							post(h5_order_cancle, {
+								order_id: a.order_id
+							}).then(res => {
 								this.getList(1)
 								uni.showToast({
 									title: '取消成功'
@@ -204,7 +206,8 @@
 					position: relative;
 					font-weight: 700;
 					font-size: 15px;
-					&::after{
+
+					&::after {
 						content: '';
 						bottom: -22rpx;
 						position: absolute;
