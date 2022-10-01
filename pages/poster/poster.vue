@@ -6,7 +6,7 @@
 				<canvas ref="Canvas" class="thecanvas" type="2d" canvas-id="firstCanvas"></canvas>
 			</view>
 			<view class="box2">
-				<view v-if="isWx" class="save noactive">可截图邀请好友参与</view>
+				<view v-if="isWx" class="save noactive">可截图邀请好友扫码参与</view>
 				<view v-else class="save" @tap="handleSavePhoto()">点击保存海报到相册</view>
 			</view>
 			<view class="box3" v-show="!isWx">
