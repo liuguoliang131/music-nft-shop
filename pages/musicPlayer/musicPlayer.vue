@@ -39,22 +39,23 @@
 		data() {
 			return {
 				name: '',
-				music_list: [{
-						"name": "0923-004单曲测试",
-						'singer': '哇哈哈',
-						"desc": "04萤火虫的微光、独行的灯火，还是燎原的火把，都是值得被看见的女性力量，对别人来说，也许这些光亮微不足道，但对自己来说，每一个都是值得纪念的高光时刻",
-						"music_url": "https://media.shenglangnft.com/music/1663550442714210.mp3",
-						"music_time": 217,
-						checked: true
-					},
-					{
-						"name": "0923-004单曲测试1",
-						'singer': 'giao',
-						"desc": "04萤火虫的微光、独行的灯火，还是燎原的火把，都是值得被看见的女性力量，对别人来说，也许这些光亮微不足道，但对自己来说，每一个都是值得纪念的高光时刻",
-						"music_url": "https://media.shenglangnft.com/music/166364042618769.wav",
-						"music_time": 217,
-						checked: false
-					}
+				music_list: [
+					// {
+					// 	"name": "0923-004单曲测试",
+					// 	'singer': '哇哈哈',
+					// 	"desc": "04萤火虫的微光、独行的灯火，还是燎原的火把，都是值得被看见的女性力量，对别人来说，也许这些光亮微不足道，但对自己来说，每一个都是值得纪念的高光时刻",
+					// 	"music_url": "https://media.shenglangnft.com/music/1663550442714210.mp3",
+					// 	"music_time": 217,
+					// 	checked: true
+					// },
+					// {
+					// 	"name": "0923-004单曲测试1",
+					// 	'singer': 'giao',
+					// 	"desc": "04萤火虫的微光、独行的灯火，还是燎原的火把，都是值得被看见的女性力量，对别人来说，也许这些光亮微不足道，但对自己来说，每一个都是值得纪念的高光时刻",
+					// 	"music_url": "https://media.shenglangnft.com/music/166364042618769.wav",
+					// 	"music_time": 217,
+					// 	checked: false
+					// }
 				],
 				active: {
 					"name": "",
