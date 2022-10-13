@@ -249,20 +249,30 @@
 												ava.y, ava.width,
 												ava.height)
 											that.context.draw();
-											// 生成图片 在canvas加载完后生成图片到canvas层级之上
-											uni.canvasToTempFilePath({ // res.tempFilePath临时路径
-												canvasId: 'firstCanvas',
-												success: (posterRes) => {
-													console.log('posterRes',
-														posterRes)
+											setTimeout(() => {
+												// 生成图片 在canvas加载完后生成图片到canvas层级之上
+												uni.canvasToTempFilePath({ // res.tempFilePath临时路径
+													canvasId: 'firstCanvas',
+													success: (
+														posterRes) => {
+														console.log(
+															'posterRes',
+															posterRes
+														)
 
-													that.posterImageBase64 =
-														posterRes.tempFilePath
-												},
-												fail: (error) => {
-													console.log(error)
-												}
-											})
+														that.posterImageBase64 =
+															posterRes
+															.tempFilePath
+
+													},
+													fail: (error) => {
+														console.log(
+															error)
+													}
+												})
+											}, 1000)
+
+
 										}
 									})
 								}
@@ -329,7 +339,7 @@
 				}
 
 				.posterImageBase64 {
-					z-index: 999;
+					z-index: 2;
 					position: absolute;
 					top: 80rpx;
 					left: 50%;
