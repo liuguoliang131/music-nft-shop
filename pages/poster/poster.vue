@@ -331,19 +331,20 @@
 				text-align: center;
 
 				.thecanvas {
-					position: absolute;
 					z-index: 1;
-					top: -2000rpx;
-					left: 50%;
-					transform: translate(-50%, 0);
 					width: 630rpx;
 					height: 774rpx;
+					margin: auto;
 					background: #E7E7E7;
 					border-radius: 16rpx !important;
 				}
 
 				.posterImageBase64 {
-					margin: auto;
+					position: absolute;
+					z-index: 2;
+					top: 80rpx;
+					left: 50%;
+					transform: translate(-50%, 0);
 					width: 630rpx;
 					height: 774rpx;
 					border-radius: 16rpx !important;
