@@ -331,7 +331,11 @@
 				text-align: center;
 
 				.thecanvas {
-					margin: auto;
+					position: absolute;
+					z-index: 1;
+					top: -2000rpx;
+					left: 50%;
+					transform: translate(-50%, 0);
 					width: 630rpx;
 					height: 774rpx;
 					background: #E7E7E7;
@@ -339,11 +343,7 @@
 				}
 
 				.posterImageBase64 {
-					z-index: 2;
-					position: absolute;
-					top: 80rpx;
-					left: 50%;
-					transform: translate(-50%, 0);
+					margin: auto;
 					width: 630rpx;
 					height: 774rpx;
 					border-radius: 16rpx !important;
