@@ -3,7 +3,7 @@
 		<cu-head></cu-head>
 		<view class="content">
 			<view class="box1">
-				<image class="posterImageBase64" v-if="posterImageBase64" :src="posterImageBase64" mode=""></image>
+				<img class="posterImageBase64" v-if="posterImageBase64" :src="posterImageBase64" mode="" />
 				<canvas ref="Canvas" class="thecanvas" type="2d" canvas-id="firstCanvas"></canvas>
 			</view>
 			<view class="box2">
