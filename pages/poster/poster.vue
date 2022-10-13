@@ -3,6 +3,7 @@
 		<cu-head></cu-head>
 		<view class="content">
 			<view class="box1">
+				<image class="posterImageBase64" v-if="posterImageBase64" :src="posterImageBase64" mode=""></image>
 				<canvas ref="Canvas" class="thecanvas" type="2d" canvas-id="firstCanvas"></canvas>
 			</view>
 			<view class="box2">
@@ -40,7 +41,8 @@
 					ava_url: '',
 					user_name: '',
 					code: ''
-				}
+				},
+				posterImageBase64: ''
 			};
 		},
 		components: {
@@ -247,8 +249,20 @@
 												ava.y, ava.width,
 												ava.height)
 											that.context.draw();
+											// 生成图片 在canvas加载完后生成图片到canvas层级之上
+											uni.canvasToTempFilePath({ // res.tempFilePath临时路径
+												canvasId: 'firstCanvas',
+												success: (posterRes) => {
+													console.log('posterRes',
+														posterRes)
 
-
+													that.posterImageBase64 =
+														posterRes.tempFilePath
+												},
+												fail: (error) => {
+													console.log(error)
+												}
+											})
 										}
 									})
 								}
@@ -302,6 +316,7 @@
 		.content {
 
 			.box1 {
+				position: relative;
 				padding-top: 80rpx;
 				text-align: center;
 
@@ -310,6 +325,17 @@
 					width: 630rpx;
 					height: 774rpx;
 					background: #E7E7E7;
+					border-radius: 16rpx !important;
+				}
+
+				.posterImageBase64 {
+					position: absolute;
+					top: 80rpx;
+					left: 50%;
+					transform: translate(-50%, 0);
+					width: 630rpx;
+					height: 774rpx;
+					background-color: rgba(100, 100, 100, 0.5);
 					border-radius: 16rpx !important;
 				}
 			}
