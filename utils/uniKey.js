@@ -12,8 +12,8 @@ const test = {
 	appId: 'wxc71083a78fa68d77' //公众号id
 }
 const prod = {
-	// BASE_URL: 'http://h5.yuanyinfu.com'
-	BASE_URL: 'https://yyf-h5.hanhoukeji.com',
+	BASE_URL: 'https://c.yuanyinfu.com', //测试
+	// BASE_URL: 'https://yyf-h5.hanhoukeji.com', //生产
 	APP_DOWNLOAD_URL: 'https://share.yuanyinfu.com/h5/app',
 	appURL: 'https://yyf-h5.hanhoukeji.com',
 	appId: 'wxc71083a78fa68d77'
