@@ -329,13 +329,13 @@
 				}
 
 				.posterImageBase64 {
+					z-index: 999;
 					position: absolute;
 					top: 80rpx;
 					left: 50%;
 					transform: translate(-50%, 0);
 					width: 630rpx;
 					height: 774rpx;
-					background-color: rgba(100, 100, 100, 0.5);
 					border-radius: 16rpx !important;
 				}
 			}
