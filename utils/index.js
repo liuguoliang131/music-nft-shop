@@ -316,6 +316,9 @@ export const jumpWxAuthUrl = () => {
 	if (processName === 'development') {
 		return false
 	}
+	if (config.ENV === 'test') {
+		return false
+	}
 	const url = window.location.href
 	if (url.includes('code=')) {
 		let code = url.split('?')[1].split('&')[0].split('=')[1]
