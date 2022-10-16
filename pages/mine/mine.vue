@@ -20,11 +20,22 @@
 			<view class="mine-notice-title">
 				{{userInfo.public_key}}
 			</view>
-			<text class="cuIcon-copy mine-notice-copy" @click='copy(userInfo.public_key)'></text>
+			<image src="../../static/copy-icon.png" class="mine-notice-copy" mode="" @click='copy(userInfo.public_key)'>
+			</image>
 		</view>
 
 
 		<view class="mine-list">
+			<view class="mine-list-item" @click="goToCollections">
+				<image src="../../static/yaoqing.png" class="mine-list-item-image" mode=""></image>
+				邀请好友
+				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
+			</view>
+			<view class="mine-list-item" @click="goToCollections">
+				<image src="../../static/team.png" class="mine-list-item-image" mode=""></image>
+				我的团队
+				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
+			</view>
 			<view class="mine-list-item" @click="goToCollections">
 				<image src="../../static/mine.png" class="mine-list-item-image" mode=""></image>
 				我的专辑
@@ -103,6 +114,10 @@
 </script>
 
 <style lang="scss" scoped>
+	.container {
+		padding: 0;
+	}
+
 	.mine {
 		height: 100vh;
 		position: relative;
@@ -110,31 +125,35 @@
 		.logout {
 			font-style: normal;
 			font-weight: 500;
-			font-size: 14px;
-			line-height: 20px;
+			font-size: 28rpx;
+			line-height: 40rpx;
 			/* identical to box height */
 
 			text-align: center;
 
 			color: #D10910;
-			position: absolute;
-			bottom: 240rpx;
-			left: 0;
+			// position: absolute;
+			// bottom: 240rpx;
+			// left: 0;
+			padding-top: 360rpx;
+			padding-bottom: 50rpx;
 			width: 100%;
 		}
 
 		&-head {
 			display: flex;
 			align-items: center;
+			padding-top: 40rpx;
 
 			&-image {
 				width: 110rpx;
 				height: 110rpx;
 				border-radius: 50%;
+				margin-left: 32rpx;
 			}
 
 			&-box {
-				margin-left: 20rpx;
+				margin-left: 24rpx;
 				display: flex;
 				flex-direction: column;
 				justify-content: space-between;
@@ -169,18 +188,22 @@
 			align-items: center;
 			background: #1D1D1D;
 
-			border: 0.5px solid #2F2F2F;
+			border: 1.3rpx solid #2F2F2F;
 
-			border-radius: 4px;
-			margin-top: 20rpx;
-			padding: 10rpx;
+			border-radius: 10.6rpx;
+			margin-top: 16rpx;
+			width: 892rpx;
+			height: 80rpx;
+			transform-origin: 0 0;
+			transform: scale(0.75) translate(53rpx, 0);
 
 			&-name {
 				background: linear-gradient(90deg, #9C8746 0%, #645735 93.2%);
-				border-radius: 3px;
-				font-size: 12px;
-				width: 140rpx;
-				padding: 10rpx;
+				border-radius: 6rpx;
+				font-size: 24rpx;
+				width: 160rpx;
+				height: 65rpx;
+				margin: 6rpx;
 				display: flex;
 				align-items: center;
 				justify-content: center;
@@ -201,22 +224,25 @@
 
 			&-copy {
 				color: #B19E63;
-
-				width: 40rpx;
+				width: 24rpx;
+				height: 24rpx;
+				margin-right: 18rpx;
+				margin-left: 26rpx;
 			}
 		}
 
 		&-list {
-			margin-top: 20rpx;
+			padding: 18rpx 20rpx 0 20rpx;
 
 			&-item {
 				display: flex;
 				align-items: center;
-				border-bottom: 0.5px solid #363636;
-
-				height: 80rpx;
+				box-sizing: border-box;
+				border-bottom: 1rpx solid #363636;
+				padding: 0 20rpx;
+				height: 88.62rpx;
 				font-weight: 500;
-				font-size: 12px;
+				font-size: 24rpx;
 				line-height: 17px;
 				color: #9B8751;
 
