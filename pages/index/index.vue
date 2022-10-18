@@ -118,18 +118,18 @@
 				}).then(res => {
 					this.loginFlag = !!res.data.is_login
 					if (res.data.list) {
-						if(this.page === 1 ){
+						if (this.page === 1) {
 							this.list = res.data.list
-						}else{
+						} else {
 							this.list = [...this.list, ...res.data.list]
 						}
-						
+
 					} else {
 						this.page = this.page - 1
 					}
-					
-					
-					
+
+
+
 
 				})
 			},
@@ -274,9 +274,9 @@
 
 
 			&-image {
-				width: 120px;
-				height: 120px;
-				border-radius: 12px;
+				width: 240rpx;
+				height: 240rpx;
+				border-radius: 24rpx;
 				background-size: cover;
 				background-position: center;
 				background-repeat: no-repeat;

@@ -26,12 +26,12 @@
 
 
 		<view class="mine-list">
-			<view class="mine-list-item" @click="goToCollections">
+			<view class="mine-list-item" @click="goToInviteFriends">
 				<image src="../../static/yaoqing.png" class="mine-list-item-image" mode=""></image>
 				邀请好友
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
-			<view class="mine-list-item" @click="goToCollections">
+			<view class="mine-list-item" @click="goToMyTeam">
 				<image src="../../static/team.png" class="mine-list-item-image" mode=""></image>
 				我的团队
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
@@ -102,7 +102,20 @@
 				uni.navigateTo({
 					url: '/pages/customerService/customerService'
 				})
+			},
+			// 去邀请好友
+			goToInviteFriends() {
+				uni.navigateTo({
+					url: '/pages/inviteFriends/inviteFriends'
+				})
+			},
+			// 去我的团队
+			goToMyTeam() {
+				uni.navigateTo({
+					url: '/pages/myTeam/myTeam'
+				})
 			}
+
 		},
 		onLoad() {
 			if (this.$store.state.user.userInfo) {
