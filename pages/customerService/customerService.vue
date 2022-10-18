@@ -1,14 +1,14 @@
 <template>
 	<view class="container">
 		<cu-head></cu-head>
-		<view class="item-content item1">
+		<view class="item-content item1" v-if="identity_type===2">
 			<view class="row1">大客户咨询二维码</view>
 			<view class="row2">
-				<image class="code2" :src="customer_service" mode=""></image>
+				<image class="code2" :src="customer_service_vip" mode=""></image>
 			</view>
 			<view class="row3">长按识别二维码</view>
 			<view class="row4">
-				<view class="save" @tap="handSave()">保存到相册</view>
+				<view class="save" @tap="handSave(customer_service_vip,'大客户咨询二维码')">保存到相册</view>
 			</view>
 		</view>
 		<view class="item-content item2">
@@ -18,7 +18,7 @@
 			</view>
 			<view class="row3">长按识别二维码</view>
 			<view class="row4">
-				<view class="save" @tap="handSave()">保存到相册</view>
+				<view class="save" @tap="handSave(customer_service,客服二维码)">保存到相册</view>
 			</view>
 		</view>
 	</view>
@@ -36,7 +36,9 @@
 	export default {
 		data() {
 			return {
-				customer_service: ''
+				customer_service: '',
+				identity_type: 1,
+				customer_service_vip: ''
 			};
 		},
 		components: {
@@ -57,9 +59,9 @@
 					})
 				}
 			},
-			handSave() {
+			handSave(url, name = '客服二维码') {
 				uni.downloadFile({
-					url: this.customer_service,
+					url,
 					success({
 						tempFilePath
 					}) {
@@ -67,7 +69,7 @@
 							saveBase64Image(tempFilePath)
 						} else {
 							const btn = document.createElement('a')
-							btn.download = '客服二维码'
+							btn.download = name
 							btn.href = tempFilePath
 							btn.click()
 
@@ -93,6 +95,8 @@
 					}
 					this.$store.commit('user/set_userInfo', res.data)
 					this.customer_service = res.data.customer_service
+					this.identity_type = res.data.identity_type || 1 // 1普通客户 2为大客户
+					this.customer_service_vip = res.data.customer_service_vip || ''
 				} catch (e) {
 					//TODO handle the exception
 					uni.showToast({

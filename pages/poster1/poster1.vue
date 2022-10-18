@@ -27,21 +27,14 @@
 		saveBase64Image
 	} from '../../utils/index.js'
 	import {
-		h5_collections_index_sharePoster
+		h5_community_sharePoster
 	} from '../../request/api.js'
 	import CuHead from '../../components/cu-head.vue'
 	export default {
 		data() {
 			return {
 				isWx: false,
-				product_item_id: '',
 				context: null,
-				posterData: {
-					poster_url: '',
-					ava_url: '',
-					user_name: '',
-					code: ''
-				},
 				posterImageBase64: ''
 			};
 		},
@@ -116,9 +109,7 @@
 			},
 			async getInfo() {
 				try {
-					const res = await this.$post(h5_collections_index_sharePoster, {
-						product_item_id: this.product_item_id
-					})
+					const res = await this.$post(h5_community_sharePoster, {})
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
@@ -196,7 +187,7 @@
 						width: 120 * widowWidth / scaleScreenWidth,
 						height: 120 * widowWidth / scaleScreenWidth,
 						shareUrl: window.location.protocol + '//' + window.location.host +
-							`/#/pages/index/index?share_sign=${data.share_sign}`,
+							`/#/pages/index/index?share_sign=${data.share_sign}`
 					}
 
 					// 生成二维码
@@ -289,7 +280,6 @@
 		onLoad(option) {
 			console.log('poster onload', option)
 			this.isWx = isWxBrowser()
-			this.product_item_id = option.product_item_id ? Number(option.product_item_id) : null
 		},
 		onReady: function(e) {
 			console.log('poster onready')

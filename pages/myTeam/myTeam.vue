@@ -5,58 +5,146 @@
 		<view class="board">
 			<view class="board-1">
 				<view class="text1">总收益(元)</view>
-				<view class="text2">15,000</view>
+				<view class="text2">{{board.total_profit}}</view>
 			</view>
 			<view class="board-2">
 				<view class="text1">购买总额(元)</view>
-				<view class="text2">50,000</view>
+				<view class="text2">{{board.total_buy_amount}}</view>
 			</view>
 			<view class="board-3">
 				<view class="text1">购买单数</view>
-				<view class="text2">100</view>
+				<view class="text2">{{board.total_buy_order}}</view>
 			</view>
 		</view>
 		<view class="member-title">
 			<view class="title-l"></view>
-			成员列表（40人）
+			成员列表（{{board.total_members||'0'}}人）
 		</view>
-		<view class="member-list">
-			<view class="member-item" v-for="item in 12">
+		<scroll-view class="member-list" scroll-y @scrolltolower="handleScrollTolower">
+			<view class="member-item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
 				<view class="item-top">
 					<view class="item-1">
-						<image src="../../static/唱首歌给你听.png" mode="" class="item-1-img"></image>
+						<image :src="item.avatar" mode="" class="item-1-img"></image>
 					</view>
 					<view class="item-2">
-						<view class="item-2-1">用户昵称</view>
-						<view class="item-2-2">138****3344</view>
+						<view class="item-2-1">{{item.nick_name}}</view>
+						<view class="item-2-2">{{item.phone}}</view>
 					</view>
 					<view class="item-3">
 						<view class="item-3-1">购买总额(元)</view>
-						<view class="item-3-2">1,500</view>
+						<view class="item-3-2">{{item.total_buy_amount}}</view>
 					</view>
 				</view>
 				<view class="item-bottom">
-					<view class="explain">该用户于XXXX年XX月XX日被130****1100邀请加入</view>
+					<view class="explain">{{item.explain}}</view>
 				</view>
 
 			</view>
-		</view>
+		</scroll-view>
 	</view>
 </template>
 
 <script>
 	import CuHead from '../../components/cu-head.vue'
+	import {
+		h5_community_overview, //信息
+		h5_community_memberList //成员列表
+	} from '../../request/api.js'
+	import {
+		getTimeData
+	} from '../../utils/index.js'
 	export default {
 		components: {
 			CuHead
 		},
 		data() {
 			return {
-
+				board: {
+					total_profit: '',
+					total_buy_amount: '',
+					total_buy_order: '',
+					total_members: ''
+				},
+				page: 1,
+				list: []
 			}
 		},
 		methods: {
+			handGo(item) {
+				let url = `/pages/memberDetails/memberDetails?member_id=${item.id}`
+				uni.navigateTo({
+					url
+				})
+			},
+			// 获取信息
+			async getInfo() {
+				try {
+					const res = await this.$post(h5_community_overview, {})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
+					}
+					this.board = res.data
 
+				} catch (e) {
+					console.log(e)
+					throw e
+					//TODO handle the exception
+				}
+			},
+			// 获取成员列表
+			async getList() {
+				try {
+					const res = await this.$post(h5_community_memberList, {
+						page: this.page
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
+					}
+					if (res.data.list && Array.isArray(res.data.list)) {
+						res.data.list.forEach(item => {
+							const date = getTimeData(item.in_time)
+							item.explain =
+								`该用户于${date.y.substring(2,4)}年${date.mon}月${date.dd}日被${item.inviter}邀请加入`
+						})
+						if (this.page === 1) {
+							this.list = res.data.list
+						} else {
+							this.list = [...this.list, ...res.data.list]
+						}
+
+					} else {
+						this.page = this.page - 1
+					}
+				} catch (e) {
+					console.log(e)
+					throw e
+					//TODO handle the exception
+				}
+			},
+			// 滚动事件
+			handleScrollTolower() {
+				if (window.requestAnimationFrame && typeof window.requestAnimationFrame === 'function') {
+					window.requestAnimationFrame(() => {
+						this.page++
+						this.getList()
+					})
+				} else {
+					setTimeout(() => {
+						this.page++
+						this.getList()
+					}, 17)
+				}
+			},
+		},
+		onLoad() {
+			this.getInfo()
+			this.getList()
 		}
 	}
 </script>
@@ -131,7 +219,9 @@
 		}
 
 		.member-list {
-			padding: 0 32rpx;
+			box-sizing: border-box;
+			padding: 0 32rpx 32rpx 32rpx;
+			height: calc(100vh - 340rpx);
 
 			.member-item {
 				border-bottom: 1rpx solid #363636;
@@ -161,6 +251,9 @@
 							font-size: 26rpx;
 							line-height: 36rpx;
 							color: #AEAEAE;
+							overflow: hidden; // 溢出隐藏
+							white-space: nowrap; // 强制一行
+							text-overflow: ellipsis; // 文字溢出显示省略号
 
 						}
 
@@ -211,6 +304,9 @@
 						color: #666666;
 						transform-origin: 0 0;
 						transform: scale(0.83);
+						overflow: hidden; // 溢出隐藏
+						white-space: nowrap; // 强制一行
+						text-overflow: ellipsis; // 文字溢出显示省略号
 
 					}
 				}
