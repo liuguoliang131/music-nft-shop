@@ -6,7 +6,8 @@
 		setToken,
 		isApp,
 		isWxBrowser,
-		jumpWxAuthUrl
+		jumpWxAuthUrl,
+		getAppConfig
 	} from 'utils/index.js'
 	import {
 		h5_user_info
@@ -39,6 +40,7 @@
 						this.$store.commit('user/set_token', '')
 						this.$store.commit('user/set_userInfo', '')
 					}
+					getAppConfig()
 				} else {
 					if (isWxBrowser()) {
 						jumpWxAuthUrl()

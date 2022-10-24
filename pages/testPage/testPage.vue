@@ -1,144 +1,6 @@
 <template>
 	<view class="container collection">
-		<cu-head></cu-head>
-		<view class="title">
-			专辑信息
-		</view>
-
-		<view class=" mt-2" style="display: flex;align-items: flex-start;">
-			<image :src="detail.index_img" class="image" style="width: 120px;height: 120px;flex-shrink: 0;" mode="">
-			</image>
-			<view class="box" style="font-size: 13px;">
-				<view class="box-title">
-					{{detail.name}}
-				</view>
-				<view class="number">
-					包含{{detail.singles_num}}首作品
-				</view>
-				<view class="number">
-					发 行 方 {{detail.publish_author}}
-				</view>
-				<view class="number">
-					发行时间 {{filterTimes(detail.publish_time * 1000 )}}
-				</view>
-				<view class="number">
-					发行价格 ¥{{detail.sale_price}}元/张
-				</view>
-			</view>
-		</view>
-
-		<view class="border-bottom">
-			<view class="title mt-2 ">
-				认证信息
-			</view>
-			<view class="flex">
-				<view class="key number" style="width: 220rpx;text-align: right;text-align-last:right;flex-shrink: 0;">
-					Record Number
-				</view>
-				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
-					{{detail.code_num}}
-				</view>
-			</view>
-			<view class="flex">
-				<view class="key number" style="width: 220rpx;text-align: right;text-align-last:right;flex-shrink: 0;">
-					Contract Address
-				</view>
-				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
-					{{detail.contract_address}}
-				</view>
-			</view>
-			<view class="flex">
-				<view class="key number" style="width: 220rpx;text-align: right;text-align-last:right;flex-shrink: 0;">
-					Token ID
-				</view>
-				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
-					{{detail.token_id}}
-				</view>
-			</view>
-			<view class="flex">
-				<view class="key number" style="width: 220rpx;text-align: right;text-align-last:right;flex-shrink: 0;">
-					Token Standard
-				</view>
-				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
-					{{detail.token_standard}}
-				</view>
-			</view>
-		</view>
-
-
-		<view class="" v-for="(item , index) in detail.music_list" :key='index'>
-			<view class="title mt-2">
-				{{item.name}}
-			</view>
-			<view class="content" style="margin-top: 15rpx;">
-				{{item.desc}}
-			</view>
-		</view>
-
-		<view class="container-bottom">
-			<div class="my-btn primary" @click="showCre">查看证书</div>
-			<div class="my-btn " @click="handGoMusicPlayer">欣赏专辑</div>
-		</view>
-
-
-		<view class="cu-modal " :class="show ? 'show' : ''" @click="hiddenCre">
-			<view class="cu-dialog">
-				<view style="border: 0.5px solid #AC9147;border-radius: 6px;padding: 10rpx;">
-					<view class="head">
-
-						<image src="../../static/logo-black.jpg" style="width: 49px;height: 65px;" class="head-logo">
-						</image>
-
-						<view class="head-title">
-							数字专辑证书
-						</view>
-					</view>
-					<view class="body">
-						<view class="flex">
-							<view class="key number">
-								编号
-							</view>
-							<view class="number">
-								{{detail.certificate.code}}
-							</view>
-						</view>
-						<view class="flex">
-							<view class="key number">
-								名称
-							</view>
-							<view class="number">
-								{{detail.certificate.name}}
-							</view>
-						</view>
-						<view class="flex">
-							<view class="key number">
-								发行方
-							</view>
-							<view class="number">
-								{{detail.certificate.publish_author}}
-							</view>
-						</view>
-						<view class="flex">
-							<view class="key number">
-								发行时间
-							</view>
-							<view class="number">
-								{{filterTimes(detail.certificate.publish_time * 1000 )}}
-							</view>
-						</view>
-						<view class="flex text">
-							<view class="key number">
-								哈希地址
-							</view>
-							<view class="number" style="flex-flow: wrap;">
-								{{detail.certificate.block_chain_hash}}
-							</view>
-						</view>
-					</view>
-				</view>
-			</view>
-		</view>
-
+		<button>欣赏专辑</button>
 	</view>
 </template>
 
@@ -160,14 +22,15 @@
 			return {
 				show: false,
 				detail: {
-					name: '',
+					product_item_id: '5',
+					name: 'aaa',
 					index_img: '',
-					code_num: '',
-					sale_price: '',
-					evaluate_type: '',
-					rare_type: '',
-					publish_author: '',
-					publish_time: '',
+					code_num: '12e1',
+					sale_price: '12',
+					evaluate_type: '1',
+					rare_type: '1',
+					publish_author: 'qweqw',
+					publish_time: '123',
 					singles_num: 0,
 					contract_address: '',
 					token_id: '',
@@ -180,9 +43,24 @@
 						publish_time: ''
 					},
 					music_list: [{
-						name: '',
-						desc: ''
-					}]
+							"name": "与伤共舞",
+							"desc": "命运面前，休论公道。",
+							"singer": "刘思佳",
+							"lyricist": "嫩成",
+							"composer": "逄博",
+							"music_url": "https://media.shenglangnft.com/与伤共舞.mp3",
+							"music_time": 208
+						},
+						{
+							"name": "真的吗",
+							"desc": "当所有的热烈回归平静",
+							"singer": "刘思达",
+							"lyricist": "刘思达",
+							"composer": "刘思达",
+							"music_url": "https://media.shenglangnft.com/真的吗MMM.wav",
+							"music_time": 185
+						}
+					]
 				}
 			}
 		},
