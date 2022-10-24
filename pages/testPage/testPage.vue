@@ -1,6 +1,6 @@
 <template>
 	<view class="container collection">
-		<button>欣赏专辑</button>
+		<button @click="handGoMusicPlayer">欣赏专辑</button>
 	</view>
 </template>
 
