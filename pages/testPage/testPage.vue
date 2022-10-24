@@ -65,43 +65,10 @@
 			}
 		},
 		onLoad(e) {
-			const id = e.id
-			const type = e.type || 'order'
-			if (type === "collection") {
-				this.getDetail(id)
-			} else {
-				this.getOrderDetail(id)
-			}
 
 		},
 		methods: {
-			filterTimes(e) {
-				return dayjs(e).format('YYYY/MM/DD HH:mm:ss')
-			},
-			getDetail(e) {
-				post(h5_collections_user_collectionInfo, {
-					owner_id: Number(e)
-				}).then(res => {
-					console.log(res)
-					this.detail = res.data
-				})
-			},
-			getOrderDetail(e) {
-				post(h5_order_detail, {
-					order_id: Number(e)
-				}).then(res => {
-					// this.detail = res.data
 
-
-					this.detail.index_img = res.data.index_url
-				})
-			},
-			showCre() {
-				this.show = true
-			},
-			hiddenCre() {
-				this.show = false
-			},
 			// 欣赏专辑
 			handGoMusicPlayer() {
 				if (isApp()) {
@@ -115,7 +82,7 @@
 					}
 					if (Number(appConfig['version-code']) >= 1800) {
 						alert('>=1800')
-						playAlbum(this.detail.music_list, detail.name, '')
+						playAlbum(this.detail.music_list, this.detail.name, '')
 					} else {
 						alert('<1800')
 						uni.navigateTo({
