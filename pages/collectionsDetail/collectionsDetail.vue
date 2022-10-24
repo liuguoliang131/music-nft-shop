@@ -236,7 +236,7 @@
 						}
 					}
 					if (Number(appConfig['version-code']) >= 1800) {
-						playAlbum(this.detail.music_list, detail.name, '')
+						playAlbum(this.detail.music_list, this.detail.name, '')
 					} else {
 						uni.navigateTo({
 							url: `/pages/musicPlayer/musicPlayer?owner_id=${this.detail.owner_id}&code_num=${this.detail.code_num}&product_item_id=${this.detail.product_item_id}&music_list=${JSON.stringify(this.detail.music_list)}&name=${this.detail.name}`
