@@ -61,16 +61,14 @@
 					total_buy_amount: ''
 				},
 				page: 1,
-				list: [{},
-					{}
-				]
+				list: []
 			};
 		},
 		methods: {
 			// 获取信息
 			async getInfo() {
 				try {
-					const res = await this.$post(h5_community_overview, {
+					const res = await this.$post(user_community_memberInfo, {
 						member_id: this.member_id
 					})
 					if (res.code !== 0) {
@@ -90,7 +88,7 @@
 			// 获取成员列表
 			async getList() {
 				try {
-					const res = await this.$post(h5_community_memberList, {
+					const res = await this.$post(h5_community_memberBuyList, {
 						member_id: this.member_id,
 						page: this.page
 					})

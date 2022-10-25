@@ -18,7 +18,7 @@
 		</view>
 		<view class="member-title">
 			<view class="title-l"></view>
-			成员列表（{{board.total_members||'0'}}人）
+			成员列表（{{board.total_members||'0'}}）
 		</view>
 		<scroll-view class="member-list" scroll-y @scrolltolower="handleScrollTolower">
 			<view class="member-item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
@@ -79,7 +79,7 @@
 			// 获取信息
 			async getInfo() {
 				try {
-					const res = await this.$post(h5_community_overview, {})
+					const res = await this.$get(h5_community_overview, {})
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
@@ -109,8 +109,9 @@
 					if (res.data.list && Array.isArray(res.data.list)) {
 						res.data.list.forEach(item => {
 							const date = getTimeData(item.in_time)
+							console.log('date', date)
 							item.explain =
-								`该用户于${date.y.substring(2,4)}年${date.mon}月${date.dd}日被${item.inviter}邀请加入`
+								`该用户于${date.y.toString().substring(2,4)}年${date.mon}月${date.dd}日被${item.inviter}邀请加入`
 						})
 						if (this.page === 1) {
 							this.list = res.data.list
