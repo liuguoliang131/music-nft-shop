@@ -135,7 +135,7 @@
 			},
 		},
 		onLoad(option) {
-			this.member_id = option.member_id
+			this.member_id = Number(option.member_id)
 			this.getInfo()
 			this.getList()
 		}
