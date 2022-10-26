@@ -20,7 +20,7 @@
 			<view class="title-l"></view>
 			成员列表（{{board.total_members||'0'}}）
 		</view>
-		<scroll-view class="member-list" scroll-y @scrolltolower="handleScrollTolower">
+		<scroll-view v-if="list.length" class="member-list" scroll-y @scrolltolower="handleScrollTolower">
 			<view class="member-item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
 				<view class="item-top">
 					<view class="item-1">
@@ -41,6 +41,10 @@
 
 			</view>
 		</scroll-view>
+		<view class="empty" v-else>
+			<image src="../../static/empty-icon.png" mode="" class="empty-img"></image>
+			<view class="empty-text">还没有记录</view>
+		</view>
 	</view>
 </template>
 
@@ -312,6 +316,31 @@
 					}
 				}
 
+			}
+		}
+
+		.empty {
+			box-sizing: border-box;
+			padding: 0 32rpx 32rpx 32rpx;
+			height: calc(100vh - 340rpx);
+			text-align: center;
+			overflow: hidden;
+
+			.empty-img {
+				margin-top: 160rpx;
+				width: 120rpx;
+				height: 120rpx;
+			}
+
+			.empty-text {
+				margin-top: 44rpx;
+				font-size: 24rpx;
+				line-height: 34rpx;
+				/* identical to box height */
+
+				text-align: center;
+
+				color: #CDCDCD;
 			}
 		}
 	}
