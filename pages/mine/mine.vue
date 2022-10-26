@@ -26,12 +26,12 @@
 
 
 		<view class="mine-list">
-			<view class="mine-list-item" @click="goToInviteFriends">
+			<view v-if="userInfo.identity_type===2" class="mine-list-item" @click="goToInviteFriends">
 				<image src="../../static/yaoqing.png" class="mine-list-item-image" mode=""></image>
 				邀请好友
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
-			<view class="mine-list-item" @click="goToMyTeam">
+			<view v-if="userInfo.identity_type===2" class="mine-list-item" @click="goToMyTeam">
 				<image src="../../static/team.png" class="mine-list-item-image" mode=""></image>
 				我的团队
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
@@ -61,6 +61,9 @@
 </template>
 
 <script>
+	import {
+		h5_user_info
+	} from '../../request/api.js'
 	export default {
 		data() {
 			return {
@@ -114,13 +117,27 @@
 				uni.navigateTo({
 					url: '/pages/myTeam/myTeam'
 				})
+			},
+			async getUserInfo() {
+				if (this.$store.state.user.userInfo) {
+					this.userInfo = this.$store.state.user.userInfo
+				} else {
+					const res = await this.$get(h5_user_info)
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
+					}
+					this.userInfo = res.data
+					this.$store.commit('user/set_userInfo', res.data)
+				}
 			}
 
 		},
 		onLoad() {
-			if (this.$store.state.user.userInfo) {
-				this.userInfo = this.$store.state.user.userInfo
-			}
+			this.getUserInfo()
+
 
 		}
 	}

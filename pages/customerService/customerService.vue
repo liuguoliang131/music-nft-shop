@@ -86,17 +86,25 @@
 			},
 			async getInfo() {
 				try {
-					const res = await this.$get(h5_user_info)
-					if (res.code !== 0) {
-						return uni.showToast({
-							title: res.msg,
-							icon: 'error'
-						})
+					if (this.$store.state.user.userInfo) {
+						this.customer_service = this.$store.state.user.userInfo.customer_service
+						this.identity_type = this.$store.state.user.userInfo.identity_type || 1 // 1普通客户 2为大客户
+						this.customer_service_vip = this.$store.state.user.userInfo.customer_service_vip || ''
+
+					} else {
+						const res = await this.$get(h5_user_info)
+						if (res.code !== 0) {
+							return uni.showToast({
+								title: res.msg,
+								icon: 'error'
+							})
+						}
+						this.$store.commit('user/set_userInfo', res.data)
+						this.customer_service = res.data.customer_service
+						this.identity_type = res.data.identity_type || 1 // 1普通客户 2为大客户
+						this.customer_service_vip = res.data.customer_service_vip || ''
 					}
-					this.$store.commit('user/set_userInfo', res.data)
-					this.customer_service = res.data.customer_service
-					this.identity_type = res.data.identity_type || 1 // 1普通客户 2为大客户
-					this.customer_service_vip = res.data.customer_service_vip || ''
+
 				} catch (e) {
 					//TODO handle the exception
 					uni.showToast({

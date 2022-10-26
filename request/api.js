@@ -35,7 +35,7 @@ export const h5_community_overview = '/h5/community/overview'
 // 18、团队成员列表
 export const h5_community_memberList = '/h5/community/memberList'
 // 19、团队成员信息概览
-export const user_community_memberInfo = '/user/community/memberInfo'
+export const h5_community_memberInfo = '/h5/community/memberInfo'
 // 20、团队成员购买记录
 export const h5_community_memberBuyList = '/h5/community/memberBuyList'
 /**

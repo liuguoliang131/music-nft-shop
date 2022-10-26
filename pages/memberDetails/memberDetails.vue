@@ -41,7 +41,7 @@
 
 <script>
 	import {
-		user_community_memberInfo, //信息
+		h5_community_memberInfo, //信息
 		h5_community_memberBuyList //列表
 	} from '../../request/api.js'
 	import {
@@ -68,8 +68,8 @@
 			// 获取信息
 			async getInfo() {
 				try {
-					const res = await this.$post(user_community_memberInfo, {
-						member_id: this.member_id
+					const res = await this.$post(h5_community_memberInfo, {
+						id: this.member_id
 					})
 					if (res.code !== 0) {
 						return uni.showToast({
