@@ -187,7 +187,7 @@
 						width: 120 * widowWidth / scaleScreenWidth,
 						height: 120 * widowWidth / scaleScreenWidth,
 						shareUrl: window.location.protocol + '//' + window.location.host +
-							`/#/pages/index/index?share_sign=${data.share_sign}`
+							`/#/pages/index/index?share_sign=${encodeURIComponent(data.share_sign)}`
 					}
 
 					// 生成二维码

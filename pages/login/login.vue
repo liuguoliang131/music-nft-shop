@@ -226,7 +226,7 @@
 		},
 		onLoad(option) {
 			if (option.share_sign) {
-				this.share_sign = option.share_sign
+				this.share_sign = decodeURIComponent(option.share_sign)
 			}
 		}
 	}

@@ -196,7 +196,7 @@
 						width: 120 * widowWidth / scaleScreenWidth,
 						height: 120 * widowWidth / scaleScreenWidth,
 						shareUrl: window.location.protocol + '//' + window.location.host +
-							`/#/pages/preOrderDetails/preOrderDetails?product_item_id=${this.product_item_id}&share_sign=${data.share_sign}`,
+							`/#/pages/preOrderDetails/preOrderDetails?product_item_id=${this.product_item_id}&share_sign=${encodeURIComponent(data.share_sign)}`,
 					}
 
 					// 生成二维码

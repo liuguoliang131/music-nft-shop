@@ -176,23 +176,7 @@
 			},
 			// 去往登录
 			handLogin() {
-				// const {
-				// 	query
-				// } = getHashQuery()
-				// let url = '/pages/login/login'
-				// const keyList = Object.keys(query)
-				// if (keyList.length) {
-				// 	url += '?'
-				// 	keyList.forEach((k, i) => {
-				// 		url = url + k + '=' + query[k]
-				// 		if (i !== keyList.length - 1) {
-				// 			url += '&'
-				// 		}
-				// 	})
-				// }
-				// uni.navigateTo({
-				// 	url
-				// })
+
 				goLogin()
 			},
 			// 去下载
