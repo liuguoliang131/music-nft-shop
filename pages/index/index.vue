@@ -77,7 +77,8 @@
 	import config from '../../utils/uniKey.js'
 	import {
 		filterTime,
-		getTimeData
+		getTimeData,
+		goLogin
 	} from '../../utils/index.js'
 	export default {
 		data() {
@@ -165,9 +166,7 @@
 			// 去往详情
 			handViewDetail(item) {
 				if (!this.$store.state.user.token) {
-					uni.navigateTo({
-						url: '/pages/login/login'
-					})
+					this.handLogin()
 				} else {
 					uni.navigateTo({
 						url: `/pages/preOrderDetails/preOrderDetails?product_item_id=${item.product_item_id}`
@@ -177,9 +176,24 @@
 			},
 			// 去往登录
 			handLogin() {
-				uni.navigateTo({
-					url: '/pages/login/login'
-				})
+				// const {
+				// 	query
+				// } = getHashQuery()
+				// let url = '/pages/login/login'
+				// const keyList = Object.keys(query)
+				// if (keyList.length) {
+				// 	url += '?'
+				// 	keyList.forEach((k, i) => {
+				// 		url = url + k + '=' + query[k]
+				// 		if (i !== keyList.length - 1) {
+				// 			url += '&'
+				// 		}
+				// 	})
+				// }
+				// uni.navigateTo({
+				// 	url
+				// })
+				goLogin()
 			},
 			// 去下载
 			handGoDownload() {
