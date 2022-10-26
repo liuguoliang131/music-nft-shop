@@ -26,7 +26,7 @@
 			</view>
 			<scroll-view class="scroll-view" scroll-y @scrolltolower="handleScrollTolower">
 				<view class="item" v-for="(item,idx) in list" :key="idx">
-					<view class="item-1">元音符黄金唱片元音符黄金唱片元音符黄金唱片元音符黄金唱片元音符黄金唱片</view>
+					<view class="item-1">{{item.works_name}}</view>
 					<view class="item-2">{{item.amount}}</view>
 					<view class="item-3">{{item.buy_time_show}}</view>
 				</view>
@@ -100,7 +100,7 @@
 					}
 					if (res.data.list && Array.isArray(res.data.list)) {
 						res.data.list.forEach(item => {
-							const date = getTimeData(item.buy_time)
+							const date = getTimeData(item.buy_time * 1000)
 							item.buy_time_show =
 								`${date.mon}-${date.dd} ${date.hh}:${date.MM}`
 						})

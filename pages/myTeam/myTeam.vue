@@ -112,7 +112,7 @@
 					}
 					if (res.data.list && Array.isArray(res.data.list)) {
 						res.data.list.forEach(item => {
-							const date = getTimeData(item.in_time)
+							const date = getTimeData(item.in_time * 1000)
 							console.log('date', date)
 							item.explain =
 								`该用户于${date.y.toString().substring(2,4)}年${date.mon}月${date.dd}日被${item.inviter}邀请加入`
