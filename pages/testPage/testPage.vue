@@ -1,10 +1,18 @@
 <template>
 	<view class="container collection">
-		<button @click="handGoMusicPlayer">欣赏专辑</button>
+		<view class="h200">
+			<button @click="handGoMusicPlayer">欣赏专辑</button>
+		</view>
+		<my-scroll @load="getList" :loading="loading" :isFinish="isFinish">
+			<view class="" v-for="item in list">
+				item. {{item.works_name}}
+			</view>
+		</my-scroll>
 	</view>
 </template>
 
 <script>
+	import MyScroll from '../../components/myScroll.vue'
 	import {
 		h5_collections_user_collectionInfo,
 		h5_order_detail
@@ -18,8 +26,14 @@
 	} from '../../request/index.js'
 	import dayjs from 'dayjs'
 	export default {
+		components: {
+			MyScroll
+		},
 		data() {
 			return {
+				isFinish: false,
+				loading: false,
+				list: [],
 				show: false,
 				detail: {
 					product_item_id: '5',
@@ -69,6 +83,43 @@
 		},
 		methods: {
 
+			getMock() {
+				return new Promise((resolve) => {
+					uni.showLoading({
+						title: '加载中',
+						mask: true
+					})
+					setTimeout(() => {
+						const res = {
+							"code": 0,
+							"data": {
+								"list": [{
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}]
+							},
+							"msg": "success"
+						}
+						resolve(res)
+						uni.hideLoading()
+					}, 1000)
+				})
+			},
+			async getList() {
+				console.log('getList')
+				this.loading = true
+				const res = await this.getMock()
+				this.list = [...this.list, ...res.data.list]
+				if (this.list.length > 5) {
+					this.isFinish = true
+				}
+				this.loading = false
+			},
 			// 欣赏专辑
 			handGoMusicPlayer() {
 				if (isApp()) {
@@ -108,6 +159,10 @@
 		padding-bottom: 120rpx;
 		padding-left: 40rpx;
 		padding-right: 40rpx;
+	}
+
+	.h200 {
+		height: 200rpx;
 	}
 
 	.collection {

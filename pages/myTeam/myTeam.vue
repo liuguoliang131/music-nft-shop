@@ -20,7 +20,11 @@
 			<view class="title-l"></view>
 			成员列表（{{board.total_members||'0'}}）
 		</view>
-		<scroll-view v-if="list.length" class="member-list" scroll-y @scrolltolower="handleScrollTolower">
+		<view class="empty" v-if="isFinish&&list.length===0">
+			<image src="../../static/empty-icon.png" mode="" class="empty-img"></image>
+			<view class="empty-text">还没有记录</view>
+		</view>
+		<my-scroll v-else class="member-list" @load="getList" :isFinish="isFinish" :loading="loading">
 			<view class="member-item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
 				<view class="item-top">
 					<view class="item-1">
@@ -38,18 +42,15 @@
 				<view class="item-bottom">
 					<view class="explain">{{item.explain}}</view>
 				</view>
-
 			</view>
-		</scroll-view>
-		<view class="empty" v-else>
-			<image src="../../static/empty-icon.png" mode="" class="empty-img"></image>
-			<view class="empty-text">还没有记录</view>
-		</view>
+		</my-scroll>
+
 	</view>
 </template>
 
 <script>
 	import CuHead from '../../components/cu-head.vue'
+	import MyScroll from '../../components/myScroll.vue'
 	import {
 		h5_community_overview, //信息
 		h5_community_memberList //成员列表
@@ -59,7 +60,8 @@
 	} from '../../utils/index.js'
 	export default {
 		components: {
-			CuHead
+			CuHead,
+			MyScroll
 		},
 		data() {
 			return {
@@ -69,6 +71,8 @@
 					total_buy_order: '',
 					total_members: ''
 				},
+				isFinish: false,
+				loading: false,
 				page: 1,
 				list: []
 			}
@@ -101,19 +105,21 @@
 			// 获取成员列表
 			async getList() {
 				try {
+					this.loading = true
 					const res = await this.$post(h5_community_memberList, {
-						page: this.page
+						page: this.page++
 					})
 					if (res.code !== 0) {
+						this.isFinish = true
+						this.loading = false
 						return uni.showToast({
 							title: res.msg,
 							icon: 'error'
 						})
 					}
-					if (res.data.list && Array.isArray(res.data.list)) {
+					if (res.data.list && Array.isArray(res.data.list) && res.data.list.length) {
 						res.data.list.forEach(item => {
 							const date = getTimeData(item.in_time * 1000)
-							console.log('date', date)
 							item.explain =
 								`该用户于${date.y.toString().substring(2,4)}年${date.mon}月${date.dd}日被${item.inviter}邀请加入`
 						})
@@ -124,32 +130,21 @@
 						}
 
 					} else {
+						this.isFinish = true
 						this.page = this.page - 1
 					}
+					this.loading = false
 				} catch (e) {
+					this.isFinish = true
+					this.loading = false
 					console.log(e)
 					throw e
 					//TODO handle the exception
 				}
-			},
-			// 滚动事件
-			handleScrollTolower() {
-				if (window.requestAnimationFrame && typeof window.requestAnimationFrame === 'function') {
-					window.requestAnimationFrame(() => {
-						this.page++
-						this.getList()
-					})
-				} else {
-					setTimeout(() => {
-						this.page++
-						this.getList()
-					}, 17)
-				}
-			},
+			}
 		},
 		onLoad() {
 			this.getInfo()
-			this.getList()
 		}
 	}
 </script>
@@ -224,8 +219,7 @@
 		}
 
 		.member-list {
-			box-sizing: border-box;
-			padding: 0 32rpx 32rpx 32rpx;
+			padding: 0 32rpx 0 32rpx;
 			height: calc(100vh - 340rpx);
 
 			.member-item {

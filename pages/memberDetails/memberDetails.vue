@@ -18,23 +18,24 @@
 			<view class="title-l"></view>
 			购买记录
 		</view>
-		<view class="list" v-if="list.length">
+
+		<view class="empty" v-if="isFinish&&list.length===0">
+			<image src="../../static/empty-icon.png" mode="" class="empty-img"></image>
+			<view class="empty-text">还没有购买记录</view>
+		</view>
+		<view class="list" v-else>
 			<view class="list-head">
 				<view class="head-1">作品名称</view>
 				<view class="head-2">交易金额(元)</view>
 				<view class="head-3">时间</view>
 			</view>
-			<scroll-view class="scroll-view" scroll-y @scrolltolower="handleScrollTolower">
+			<my-scroll class="scroll-view" @load="getList" :loading="loading" :isFinish="isFinish">
 				<view class="item" v-for="(item,idx) in list" :key="idx">
 					<view class="item-1">{{item.works_name}}</view>
 					<view class="item-2">{{item.amount}}</view>
 					<view class="item-3">{{item.buy_time_show}}</view>
 				</view>
-			</scroll-view>
-		</view>
-		<view class="empty" v-else>
-			<image src="../../static/empty-icon.png" mode="" class="empty-img"></image>
-			<view class="empty-text">还没有购买记录</view>
+			</my-scroll>
 		</view>
 	</view>
 </template>
@@ -47,7 +48,11 @@
 	import {
 		getTimeData
 	} from '../../utils/index.js'
+	import MyScroll from '../../components/myScroll.vue'
 	export default {
+		components: {
+			MyScroll
+		},
 		data() {
 			return {
 				member_id: '',
@@ -61,7 +66,9 @@
 					total_buy_amount: ''
 				},
 				page: 1,
-				list: []
+				list: [],
+				loading: false,
+				isFinish: false
 			};
 		},
 		methods: {
@@ -95,79 +102,7 @@
 									"amount": "20",
 									"buy_time": 1666754543,
 									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, ]
+								}]
 							},
 							"msg": "success"
 						}
@@ -181,15 +116,17 @@
 					// const res = await this.getMock()
 					const res = await this.$post(h5_community_memberBuyList, {
 						member_id: this.member_id,
-						page: this.page
+						page: this.page++
 					})
 					if (res.code !== 0) {
+						this.isFinish = true
+						this.loading = false
 						return uni.showToast({
 							title: res.msg,
 							icon: 'error'
 						})
 					}
-					if (res.data.list && Array.isArray(res.data.list)) {
+					if (res.data.list && Array.isArray(res.data.list) && res.data.list.length) {
 						res.data.list.forEach(item => {
 							const date = getTimeData(item.buy_time * 1000)
 							item.buy_time_show =
@@ -200,36 +137,24 @@
 						} else {
 							this.list = [...this.list, ...res.data.list]
 						}
-
+						this.loading = false
 					} else {
 						this.page = this.page - 1
+						this.isFinish = true
+						this.loading = false
 					}
 				} catch (e) {
+					this.isFinish = true
+					this.loading = false
 					console.log(e)
 					throw e
 					//TODO handle the exception
 				}
-			},
-			// 滚动事件
-			handleScrollTolower() {
-				console.log('handleScrollTolower')
-				if (window.requestAnimationFrame && typeof window.requestAnimationFrame === 'function') {
-					window.requestAnimationFrame(() => {
-						this.page++
-						this.getList()
-					})
-				} else {
-					setTimeout(() => {
-						this.page++
-						this.getList()
-					}, 17)
-				}
-			},
+			}
 		},
 		onLoad(option) {
 			this.member_id = Number(option.member_id)
 			this.getInfo()
-			this.getList()
 		}
 	}
 </script>
