@@ -85,9 +85,100 @@
 					//TODO handle the exception
 				}
 			},
+			getMock() {
+				return new Promise((resolve) => {
+					setTimeout(() => {
+						const res = {
+							"code": 0,
+							"data": {
+								"list": [{
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, ]
+							},
+							"msg": "success"
+						}
+						resolve(res)
+					}, 1000)
+				})
+			},
 			// 获取成员列表
 			async getList() {
 				try {
+					// const res = await this.getMock()
 					const res = await this.$post(h5_community_memberBuyList, {
 						member_id: this.member_id,
 						page: this.page
@@ -121,6 +212,7 @@
 			},
 			// 滚动事件
 			handleScrollTolower() {
+				console.log('handleScrollTolower')
 				if (window.requestAnimationFrame && typeof window.requestAnimationFrame === 'function') {
 					window.requestAnimationFrame(() => {
 						this.page++

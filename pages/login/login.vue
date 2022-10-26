@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<view class="h88"></view>
 		<view class="header">
 			<image class="head-img" src="../../static/logo.png" alt=""></image>
 		</view>
@@ -234,6 +234,9 @@
 
 <style lang="scss" scoped>
 	.container {
+		.h88 {
+			height: 88rpx;
+		}
 
 		.header {
 			display: flex;
