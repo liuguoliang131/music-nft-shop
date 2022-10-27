@@ -91,7 +91,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					this.board = res.data
@@ -114,7 +114,7 @@
 						this.loading = false
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					if (res.data.list && Array.isArray(res.data.list) && res.data.list.length) {

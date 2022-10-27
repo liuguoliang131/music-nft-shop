@@ -27,7 +27,8 @@
 
 		<view class="mine-list">
 			<view v-if="userInfo.identity_type===2" class="mine-list-item" @click="goToInviteFriends">
-				<image src="../../static/yaoqing.png" class="mine-list-item-image" mode=""></image>
+				<!-- <image src="../../static/yaoqing.png" class="mine-list-item-image" mode=""></image> -->
+				<text class="mine-list-item-image mine-list-item-bgimage"></text>
 				邀请好友
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
@@ -137,8 +138,6 @@
 		},
 		onLoad() {
 			this.getUserInfo()
-
-
 		}
 	}
 </script>
@@ -254,10 +253,10 @@
 
 			&-copy {
 				color: #B19E63;
-				width: 24rpx;
-				height: 24rpx;
-				margin-right: 18rpx;
-				margin-left: 26rpx;
+				width: 32rpx;
+				height: 32rpx;
+				margin-right: 28rpx;
+				margin-left: 20rpx;
 			}
 		}
 
@@ -281,6 +280,10 @@
 					width: 48rpx;
 					height: 48rpx;
 					margin-right: 20rpx;
+				}
+
+				&-bgimage {
+					background: url('../../static/yaoqing.png') 4rpx 0/48rpx 57.23rpx no-repeat;
 				}
 			}
 

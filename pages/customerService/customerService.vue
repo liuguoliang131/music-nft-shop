@@ -168,7 +168,7 @@
 			}
 
 			.row3 {
-				padding-bottom: 34rpx;
+				padding-bottom: 24rpx;
 				font-size: 24rpx;
 				text-align: center;
 				color: #ECECEC;
