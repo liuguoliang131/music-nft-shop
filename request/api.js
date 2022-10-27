@@ -28,6 +28,16 @@ export const h5_collections_user_verified = '/h5/collections_user/verified'
 export const h5_collections_user_if_approve = '/h5/collections_user/if_approve'
 // 15、获取openId
 export const h5_collections_wechat_get_web_access_token = '/h5/collections_wechat/get_web_access_token'
+// 16、大客户海报信息
+export const h5_community_sharePoster = '/h5/community/sharePoster'
+// 17、我的团队信息概览
+export const h5_community_overview = '/h5/community/overview'
+// 18、团队成员列表
+export const h5_community_memberList = '/h5/community/memberList'
+// 19、团队成员信息概览
+export const h5_community_memberInfo = '/h5/community/memberInfo'
+// 20、团队成员购买记录
+export const h5_community_memberBuyList = '/h5/community/memberBuyList'
 /**
  * @description 首页列表
  */

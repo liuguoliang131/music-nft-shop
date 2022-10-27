@@ -77,7 +77,8 @@
 	import config from '../../utils/uniKey.js'
 	import {
 		filterTime,
-		getTimeData
+		getTimeData,
+		goLogin
 	} from '../../utils/index.js'
 	export default {
 		data() {
@@ -118,18 +119,18 @@
 				}).then(res => {
 					this.loginFlag = !!res.data.is_login
 					if (res.data.list) {
-						if(this.page === 1 ){
+						if (this.page === 1) {
 							this.list = res.data.list
-						}else{
+						} else {
 							this.list = [...this.list, ...res.data.list]
 						}
-						
+
 					} else {
 						this.page = this.page - 1
 					}
-					
-					
-					
+
+
+
 
 				})
 			},
@@ -165,9 +166,7 @@
 			// 去往详情
 			handViewDetail(item) {
 				if (!this.$store.state.user.token) {
-					uni.navigateTo({
-						url: '/pages/login/login'
-					})
+					this.handLogin()
 				} else {
 					uni.navigateTo({
 						url: `/pages/preOrderDetails/preOrderDetails?product_item_id=${item.product_item_id}`
@@ -177,9 +176,8 @@
 			},
 			// 去往登录
 			handLogin() {
-				uni.navigateTo({
-					url: '/pages/login/login'
-				})
+
+				goLogin()
 			},
 			// 去下载
 			handGoDownload() {
@@ -274,9 +272,9 @@
 
 
 			&-image {
-				width: 120px;
-				height: 120px;
-				border-radius: 12px;
+				width: 240rpx;
+				height: 240rpx;
+				border-radius: 24rpx;
 				background-size: cover;
 				background-position: center;
 				background-repeat: no-repeat;

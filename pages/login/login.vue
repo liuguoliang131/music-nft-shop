@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<view class="h88"></view>
 		<view class="header">
 			<image class="head-img" src="../../static/logo.png" alt=""></image>
 		</view>
@@ -226,7 +226,7 @@
 		},
 		onLoad(option) {
 			if (option.share_sign) {
-				this.share_sign = option.share_sign
+				this.share_sign = decodeURIComponent(option.share_sign)
 			}
 		}
 	}
@@ -234,6 +234,9 @@
 
 <style lang="scss" scoped>
 	.container {
+		.h88 {
+			height: 88rpx;
+		}
 
 		.header {
 			display: flex;

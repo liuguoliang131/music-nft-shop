@@ -8,10 +8,10 @@
     "h5" : {
         "publicPath" : "./",
         "devServer" : {
-            "disableHostCheck" : true,
+            "disableHostCheck" : false,
             "proxy" : {
                 "/api" : {
-                    "target" : "http://t.h5.shenglangnft.com",
+                    "target" : "https://c.yuanyinfu.com",
                     "changeOrigin" : true,
                     "pathRewrite" : {
                         "^/api" : ""

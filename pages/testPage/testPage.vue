@@ -1,148 +1,18 @@
 <template>
 	<view class="container collection">
-		<cu-head></cu-head>
-		<view class="title">
-			专辑信息
+		<view class="h200">
+			<button @click="handGoMusicPlayer">欣赏专辑</button>
 		</view>
-
-		<view class=" mt-2" style="display: flex;align-items: flex-start;">
-			<image :src="detail.index_img" class="image" style="width: 120px;height: 120px;flex-shrink: 0;" mode="">
-			</image>
-			<view class="box" style="font-size: 13px;">
-				<view class="box-title">
-					{{detail.name}}
-				</view>
-				<view class="number">
-					包含{{detail.singles_num}}首作品
-				</view>
-				<view class="number">
-					发 行 方 {{detail.publish_author}}
-				</view>
-				<view class="number">
-					发行时间 {{filterTimes(detail.publish_time * 1000 )}}
-				</view>
-				<view class="number">
-					发行价格 ¥{{detail.sale_price}}元/张
-				</view>
+		<my-scroll @load="getList" :loading="loading" :isFinish="isFinish">
+			<view class="" v-for="item in list">
+				item. {{item.works_name}}
 			</view>
-		</view>
-
-		<view class="border-bottom">
-			<view class="title mt-2 ">
-				认证信息
-			</view>
-			<view class="flex">
-				<view class="key number" style="width: 220rpx;text-align: right;text-align-last:right;flex-shrink: 0;">
-					Record Number
-				</view>
-				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
-					{{detail.code_num}}
-				</view>
-			</view>
-			<view class="flex">
-				<view class="key number" style="width: 220rpx;text-align: right;text-align-last:right;flex-shrink: 0;">
-					Contract Address
-				</view>
-				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
-					{{detail.contract_address}}
-				</view>
-			</view>
-			<view class="flex">
-				<view class="key number" style="width: 220rpx;text-align: right;text-align-last:right;flex-shrink: 0;">
-					Token ID
-				</view>
-				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
-					{{detail.token_id}}
-				</view>
-			</view>
-			<view class="flex">
-				<view class="key number" style="width: 220rpx;text-align: right;text-align-last:right;flex-shrink: 0;">
-					Token Standard
-				</view>
-				<view class="number" style="flex-flow: wrap;color: #AEAEAE;">
-					{{detail.token_standard}}
-				</view>
-			</view>
-		</view>
-
-
-		<view class="" v-for="(item , index) in detail.music_list" :key='index'>
-			<view class="title mt-2">
-				{{item.name}}
-			</view>
-			<view class="content" style="margin-top: 15rpx;">
-				{{item.desc}}
-			</view>
-		</view>
-
-		<view class="container-bottom">
-			<div class="my-btn primary" @click="showCre">查看证书</div>
-			<div class="my-btn " @click="handGoMusicPlayer">欣赏专辑</div>
-		</view>
-
-
-		<view class="cu-modal " :class="show ? 'show' : ''" @click="hiddenCre">
-			<view class="cu-dialog">
-				<view style="border: 0.5px solid #AC9147;border-radius: 6px;padding: 10rpx;">
-					<view class="head">
-
-						<image src="../../static/logo-black.jpg" style="width: 49px;height: 65px;" class="head-logo">
-						</image>
-
-						<view class="head-title">
-							数字专辑证书
-						</view>
-					</view>
-					<view class="body">
-						<view class="flex">
-							<view class="key number">
-								编号
-							</view>
-							<view class="number">
-								{{detail.certificate.code}}
-							</view>
-						</view>
-						<view class="flex">
-							<view class="key number">
-								名称
-							</view>
-							<view class="number">
-								{{detail.certificate.name}}
-							</view>
-						</view>
-						<view class="flex">
-							<view class="key number">
-								发行方
-							</view>
-							<view class="number">
-								{{detail.certificate.publish_author}}
-							</view>
-						</view>
-						<view class="flex">
-							<view class="key number">
-								发行时间
-							</view>
-							<view class="number">
-								{{filterTimes(detail.certificate.publish_time * 1000 )}}
-							</view>
-						</view>
-						<view class="flex text">
-							<view class="key number">
-								哈希地址
-							</view>
-							<view class="number" style="flex-flow: wrap;">
-								{{detail.certificate.block_chain_hash}}
-							</view>
-						</view>
-					</view>
-				</view>
-			</view>
-		</view>
-
+		</my-scroll>
 	</view>
 </template>
 
 <script>
+	import MyScroll from '../../components/myScroll.vue'
 	import {
 		h5_collections_user_collectionInfo,
 		h5_order_detail
@@ -156,18 +26,25 @@
 	} from '../../request/index.js'
 	import dayjs from 'dayjs'
 	export default {
+		components: {
+			MyScroll
+		},
 		data() {
 			return {
+				isFinish: false,
+				loading: false,
+				list: [],
 				show: false,
 				detail: {
-					name: '',
+					product_item_id: '5',
+					name: 'aaa',
 					index_img: '',
-					code_num: '',
-					sale_price: '',
-					evaluate_type: '',
-					rare_type: '',
-					publish_author: '',
-					publish_time: '',
+					code_num: '12e1',
+					sale_price: '12',
+					evaluate_type: '1',
+					rare_type: '1',
+					publish_author: 'qweqw',
+					publish_time: '123',
 					singles_num: 0,
 					contract_address: '',
 					token_id: '',
@@ -180,49 +57,68 @@
 						publish_time: ''
 					},
 					music_list: [{
-						name: '',
-						desc: ''
-					}]
+							"name": "与伤共舞",
+							"desc": "命运面前，休论公道。",
+							"singer": "刘思佳",
+							"lyricist": "嫩成",
+							"composer": "逄博",
+							"music_url": "https://media.shenglangnft.com/与伤共舞.mp3",
+							"music_time": 208
+						},
+						{
+							"name": "真的吗",
+							"desc": "当所有的热烈回归平静",
+							"singer": "刘思达",
+							"lyricist": "刘思达",
+							"composer": "刘思达",
+							"music_url": "https://media.shenglangnft.com/真的吗MMM.wav",
+							"music_time": 185
+						}
+					]
 				}
 			}
 		},
 		onLoad(e) {
-			const id = e.id
-			const type = e.type || 'order'
-			if (type === "collection") {
-				this.getDetail(id)
-			} else {
-				this.getOrderDetail(id)
-			}
 
 		},
 		methods: {
-			filterTimes(e) {
-				return dayjs(e).format('YYYY/MM/DD HH:mm:ss')
-			},
-			getDetail(e) {
-				post(h5_collections_user_collectionInfo, {
-					owner_id: Number(e)
-				}).then(res => {
-					console.log(res)
-					this.detail = res.data
+
+			getMock() {
+				return new Promise((resolve) => {
+					uni.showLoading({
+						title: '加载中',
+						mask: true
+					})
+					setTimeout(() => {
+						const res = {
+							"code": 0,
+							"data": {
+								"list": [{
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}, {
+									"amount": "20",
+									"buy_time": 1666754543,
+									"works_name": "1026，测试专辑请勿购买001"
+								}]
+							},
+							"msg": "success"
+						}
+						resolve(res)
+						uni.hideLoading()
+					}, 1000)
 				})
 			},
-			getOrderDetail(e) {
-				post(h5_order_detail, {
-					order_id: Number(e)
-				}).then(res => {
-					// this.detail = res.data
-
-
-					this.detail.index_img = res.data.index_url
-				})
-			},
-			showCre() {
-				this.show = true
-			},
-			hiddenCre() {
-				this.show = false
+			async getList() {
+				console.log('getList')
+				this.loading = true
+				const res = await this.getMock()
+				this.list = [...this.list, ...res.data.list]
+				if (this.list.length > 5) {
+					this.isFinish = true
+				}
+				this.loading = false
 			},
 			// 欣赏专辑
 			handGoMusicPlayer() {
@@ -236,13 +132,16 @@
 						}
 					}
 					if (Number(appConfig['version-code']) >= 1800) {
+						alert('>=1800')
 						playAlbum(this.detail.music_list, this.detail.name, '')
 					} else {
+						alert('<1800')
 						uni.navigateTo({
 							url: `/pages/musicPlayer/musicPlayer?owner_id=${this.detail.owner_id}&code_num=${this.detail.code_num}&product_item_id=${this.detail.product_item_id}&music_list=${JSON.stringify(this.detail.music_list)}&name=${this.detail.name}`
 						})
 					}
 				} else {
+					alert('不在app内')
 					uni.navigateTo({
 						url: `/pages/musicPlayer/musicPlayer?owner_id=${this.detail.owner_id}&code_num=${this.detail.code_num}&product_item_id=${this.detail.product_item_id}&music_list=${JSON.stringify(this.detail.music_list)}&name=${this.detail.name}`
 					})
@@ -260,6 +159,10 @@
 		padding-bottom: 120rpx;
 		padding-left: 40rpx;
 		padding-right: 40rpx;
+	}
+
+	.h200 {
+		height: 200rpx;
 	}
 
 	.collection {

@@ -51,8 +51,10 @@ export const post = function(url, data = {}) {
 				console.log('post success', res)
 				if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
 					goLogin()
+				} else {
+					resolve(res.data)
 				}
-				resolve(res.data)
+
 			},
 			fail(res) {
 				reject(res)
@@ -75,8 +77,10 @@ export const post1 = function(url, data = {}) {
 				console.log('post success', res)
 				if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
 					goLogin()
+				} else {
+					resolve(res.data)
 				}
-				resolve(res.data)
+
 			},
 			fail(res) {
 				reject(res)
@@ -105,8 +109,10 @@ export const get = function(url, params = {}) {
 				console.log('post success', res)
 				if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
 					goLogin()
+				} else {
+					resolve(res.data)
 				}
-				resolve(res.data)
+
 			},
 			fail(res) {
 				reject(res)

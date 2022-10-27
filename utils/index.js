@@ -43,6 +43,7 @@ export const getHashQuery = (url = window.location.href) => {
 			strArr1.forEach(item => {
 				if (item.includes('share_sign=')) {
 					const strArr2 = item.split('share_sign=')
+					console.log('share_sign', strArr2)
 					params.query.share_sign = strArr2[1]
 				} else {
 					const strArr2 = item.split('=')
@@ -316,6 +317,9 @@ export const jumpWxAuthUrl = () => {
 	if (processName === 'development') {
 		return false
 	}
+	if (config.ENV === 'test') {
+		return false
+	}
 	const url = window.location.href
 	if (url.includes('code=')) {
 		let code = url.split('?')[1].split('&')[0].split('=')[1]
@@ -350,4 +354,59 @@ export const jumpWxAuthUrl = () => {
 
 
 
+}
+
+//专辑播放
+// playList:播放列表  albumName：专辑名称 albumImage：专辑图片
+export const playAlbum = (playList, albumName = '元音符', albumImage = '') => {
+	// var playList = [{
+	// 		"name": "与伤共舞",
+	// 		"desc": "命运面前，休论公道。",
+	// 		"singer": "刘思佳",
+	// 		"lyricist": "嫩成",
+	// 		"composer": "逄博",
+	// 		"music_url": "https://media.shenglangnft.com/与伤共舞.mp3",
+	// 		"music_time": 208
+	// 	},
+	// 	{
+	// 		"name": "真的吗",
+	// 		"desc": "当所有的热烈回归平静",
+	// 		"singer": "刘思达",
+	// 		"lyricist": "刘思达",
+	// 		"composer": "刘思达",
+	// 		"music_url": "https://media.shenglangnft.com/真的吗MMM.wav",
+	// 		"music_time": 185
+	// 	}
+	// ];
+	HSApp.postMessage(JSON.stringify({
+		'type': 'playAlbum',
+		'params': {
+			playList,
+			albumName,
+			albumImage
+		},
+	}))
+}
+// 获取APP信息
+export const getAppConfig = () => {
+	if (isApp()) {
+		HSApp.postMessage(JSON.stringify({
+			type: 'getAppConfig',
+			params: {},
+			callback: 'appConfig'
+		}))
+	}
+}
+
+// 获取app信息的回调 保存
+window.appConfig = function(config) {
+	let AppConfigInfo = JSON.stringify({
+		'version-code': '1750'
+	})
+	if (typeof config === 'string') {
+		AppConfigInfo = config
+	} else {
+		AppConfigInfo = JSON.stringify(config)
+	}
+	window.localStorage.setItem('AppConfigInfo', AppConfigInfo)
 }
