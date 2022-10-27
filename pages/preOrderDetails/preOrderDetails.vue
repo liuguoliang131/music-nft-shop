@@ -811,8 +811,8 @@
 						right: 0;
 						bottom: 0;
 						margin: auto;
-						width: 139rpx;
-						height: 139rpx;
+						width: 135rpx;
+						height: 135rpx;
 						border: 0.6rpx solid rgba(255, 255, 255, 0.2);
 						border-radius: 20rpx;
 						background-color: transparent;
