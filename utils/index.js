@@ -43,6 +43,7 @@ export const getHashQuery = (url = window.location.href) => {
 			strArr1.forEach(item => {
 				if (item.includes('share_sign=')) {
 					const strArr2 = item.split('share_sign=')
+					console.log('share_sign', strArr2)
 					params.query.share_sign = strArr2[1]
 				} else {
 					const strArr2 = item.split('=')

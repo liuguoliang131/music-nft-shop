@@ -165,7 +165,8 @@
 		h5_conllections_buy_checkout
 	} from '../../request/api.js'
 	import {
-		getTimeData
+		getTimeData,
+		goLogin
 	} from '../../utils/index.js'
 	export default {
 		components: {
@@ -360,13 +361,7 @@
 				}
 
 				if (!this.$store.state.user.token) {
-					let url = '/pages/login/login'
-					if (this.share_sign) {
-						url += `?share_sign=${this.share_sign}`
-					}
-					return uni.navigateTo({
-						url
-					})
+					goLogin()
 				}
 			},
 			// 立即抢购
@@ -390,13 +385,7 @@
 					// 	})
 					// }
 					if (!this.$store.state.user.token) {
-						let url = '/pages/login/login'
-						if (this.share_sign) {
-							url += `?share_sign=${this.share_sign}`
-						}
-						return uni.navigateTo({
-							url
-						})
+						return goLogin()
 					}
 					const res = await this.$post(h5_conllections_buy_checkout, {
 						product_item_id: this.product_item_id,
