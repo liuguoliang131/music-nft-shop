@@ -99,8 +99,10 @@
 			:showCloseIcon="true">
 			<view class="popup-content">
 				<view class="popup-i">
-					<image class="i-img" :src="data.index_img" mode=""></image>
-					<view class="img-line"></view>
+					<view class="i-img">
+						<image :src="data.index_img" mode=""></image>
+						<view class="img-line"></view>
+					</view>
 					<view class="i-title">
 						<view class="title-t">{{data.name}}</view>
 						<view class="title-p">
@@ -791,21 +793,30 @@
 				padding-top: 24rpx;
 				padding-left: 28rpx;
 
-				.img-line {
-					position: absolute;
-					top: 28.5rpx;
-					left: 32.5rpx;
-					width: 139rpx;
-					height: 139rpx;
-					border: 0.6rpx solid rgba(255, 255, 255, 0.2);
-					border-radius: 20rpx;
-					background-color: transparent;
-				}
-
 				.i-img {
+					position: relative;
 					width: 148rpx;
 					height: 148rpx;
-					border-radius: 20rpx;
+
+					image {
+						width: 100%;
+						height: 100%;
+						border-radius: 20rpx;
+					}
+
+					.img-line {
+						position: absolute;
+						top: 0;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						margin: auto;
+						width: 135rpx;
+						height: 135rpx;
+						border: 0.6rpx solid rgba(255, 255, 255, 0.2);
+						border-radius: 20rpx;
+						background-color: transparent;
+					}
 				}
 
 				.i-title {
