@@ -1,0 +1,197 @@
+@charset "UTF-8";
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+.user-center.data-v-57280228 {
+  display: flex;
+  align-items: center;
+}
+.user-center .avatar.data-v-57280228 {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+}
+.user-center text.data-v-57280228 {
+  margin-left: 20rpx;
+  font-size: 24rpx;
+  color: #f5f5f5;
+}
+.upAndDown.data-v-57280228 {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 40rpx;
+  font-size: 32rpx;
+}
+.tag.data-v-57280228 {
+  border: 1px solid #434343;
+  border-radius: 40rpx;
+  padding: 10rpx;
+  display: flex;
+  align-items: center;
+}
+.tag image.data-v-57280228 {
+  width: 43rpx;
+  height: 43rpx;
+  border-radius: 50%;
+}
+.tag text.data-v-57280228 {
+  margin-left: 20rpx;
+  font-size: 12px;
+  color: #f5f5f5;
+}
+.search-bar.data-v-57280228 {
+  font-size: 24rpx;
+  display: flex;
+  align-items: center;
+}
+.list.data-v-57280228 {
+  padding: 20rpx 0;
+}
+.list-item.data-v-57280228 {
+  border-radius: 20rpx;
+  border: 1rpx solid #5F5F5F;
+  border-radius: 10px;
+  padding: 16rpx 16rpx 20rpx 16rpx;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 16rpx;
+}
+.list-item-image.data-v-57280228 {
+  width: 240rpx;
+  height: 240rpx;
+  border-radius: 24rpx;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.list-item-image-box.data-v-57280228 {
+  width: 240rpx;
+  height: 240rpx;
+  position: relative;
+}
+.list-item-level.data-v-57280228 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 84rpx;
+  height: 40rpx;
+}
+.list-item-level image.data-v-57280228 {
+  width: 100%;
+  height: 100%;
+}
+.list-item-box.data-v-57280228 {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20rpx;
+  flex: auto;
+  color: #AEAEAE;
+}
+.list-item-title.data-v-57280228 {
+  font-size: 32rpx;
+  font-weight: 500;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-family: 'PingFang SC';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 32rpx;
+  line-height: 44rpx;
+  color: #ECECEC;
+}
+.list-item-time.data-v-57280228 {
+  margin-top: 16rpx;
+  height: 34rpx;
+  font-size: 24rpx;
+  text-align: left;
+}
+.list-item-tag.data-v-57280228 {
+  margin-top: 4rpx;
+  font-size: 24rpx;
+}
+.list-item-price.data-v-57280228 {
+  font-size: 28rpx;
+  color: #D10910;
+  margin-top: auto;
+}
+.list-item-price .count.data-v-57280228 {
+  font-weight: 600;
+}
+.list-item-price-box.data-v-57280228 {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 80%;
+  margin-top: 20rpx;
+}
+.list-item-price-dit.data-v-57280228 {
+  font-size: 28rpx;
+  line-height: 40rpx;
+  color: #AC9147;
+}
+.need-login.data-v-57280228 {
+  position: fixed;
+  bottom: 80rpx;
+  left: 20rpx;
+  right: 20rpx;
+  background-color: #201A17;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40rpx;
+  border-radius: 100rpx;
+  height: 110rpx;
+  -webkit-animation: slide-in-bottom-data-v-57280228 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-in-bottom-data-v-57280228 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+.need-login text.data-v-57280228 {
+  font-size: 32rpx;
+  line-height: 44rpx;
+  color: #ECECEC;
+}
+.need-login .to-login.data-v-57280228 {
+  padding: 0 60rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 16px;
+  color: #ECECEC;
+  background: #D10910;
+  border-radius: 38px;
+}
+@-webkit-keyframes slide-in-bottom-data-v-57280228 {
+0% {
+    -webkit-transform: translateY(1000px);
+    transform: translateY(1000px);
+    opacity: 0;
+}
+100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+}
+}
+@keyframes slide-in-bottom-data-v-57280228 {
+0% {
+    -webkit-transform: translateY(1000px);
+    transform: translateY(1000px);
+    opacity: 0;
+}
+100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+}
+}
+.logo.data-v-57280228 {
+  width: 154rpx;
+  height: 48rpx;
+}
+

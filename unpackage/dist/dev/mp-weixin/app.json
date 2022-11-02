@@ -1,0 +1,35 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
+    "pages/collections/collections",
+    "pages/collectionsDetail/collectionsDetail",
+    "pages/customerService/customerService",
+    "pages/preOrderDetails/preOrderDetails",
+    "pages/settlement/settlement",
+    "pages/cashier/cashier",
+    "pages/paySuccess/paySuccess",
+    "pages/poster/poster",
+    "pages/orderList/orderList",
+    "pages/userAgreement/userAgreement",
+    "pages/idAuth/idAuth",
+    "pages/orderDetail/orderDetail",
+    "pages/musicPlayer/musicPlayer",
+    "pages/mine/mine",
+    "pages/inviteFriends/inviteFriends",
+    "pages/poster1/poster1",
+    "pages/myTeam/myTeam",
+    "pages/memberDetails/memberDetails",
+    "pages/testPage/testPage"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "元音符",
+    "navigationBarBackgroundColor": "#0D0D0D",
+    "backgroundColor": "#0D0D0D"
+  },
+  "usingComponents": {
+    "cu-head": "/components/cu-head"
+  }
+}

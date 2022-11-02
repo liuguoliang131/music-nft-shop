@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "专辑订单",
+  "enablePullDownRefresh": false,
+  "navigationStyle": "custom",
+  "usingComponents": {}
+}

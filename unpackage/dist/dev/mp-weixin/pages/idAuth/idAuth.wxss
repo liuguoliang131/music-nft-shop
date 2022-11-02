@@ -1,0 +1,140 @@
+@charset "UTF-8";
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+.container {
+  padding: 0 40rpx;
+}
+.container .header {
+  box-sizing: border-box;
+  width: 100%;
+  height: 390rpx;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 16rpx;
+  text-align: center;
+}
+.container .header .header-text {
+  padding-top: 230rpx;
+  font-size: 32rpx;
+  font-weight: 700;
+}
+.container .header .header-text1 {
+  padding-top: 20rpx;
+  font-size: 26rpx;
+  color: #868686;
+}
+.container .main {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 0rpx;
+}
+.container .main .form {
+  width: 600rpx;
+  padding-top: 50rpx;
+}
+.container .main .form .form-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.container .main .form .form-item .uni-input {
+  box-sizing: border-box;
+  width: 650rpx;
+  height: 90rpx;
+  padding: 0 10rpx;
+  border: none;
+  outline: none;
+  background: transparent;
+  border-bottom: 0.5rpx solid #363636;
+  font-weight: 400;
+  font-size: 28rpx;
+  color: #ECECEC;
+  font-size: 28rpx;
+}
+.container .main .form .form-item .uni-input::-webkit-input-placeholder {
+  color: #363636;
+}
+.container .main .form .form-item .uni-input::placeholder {
+  color: #363636;
+}
+.container .main .form .form-item .uni-input:hover {
+  border-bottom: 0.5rpx solid #ECECEC;
+}
+.container .main .form .captcha {
+  position: relative;
+}
+.container .main .form .captcha .getcaptcha {
+  position: absolute;
+  top: 50%;
+  right: 10rpx;
+  -webkit-transform: translate(0, -50%);
+          transform: translate(0, -50%);
+  color: #d10910;
+  font-size: 28rpx;
+}
+.container .main .form .captcha .getcaptcha:active {
+  color: rgba(209, 9, 16, 0.6);
+}
+.container .main .form .agree {
+  display: flex;
+  color: #ffff;
+  font-size: 28rpx;
+  padding-top: 26rpx;
+  padding-bottom: 136rpx;
+}
+.container .main .form .agree .checkbox {
+  margin-right: 24rpx;
+  margin-left: 10rpx;
+}
+.container .main .form .agree .checkbox .uni-checkbox-input {
+  width: 24rpx;
+  height: 24rpx;
+  border: 0.5px solid #868686;
+  border-radius: 6rpx;
+  background-color: transparent;
+}
+.container .main .form .agree .checkbox .uni-checkbox-input::before {
+  font-size: 24rpx;
+}
+.container .main .form .agree .agree-label {
+  font-size: 22rpx;
+  line-height: 36rpx;
+  color: #666666;
+}
+.container .main .form .agree .agree-label text {
+  color: #ac9147;
+}
+.container .tips {
+  width: 100%;
+  padding-top: 50rpx;
+  font-size: 26rpx;
+  color: #8c6464;
+}
+.container .sub {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50rpx;
+}
+.container .sub .submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 474rpx;
+  height: 96rpx;
+  background: #D10910;
+  border-radius: 48rpx;
+  font-weight: 500;
+  font-size: 32rpx;
+  color: #ECECEC;
+}
+.container .sub .submit:active {
+  background-color: rgba(209, 9, 16, 0.6);
+  color: #868686;
+}
+

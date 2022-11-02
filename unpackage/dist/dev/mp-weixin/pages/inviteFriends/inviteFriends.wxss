@@ -1,0 +1,60 @@
+@charset "UTF-8";
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+.container {
+  padding: 0;
+}
+.container .header {
+  width: 750rpx;
+  height: 660.72rpx;
+  background-image: url("https://file.yuanyinfu.com/front-end-lib/inviteFriendsBG1.png"), url("https://file.yuanyinfu.com/front-end-lib/inviteFriendsBG2.png");
+  background-position: 32rpx 8rpx, 0 0;
+  background-size: 686rpx 652rpx, 750rpx 660.72rpx;
+  background-repeat: no-repeat, no-repeat;
+}
+.container .main {
+  padding-top: 34rpx;
+  padding-bottom: 32rpx;
+  text-align: center;
+}
+.container .main .gobtn {
+  background: #D10910;
+  border-radius: 48rpx;
+  width: 662rpx;
+  height: 88rpx;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 32rpx;
+  color: #ECECEC;
+}
+.container .main .gobtn:active {
+  background-color: rgba(209, 9, 16, 0.6);
+  color: #868686;
+}
+.container .footer {
+  min-height: 300rpx;
+  padding: 0 40rpx 54rpx 40rpx;
+}
+.container .footer .footer-title {
+  font-weight: 500;
+  font-size: 24rpx;
+  line-height: 34rpx;
+  color: #E6E6E6;
+  margin-bottom: 8rpx;
+}
+.container .footer .footer-p {
+  white-space: pre-wrap;
+  font-size: 24rpx;
+  line-height: 34rpx;
+  color: #AEAEAE;
+}
+.container .footer .footer-p .p {
+  padding: 6rpx 0;
+}
+

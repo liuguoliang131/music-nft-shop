@@ -1,0 +1,10 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "登录",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tf-verify-img": "/components/tf-verify-img/tf-verify-img",
+    "wyb-popup": "/components/wyb-popup/wyb-popup",
+    "cu-head": "/components/cu-head"
+  }
+}

@@ -1,6 +1,7 @@
 <template>
 	<view class="container collection">
 		<cu-head></cu-head>
+		<view class="h23"></view>
 		<view class="title">
 			专辑信息
 		</view>
@@ -260,6 +261,10 @@
 		padding-bottom: 120rpx;
 		padding-left: 40rpx;
 		padding-right: 40rpx;
+	}
+
+	.h23 {
+		height: 23rpx;
 	}
 
 	.collection {

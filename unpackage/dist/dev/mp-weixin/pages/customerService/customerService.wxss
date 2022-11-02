@@ -1,0 +1,74 @@
+@charset "UTF-8";
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+.container .nav.data-v-aa3dfa14 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 88rpx;
+  background-color: #0D0D0D;
+}
+.container .nav .nav-left.data-v-aa3dfa14 {
+  position: absolute;
+  top: 28rpx;
+  left: 28rpx;
+  width: 48rpx;
+  height: 48rpx;
+}
+.container .item-content .row1.data-v-aa3dfa14 {
+  font-weight: 600;
+  font-size: 30rpx;
+  line-height: 28rpx;
+  /* identical to box height, or 93% */
+  text-align: center;
+  color: #ECECEC;
+}
+.container .item-content .row2.data-v-aa3dfa14 {
+  display: flex;
+  justify-content: center;
+  padding-top: 24rpx;
+  padding-bottom: 24rpx;
+}
+.container .item-content .row2 .code2.data-v-aa3dfa14 {
+  width: 270rpx;
+  height: 270rpx;
+}
+.container .item-content .row3.data-v-aa3dfa14 {
+  padding-bottom: 24rpx;
+  font-size: 24rpx;
+  text-align: center;
+  color: #ECECEC;
+}
+.container .item-content .row4.data-v-aa3dfa14 {
+  text-align: center;
+}
+.container .item-content .row4 .save.data-v-aa3dfa14 {
+  margin: auto;
+  width: 400rpx;
+  height: 96rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #D10910;
+  border-radius: 48px;
+  line-height: 0;
+  font-size: 32rpx;
+}
+.container .item-content .row4 .save.data-v-aa3dfa14:active {
+  background-color: rgba(209, 9, 16, 0.6);
+  color: #868686;
+}
+.container .item1.data-v-aa3dfa14 {
+  padding-top: 66rpx;
+}
+.container .item2.data-v-aa3dfa14 {
+  padding-top: 82rpx;
+}
+

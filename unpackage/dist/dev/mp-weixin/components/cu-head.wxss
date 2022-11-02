@@ -1,0 +1,29 @@
+@charset "UTF-8";
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+.slots.data-v-cdf73520 {
+  height: 88rpx;
+}
+.nav.data-v-cdf73520 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 88rpx;
+  background-color: #0D0D0D;
+  z-index: 10;
+}
+.nav .nav-left.data-v-cdf73520 {
+  position: absolute;
+  top: 28rpx;
+  left: 28rpx;
+  width: 48rpx;
+  height: 48rpx;
+}
+

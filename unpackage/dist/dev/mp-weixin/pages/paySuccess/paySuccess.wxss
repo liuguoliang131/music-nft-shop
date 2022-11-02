@@ -1,0 +1,74 @@
+@charset "UTF-8";
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+.container {
+  padding: 0;
+}
+.container .box1 {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 606rpx;
+  color: #9b8751;
+}
+.container .box1 .icon {
+  width: 104rpx;
+  height: 104rpx;
+  margin-top: 112rpx;
+}
+.container .box1 .row1 {
+  margin-top: 16rpx;
+  font-size: 36rpx;
+  line-height: 50rpx;
+}
+.container .box1 .row2 {
+  margin-top: 16rpx;
+  font-size: 28rpx;
+  line-height: 40rpx;
+}
+.container .box1 .row3 {
+  margin-top: 8rpx;
+  font-size: 28rpx;
+  line-height: 40rpx;
+}
+.container .box2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40rpx;
+  font-size: 32rpx;
+}
+.container .box2 .btn1 {
+  font-weight: 500;
+  line-height: 96rpx;
+  text-align: center;
+  width: 320rpx;
+  height: 96rpx;
+  background: #FFFFFF;
+  border-radius: 90rpx;
+  color: #DC2D1E;
+  margin-right: 30rpx;
+}
+.container .box2 .btn1:active {
+  background-color: rgba(255, 255, 255, 0.7);
+  color: rgba(209, 9, 16, 0.6);
+}
+.container .box2 .btn2 {
+  font-weight: 500;
+  line-height: 96rpx;
+  text-align: center;
+  width: 320rpx;
+  height: 96rpx;
+  background: #D10910;
+  border-radius: 90rpx;
+  color: #ECECEC;
+}
+.container .box2 .btn2:active {
+  background-color: rgba(209, 9, 16, 0.6);
+  color: #868686;
+}
+

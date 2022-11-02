@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "查看协议",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "cu-head": "/components/cu-head"
+  }
+}

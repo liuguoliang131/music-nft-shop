@@ -121,6 +121,7 @@
 		font-weight: 400;
 		font-size: 12px;
 		line-height: 64rpx;
+		margin-bottom: 20rpx;
 	}
 
 	.grid-box {

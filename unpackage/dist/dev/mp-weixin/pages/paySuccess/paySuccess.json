@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "支付成功",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "cu-head": "/components/cu-head"
+  }
+}
