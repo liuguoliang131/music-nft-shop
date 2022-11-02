@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "联系客服",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "cu-head": "/components/cu-head"
+  }
+}

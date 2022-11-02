@@ -1,0 +1,122 @@
+@charset "UTF-8";
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+.order.data-v-40959460 {
+  max-height: 100vh;
+}
+.order-nav.data-v-40959460 {
+  height: 80rpx;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #8A8A8A;
+  font-size: 28rpx;
+  text-align: center;
+}
+.order-nav-item.data-v-40959460 {
+  text-align: center;
+  width: 100rpx;
+}
+.order-nav-item.active.data-v-40959460 {
+  color: #D10910;
+  position: relative;
+  font-weight: 700;
+  font-size: 15px;
+}
+.order-nav-item.active.data-v-40959460::after {
+  content: '';
+  bottom: -22rpx;
+  position: absolute;
+  left: 0;
+  width: 100rpx;
+  background-color: #D10910;
+  height: 3rpx;
+}
+.order-body.data-v-40959460 {
+  padding-top: 20rpx;
+}
+.order-body-item.data-v-40959460 {
+  padding: 20rpx 0;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  border-bottom: 1px solid #343434;
+}
+.order-body-item-imageBox.data-v-40959460 {
+  width: 166rpx;
+  height: 166rpx;
+  position: relative;
+}
+.order-body-item-imageBox-image.data-v-40959460 {
+  width: 100%;
+  height: 100%;
+  border-radius: 24rpx;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.order-body-item-imageBox-level.data-v-40959460 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 84rpx;
+  height: 40rpx;
+}
+.order-body-item-imageBox-level image.data-v-40959460 {
+  width: 100%;
+  height: 100%;
+}
+.order-body-item-box.data-v-40959460 {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 24rpx;
+  height: 80%;
+  padding: 0 20rpx;
+  color: #8A8A8A;
+  flex: auto;
+}
+.order-body-item-box-flex.data-v-40959460 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.order-body-item-title.data-v-40959460 {
+  color: #FFFFFF;
+  font-size: 28rpx;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: calc(100vw - 400rpx);
+}
+.order .my-btn.data-v-40959460 {
+  border: none;
+  height: 50rpx;
+  border-radius: 50px;
+  padding: 0 40rpx;
+  line-height: 50rpx;
+  font-size: 24rpx;
+  background-color: #0D0D0D;
+  color: #AEAEAE;
+  border: 1rpx solid #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}
+.center.data-v-40959460 {
+  width: 100%;
+  height: 200rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: #666666;
+}
+

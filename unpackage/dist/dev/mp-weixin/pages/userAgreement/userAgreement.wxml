@@ -1,0 +1,1 @@
+<view class="container"><cu-head vue-id="9e819f80-1" bind:__l="__l"></cu-head><web-view src="{{url}}"></web-view></view>

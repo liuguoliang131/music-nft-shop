@@ -1,0 +1,28 @@
+@charset "UTF-8";
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+.window.data-v-7cdb2158 {
+  position: relative;
+  height: 100vh;
+  overflow-y: scroll;
+}
+.scroll .loading.data-v-7cdb2158 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60rpx;
+  font-size: 24rpx;
+  color: #AEAEAE;
+}
+.scroll .noMore.data-v-7cdb2158 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60rpx;
+  font-size: 24rpx;
+  color: #AEAEAE;
+}
+

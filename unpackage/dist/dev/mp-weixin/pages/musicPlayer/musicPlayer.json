@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "欣赏专辑",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "wxy-audio": "/uni_modules/wxy-audio/components/wxy-audio/wxy-audio"
+  }
+}

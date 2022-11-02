@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "testPage",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "my-scroll": "/components/myScroll"
+  }
+}

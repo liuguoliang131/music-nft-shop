@@ -1,0 +1,1 @@
+<view data-ref="window" data-event-opts="{{[['scroll',[['scroll',['$event']]]]]}}" class="window data-v-7cdb2158 vue-ref" bindscroll="__e"><view data-ref="scroll" class="scroll data-v-7cdb2158 vue-ref"><slot></slot><view hidden="{{!(loading)}}" class="loading data-v-7cdb2158">加载中...</view><view hidden="{{!(isFinish)}}" class="noMore data-v-7cdb2158">没有更多了</view></view></view>

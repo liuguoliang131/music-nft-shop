@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "我的团队",
+  "enablePullDownRefresh": false,
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "cu-head": "/components/cu-head",
+    "my-scroll": "/components/myScroll"
+  }
+}

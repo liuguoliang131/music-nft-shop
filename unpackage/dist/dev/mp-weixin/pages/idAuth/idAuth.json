@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "身份认证",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "cu-head": "/components/cu-head"
+  }
+}

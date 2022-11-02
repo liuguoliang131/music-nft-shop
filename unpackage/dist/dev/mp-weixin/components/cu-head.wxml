@@ -1,0 +1,1 @@
+<view hidden="{{!(isWeb)}}" class="slots data-v-cdf73520"><view class="nav data-v-cdf73520"><image class="nav-left data-v-cdf73520" src="../static/navLeft.png" mode data-event-opts="{{[['tap',[['navBack']]]]}}" bindtap="__e"></image></view></view>
