@@ -3,11 +3,14 @@
 		<view class="h200">
 			<button @click="handGoMusicPlayer">欣赏专辑</button>
 		</view>
-		<my-scroll @load="getList" :loading="loading" :isFinish="isFinish">
-			<view class="" v-for="item in list">
-				item. {{item.works_name}}
-			</view>
-		</my-scroll>
+		<wx-open-launch-app id="launch-btn" appid="wx26ca737430f53669"
+			extinfo="eyJwYWdlIjoiY29tbW9uV2ViVmlld1BhZ2UiLCJpc05lZWRMb2dpbiI6ZmFsc2UsInBhcmFtcyI6eyJ0aXRsZSI6IueZvuW6pua1i-ivlSIsInVybCI6Imh0dHBzOi8vd3d3LmJhaWR1LmNvbSIsImZpeFRpdGxlIjp0cnVlfX0=">
+			<script type="text/wxtag-template">
+				<style>.btn { padding: 12px }</style>
+				<button class="btn">App内查看</button>
+			</script>
+		</wx-open-launch-app>
+
 	</view>
 </template>
 
@@ -31,123 +34,24 @@
 		},
 		data() {
 			return {
-				isFinish: false,
-				loading: false,
-				list: [],
-				show: false,
-				detail: {
-					product_item_id: '5',
-					name: 'aaa',
-					index_img: '',
-					code_num: '12e1',
-					sale_price: '12',
-					evaluate_type: '1',
-					rare_type: '1',
-					publish_author: 'qweqw',
-					publish_time: '123',
-					singles_num: 0,
-					contract_address: '',
-					token_id: '',
-					token_standard: '',
-					certificate: {
-						code: '',
-						name: '',
-						block_chain_hash: '',
-						publish_author: '',
-						publish_time: ''
-					},
-					music_list: [{
-							"name": "与伤共舞",
-							"desc": "命运面前，休论公道。",
-							"singer": "刘思佳",
-							"lyricist": "嫩成",
-							"composer": "逄博",
-							"music_url": "https://media.shenglangnft.com/与伤共舞.mp3",
-							"music_time": 208
-						},
-						{
-							"name": "真的吗",
-							"desc": "当所有的热烈回归平静",
-							"singer": "刘思达",
-							"lyricist": "刘思达",
-							"composer": "刘思达",
-							"music_url": "https://media.shenglangnft.com/真的吗MMM.wav",
-							"music_time": 185
-						}
-					]
-				}
+
 			}
 		},
 		onLoad(e) {
-
+			this.init()
 		},
 		methods: {
 
-			getMock() {
-				return new Promise((resolve) => {
-					uni.showLoading({
-						title: '加载中',
-						mask: true
-					})
-					setTimeout(() => {
-						const res = {
-							"code": 0,
-							"data": {
-								"list": [{
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}, {
-									"amount": "20",
-									"buy_time": 1666754543,
-									"works_name": "1026，测试专辑请勿购买001"
-								}]
-							},
-							"msg": "success"
-						}
-						resolve(res)
-						uni.hideLoading()
-					}, 1000)
+			init() {
+				var btn = document.getElementById('launch-btn');
+				btn.addEventListener('launch', function(e) {
+					console.log('success');
+					alert('success,' + e)
 				})
-			},
-			async getList() {
-				console.log('getList')
-				this.loading = true
-				const res = await this.getMock()
-				this.list = [...this.list, ...res.data.list]
-				if (this.list.length > 5) {
-					this.isFinish = true
-				}
-				this.loading = false
-			},
-			// 欣赏专辑
-			handGoMusicPlayer() {
-				if (isApp()) {
-					let appConfig = window.localStorage.getItem('AppConfigInfo')
-					if (appConfig) {
-						appConfig = JSON.parse(appConfig)
-					} else {
-						appConfig = {
-							'version-code': '1750'
-						}
-					}
-					if (Number(appConfig['version-code']) >= 1800) {
-						alert('>=1800')
-						playAlbum(this.detail.music_list, this.detail.name, '')
-					} else {
-						alert('<1800')
-						uni.navigateTo({
-							url: `/pages/musicPlayer/musicPlayer?owner_id=${this.detail.owner_id}&code_num=${this.detail.code_num}&product_item_id=${this.detail.product_item_id}&music_list=${JSON.stringify(this.detail.music_list)}&name=${this.detail.name}`
-						})
-					}
-				} else {
-					alert('不在app内')
-					uni.navigateTo({
-						url: `/pages/musicPlayer/musicPlayer?owner_id=${this.detail.owner_id}&code_num=${this.detail.code_num}&product_item_id=${this.detail.product_item_id}&music_list=${JSON.stringify(this.detail.music_list)}&name=${this.detail.name}`
-					})
-				}
-
-
+				btn.addEventListener('error', function(e) {
+					console.log('fail', e.detail);
+					alert('error,' + e.detail)
+				})
 			}
 
 		}
