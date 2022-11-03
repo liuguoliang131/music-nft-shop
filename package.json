@@ -2,6 +2,7 @@
 	"dependencies": {
 		"dayjs": "^1.11.5",
 		"js-md5": "^0.7.3",
-		"qrcodejs2": "^0.0.2"
+		"qrcodejs2": "^0.0.2",
+		"weixin-js-sdk": "^1.6.0"
 	}
 }

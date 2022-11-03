@@ -3,7 +3,7 @@
 		<view class="h200">
 			<button @click="handGoMusicPlayer">欣赏专辑</button>
 		</view>
-		<wx-open-launch-app id="launch-btn" appid="wx26ca737430f53669"
+		<wx-open-launch-app ref="launch-btn" id="launch-btn" appid="wx26ca737430f53669"
 			extinfo="eyJwYWdlIjoiY29tbW9uV2ViVmlld1BhZ2UiLCJpc05lZWRMb2dpbiI6ZmFsc2UsInBhcmFtcyI6eyJ0aXRsZSI6IueZvuW6pua1i-ivlSIsInVybCI6Imh0dHBzOi8vd3d3LmJhaWR1LmNvbSIsImZpeFRpdGxlIjp0cnVlfX0=">
 			<script type="text/wxtag-template">
 				<style>.btn { padding: 12px }</style>
@@ -15,29 +15,30 @@
 </template>
 
 <script>
-	import MyScroll from '../../components/myScroll.vue'
-	import {
-		h5_collections_user_collectionInfo,
-		h5_order_detail
-	} from '../../request/api.js'
 	import {
 		isApp,
-		playAlbum
+		playAlbum,
+		getOpenId
 	} from '../../utils/index.js'
 	import {
 		post
 	} from '../../request/index.js'
-	import dayjs from 'dayjs'
+	import '../../utils/jweixin-1.6.0.js'
+	import wx from 'weixin-js-sdk'
+	import {
+		h5_collections_wechat_get_jssdk
+	} from '../../request/api.js'
 	export default {
-		components: {
-			MyScroll
-		},
 		data() {
 			return {
 
 			}
 		},
 		onLoad(e) {
+
+		},
+		mounted() {
+			// this.wxReady()
 			this.init()
 		},
 		methods: {
@@ -52,6 +53,20 @@
 					console.log('fail', e.detail);
 					alert('error,' + e.detail)
 				})
+			},
+			async wxReady() {
+				const res = await this.$post(h5_collections_wechat_get_jssdk, {
+					url: window.location.origin
+				})
+				wx.config({
+					debug: true, // 开启调试模式,调用的所有 api 的返回值会在客户端 alert 出来，若要查看传入的参数，可以在 pc 端打开，参数信息会通过 log 打出，仅在 pc 端时才会打印。
+					appId: res.data.app_id, // 必填，公众号的唯一标识
+					timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+					nonceStr: res.data.nonce_str, // 必填，生成签名的随机串
+					signature: res.data.signature, // 必填，签名
+					jsApiList: [] // 必填，需要使用的 JS 接口列表
+				});
+
 			}
 
 		}

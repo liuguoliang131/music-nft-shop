@@ -38,6 +38,9 @@ export const h5_community_memberList = '/h5/community/memberList'
 export const h5_community_memberInfo = '/h5/community/memberInfo'
 // 20、团队成员购买记录
 export const h5_community_memberBuyList = '/h5/community/memberBuyList'
+// 21、获取微信jssdk所需签名
+export const h5_collections_wechat_get_jssdk = '/h5/collections_wechat/get_jssdk'
+
 /**
  * @description 首页列表
  */
