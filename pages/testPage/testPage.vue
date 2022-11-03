@@ -38,7 +38,7 @@
 
 		},
 		mounted() {
-			// this.wxReady()
+			this.wxReady()
 			this.init()
 		},
 		methods: {
@@ -64,7 +64,31 @@
 					timestamp: res.data.timestamp, // 必填，生成签名的时间戳
 					nonceStr: res.data.nonce_str, // 必填，生成签名的随机串
 					signature: res.data.signature, // 必填，签名
-					jsApiList: [] // 必填，需要使用的 JS 接口列表
+					jsApiList: ['updateAppMessageShareData',
+						'onMenuShareTimeline',
+						'updateAppMessageShareData',
+						'wx-open-launch-app',
+						'updateTimelineShareData',
+						'onMenuShareQQ',
+						'onMenuShareWeibo',
+						'onMenuShareAppMessage',
+					],
+					// 可选，获取开放标签权限
+					openTagList: ['wx-open-launch-app']
+				})
+
+				wx.ready(function() {
+					wx.checkJsApi({
+						jsApiList: ['wx-open-launch-app'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+						success: function(res) {
+							console.log(res)
+							console.log('可用')
+						},
+						fail: (err) => {
+							console.log('不可用')
+						}
+					})
+
 				});
 
 			}
