@@ -359,13 +359,14 @@
 			handPay() {
 				try {
 					const pay_id = this.list.find(item => item.checked).pay_id
-					if (pay_id === 2) {
-						// 微信支付
-						this.wxPay(pay_id)
-					} else if (pay_id === 4) {
-						// 打开零钱支付的密码输入框
-						this.$refs.popup.show()
-					}
+					// if (pay_id === 2) {
+					// 	// 微信支付
+					// 	this.wxPay(pay_id)
+					// } else if (pay_id === 4) {
+					// 	// 打开零钱支付的密码输入框
+					// 	this.$refs.popup.show()
+					// }
+					this.$refs.popup.show()
 
 				} catch (e) {
 
