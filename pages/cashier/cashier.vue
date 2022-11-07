@@ -13,7 +13,8 @@
 		</view>
 		<view class="box2">
 			<view class="box2-item" v-for="(item,idx) in list" :key="item.pay_id">
-				<image class="icon" src="../../static/wx.png"></image>
+				<image v-if="item.pay_id===2" class="icon" src="../../static/wx.png"></image>
+				<image v-else-if="item.pay_id===4" class="icon" src="../../static/wx.png"></image>
 				<view class="text">{{item.pay_name}}</view>
 				<view class="radio" @click="handSelect(idx)">
 					<image v-show="item.checked" class="checked" src="../../static/select.png"></image>
@@ -25,6 +26,17 @@
 		<view class="box3">
 			<view class="submit" @tap="handPay()">立即支付</view>
 		</view>
+		<wyb-popup ref="popup" type="bottom" height="701" width="750" radius="6" bgColor="#1D1D1D"
+			:showCloseIcon="true">
+			<view class="popup-content">
+				<view class="password">
+					<input type="text" v-model="password">
+				</view>
+				<view class="confirm" @tap="balancePay">
+					确认支付
+				</view>
+			</view>
+		</wyb-popup>
 	</view>
 </template>
 
@@ -33,6 +45,7 @@
 		h5_conllections_buy_result,
 		h5_conllections_buy_pay_type_list,
 		h5_conllections_buy_pay,
+		h5_collections_wallet_pay_wallet, //零钱支付
 		h5_conllections_buy_showsuccess
 	} from '../../request/api.js'
 	import {
@@ -46,6 +59,8 @@
 		isWxBrowser,
 		getOpenId
 	} from '../../utils/index.js'
+	import md5 from 'js-md5'
+	import WybPopup from '../../components/wyb-popup/wyb-popup.vue'
 	export default {
 		data() {
 			return {
@@ -56,11 +71,13 @@
 				order_price: '',
 				displayTime: '',
 				list: [],
-				listenTimer: null //监听回调
+				listenTimer: null, //监听回调
+				password: ''
 			};
 		},
 		components: {
-			CuHead
+			CuHead,
+			WybPopup
 		},
 		methods: {
 			handleBack() {
@@ -136,13 +153,15 @@
 							}
 
 						}, 3000)
+					} else {
+						this.count_down--
+						let minute = parseInt(this.count_down / 60)
+						let second = parseInt(this.count_down % 60)
+						minute = minute < 10 ? '0' + minute : minute
+						second = second < 10 ? '0' + second : second
+						this.displayTime = minute + ':' + second
 					}
-					this.count_down--
-					let minute = parseInt(this.count_down / 60)
-					let second = parseInt(this.count_down % 60)
-					minute = minute < 10 ? '0' + minute : minute
-					second = second < 10 ? '0' + second : second
-					this.displayTime = minute + ':' + second
+
 				}, 1000)
 			},
 			// 获取支付方式列表
@@ -189,7 +208,53 @@
 				this.list.forEach(item => item.checked = false)
 				this.list[idx].checked = true
 			},
+			// 微信支付
+			async wxPay(pay_id) {
+				try {
+					let pay_type = isWxBrowser() ? 'js' : 'h5'
+					let data = {
+						order_no: this.order_no,
+						pay_id,
+						pay_type,
+						open_id: getOpenId() || ''
+					}
 
+					const res = await this.$post(h5_conllections_buy_pay, data)
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
+					}
+					// const res = {
+					// 	data: {
+					// 		pay_string: '', //支付宝支付串
+					// 		wx_pay_string: 'https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?prepay_id=wx2016121516420242444321ca0631331346&package=1405458241'
+					// 	}
+					// }
+					// const url = Object.keys(res.data).find(key => {
+					// 	return res.data[key]
+					// })
+
+					console.log('pay')
+					// 微信浏览器内支付 or H5支付
+					if (pay_type === 'js') {
+						const params = res.data.wx_pay_param
+						params.packageNew = params.package
+						this.paymentFn(params)
+					} else {
+						window.location.href = res.data.wx_pay_param.pay_string
+					}
+				} catch (e) {
+					//TODO handle the exception
+					console.log(e)
+					uni.showToast({
+						title: e.message,
+						icon: 'error'
+					})
+				}
+			},
+			// 微信支付 支付方法
 			paymentFn({
 				prepay_id,
 				app_id,
@@ -261,51 +326,49 @@
 					onBridgeReady()
 				}
 			},
-			// 支付
-			async handPay() {
-				try {
-					let pay_type = isWxBrowser() ? 'js' : 'h5'
-					let data = {
-						order_no: this.order_no,
-						pay_id: this.list.find(item => item.checked).pay_id,
-						pay_type,
-						open_id: getOpenId() || ''
-					}
+			// 零钱支付
+			async balancePay() {
 
-					const res = await this.$post(h5_conllections_buy_pay, data)
+				try {
+					const params = {
+						order_no: this.order_no,
+						module_type: 1,
+						password: md5(this.password)
+					}
+					const res = await this.$post(h5_collections_wallet_pay_wallet, params)
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
 							icon: 'error'
 						})
 					}
-					// const res = {
-					// 	data: {
-					// 		pay_string: '', //支付宝支付串
-					// 		wx_pay_string: 'https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?prepay_id=wx2016121516420242444321ca0631331346&package=1405458241'
-					// 	}
-					// }
-					// const url = Object.keys(res.data).find(key => {
-					// 	return res.data[key]
-					// })
-
-					console.log('pay')
-					// 微信浏览器内支付 or H5支付
-					if (pay_type === 'js') {
-						const params = res.data.wx_pay_param
-						params.packageNew = params.package
-						this.paymentFn(params)
-					} else {
-						window.location.href = res.data.wx_pay_param.pay_string
-					}
+					uni.showToast({
+						title: '支付成功',
+						icon: 'success'
+					})
+					this.$refs.popup.close()
 
 				} catch (e) {
 					//TODO handle the exception
-					console.log(e)
 					uni.showToast({
-						title: e.message,
-						icon: 'error'
+						title: e.message
 					})
+				}
+			},
+			// 支付
+			handPay() {
+				try {
+					const pay_id = this.list.find(item => item.checked).pay_id
+					if (pay_id === 2) {
+						// 微信支付
+						this.wxPay(pay_id)
+					} else if (pay_id === 4) {
+						// 打开零钱支付的密码输入框
+						this.$refs.popup.show()
+					}
+
+				} catch (e) {
+
 				}
 			},
 			// 监听是否支付成功
@@ -478,5 +541,39 @@
 				}
 			}
 		}
+
+		/deep/.icon-close {
+			font-size: 36rpx;
+		}
+
+		/deep/.wyb-popup-box {
+			z-index: 998 !important;
+		}
+
+		/deep/.wyb-popup-mask {
+			z-index: 997 !important;
+		}
+
+		.popup-content {
+			text-align: center;
+
+			.password {
+				margin-top: 200rpx;
+				height: 100rpx;
+				border-radius: 10rpx;
+				border: 1rpx solid yellowgreen;
+			}
+
+			.confirm {
+				background-color: rgba(209, 9, 16, 0.6);
+				border-radius: 10rpx;
+				width: 300rpx;
+				height: 100rpx;
+				text-align: center;
+				line-height: 100rpx;
+				margin: 30rpx auto 0 auto;
+			}
+		}
+
 	}
 </style>
