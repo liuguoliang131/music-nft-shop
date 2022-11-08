@@ -112,7 +112,6 @@
 				listenTimer: null, //监听回调
 				password: [],
 				keyboardList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'C', '0', '清空'],
-				balancePayRes: 900,
 				myAmount: 0, //余额
 				hasPw: null //是否设置了密码  null为请求loading状态
 			};
@@ -244,7 +243,8 @@
 						item.checked = !idx
 					})
 					this.list = res.data || []
-					this.getUserAmountAndHasPw()
+					uni.hideLoading()
+
 				} catch (e) {
 					//TODO handle the exception
 					uni.showToast({
@@ -534,7 +534,7 @@
 					this.myAmount = res.data.money_account.amount || 0
 					post1(h5_collections_user_if_password).then(res1 => {
 						this.hasPw = res1.data === 'false' ? false : true
-						uni.hideLoading()
+
 					}).catch(error1 => {
 						uni.showToast({
 							title: error1.message
@@ -557,6 +557,7 @@
 		},
 		onShow() {
 			this.listenPaySuccess()
+			this.getUserAmountAndHasPw()
 		},
 		onHide() {
 			// clearTimeout(this.timer)
