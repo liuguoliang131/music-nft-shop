@@ -15,7 +15,12 @@
 			<view class="box2-item" v-for="(item,idx) in list" :key="item.pay_id">
 				<image v-if="item.pay_id===2" class="icon" src="../../static/wx.png"></image>
 				<image v-else-if="item.pay_id===4" class="icon" src="../../static/lingqian.png"></image>
-				<view class="text">{{item.pay_name}}</view>
+				<view class="text">
+					{{item.pay_name}}
+					<text class="text-1" v-if="item.pay_id===4">
+						余额：￥{{myAmount.toFixed(2)}}
+					</text>
+				</view>
 				<view class="radio" @click="handSelect(idx)">
 					<image v-show="item.checked" class="checked" src="../../static/select.png"></image>
 					<view v-show="!item.checked" class="nocheck"></view>
@@ -47,18 +52,20 @@
 			</view>
 		</wyb-popup>
 		<my-dialog ref="myDialog">
-			<view class="dialog-content" v-if="balancePayRes===900">
-				<view class="dialog-text1">未设置支付密码</view>
-				<view class="dialog-text2">请前往元音符App进行设置</view>
-				<view v-if="$store.state.user.inApp" class="dialog-bottom" @tap="goNativePage({
-					page:'pwdSettingPage',isNeedLogin:true,params:{}})">去设置</view>
-				<view v-else class="dialog-bottom" @tap="goDownload">下载App</view>
-			</view>
-			<view class="dialog-content" v-else-if="balancePayRes===901">
+			<view class="dialog-content">
 				<view class="dialog-text1">您的余额不足</view>
 				<view class="dialog-text2">请前往元音符App进行充值</view>
 				<view v-if="$store.state.user.inApp" class="dialog-bottom" @tap="goNativePage({
 					page:'cashRechargePage',isNeedLogin:true,params:{}})">去充值</view>
+				<view v-else class="dialog-bottom" @tap="goDownload">下载App</view>
+			</view>
+		</my-dialog>
+		<my-dialog ref="myDialog1">
+			<view class="dialog-content">
+				<view class="dialog-text1">未设置支付密码</view>
+				<view class="dialog-text2">请前往元音符App进行设置</view>
+				<view v-if="$store.state.user.inApp" class="dialog-bottom" @tap="goNativePage({
+					page:'pwdSettingPage',isNeedLogin:true,params:{}})">去设置</view>
 				<view v-else class="dialog-bottom" @tap="goDownload">下载App</view>
 			</view>
 		</my-dialog>
@@ -71,10 +78,13 @@
 		h5_conllections_buy_pay_type_list,
 		h5_conllections_buy_pay,
 		h5_collections_wallet_pay_wallet, //零钱支付
+		h5_collections_user_getAmount, //查询余额
+		h5_collections_user_if_password, //查询是否设置了零钱支付的密码
 		h5_conllections_buy_showsuccess
 	} from '../../request/api.js'
 	import {
-		post1
+		post1,
+		get1
 	} from '../../request/index.js'
 	import {
 		requestPayment
@@ -102,7 +112,9 @@
 				listenTimer: null, //监听回调
 				password: [],
 				keyboardList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'C', '0', '清空'],
-				balancePayRes: 900
+				balancePayRes: 900,
+				myAmount: 0, //余额
+				hasPw: null //是否设置了密码  null为请求loading状态
 			};
 		},
 		components: {
@@ -128,7 +140,11 @@
 			// 获取下单结果
 			async getOrderResult() {
 				try {
-					const res = await this.$post(h5_conllections_buy_result, {
+					uni.showLoading({
+						title: '加载中',
+						mask: true
+					});
+					const res = await post1(h5_conllections_buy_result, {
 						order_no: this.order_no
 					})
 					if (res.code !== 0) {
@@ -148,6 +164,8 @@
 					this.order_price = res.data.order_price || res.data.amount
 					this.count_down = res.data.count_down
 					this.startCountDown()
+					this.getPayType()
+
 				} catch (e) {
 					//TODO handle the exception
 					console.log(e)
@@ -226,6 +244,7 @@
 						item.checked = !idx
 					})
 					this.list = res.data || []
+					this.getUserAmountAndHasPw()
 				} catch (e) {
 					//TODO handle the exception
 					uni.showToast({
@@ -369,11 +388,9 @@
 					const res = await this.$post(h5_collections_wallet_pay_wallet, params)
 					if (res.code === 900) {
 						// 未设置密码
-						this.balancePayRes = 900
-						return this.$refs.myDialog.show()
+						return this.$refs.myDialog1.show()
 					} else if (res.code === 901) {
 						// 余额不足
-						this.balancePayRes = 901
 						return this.$refs.myDialog.show()
 					} else if (res.code !== 0 && res.code !== 900 && res.code !== 901) {
 						// 其他报错
@@ -383,7 +400,6 @@
 						})
 					}
 					this.$refs.popup.close()
-					this.$refs.myDialog.close()
 					post1(h5_conllections_buy_showsuccess, {
 						order_no: this.order_no
 					}).then(res => {
@@ -419,7 +435,19 @@
 						this.wxPay(pay_id)
 					} else if (pay_id === 4) {
 						// 打开零钱支付的密码输入框
-						this.$refs.popup.show()
+						if (this.hasPw === null) {
+							return false
+						} else if (this.hasPw === true) {
+							if (this.myAmount - Number(this.order_price) >= 0) {
+								this.$refs.popup.show()
+							} else {
+								this.$refs.myDialog.show()
+							}
+						} else {
+							this.$refs.myDialog1.show()
+						}
+
+
 					}
 
 				} catch (e) {
@@ -492,8 +520,32 @@
 					})
 				}, 1000)
 			},
-			handShowDialog() {
-				this.$refs.myDialog.show()
+
+			// 查询账户余额和是否设置零钱支付的密码
+			getUserAmountAndHasPw() {
+
+				post1(h5_collections_user_getAmount).then(res => {
+					if (res.code !== 0) {
+						return uni.showToast({
+							icon: 'none',
+							title: res.msg
+						})
+					}
+					this.myAmount = res.data.money_account.amount || 0
+					post1(h5_collections_user_if_password).then(res1 => {
+						this.hasPw = res1.data === 'false' ? false : true
+						uni.hideLoading()
+					}).catch(error1 => {
+						uni.showToast({
+							title: error1.message
+						})
+					})
+				}).catch(error => {
+					uni.showToast({
+						title: error.message
+					})
+				})
+
 			}
 
 		},
@@ -502,7 +554,6 @@
 			this.order_no = option.order_no
 			this.order_price = option.order_price
 			this.getOrderResult()
-			this.getPayType()
 		},
 		onShow() {
 			this.listenPaySuccess()
@@ -585,6 +636,12 @@
 					margin-left: 20rpx;
 					margin-right: 20rpx;
 					font-size: 30rpx;
+
+					.text-1 {
+						margin-left: 40rpx;
+						font-size: 20rpx;
+						color: #D10910;
+					}
 				}
 
 				.radio {
