@@ -405,7 +405,6 @@
 					}).then(res => {
 						if (res.code === 200) {
 							clearTimeout(this.timer)
-							clearTimeout(this.listenTimer)
 							uni.redirectTo({
 								url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}&order_id=${res.data.order_id}`
 							})
@@ -414,7 +413,6 @@
 								title: res.msg,
 								icon: 'none'
 							})
-							clearTimeout(this.listenTimer)
 						}
 
 					})
@@ -492,33 +490,31 @@
 			},
 			// 监听是否支付成功
 			listenPaySuccess() {
-				clearTimeout(this.listenTimer)
-				this.listenTimer = setInterval(() => {
-					post1(h5_conllections_buy_showsuccess, {
-						order_no: this.order_no
-					}).then(res => {
-						if (res.code === 200) {
-							clearTimeout(this.timer)
-							clearTimeout(this.listenTimer)
-							uni.redirectTo({
-								url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}&order_id=${res.data.order_id}`
-							})
-						} else if (res.code !== 0 && res.code !== 200) {
-							uni.showToast({
-								title: res.msg,
-								icon: 'none'
-							})
-							clearTimeout(this.listenTimer)
-						}
 
-					}).catch(error => {
-						clearTimeout(this.listenTimer)
-						uni.showToast({
-							icon: 'error',
-							title: res.message
+				post1(h5_conllections_buy_showsuccess, {
+					order_no: this.order_no
+				}).then(res => {
+					if (res.code === 200) {
+						clearTimeout(this.timer)
+						uni.redirectTo({
+							url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}&order_id=${res.data.order_id}`
 						})
+					} else if (res.code !== 0 && res.code !== 200) {
+						uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					} else {
+						this.listenPaySuccess()
+					}
+
+				}).catch(error => {
+					uni.showToast({
+						icon: 'error',
+						title: res.message
 					})
-				}, 1000)
+				})
+
 			},
 
 			// 查询账户余额和是否设置零钱支付的密码
@@ -560,12 +556,10 @@
 			this.getUserAmountAndHasPw()
 		},
 		onHide() {
-			// clearTimeout(this.timer)
-			clearTimeout(this.listenTimer)
+
 		},
 		beforeDestroy() {
 			clearTimeout(this.timer)
-			clearTimeout(this.listenTimer)
 		}
 	}
 </script>
