@@ -34,6 +34,9 @@
 		<wyb-popup ref="popup" type="bottom" height="701" width="750" radius="6" bgColor="#ffffff" :showCloseIcon="true"
 			@hide="clearPassword()">
 			<view class="popup-content">
+				<view class="popup-content-title">
+					请输入交易密码
+				</view>
 				<view class="password-content">
 					<view class="block">
 						<view class="block-item" v-for="item in 6" :key="item"></view>
@@ -54,7 +57,7 @@
 		<my-dialog ref="myDialog">
 			<view class="dialog-content">
 				<view class="dialog-text1">您的余额不足</view>
-				<view class="dialog-text2">请前往元音符App进行充值</view>
+				<view :class="['dialog-text2',$store.state.user.inApp?'hideText':'']">请前往元音符App进行充值</view>
 				<view v-if="$store.state.user.inApp" class="dialog-bottom" @tap="goNativePage({
 					page:'cashRechargePage',isNeedLogin:true,params:{}})">去充值</view>
 				<view v-else class="dialog-bottom" @tap="goDownload">下载App</view>
@@ -63,7 +66,7 @@
 		<my-dialog ref="myDialog1">
 			<view class="dialog-content">
 				<view class="dialog-text1">未设置支付密码</view>
-				<view class="dialog-text2">请前往元音符App进行设置</view>
+				<view :class="['dialog-text2',$store.state.user.inApp?'hideText':'']">请前往元音符App进行设置</view>
 				<view v-if="$store.state.user.inApp" class="dialog-bottom" @tap="goNativePage({
 					page:'pwdSettingPage',isNeedLogin:true,params:{}})">去设置</view>
 				<view v-else class="dialog-bottom" @tap="goDownload">下载App</view>
@@ -702,8 +705,16 @@
 		}
 
 		.popup-content {
-			padding: 100rpx 0rpx 0rpx 0rpx;
+			padding: 0;
 			text-align: center;
+
+			.popup-content-title {
+				height: 100rpx;
+				text-align: center;
+				line-height: 100rpx;
+				font-size: 30rpx;
+				color: rgba(0, 0, 0, 1);
+			}
 
 			.password-content {
 				position: relative;
@@ -801,6 +812,10 @@
 
 			.dialog-text2 {
 				padding-bottom: 70rpx;
+			}
+
+			.hideText {
+				visibility: hidden;
 			}
 
 			.dialog-bottom {
