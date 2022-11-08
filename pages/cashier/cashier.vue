@@ -14,7 +14,7 @@
 		<view class="box2">
 			<view class="box2-item" v-for="(item,idx) in list" :key="item.pay_id">
 				<image v-if="item.pay_id===2" class="icon" src="../../static/wx.png"></image>
-				<image v-else-if="item.pay_id===4" class="icon" src="../../static/wx.png"></image>
+				<image v-else-if="item.pay_id===4" class="icon" src="../../static/lingqian.png"></image>
 				<view class="text">{{item.pay_name}}</view>
 				<view class="radio" @click="handSelect(idx)">
 					<image v-show="item.checked" class="checked" src="../../static/select.png"></image>
@@ -26,17 +26,42 @@
 		<view class="box3">
 			<view class="submit" @tap="handPay()">立即支付</view>
 		</view>
-		<wyb-popup ref="popup" type="bottom" height="701" width="750" radius="6" bgColor="#1D1D1D"
-			:showCloseIcon="true">
+		<wyb-popup ref="popup" type="bottom" height="701" width="750" radius="6" bgColor="#ffffff" :showCloseIcon="true"
+			@hide="clearPassword()">
 			<view class="popup-content">
-				<view class="password">
-					<input type="text" v-model="password">
+				<view class="password-content">
+					<view class="block">
+						<view class="block-item" v-for="item in 6" :key="item"></view>
+					</view>
+					<view class="point">
+						<view class="point-item" v-for="item in password" :key="item">
+							<view class="point-item-center"></view>
+						</view>
+					</view>
 				</view>
-				<view class="confirm" @tap="balancePay">
-					确认支付
+				<view class="keyboard">
+					<view class="keyboard-button" v-for="item in keyboardList" :key="item.text" @tap="handInput(item)">
+						{{item}}
+					</view>
 				</view>
 			</view>
 		</wyb-popup>
+		<my-dialog ref="myDialog">
+			<view class="dialog-content" v-if="balancePayRes===900">
+				<view class="dialog-text1">未设置支付密码</view>
+				<view class="dialog-text2">请前往元音符App进行设置</view>
+				<view v-if="$store.state.user.inApp" class="dialog-bottom" @tap="goNativePage({
+					page:'pwdSettingPage',isNeedLogin:true,params:{}})">去设置</view>
+				<view v-else class="dialog-bottom" @tap="goDownload">下载App</view>
+			</view>
+			<view class="dialog-content" v-else-if="balancePayRes===901">
+				<view class="dialog-text1">您的余额不足</view>
+				<view class="dialog-text2">请前往元音符App进行充值</view>
+				<view v-if="$store.state.user.inApp" class="dialog-bottom" @tap="goNativePage({
+					page:'cashRechargePage',isNeedLogin:true,params:{}})">去充值</view>
+				<view v-else class="dialog-bottom" @tap="goDownload">下载App</view>
+			</view>
+		</my-dialog>
 	</view>
 </template>
 
@@ -56,11 +81,14 @@
 	} from '../../request/index.js'
 	import CuHead from '../../components/cu-head.vue'
 	import {
+		openAppPage,
+		jumpBefore,
 		isWxBrowser,
 		getOpenId
 	} from '../../utils/index.js'
 	import md5 from 'js-md5'
 	import WybPopup from '../../components/wyb-popup/wyb-popup.vue'
+	import MyDialog from '../../components/dialog.vue'
 	export default {
 		data() {
 			return {
@@ -72,12 +100,15 @@
 				displayTime: '',
 				list: [],
 				listenTimer: null, //监听回调
-				password: ''
+				password: [],
+				keyboardList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'C', '0', '清空'],
+				balancePayRes: 900
 			};
 		},
 		components: {
 			CuHead,
-			WybPopup
+			WybPopup,
+			MyDialog
 		},
 		methods: {
 			handleBack() {
@@ -333,20 +364,43 @@
 					const params = {
 						order_no: this.order_no,
 						module_type: 1,
-						password: md5(this.password)
+						password: md5(this.password.join(''))
 					}
 					const res = await this.$post(h5_collections_wallet_pay_wallet, params)
-					if (res.code !== 0) {
+					if (res.code === 900) {
+						// 未设置密码
+						this.balancePayRes = 900
+						return this.$refs.myDialog.show()
+					} else if (res.code === 901) {
+						// 余额不足
+						this.balancePayRes = 901
+						return this.$refs.myDialog.show()
+					} else if (res.code !== 0 && res.code !== 900 && res.code !== 901) {
+						// 其他报错
 						return uni.showToast({
 							title: res.msg,
 							icon: 'error'
 						})
 					}
-					uni.showToast({
-						title: '支付成功',
-						icon: 'success'
-					})
 					this.$refs.popup.close()
+					post1(h5_conllections_buy_showsuccess, {
+						order_no: this.order_no
+					}).then(res => {
+						if (res.code === 200) {
+							clearTimeout(this.timer)
+							clearTimeout(this.listenTimer)
+							uni.redirectTo({
+								url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}&order_id=${res.data.order_id}`
+							})
+						} else if (res.code !== 0 && res.code !== 200) {
+							uni.showToast({
+								title: res.msg,
+								icon: 'none'
+							})
+							clearTimeout(this.listenTimer)
+						}
+
+					})
 
 				} catch (e) {
 					//TODO handle the exception
@@ -359,18 +413,53 @@
 			handPay() {
 				try {
 					const pay_id = this.list.find(item => item.checked).pay_id
-					// if (pay_id === 2) {
-					// 	// 微信支付
-					// 	this.wxPay(pay_id)
-					// } else if (pay_id === 4) {
-					// 	// 打开零钱支付的密码输入框
-					// 	this.$refs.popup.show()
-					// }
-					this.$refs.popup.show()
+					if (pay_id === 2) {
+						// 微信支付
+						this.wxPay(pay_id)
+					} else if (pay_id === 4) {
+						// 打开零钱支付的密码输入框
+						this.$refs.popup.show()
+					}
 
 				} catch (e) {
 
 				}
+			},
+
+			// 零钱支付 键盘输入
+			handInput(k) {
+				if (k === 'C') {
+					if (this.password.length === 0) {
+						return false
+					}
+					this.password.pop()
+				} else if (k === '清空') {
+
+					this.password = []
+				} else {
+					if (this.password.length === 6) {
+						return false
+					}
+					this.password.push(k)
+				}
+				if (this.password.length === 6) {
+					this.balancePay()
+				}
+			},
+			// 清空密码输入
+			clearPassword() {
+				this.password = []
+			},
+			// 下载app
+			goDownload() {
+				jumpBefore(null)
+
+			},
+			// 打开APP页面
+			goNativePage(data) {
+
+				openAppPage(data)
+
 			},
 			// 监听是否支付成功
 			listenPaySuccess() {
@@ -401,6 +490,9 @@
 						})
 					})
 				}, 1000)
+			},
+			handShowDialog() {
+				this.$refs.myDialog.show()
 			}
 
 		},
@@ -556,23 +648,125 @@
 		}
 
 		.popup-content {
+			padding: 100rpx 0rpx 0rpx 0rpx;
 			text-align: center;
 
-			.password {
-				margin-top: 200rpx;
-				height: 100rpx;
-				border-radius: 10rpx;
-				border: 1rpx solid yellowgreen;
+			.password-content {
+				position: relative;
+				margin: 0 90rpx;
+
+				.block {
+					display: flex;
+					align-items: center;
+
+					.block-item {
+						box-sizing: border-box;
+						border: 1rpx solid rgba(0, 0, 0, 0.05);
+						background-color: rgba(0, 0, 0, 0.1);
+						width: 70rpx;
+						height: 70rpx;
+						margin: 0 12.5rpx;
+						border-radius: 10rpx;
+					}
+				}
+
+				.point {
+					width: 100%;
+					position: absolute;
+					top: 0;
+					left: 0;
+					display: flex;
+					align-items: center;
+
+					.point-item {
+						box-sizing: border-box;
+						width: 70rpx;
+						height: 70rpx;
+						margin: 0 12.5rpx;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+
+						.point-item-center {
+							width: 26rpx;
+							height: 26rpx;
+							border-radius: 13rpx;
+							background-color: rgba(0, 0, 0, 1);
+						}
+					}
+				}
 			}
 
-			.confirm {
-				background-color: rgba(209, 9, 16, 0.6);
-				border-radius: 10rpx;
-				width: 300rpx;
-				height: 100rpx;
-				text-align: center;
-				line-height: 100rpx;
-				margin: 30rpx auto 0 auto;
+			.keyboard {
+				width: 100%;
+				padding-top: 40rpx;
+				display: flex;
+				align-content: center;
+				justify-content: center;
+				flex-wrap: wrap;
+
+				.keyboard-button {
+					box-sizing: border-box;
+					width: 190rpx;
+					height: 80rpx;
+					margin: 20rpx;
+					border-radius: 7rpx;
+					background-color: #fff;
+					box-shadow: 0rpx 0rpx 2rpx 3rpx rgba(0, 0, 0, 0.1);
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					font-size: 36rpx;
+					font-weight: 600;
+					color: #363636;
+
+					&:active {
+						background-color: rgba(0, 0, 0, 0.05);
+						box-shadow: 0rpx 0rpx 1rpx 1rpx rgba(0, 0, 0, 0.2);
+						color: rgba(0, 0, 0, 0.7);
+					}
+				}
+			}
+		}
+
+		.dialog-content {
+			position: relative;
+			font-weight: 600;
+			font-size: 32rpx;
+			line-height: 44rpx;
+			color: rgba(0, 0, 0, 0.9);
+			overflow: hidden; // 溢出隐藏
+			white-space: nowrap; // 强制一行
+			text-overflow: ellipsis; // 文字溢出显示省略号
+			text-align: center;
+
+			.dialog-text1 {
+				padding-top: 70rpx;
+				padding-bottom: 20rpx;
+			}
+
+			.dialog-text2 {
+				padding-bottom: 70rpx;
+			}
+
+			.dialog-bottom {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				line-height: 0;
+				margin: auto;
+				background: #D10910;
+				color: #fff;
+				border-radius: 0 0 16rpx 16rpx;
+				height: 96rpx;
+				width: 500rpx;
+				font-weight: 500;
+				font-size: 32rpx;
+
+				&:active {
+					background-color: rgba(209, 9, 16, 0.6);
+					color: rgba(134, 134, 134, 1);
+				}
 			}
 		}
 

@@ -1,5 +1,6 @@
 export const TOKEN = 'x-token'
 export const USER_INFO = 'yyf-userInfo'
+export const IN_APP = 'in-yyf-app'
 export const processName = process.env.NODE_ENV
 const development = {
 	// BASE_URL: 'https://t.h5.shenglangnft.com/api',
