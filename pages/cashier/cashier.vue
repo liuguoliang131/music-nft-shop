@@ -363,7 +363,7 @@
 				try {
 					const params = {
 						order_no: this.order_no,
-						module_type: 1,
+						module_type: 3,
 						password: md5(this.password.join(''))
 					}
 					const res = await this.$post(h5_collections_wallet_pay_wallet, params)
@@ -383,6 +383,7 @@
 						})
 					}
 					this.$refs.popup.close()
+					this.$refs.myDialog.close()
 					post1(h5_conllections_buy_showsuccess, {
 						order_no: this.order_no
 					}).then(res => {
@@ -583,6 +584,7 @@
 					flex: 1;
 					margin-left: 20rpx;
 					margin-right: 20rpx;
+					font-size: 30rpx;
 				}
 
 				.radio {
