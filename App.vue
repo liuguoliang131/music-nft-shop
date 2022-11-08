@@ -15,7 +15,9 @@
 	export default {
 		methods: {
 			onWebEntry() {
-				if (isApp()) {
+				const inApp = isApp()
+				this.$store.commit('user/set_inApp', inApp)
+				if (inApp) {
 					if (document.cookie) {
 						console.log(document.cookie)
 						const arr = document.cookie.split('&')

@@ -1,7 +1,8 @@
 import config, {
 	processName,
 	TOKEN,
-	USER_INFO
+	USER_INFO,
+	IN_APP
 } from './uniKey.js'
 import md5 from 'js-md5'
 const onlykey = 'U6LMVF9aNxg7Jgw5TMqL0CHiw4aT8ipuqlNCkdA9H50=' // key
@@ -23,6 +24,18 @@ export const setUserInfo = (data) => {
 	window.localStorage.setItem(USER_INFO, JSON.stringify(data))
 }
 
+// 获取 是否在app内
+export const getInApp = () => {
+	const str = window.sessionStorage.getItem(IN_APP)
+	if (str === 'true') {
+		return true
+	} else {
+		return false
+	}
+}
+export const setInApp = (data) => {
+	window.sessionStorage.setItem(IN_APP, JSON.stringify(data))
+}
 // 获取hash值和后缀参数 有对share_sign进行单独处理的方法
 export const getHashQuery = (url = window.location.href) => {
 	let hash = '/'

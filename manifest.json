@@ -9,7 +9,7 @@
         "publicPath" : "./",
         "devServer" : {
             "disableHostCheck" : false,
-            "port" : 9090,
+            "port" : 8080,
             "proxy" : {
                 "/api" : {
                     "target" : "https://c.yuanyinfu.com",

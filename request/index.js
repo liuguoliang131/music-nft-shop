@@ -101,7 +101,7 @@ export const get = function(url, params = {}) {
 	return new Promise((resolve, reject) => {
 		uni.request({
 			header: getHeader(params),
-			timeout: 5000,
+			timeout: 20000,
 			method: 'GET',
 			url: config.BASE_URL + url,
 			params,
@@ -119,6 +119,34 @@ export const get = function(url, params = {}) {
 			},
 			complete() {
 				uni.hideLoading()
+			}
+		})
+	})
+}
+
+// get
+export const get1 = function(url, params = {}) {
+	return new Promise((resolve, reject) => {
+		uni.request({
+			header: getHeader(params),
+			timeout: 20000,
+			method: 'GET',
+			url: config.BASE_URL + url,
+			params,
+			success(res) {
+				console.log('post success', res)
+				if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
+					goLogin()
+				} else {
+					resolve(res.data)
+				}
+
+			},
+			fail(res) {
+				reject(res)
+			},
+			complete() {
+
 			}
 		})
 	})

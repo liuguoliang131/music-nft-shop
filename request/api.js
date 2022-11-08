@@ -40,7 +40,12 @@ export const h5_community_memberInfo = '/h5/community/memberInfo'
 export const h5_community_memberBuyList = '/h5/community/memberBuyList'
 // 21、获取微信jssdk所需签名
 export const h5_collections_wechat_get_jssdk = '/h5/collections_wechat/get_jssdk'
-
+// 22、零钱支付
+export const h5_collections_wallet_pay_wallet = '/h5/collections_wallet/pay_wallet'
+// 23、查询我的钱包
+export const h5_collections_user_getAmount = '/h5/collections_user/getAmount'
+// 24、查询是否账户设置了零钱支付密码
+export const h5_collections_user_if_password = '/h5/collections_user/if_password'
 /**
  * @description 首页列表
  */

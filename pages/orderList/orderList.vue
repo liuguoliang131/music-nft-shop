@@ -205,7 +205,7 @@
 					color: #D10910;
 					position: relative;
 					font-weight: 700;
-					font-size: 15px;
+					font-size: 30rpx;
 
 					&::after {
 						content: '';
@@ -295,7 +295,7 @@
 		.my-btn {
 			border: none;
 			height: 50rpx;
-			border-radius: 50px;
+			border-radius: 50rpx;
 			padding: 0 40rpx;
 			line-height: 50rpx;
 			font-size: 24rpx;
