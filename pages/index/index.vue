@@ -233,7 +233,7 @@
 	}
 
 	.tag {
-		border: 1px solid #434343;
+		border: 1rpx solid #434343;
 		border-radius: 40rpx;
 		padding: 10rpx;
 		display: flex;
@@ -247,7 +247,7 @@
 
 		text {
 			margin-left: 20rpx;
-			font-size: 12px;
+			font-size: 24rpx;
 			color: #f5f5f5;
 		}
 	}
@@ -264,7 +264,7 @@
 		&-item {
 			border-radius: 20rpx;
 			border: 1rpx solid #5F5F5F;
-			border-radius: 10px;
+			border-radius: 20rpx;
 			padding: 16rpx 16rpx 20rpx 16rpx;
 			display: flex;
 			align-items: flex-start;
@@ -391,10 +391,10 @@
 			padding: 0 60rpx;
 			height: 80rpx;
 			line-height: 80rpx;
-			font-size: 16px;
+			font-size: 32rpx;
 			color: #ECECEC;
 			background: #D10910;
-			border-radius: 38px;
+			border-radius: 76rpx;
 		}
 	}
 
