@@ -95,7 +95,7 @@
 		align-items: center;
 		justify-content: center;
 		color: #999;
-		font-size: 12px;
+		font-size: 24rpx;
 		text-align: center;
 
 		image {

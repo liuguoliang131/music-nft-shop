@@ -78,10 +78,13 @@
 	}
 
 	.scroll {
+		width: 100%;
+
 		.loading {
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			width: 100%;
 			height: 60rpx;
 			font-size: 24rpx;
 			color: #AEAEAE;
@@ -91,6 +94,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			width: 100%;
 			height: 60rpx;
 			font-size: 24rpx;
 			color: #AEAEAE;

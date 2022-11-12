@@ -119,7 +119,7 @@
 		color: #AC9147;
 		z-index: 100vh;
 		font-weight: 400;
-		font-size: 12px;
+		font-size: 24rpx;
 		line-height: 64rpx;
 		margin-bottom: 20rpx;
 	}
@@ -138,11 +138,11 @@
 		padding: 10rpx 10rpx;
 		display: flex;
 		flex-direction: column;
-		border: 0.5px solid #5F5F5F;
-		border-radius: 10px;
+		border: 1rpx solid #5F5F5F;
+		border-radius: 20rpx;
 
 		&-image {
-			border-radius: 12px;
+			border-radius: 24rpx;
 			width: calc(50vw - 50rpx);
 			height: calc(50vw - 60rpx);
 			position: relative;
@@ -154,15 +154,15 @@
 				background-size: cover;
 				background-position: center center;
 				background-repeat: no-repeat;
-				border-radius: 10px;
+				border-radius: 20rpx;
 			}
 
 			&-level {
 				position: absolute;
 				top: 0;
 				left: 0;
-				width: 42px;
-				height: 20px;
+				width: 84rpx;
+				height: 40rpx;
 
 				image {
 					width: 100%;
@@ -172,17 +172,17 @@
 		}
 
 		&-title {
-			font-size: 14px;
+			font-size: 28rpx;
 			font-weight: 500;
 			// color: #E8D18A;
 		}
 
 		&-number {
-			font-size: 12px;
+			font-size: 24rpx;
 		}
 
 		&-price {
-			font-size: 12px;
+			font-size: 24px;
 			color: #D10910;
 			font-weight: 500;
 		}

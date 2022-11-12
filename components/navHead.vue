@@ -1,7 +1,11 @@
 <template>
-	<view class="slots" v-show="isWeb">
+	<view class="slots">
 		<view class="nav">
 			<image @tap="navBack()" class="nav-left" src="../static/navLeft.png" mode=""></image>
+			<text class="nav-center">{{title}}</text>
+			<text class="nav-right">
+				<slot></slot>
+			</text>
 		</view>
 	</view>
 
@@ -13,6 +17,11 @@
 	} from '../utils/index.js'
 	export default {
 		name: "cu-head",
+		props: {
+			title: {
+				default: ''
+			}
+		},
 		data() {
 			return {
 				isWeb: false //是否是浏览器环境下
@@ -65,6 +74,29 @@
 			left: 28rpx;
 			width: 48rpx;
 			height: 48rpx;
+		}
+
+		.nav-center {
+			width: 100%;
+			height: 88rpx;
+			color: #DDDDDD;
+			font-size: 30rpx;
+			font-family: 'PingFang SC';
+			font-style: normal;
+			font-weight: 400;
+			text-align: center;
+			line-height: 88rpx;
+		}
+
+		.nav-right {
+			position: absolute;
+			top: 0rpx;
+			right: 28rpx;
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+			width: 88rpx;
+			height: 88rpx;
 		}
 	}
 </style>
