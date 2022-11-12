@@ -102,9 +102,9 @@
 				const list = {
 					0: '未开售',
 					1: '开售中',
-					2: '已售罄'
+					2: '已停售'
 				}
-				return list[e] || '已售罄'
+				return list[e] || '已停售'
 			}
 		},
 		methods: {

@@ -24,7 +24,7 @@
 				{{data.name}}
 			</view>
 			<view class="row2">
-				{{data.sale_time1}}&nbsp;{{data.sale_status===0?'未开售':(data.sale_status===1?'开售中':'已售罄')}}
+				{{data.sale_time1}}&nbsp;{{data.sale_status===0?'未开售':(data.sale_status===1?'开售中':'已停售')}}
 				<text>限量{{data.stock_num_desc}}张</text>
 			</view>
 			<view class="price">
@@ -93,7 +93,7 @@
 			</view>
 			<view v-if="data.sale_status===0" class="footer-btn noactive" @tap="handOrLogin(0)">{{countDown}}</view>
 			<view v-else-if="data.sale_status===1" class="footer-btn" @tap="$refs.popup.show()">立即抢购</view>
-			<view v-else-if="data.sale_status===2" class="footer-btn gray-btn" @tap="handOrLogin(2)">已售罄</view>
+			<view v-else-if="data.sale_status===2" class="footer-btn gray-btn" @tap="handOrLogin(2)">已停售</view>
 		</view>
 		<wyb-popup ref="popup" type="bottom" height="701" width="750" radius="6" bgColor="#1D1D1D"
 			:showCloseIcon="true">
@@ -352,7 +352,7 @@
 			handOrLogin(status) {
 				if (status === 2) {
 					uni.showToast({
-						title: '已售罄，感谢您的关注',
+						title: '已停售，感谢您的关注',
 						icon: 'none'
 					})
 				} else if (status === 0) {
