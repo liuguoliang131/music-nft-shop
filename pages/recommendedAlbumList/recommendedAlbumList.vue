@@ -125,6 +125,12 @@
 					throw e
 					//TODO handle the exception
 				}
+			},
+			handGo(item) {
+				let url = '/pages/recommendedAlbumDetail/recommendedAlbumDetail'
+				uni.navigateTo({
+					url
+				})
 			}
 		}
 	}

@@ -97,6 +97,12 @@
 			justify-content: flex-end;
 			width: 88rpx;
 			height: 88rpx;
+
+			image {
+				background-color: red;
+				width: 48rpx !important;
+				height: 48rpx;
+			}
 		}
 	}
 </style>
