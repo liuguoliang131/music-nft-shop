@@ -3,7 +3,7 @@
 		<nav-head title="黄金专辑"></nav-head>
 		<view class="empty" v-if="isFinish&&list.length===0">
 			<view class="empty-center">
-				<image src="../../static/empty-icon.png" mode="" class="empty-img"></image>
+				<image src="../../static/emptybox.png" mode="" class="empty-img"></image>
 				<view class="empty-text">空空如也</view>
 			</view>
 		</view>

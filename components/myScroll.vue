@@ -1,7 +1,7 @@
 <template>
 	<view class="window" @scroll="scroll" ref="window">
 		<view class="scroll" ref="scroll">
-			<slot></slot>
+			<slot :data="data"></slot>
 			<view class="loading" v-show="loading">
 				加载中...
 			</view>
@@ -26,6 +26,9 @@
 			},
 			loading: {
 				default: false
+			},
+			data: {
+				type: Object
 			}
 		},
 		watch: {
@@ -50,7 +53,7 @@
 			onload() {
 				console.log('onload')
 				if (this.isFinish === false) {
-					this.$emit('load')
+					this.$emit('load', this.data)
 				}
 
 			},

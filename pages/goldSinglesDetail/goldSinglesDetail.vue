@@ -14,8 +14,13 @@
 			</view>
 		</view>
 		<view class="title">
-			最新梦想金曲最新梦想金曲最新梦想金曲
-			最新梦想金曲最新梦想金曲最新梦想金曲
+			<!-- <image v-if="data.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
+			<image v-else-if="data.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
+			<image v-else-if="data.rare_type==='R'" src="../../static/R.png" mode=""></image>
+			<image v-else-if="data.rare_type==='N'" src="../../static/N.png" mode=""></image>
+			<image v-else-if="data.rare_type==='SR'" src="../../static/SR.png" mode=""></image> -->
+			<image src="../../static/SSR.png" mode=""></image>
+			唱片名称唱片名称唱片名称唱片名称唱片名称唱片名称唱片名称唱片名称唱片名称
 		</view>
 		<view class="price">
 			<text class="rmb">￥</text>
@@ -558,17 +563,26 @@
 
 		.title {
 			width: 648rpx;
-			height: 100rpx;
+			// height: 100rpx;
 			margin: auto;
 			margin-top: 26rpx;
+			color: #DDDDDD;
 			font-family: 'PingFang SC';
 			font-style: normal;
-			font-weight: 500;
-			font-size: 36px;
-			line-height: 50rpx;
 			text-align: center;
+			font-weight: 500;
+			font-size: 36rpx;
+			line-height: 36rpx;
+			overflow: hidden; // 溢出隐藏
+			white-space: nowrap; // 强制一行
+			text-overflow: ellipsis; // 文字溢出显示省略号
 
-			color: #DDDDDD;
+			image {
+				width: 84rpx;
+				height: 40rpx;
+				margin-right: 16rpx;
+				vertical-align: middle;
+			}
 		}
 
 		.price {
@@ -657,7 +671,7 @@
 		}
 
 		.card1 {
-			margin-top: 70rpx;
+			margin-top: 26rpx;
 			background: #292929;
 			border-radius: 8rpx;
 			box-sizing: border-box;

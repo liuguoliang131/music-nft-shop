@@ -1,57 +1,93 @@
 <template>
 	<view class="container">
-		<nav-head title="数字唱片"></nav-head>
-		<view class="empty" v-if="isFinish&&list.length===0">
-			<view class="empty-center">
-				<image src="../../static/emptybox.png" mode="" class="empty-img"></image>
-				<view class="empty-text">空空如也</view>
-			</view>
+		<nav-head title="我的关注"></nav-head>
+		<view class="tabbar">
+			<my-tab :list="tabList" @active="handActiveBar" :activeBar="activeBar" :slide="false">
+				<template v-slot:item="{data}">
+					<view class="empty" v-if="data.isFinish&&data.list.length===0">
+						<view class="empty-center">
+							<image src="../../static/emptybox.png" mode="" class="empty-img"></image>
+							<view class="empty-text">空空如也，请先去选购</view>
+						</view>
+					</view>
+					<my-scroll :key="data.id" class="scroll-box" :isFinish="data.isFinish" :loading="data.loading"
+						:data="data" @load="getList">
+						<view class="item" v-for="(item,idx) in data.list" :key="idx" @tap="handGo(item)">
+							<view class="cover-content">
+								<image class="cover-img" src="../../static/image-7 1-1.png"></image>
+								<image class="cover-turn" src="../../static/turn.png" mode=""></image>
+								<image class="cover-turn1" src="../../static/唱首歌给你听.png" mode=""></image>
+								<image class="cover-play" src="../../static/play.png" mode=""></image>
+								<!-- <image class="cover-play" src="../../static/pause.png" mode=""></image> -->
+							</view>
+							<view class="item-row1">
+								黄金专辑黄金专辑黄金专辑黄金专辑黄金专辑黄金专辑
+							</view>
+							<view class="item-row2">
+								<text class="item-row2-1">
+									黑旗子黑旗子黑旗子
+								</text>
+								<text class="item-row2-2">
+									<text class="row2-2-unit">
+										￥
+									</text>
+									<text class="row2-2-price">19.90</text>
+								</text>
+							</view>
+						</view>
+					</my-scroll>
+				</template>
+			</my-tab>
 		</view>
-		<my-scroll v-else class="list" @load="getList" :isFinish="isFinish" :loading="loading">
-			<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
-				<view class="cover-content">
-					<image class="cover-img" src="../../static/image-7 1-1.png"></image>
-					<image class="cover-turn" src="../../static/turn.png" mode=""></image>
-					<image class="cover-turn1" src="../../static/唱首歌给你听.png" mode=""></image>
-					<image class="cover-play" src="../../static/play.png" mode=""></image>
-					<!-- <image class="cover-play" src="../../static/pause.png" mode=""></image> -->
-				</view>
-				<view class="item-row1">
-					黄金专辑黄金专辑黄金专辑黄金专辑黄金专辑黄金专辑
-				</view>
-				<view class="item-row2">
-					<text class="item-row2-1">
-						黑旗子黑旗子黑旗子
-					</text>
-					<text class="item-row2-2">
-						<text class="row2-2-unit">
-							￥
-						</text>
-						<text class="row2-2-price">19.90</text>
-					</text>
-				</view>
-			</view>
-		</my-scroll>
 	</view>
 </template>
 
 <script>
 	import NavHead from '../../components/navHead.vue'
+	import MyTab from '../../components/myTab.vue'
 	import MyScroll from '../../components/myScroll.vue'
 	export default {
 		components: {
 			NavHead,
+			MyTab,
 			MyScroll
 		},
 		data() {
 			return {
-				isFinish: false,
-				loading: false,
-				page: 1,
-				list: []
+				tabList: [{
+						name: '数字音乐',
+						id: 1,
+						isFinish: false,
+						loading: false,
+						page: 1,
+						list: []
+					},
+					{
+						name: '黄金单曲',
+						id: 2,
+						isFinish: false,
+						loading: false,
+						page: 1,
+						list: []
+					},
+					{
+						name: '黄金专辑',
+						id: 3,
+						isFinish: false,
+						loading: false,
+						page: 1,
+						list: []
+					}
+
+				],
+				activeBar: 1
 			};
 		},
 		methods: {
+			handActiveBar(id) {
+				this.activeBar = id
+			},
+
 			mock(page) {
 				return new Promise((resolve) => {
 					setTimeout(() => {
@@ -68,19 +104,19 @@
 								code: 0,
 								msg: 'success',
 								data: {
-									list: [{
-										name: 'giao',
-										id: parseInt(Math.random() * Math.random() * 100)
-									}, {
-										name: 'giao1',
-										id: parseInt(Math.random() * Math.random() * 100)
-									}, {
-										name: 'giao2',
-										id: parseInt(Math.random() * Math.random() * 100)
-									}, {
-										name: 'giao3',
-										id: parseInt(Math.random() * Math.random() * 100)
-									}]
+									// list: [{
+									// 	name: 'giao',
+									// 	id: parseInt(Math.random() * Math.random() * 100)
+									// }, {
+									// 	name: 'giao1',
+									// 	id: parseInt(Math.random() * Math.random() * 100)
+									// }, {
+									// 	name: 'giao2',
+									// 	id: parseInt(Math.random() * Math.random() * 100)
+									// }, {
+									// 	name: 'giao3',
+									// 	id: parseInt(Math.random() * Math.random() * 100)
+									// }]
 								}
 							})
 						}
@@ -89,17 +125,19 @@
 
 				})
 			},
-			async getList() {
+			async getList(data) {
 				try {
+					console.log('getList', data)
+					const active = this.tabList.find((item) => item.id === data.id)
 					console.log('getlist')
-					this.loading = true
+					active.loading = true
 					// const res = await this.$post(h5_community_memberList, {
 					// 	page: this.page++
 					// })
-					const res = await this.mock(this.page++)
+					const res = await this.mock(active.page++)
 					if (res.code !== 0) {
-						this.isFinish = true
-						this.loading = false
+						active.isFinish = true
+						active.loading = false
 						return uni.showToast({
 							title: res.msg,
 							icon: 'none'
@@ -107,31 +145,27 @@
 					}
 					if (res.data.list && Array.isArray(res.data.list) && res.data.list.length) {
 
-						if (this.page === 1) {
-							this.list = res.data.list
+						if (active.page === 1) {
+							active.list = res.data.list
 						} else {
-							this.list = [...this.list, ...res.data.list]
+							active.list = [...active.list, ...res.data.list]
 						}
+						console.log('active', active)
 
 					} else {
-						this.isFinish = true
-						this.page = this.page - 1
+						active.isFinish = true
+						active.page = active.page - 1
 					}
-					this.loading = false
+					active.loading = false
 				} catch (e) {
-					this.isFinish = true
-					this.loading = false
+					active.isFinish = true
+					active.loading = false
 					console.log(e)
 					throw e
 					//TODO handle the exception
 				}
-			},
-			handGo(item) {
-				let url = '/pages/recommendedAlbumDetail/recommendedAlbumDetail'
-				uni.navigateTo({
-					url
-				})
 			}
+
 		}
 	}
 </script>
@@ -139,7 +173,12 @@
 <style lang="scss">
 	.container {
 		padding: 0;
-		margin: 0;
+
+		.tabbar {
+			/deep/.bar {
+				padding: 0 52rpx;
+			}
+		}
 
 		.empty {
 			position: relative;
@@ -170,9 +209,9 @@
 
 		}
 
-		.list {
-			width: 100vw;
-			height: calc(100vh -88rpx);
+		.scroll-box {
+			width: 750rpx;
+			height: calc(100vh - 168rpx);
 
 			/deep/.scroll {
 				display: flex;
@@ -311,8 +350,6 @@
 					}
 				}
 			}
-
-
 		}
 	}
 </style>
