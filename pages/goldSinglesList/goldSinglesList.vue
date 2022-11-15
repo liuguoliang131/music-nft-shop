@@ -10,28 +10,36 @@
 		<my-scroll v-else class="list" @load="getList" :isFinish="isFinish" :loading="loading">
 			<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
 				<view class="item-1">
-					<image class="item-1-sign" src="../../static/SSR.png" mode=""></image>
-					<image class="item-1-out" src="../../static/唱首歌给你听.png" mode=""></image>
+					<image class="item-1-sign" v-if="data.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
+					<image class="item-1-sign" v-else-if="data.rare_type==='UR'" src="../../static/UR.png" mode="">
+					</image>
+					<image class="item-1-sign" v-else-if="data.rare_type==='R'" src="../../static/R.png" mode="">
+					</image>
+					<image class="item-1-sign" v-else-if="data.rare_type==='N'" src="../../static/N.png" mode="">
+					</image>
+					<image class="item-1-sign" v-else-if="data.rare_type==='SR'" src="../../static/SR.png" mode="">
+					</image>
+					<image class="item-1-out" :src="item.index_img" mode=""></image>
 					<image class="item-1-in" src="../../static/turn.png" mode=""></image>
 				</view>
 				<view class="item-2">
 					<view class="item-2-1">
-						最新梦想单曲单曲单曲单曲单曲
+						{{item.product_name}}
 					</view>
 					<view class="item-2-2">
-						<image class="item-2-2-1" src="../../static/唱首歌给你听.png" mode=""></image>
+						<image class="item-2-2-1" :src="item.index_img" mode=""></image>
 						<view class="item-2-2-2">
-							黑旗子黑旗子黑旗子黑旗子黑旗子黑旗子
+							{{item.author_name}}
 						</view>
 					</view>
 					<view class="item-2-3">
-						限量1000份
+						限量{{item.stock_num}}份
 					</view>
 					<view class="item-2-4">
 						<view class="item-2-4-1">
-							￥20.09
+							￥{{item.sale_price}}
 						</view>
-						<view class="item-2-4-2">
+						<view class="item-2-4-2" @tap.stop="handPlay(item)">
 							<!-- <image src="../../static/play.png" mode=""></image> -->
 							<image src="../../static/pause.png" mode=""></image>
 							<text>立即试听</text>
@@ -46,6 +54,11 @@
 <script>
 	import NavHead from '../../components/navHead.vue'
 	import MyScroll from '../../components/myScroll.vue'
+	import {
+		collections_index_singleMusicList,
+		collections_index_musicPlay,
+		collections_index_play
+	} from '../../request/api.js'
 	export default {
 		components: {
 			NavHead,
@@ -101,10 +114,10 @@
 				try {
 					console.log('getlist')
 					this.loading = true
-					// const res = await this.$post(h5_community_memberList, {
-					// 	page: this.page++
-					// })
-					const res = await this.mock(this.page++)
+					const res = await this.$post(collections_index_singleMusicList, {
+						page: this.page++
+					})
+					// const res = await this.mock(this.page++)
 					if (res.code !== 0) {
 						this.isFinish = true
 						this.loading = false
@@ -132,6 +145,40 @@
 					console.log(e)
 					throw e
 					//TODO handle the exception
+				}
+			},
+			handGo(item) {
+				uni.navigateTo({
+					url: `/pages/goldSinglesDetail/goldSinglesDetail?product_item_id=${item.product_item_id}`
+				})
+			},
+			async handPlay(item) {
+				try {
+					const res = await this.$post(collections_index_musicPlay, {
+						product_item_id: item.product_item_id
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+					const res1 = await this.$post(collections_index_play, {
+						product_item_id: this.product_item_id
+					})
+					let data = {
+						"page": "musicPlayPage",
+						"isNeedLogin": false,
+						"params": res.data
+					}
+					openAppPage(data)
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						title: e.message,
+						icon: 'none'
+					})
+					throw e
 				}
 			}
 		}

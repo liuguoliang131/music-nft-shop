@@ -16,7 +16,7 @@
 
 		},
 		{
-			"path": "pages/collections/collections",
+			"path": "pages/myRecords/myRecords",
 			"style": {
 				"navigationBarTitleText": "我的专辑",
 				"enablePullDownRefresh": false,
@@ -216,6 +216,30 @@
 			"path": "pages/myFollowingList/myFollowingList",
 			"style": {
 				"navigationBarTitleText": "我的关注列表",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/albumRecordsDetail/albumRecordsDetail",
+			"style": {
+				"navigationBarTitleText": "专辑唱片详情",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/singlesRecordsDetail/singlesRecordsDetail",
+			"style": {
+				"navigationBarTitleText": "单曲唱片详情",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/digitalRecordsDetail/digitalRecordsDetail",
+			"style": {
+				"navigationBarTitleText": "数字音乐详情",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}

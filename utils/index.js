@@ -146,6 +146,15 @@ export const openAppPage = (pageJSON) => {
 	// {"page":"myScorePage","params":{}, "isNeedLogin": true}
 	// 跳转到支付
 	// {"page":"musicDetailPage","isNeedLogin":false,"params":{"music_info_id":0}}
+
+	// 跳转音乐播放详情：isRightsMusic 是否是版权音乐 v1.9
+	// {"page":"musicPlayPage","isNeedLogin":false,"params":{"music_id": 29, "music_info_id": 2, "isRightsMusic": false}}
+
+	// 跳转去结算页面：v1.9
+	//   {"page":"diskConfirmOrderPage","isNeedLogin":true,"params":{"product_item_id": 29, "buy_num": 2}}
+
+	// 跳转转赠页面：v1.9
+	//   {"page":"sendDiskGiftPage","isNeedLogin”:true,"params":{"product_item_id": 29, "owner_id": 2}}
 	if (isApp()) {
 		HSApp.postMessage(JSON.stringify({
 			type: 'openAppPage',
@@ -171,6 +180,38 @@ export const saveUrlImage = (img) => {
 		type: 'saveUrlImage',
 		params: {
 			img
+		}
+	}))
+}
+// 分享base64图片到微信 微博
+// share_way: 微信wxFriend、朋友圈timeline、微博weibo
+// share_title：标题
+export const shareBase64Image = ({
+	img,
+	share_way,
+	share_title
+}) => {
+	HSApp.postMessage(JSON.stringify({
+		type: 'shareBase64Image',
+		params: {
+			img,
+			share_way,
+			share_title
+		}
+	}))
+}
+// 分享url图片到微信 微博
+export const shareUrlImage = ({
+	img,
+	share_way,
+	share_title
+}) => {
+	HSApp.postMessage(JSON.stringify({
+		type: 'shareUrlImage',
+		params: {
+			img,
+			share_way,
+			share_title
 		}
 	}))
 }

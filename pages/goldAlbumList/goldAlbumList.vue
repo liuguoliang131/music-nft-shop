@@ -16,16 +16,16 @@
 				</view>
 				<view class="item-2">
 					<view class="item-2-1">
-						最新梦想单曲单曲单曲单曲单曲
+						{{item.product_name}}
 					</view>
 					<view class="item-2-3">
-						限量1000份
+						限量{{item.stock_num}}份
 					</view>
 					<view class="item-2-4">
 						<view class="item-2-4-1">
-							￥20.09
+							￥{{item.sale_price}}
 						</view>
-						<view class="item-2-4-2">
+						<view class="item-2-4-2" @tap="handGo(item)">
 							<text>查看专辑</text>
 						</view>
 					</view>
@@ -38,6 +38,9 @@
 <script>
 	import NavHead from '../../components/navHead.vue'
 	import MyScroll from '../../components/myScroll.vue'
+	import {
+		collections_index_albumMusicList
+	} from '../../request/api.js'
 	export default {
 		components: {
 			NavHead,
@@ -93,10 +96,10 @@
 				try {
 					console.log('getlist')
 					this.loading = true
-					// const res = await this.$post(h5_community_memberList, {
-					// 	page: this.page++
-					// })
-					const res = await this.mock(this.page++)
+					const res = await this.$post(collections_index_albumMusicList, {
+						page: this.page++
+					})
+					// const res = await this.mock(this.page++)
 					if (res.code !== 0) {
 						this.isFinish = true
 						this.loading = false
@@ -125,6 +128,12 @@
 					throw e
 					//TODO handle the exception
 				}
+
+			},
+			handGo(item) {
+				uni.navigateTo({
+					url: `/pages/preOrderDetails/preOrderDetails?product_item_id=${item.product_item_id}`
+				})
 			}
 		}
 	}

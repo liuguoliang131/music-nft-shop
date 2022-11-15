@@ -10,8 +10,8 @@
 							<view class="empty-text">空空如也，请先去选购</view>
 						</view>
 					</view>
-					<my-scroll :key="data.id" class="scroll-box" :isFinish="data.isFinish" :loading="data.loading"
-						:data="data" @load="getList">
+					<my-scroll v-else :key="data.id" class="scroll-box" :isFinish="data.isFinish"
+						:loading="data.loading" :data="data" @load="getList">
 						<view class="item" v-for="(item,idx) in data.list" :key="idx" @tap="handGo(item)">
 							<view class="cover-content">
 								<image class="cover-img" src="../../static/image-7 1-1.png"></image>

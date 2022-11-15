@@ -39,7 +39,7 @@
 			</view>
 			<view class="mine-list-item" @click="goToCollections">
 				<image src="../../static/mine.png" class="mine-list-item-image" mode=""></image>
-				我的专辑
+				我的藏品
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 			<view class="mine-list-item" @click="goToOrder">
@@ -87,7 +87,7 @@
 			},
 			goToCollections() {
 				uni.navigateTo({
-					url: '/pages/collections/collections'
+					url: '/pages/myRecords/myRecords'
 				})
 			},
 			goToOrder() {

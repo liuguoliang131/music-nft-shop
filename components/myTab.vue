@@ -99,7 +99,7 @@
 
 					.line {
 						position: absolute;
-						bottom: 7rpx;
+						bottom: 0rpx;
 						left: 50%;
 						transform: translate(-50%, 0);
 						width: 60rpx;
@@ -152,7 +152,7 @@
 
 					.line {
 						position: absolute;
-						bottom: 7rpx;
+						bottom: 0rpx;
 						left: 50%;
 						transform: translate(-50%, 0);
 						width: 60rpx;

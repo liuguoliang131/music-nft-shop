@@ -2,38 +2,37 @@
 	<!-- 数字音乐详情 -->
 	<view class="container">
 		<nav-head title="详情">
-			<image class="share-icon" src="../../static/share1.png" mode=""></image>
+			<image class="share-icon" src="../../static/share1.png" mode="" @tap="handShare"></image>
 		</nav-head>
 
 		<view class="cover">
 			<view class="cover-1">
 				<image class="cover-1-1" src="../../static/image-7 1-1.png" mode=""></image>
 				<image class="cover-1-2" src="../../static/turn.png" mode=""></image>
-				<image class="cover-1-3" src="../../static/verify/1.jpeg" mode=""></image>
-				<image class="cover-1-4" src="../../static/play.png" mode=""></image>
+				<image class="cover-1-3" :src="data.index_img" mode=""></image>
+				<image class="cover-1-4" src="../../static/play.png" mode="" @tap="handPlay"></image>
 			</view>
 		</view>
 		<view class="title">
-			最新梦想金曲最新梦想金曲最新梦想金曲
-			最新梦想金曲最新梦想金曲最新梦想金曲
+			{{data.name}}
 		</view>
 		<view class="price">
 			<text class="rmb">￥</text>
-			<text class="count">{{'12.98'}}</text>
+			<text class="count">{{data.sale_price}}</text>
 			<text class="unit">/张</text>
 		</view>
 		<view class="action-bar">
 			<view class="bar-item">
 				<image src="../../static/clickRate.png" mode=""></image>
-				<text>99999</text>
+				<text>{{data.statistics_info.visit}}</text>
 			</view>
 			<view class="bar-item">
 				<image src="../../static/follow.png" mode=""></image>
-				<text>99999</text>
+				<text>{{data.statistics_info.like}}</text>
 			</view>
 			<view class="bar-item">
 				<image src="../../static/share1.png" mode=""></image>
-				<text>99999</text>
+				<text>{{data.statistics_info.share}}</text>
 			</view>
 		</view>
 		<view class="card1">
@@ -44,7 +43,7 @@
 						唱片名称
 					</view>
 					<view class="info-2">
-						最新梦想单曲
+						{{data.name}}
 					</view>
 				</view>
 				<view class="info">
@@ -52,7 +51,7 @@
 						发行时间
 					</view>
 					<view class="info-2">
-						最新梦想单曲
+						{{data.publish_time1}}
 					</view>
 				</view>
 				<view class="info">
@@ -60,7 +59,7 @@
 						发行方
 					</view>
 					<view class="info-2">
-						最新梦想单曲
+						{{data.publish_author}}
 					</view>
 				</view>
 				<view class="info">
@@ -68,15 +67,13 @@
 						本次发行量
 					</view>
 					<view class="info-2">
-						最新梦想单曲
+						{{data.stock_num}}
 					</view>
 				</view>
 				<view class="title1 mt32">
 					购买须知
 				</view>
-				<view class="text1" v-html="`1.用户点击“购买”后2分钟内未付款，则订单将自动取消。专辑一经售卖，概不退货
-2.专辑的版权由发行方、原创者所有，用户不得将其用于任何商业用途。
-3.最终解释权归官方所有。`">
+				<view class="text1" v-html="data.buy_notice">
 
 				</view>
 			</view>
@@ -87,12 +84,10 @@
 					音乐人信息
 				</view>
 				<view class="author">
-					<image src="../../static/唱首歌给你听.png" mode=""></image>
-					<text>黑旗子</text>
+					<image :src="data.author_info.author_avatar" mode=""></image>
+					<text>{{data.author_info.author_name}}</text>
 				</view>
-				<view class="text2">
-					原创音乐人，富有少年感，擅长流行、古风、说唱。全平台播放原创音乐人，富有少年感，擅长流行、古风、唱全平台播放原创音乐人，富有少年感，擅长流行、古风、说唱。全平台播放原创音乐人，富有少年感说唱。
-				</view>
+				<view class="text2" v-html="data.author_info.desc"></view>
 				<view class="text3">
 					<my-swiper :list="swiperList"></my-swiper>
 				</view>
@@ -106,23 +101,22 @@
 		</view>
 		<view class="footer"></view>
 		<view class="bottom1">
-			<view class="bottom1-1 followed">
+			<view v-if="data.is_like===1" class="bottom1-1 followed" @tap="handFollow(0)">
 				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
 				<view class="bottom1-1-2">
 					关注
 				</view>
 			</view>
-			<!-- <view class="bottom1-1 unfollow">
+			<view v-else class="bottom1-1 unfollow" @tap="handFollow(1)">
 				<image class="bottom1-1-1" src="../../static/follow-hollow.png" mode=""></image>
 				<view class="bottom1-1-2">
 					关注
 				</view>
-			</view> -->
+			</view>
 			<view class="bottom1-2">
-				<!-- <view v-if="data.sale_status===0" class="bottom1-status0" @tap="handOrLogin(0)">{{countDown}}</view>
+				<view v-if="data.sale_status===0" class="bottom1-status0" @tap="handOrLogin(0)">{{countDown}}</view>
 				<view v-else-if="data.sale_status===1" class="bottom1-status1" @tap="$refs.popup.show()">立即抢购</view>
-				<view v-else-if="data.sale_status===2" class="bottom1-status2" @tap="handOrLogin(2)">已停售</view> -->
-				<view class="bottom1-status1" @tap="$refs.popup.show()">立即抢购</view>
+				<view v-else-if="data.sale_status===2" class="bottom1-status2" @tap="handOrLogin(2)">已停售</view>
 			</view>
 		</view>
 		<wyb-popup ref="popup" type="bottom" zIndex="99" height="701" width="750" radius="6" bgColor="#1D1D1D"
@@ -193,13 +187,16 @@
 	import NavHead from '../../components/navHead.vue'
 	import MySwiper from '../../components/mySwiper.vue'
 	import {
-		h5_collections_index_info,
+		collections_index_detail,
 		h5_collections_user_if_approve,
-		h5_conllections_buy_checkout
+		h5_conllections_buy_checkout,
+		collections_index_like,
+		collections_index_musicPlay
 	} from '../../request/api.js'
 	import {
 		getTimeData,
-		goLogin
+		goLogin,
+		openAppPage
 	} from '../../utils/index.js'
 	export default {
 		components: {
@@ -230,7 +227,13 @@
 					music_list: [],
 					is_login: '',
 					publish_time1: '',
-					sale_time1: ''
+					sale_time1: '',
+					statistics_info: {
+						like: '',
+						play: '',
+						visit: '',
+						share: ''
+					}
 				},
 				count: 1,
 				statusTimer: null,
@@ -272,7 +275,7 @@
 			},
 			async getDetails(product_item_id) {
 				try {
-					const res = await this.$post(h5_collections_index_info, {
+					const res = await this.$post(collections_index_detail, {
 						product_item_id
 					})
 					console.log(res)
@@ -450,9 +453,15 @@
 					} else {
 						// res.data.info.total = (res.data.info.buy_num * res.data.info.pay_price).toFixed(2)
 						const params = JSON.stringify(res.data.info)
-						uni.navigateTo({
-							url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}&params=${params}`
-						})
+						// uni.navigateTo({
+						// 	url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}&params=${params}`
+						// })
+						let data = {
+							page: "diskConfirmOrderPage",
+							isNeedLogin: true,
+							params
+						}
+						openAppPage(data)
 					}
 
 
@@ -465,6 +474,52 @@
 					})
 				}
 
+			},
+			async handFollow(operation_type) {
+				try {
+					const res = await this.$post(collections_index_like, {
+						product_item_id: this.product_item_id,
+						operation_type
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
+					}
+					this.data.is_like = operation_type === 1 ? 0 : 1
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
+			async handPlay() {
+				try {
+					const res = await this.$post(collections_index_musicPlay, {
+						product_item_id: this.product_item_id
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+					let data = {
+						"page": "musicPlayPage",
+						"isNeedLogin": false,
+						"params": res.data
+					}
+					const res1 = await this.$post(collections_index_play, {
+						product_item_id: this.product_item_id
+					})
+					openAppPage(data)
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						title: e.message,
+						icon: 'none'
+					})
+					throw e
+				}
 			}
 		},
 		onLoad(option) {
@@ -563,8 +618,9 @@
 			margin-top: 26rpx;
 			font-family: 'PingFang SC';
 			font-style: normal;
+			overflow: hidden;
 			font-weight: 500;
-			font-size: 36px;
+			font-size: 36rpx;
 			line-height: 50rpx;
 			text-align: center;
 

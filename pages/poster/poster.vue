@@ -11,9 +11,10 @@
 				<view v-else class="save" @tap="handleSavePhoto()">点击保存海报到相册</view>
 			</view>
 			<view class="box3" v-show="inApp">
-				可分享至微信或朋友圈
-				<image src="../../static/share-wx.png" mode=""></image>
-				<image src="../../static/share-friends.png" mode=""></image>
+				可分享至
+				<image src="../../static/share-wx.png" mode="" @tap="handleShare('wxFriend')"></image>
+				<image src="../../static/share-friends.png" mode="" @tap="handleShare('timeline')"></image>
+				<image src="../../static/weibo.png" mode="" @tap="handleShare('weibo')"></image>
 			</view>
 		</view>
 	</view>
@@ -24,7 +25,8 @@
 	import {
 		isApp,
 		isWxBrowser,
-		saveBase64Image
+		saveBase64Image,
+		shareBase64Image
 	} from '../../utils/index.js'
 	import {
 		h5_collections_index_sharePoster
@@ -282,6 +284,40 @@
 						}
 					})
 				})
+			},
+			handleShare(share_way) {
+				const url = window.location.protocol + '//' + window.location.host +
+					`/#/pages/preOrderDetails/preOrderDetails?product_item_id=${this.product_item_id}&share_sign=${encodeURIComponent(data.share_sign)}`
+				const share_title = '元音符' + url
+				let img = ''
+				uni.canvasToTempFilePath({ // res.tempFilePath临时路径
+					canvasId: 'firstCanvas',
+					success: (res) => {
+						console.log('res', res)
+						img = res.tempFilePath
+					},
+					fail: (error) => {
+						console.log(error)
+					}
+				})
+
+				let appConfig = window.localStorage.getItem('AppConfigInfo')
+				if (appConfig) {
+					appConfig = JSON.parse(appConfig)
+				} else {
+					appConfig = {
+						'version-code': '1710'
+					}
+				}
+				if (Number(appConfig['version-code']) >= 1750) {
+					shareBase64Image({
+						share_title,
+						share_way,
+						img
+					})
+				} else {
+
+				}
 			}
 		},
 		mounted() {

@@ -66,6 +66,10 @@
 </script>
 
 <style lang="scss">
+	body {
+		background-color: $uni-bg-color;
+	}
+
 	/*每个页面公共css */
 	.container {
 		flex: auto;

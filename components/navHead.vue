@@ -1,8 +1,8 @@
 <template>
 	<view class="slots">
 		<view class="nav">
-			<image @tap="navBack()" class="nav-left" src="../static/navLeft.png" mode=""></image>
-			<text class="nav-center">{{title}}</text>
+			<image v-show="isWeb" @tap="navBack()" class="nav-left" src="../static/navLeft.png" mode=""></image>
+			<text v-show="isWeb" class="nav-center">{{title}}</text>
 			<text class="nav-right">
 				<slot></slot>
 			</text>
