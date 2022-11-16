@@ -194,7 +194,7 @@
 	import NavHead from '../../components/navHead.vue'
 	import MySwiper from '../../components/mySwiper.vue'
 	import {
-		h5_collections_index_info,
+		collections_index_detail,
 		h5_collections_user_if_approve,
 		h5_conllections_buy_checkout,
 		collections_index_like,
@@ -234,7 +234,8 @@
 					music_list: [],
 					is_login: '',
 					publish_time1: '',
-					sale_time1: ''
+					sale_time1: '',
+					statistics_info: {}
 				},
 				count: 1,
 				statusTimer: null,
@@ -276,7 +277,7 @@
 			},
 			async getDetails(product_item_id) {
 				try {
-					const res = await this.$post(h5_collections_index_info, {
+					const res = await this.$post(collections_index_detail, {
 						product_item_id
 					})
 					console.log(res)
@@ -391,7 +392,7 @@
 			// 分享
 			handShare() {
 				uni.navigateTo({
-					url: `/pages/poster/poster?product_item_id=${this.product_item_id}`
+					url: `/pages/poster/poster?product_item_id=${this.product_item_id}&product_type=1`
 				})
 			},
 			// 是否去登录 
@@ -454,13 +455,29 @@
 					} else {
 						const params = JSON.stringify(res.data.info)
 						// res.data.info.total = (res.data.info.buy_num * res.data.info.pay_price).toFixed(2)
+
 						if (this.$store.state.user.inApp) {
-							let data = {
-								page: "diskConfirmOrderPage",
-								isNeedLogin: true,
-								params
+							let appConfig = window.localStorage.getItem('AppConfigInfo')
+							if (appConfig) {
+								appConfig = JSON.parse(appConfig)
+							} else {
+								appConfig = {
+									'version-code': '1750'
+								}
 							}
-							openAppPage(data)
+							if (Number(appConfig['version-code']) >= 1900) {
+								let data = {
+									page: "diskConfirmOrderPage",
+									isNeedLogin: true,
+									params
+								}
+								openAppPage(data)
+							} else {
+								uni.showToast({
+									title: '请更新到最新版本后重试',
+									icon: 'none'
+								})
+							}
 						} else {
 							uni.navigateTo({
 								url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}&params=${params}`

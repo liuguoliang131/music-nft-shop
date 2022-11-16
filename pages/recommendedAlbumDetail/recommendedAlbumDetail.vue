@@ -392,7 +392,7 @@
 			// 分享
 			handShare() {
 				uni.navigateTo({
-					url: `/pages/poster/poster?product_item_id=${this.product_item_id}`
+					url: `/pages/poster/poster?product_item_id=${this.product_item_id}&product_type=3`
 				})
 			},
 			// 是否去登录 
@@ -455,13 +455,29 @@
 					} else {
 						const params = JSON.stringify(res.data.info)
 						// res.data.info.total = (res.data.info.buy_num * res.data.info.pay_price).toFixed(2)
+
 						if (this.$store.state.user.inApp) {
-							let data = {
-								page: "diskConfirmOrderPage",
-								isNeedLogin: true,
-								params
+							let appConfig = window.localStorage.getItem('AppConfigInfo')
+							if (appConfig) {
+								appConfig = JSON.parse(appConfig)
+							} else {
+								appConfig = {
+									'version-code': '1750'
+								}
 							}
-							openAppPage(data)
+							if (Number(appConfig['version-code']) >= 1900) {
+								let data = {
+									page: "diskConfirmOrderPage",
+									isNeedLogin: true,
+									params
+								}
+								openAppPage(data)
+							} else {
+								uni.showToast({
+									title: '请更新到最新版本后重试',
+									icon: 'none'
+								})
+							}
 						} else {
 							uni.navigateTo({
 								url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}&params=${params}`

@@ -45,7 +45,8 @@
 					user_name: '',
 					code: ''
 				},
-				posterImageBase64: ''
+				posterImageBase64: '',
+				path: ''
 			};
 		},
 		components: {
@@ -199,7 +200,7 @@
 						width: 120 * widowWidth / scaleScreenWidth,
 						height: 120 * widowWidth / scaleScreenWidth,
 						shareUrl: window.location.protocol + '//' + window.location.host +
-							`/#/pages/preOrderDetails/preOrderDetails?product_item_id=${this.product_item_id}&share_sign=${encodeURIComponent(data.share_sign)}`,
+							`${this.path}?product_item_id=${this.product_item_id}&share_sign=${encodeURIComponent(data.share_sign)}`,
 					}
 
 					// 生成二维码
@@ -287,7 +288,7 @@
 			},
 			handleShare(share_way) {
 				const url = window.location.protocol + '//' + window.location.host +
-					`/#/pages/preOrderDetails/preOrderDetails?product_item_id=${this.product_item_id}&share_sign=${encodeURIComponent(data.share_sign)}`
+					`${this.path}?product_item_id=${this.product_item_id}&share_sign=${encodeURIComponent(data.share_sign)}`
 				const share_title = '元音符' + url
 				let img = ''
 				uni.canvasToTempFilePath({ // res.tempFilePath临时路径
@@ -328,6 +329,13 @@
 			this.isWx = isWxBrowser()
 			this.inApp = isApp()
 			this.product_item_id = option.product_item_id ? Number(option.product_item_id) : null
+			const type = Number(option.product_type)
+			const urls = {
+				1: '/#/pages/goldSinglesDetail/goldSinglesDetail',
+				2: '/#/pages/preOrderDetails/preOrderDetails',
+				3: '/#/pages/recommendedAlbumDetail/recommendedAlbumDetail'
+			}
+			this.path = urls[type]
 		},
 		onReady: function(e) {
 			console.log('poster onready')
