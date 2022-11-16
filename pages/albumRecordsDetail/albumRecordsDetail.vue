@@ -7,7 +7,7 @@
 		</view>
 		<view class="box1">
 			<view class="box1-1">
-				<image :src="detail.index_url" mode=""></image>
+				<image :src="detail.index_img" mode=""></image>
 				<view class="sideline"></view>
 			</view>
 			<view class="box1-2">
@@ -40,7 +40,7 @@
 						发行价格
 					</view>
 					<view class="box1-2-2-r">
-						￥{{detail.buy_price}}/张
+						￥{{detail.sale_price}}/张
 					</view>
 				</view>
 			</view>
@@ -50,12 +50,13 @@
 			认证信息
 		</view>
 		<view class="box2">
-			<view class="box2-1" v-if="detail.order_status === 3">
+			<view class="box2-1">
 				<view class="box2-1-l">
 					Record Number
 				</view>
 				<view class="box2-1-r">
-					{{detail.code_num_min === detail.code_num_max ? detail.code_num_max : `${detail.code_num_min}~${detail.code_num_max}`}}
+					<!-- {{detail.code_num_min === detail.code_num_max ? detail.code_num_max : `${detail.code_num_min}~${detail.code_num_max}`}} -->
+					{{detail.code_num}}
 				</view>
 			</view>
 			<view class="box2-1">
@@ -96,26 +97,23 @@
 		</view>
 		<view class="title mb7">
 			<text class="title-v"></text>
-			音乐人信息
+			介绍信息
 		</view>
 		<view class="auth">
-			<image src="../../static/分享-分享图.png" mode="" class="auth-1"></image>
+			<image :src="detail.index_img" mode="" class="auth-1"></image>
 			<view class="auth-2">
-				黑旗子
+				{{detail.music_list?detail.music_list[0].singer:''}}
 			</view>
 		</view>
-		<view class="text">
-			原创音乐人，富有少年感，擅长流行、古风、说唱。全平台播放原创音乐人，富有少年感，擅长流行、古风、唱全平台播放原创音乐人，富有少年感，擅长流行、古风、说唱。全平台播放原创音乐人，富有少年感，擅长流行、古风、说唱。
-			原创音乐人，富有少年感，擅长流行、古风、说唱。全平台播放原创音乐人，富有少年感，擅长流行、古风、唱全平台播放原创音乐人，富有少年感，擅长流行、古风、说唱。全平台播放原创音乐人，富有少年感，擅长流行、古风、说唱。
-		</view>
+		<view class="text" v-html="detail.music_list?detail.music_list[0].desc:''"></view>
 		<view class="h116">
 
 		</view>
 		<view class="fixed-bottom">
-			<view class="zhuanzeng">
+			<view class="zhuanzeng" @tap="handZhuanZeng">
 				转赠
 			</view>
-			<view class="tingge">
+			<view class="tingge" @tap="handTingGe">
 				<image src="../../static/play.png" mode=""></image>
 				欣赏专辑
 			</view>
@@ -135,7 +133,7 @@
 						编&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号
 					</view>
 					<view class="row3-2">
-						asdasdsa
+						{{detail.certificate.code}}
 					</view>
 				</view>
 				<view class="cert-row3">
@@ -143,7 +141,7 @@
 						名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称
 					</view>
 					<view class="row3-2">
-						asdasdsa
+						{{detail.certificate.name}}
 					</view>
 				</view>
 				<view class="cert-row3">
@@ -151,7 +149,7 @@
 						发&nbsp;&nbsp;行&nbsp;者
 					</view>
 					<view class="row3-2">
-						asdasdsa
+						{{detail.certificate.publish_author}}
 					</view>
 				</view>
 				<view class="cert-row3">
@@ -159,7 +157,7 @@
 						发行时间
 					</view>
 					<view class="row3-2">
-						asdasdsa
+						{{filterTimes(detail.certificate.publish_time * 1000)}}
 					</view>
 				</view>
 				<view class="cert-row3">
@@ -167,9 +165,7 @@
 						哈希地址
 					</view>
 					<view class="h102">
-						0xf9ec07f93e7297f93e729f93e7297f93e7290xf9ec07f93e07f93e
-						9ec07f93e07f93e0xf9ec07f93e7297f93e729f93e7297f93e7290xf9ec07f93e07f93e
-						9ec07f93e07f93e
+						{{detail.certificate.block_chain_hash}}
 					</view>
 
 				</view>
@@ -187,6 +183,10 @@
 	import {
 		post
 	} from '../../request/index.js'
+	import {
+		openAppPage,
+		jumpBefore
+	} from '../../utils/index.js'
 	import dayjs from 'dayjs'
 	export default {
 		components: {
@@ -215,7 +215,10 @@
 					"order_status": 0,
 					"pay_type": 0,
 					"order_create_time": '',
-					"pay_time": 0
+					"pay_time": 0,
+					certificate: {
+
+					}
 				}
 			}
 		},
@@ -240,28 +243,65 @@
 				return dayjs(e).format('YYYY/MM/DD HH:mm:ss')
 			},
 			getOrderDetail(e) {
-				post(h5_order_detail, {
-					order_id: Number(e)
+				post(h5_collections_user_collectionInfo, {
+					owner_id: Number(e)
 				}).then(res => {
 					this.detail = res.data
 				})
 			},
-			showCre() {
-				this.show = true
-			},
-			hiddenCre() {
-				this.show = false
-			},
-			// 去往收银台
-			handleGoCashier(item) {
-				let url =
-					`/pages/cashier/cashier?product_item_id=${this.detail.product_item_id}&order_no=${this.detail.order_no}&order_price=${this.detail.order_total_price}$order_id=${this.detail.order_id}`
-				uni.navigateTo({
-					url
-				})
-			},
 			handViewCert() {
 				this.$refs.dialog.show()
+			},
+			handZhuanZeng() {
+				// {"page":"sendDiskGiftPage","isNeedLogin”:true,"params":{"product_item_id": 29, "owner_id": 2}}
+
+				if (this.$store.state.user.inApp) {
+					let appConfig = window.localStorage.getItem('AppConfigInfo')
+					if (appConfig) {
+						appConfig = JSON.parse(appConfig)
+					} else {
+						appConfig = {
+							'version-code': '1750'
+						}
+					}
+					if (Number(appConfig['version-code']) >= 1900) {
+						openAppPage({
+							page: "sendDiskGiftPage",
+							isNeedLogin: true,
+							params: this.detail
+						})
+					} else {
+						uni.showToast({
+							title: '请更新到最新版本后重试',
+							icon: 'none'
+						})
+					}
+				} else {
+					jumpBefore(null)
+				}
+			},
+			handTingGe() {
+				if (this.$store.state.user.inApp) {
+					let appConfig = window.localStorage.getItem('AppConfigInfo')
+					if (appConfig) {
+						appConfig = JSON.parse(appConfig)
+					} else {
+						appConfig = {
+							'version-code': '1750'
+						}
+					}
+					if (Number(appConfig['version-code']) >= 1800) {
+						playAlbum(this.detail.music_list, this.detail.name, '')
+					} else {
+						uni.navigateTo({
+							url: `/pages/musicPlayer/musicPlayer?owner_id=${this.detail.owner_id}&code_num=${this.detail.code_num}&product_item_id=${this.detail.product_item_id}&music_list=${JSON.stringify(this.detail.music_list)}&name=${this.detail.name}`
+						})
+					}
+				} else {
+					uni.navigateTo({
+						url: `/pages/musicPlayer/musicPlayer?owner_id=${this.detail.owner_id}&code_num=${this.detail.code_num}&product_item_id=${this.detail.product_item_id}&music_list=${JSON.stringify(this.detail.music_list)}&name=${this.detail.name}`
+					})
+				}
 			}
 		}
 	}

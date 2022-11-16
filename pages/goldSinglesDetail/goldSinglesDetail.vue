@@ -86,7 +86,7 @@
 		<view class="card2">
 			<view class="card2-body">
 				<view class="title1">
-					音乐人信息
+					介绍信息
 				</view>
 				<view class="author">
 					<image :src="data.author_info.author_avatar" mode=""></image>
@@ -94,14 +94,16 @@
 				</view>
 				<view class="text2" v-html="data.author_info.desc"></view>
 				<view class="text3">
-					<my-swiper :list="swiperList"></my-swiper>
+					<!-- <my-swiper :list="swiperList"></my-swiper> -->
+					<video class="text3-video" :src="data.author_info.video_url" controls
+						:poster="data.author_info.video_index_pic"></video>
 				</view>
-				<view class="title1">
+				<!-- <view class="title1">
 					创作灵感
 				</view>
 				<view class="text1">
 					有没有一位遥远的爱人，让你怕表达出来的思念之情都成为她前行的负担，也许明天、也许某年，你知道只要她会还，你什么都愿。
-				</view>
+				</view> -->
 			</view>
 		</view>
 		<view class="footer"></view>
@@ -143,7 +145,7 @@
 				</view>
 				<view class="popup-f">
 					<image class="popup-f-img" src="../../static/popupYf.png"></image>
-					<text>购买专辑可以永久聆听</text>
+					<text>购买唱片可以永久聆听</text>
 				</view>
 				<view class="popup-count">
 					<view class="count-text">
@@ -450,17 +452,22 @@
 						}
 
 					} else {
-						// res.data.info.total = (res.data.info.buy_num * res.data.info.pay_price).toFixed(2)
 						const params = JSON.stringify(res.data.info)
-						// uni.navigateTo({
-						// 	url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}&params=${params}`
-						// })
-						let data = {
-							page: "diskConfirmOrderPage",
-							isNeedLogin: true,
-							params
+						// res.data.info.total = (res.data.info.buy_num * res.data.info.pay_price).toFixed(2)
+						if (this.$store.state.user.inApp) {
+							let data = {
+								page: "diskConfirmOrderPage",
+								isNeedLogin: true,
+								params
+							}
+							openAppPage(data)
+						} else {
+							uni.navigateTo({
+								url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}&params=${params}`
+							})
 						}
-						openAppPage(data)
+
+
 					}
 
 
@@ -473,6 +480,23 @@
 					})
 				}
 
+			},
+			async handFollow(operation_type) {
+				try {
+					const res = await this.$post(collections_index_like, {
+						product_item_id: this.product_item_id,
+						operation_type
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
+					}
+					this.data.is_like = operation_type === 1 ? 0 : 1
+				} catch (e) {
+					//TODO handle the exception
+				}
 			},
 			async handPlay() {
 				try {
@@ -810,6 +834,12 @@
 					border-radius: 8rpx;
 
 					.swiper {
+						border-radius: 8rpx;
+					}
+
+					.text3-video {
+						width: 100%;
+						height: 100%;
 						border-radius: 8rpx;
 					}
 				}

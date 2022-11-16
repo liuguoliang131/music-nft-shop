@@ -4,7 +4,7 @@
 		<my-tab :list="tabList" @active="handActiveBar" :activeBar="activeBar" :slide="false">
 			<template v-slot:item="{data}">
 				<view class="notice">
-					当前拥有{{total_num}}张
+					当前拥有{{data.total_num}}张
 				</view>
 				<view class="empty" v-if="data.isFinish&&data.list.length===0">
 					<view class="empty-center">
@@ -82,7 +82,8 @@
 		h5_collections_user_collectionList
 	} from '../../request/api.js'
 	import {
-		post
+		post,
+		post1
 	} from '../../request/index.js'
 	import MyTab from '../../components/myTab.vue'
 	import MyScroll from '../../components/myScroll.vue'
@@ -95,31 +96,34 @@
 			return {
 				tabList: [{
 						name: '数字音乐',
-						id: 1,
-						isFinish: false,
-						loading: false,
-						page: 1,
-						list: []
-					},
-					{
-						name: '黄金单曲',
-						id: 2,
-						isFinish: false,
-						loading: false,
-						page: 1,
-						list: []
-					},
-					{
-						name: '黄金专辑',
 						id: 3,
 						isFinish: false,
 						loading: false,
 						page: 1,
-						list: []
+						list: [],
+						total_num: 0
+					},
+					{
+						name: '黄金单曲',
+						id: 1,
+						isFinish: false,
+						loading: false,
+						page: 1,
+						list: [],
+						total_num: 0
+					},
+					{
+						name: '黄金专辑',
+						id: 2,
+						isFinish: false,
+						loading: false,
+						page: 1,
+						list: [],
+						total_num: 0
 					}
 
 				],
-				activeBar: 1,
+				activeBar: 3,
 				page: 1,
 				list: [],
 				total_num: 0
@@ -218,10 +222,11 @@
 				try {
 
 					active.loading = true
-					// const res = await this.$post(h5_community_memberList, {
-					// 	page: this.page++
-					// })
-					const res = await this.mock(active.page++)
+					const res = await post1(h5_collections_user_collectionList, {
+						page: active.page++,
+						product_type: active.id
+					})
+					// const res = await this.mock(active.page++)
 					console.log('res', res)
 					if (res.code !== 0) {
 						active.isFinish = true
@@ -232,18 +237,18 @@
 						})
 					}
 					if (res.data.list && Array.isArray(res.data.list) && res.data.list.length) {
-						console.log('1')
 						if (active.page === 1) {
 							active.list = res.data.list
 						} else {
 							active.list = [...active.list, ...res.data.list]
 						}
-						console.log('active', active)
+
 
 					} else {
 						active.isFinish = true
 						active.page = active.page - 1
 					}
+					active.total_num = res.data.total_num
 					active.loading = false
 				} catch (e) {
 					active.isFinish = true
@@ -259,8 +264,16 @@
 				// digitalRecordsDetail  数字音乐
 				// albumRecordsDetail 专辑
 				// singlesRecordsDetail 单曲
+				let url = null
+				if (this.activeBar === 3) {
+					url = '/pages/digitalRecordsDetail/digitalRecordsDetail?id=' + e.owner_id
+				} else if (this.activeBar === 2) {
+					url = '/pages/albumRecordsDetail/albumRecordsDetail?id=' + e.owner_id
+				} else if (this.activeBar === 1) {
+					url = '/pages/singlesRecordsDetail/singlesRecordsDetail?id=' + e.owner_id
+				}
 				uni.navigateTo({
-					url: '/pages/digitalRecordsDetail/digitalRecordsDetail?id=' + e.owner_id + '&type=collection'
+					url
 				})
 			}
 		}

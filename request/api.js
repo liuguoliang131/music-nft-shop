@@ -73,6 +73,10 @@ export const collections_index_play = '/collections/index/play'
 export const collections_index_share = '/collections/index/share'
 // 海报信息
 export const collections_index_sharePoster = '/collections/index/sharePoster'
+// 订单列表 版权的
+export const order_list = '/order/list'
+// 订单列表 唱片的
+export const order_collectionsList = '/order/collectionsList'
 /**
  * @description 首页列表
  */

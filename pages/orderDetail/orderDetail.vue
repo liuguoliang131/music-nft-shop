@@ -3,7 +3,9 @@
 		<nav-head title="订单详情"></nav-head>
 		<view class="title mt20">
 			<text class="title-v"></text>
-			单曲信息
+			<text v-if="product_type===1">单曲信息</text>
+			<text v-else-if="product_type===2">专辑信息</text>
+			<text v-else-if="product_type===3">数字音乐信息</text>
 		</view>
 		<view class="box1">
 			<view class="box1-1">
@@ -220,6 +222,9 @@
 	import {
 		post
 	} from '../../request/index.js'
+	import {
+		openAppPage
+	} from '../../utils/index.js'
 	import dayjs from 'dayjs'
 	export default {
 		components: {
@@ -228,6 +233,7 @@
 		data() {
 			return {
 				show: false,
+				product_type: 0,
 				detail: {
 					"order_id": null,
 					"product_item_id": null,
@@ -253,6 +259,7 @@
 		},
 		onLoad(e) {
 			const id = e.id
+			this.product_type = Number(e.product_type)
 			this.getOrderDetail(id)
 
 		},
@@ -286,11 +293,21 @@
 			},
 			// 去往收银台
 			handleGoCashier(item) {
-				let url =
-					`/pages/cashier/cashier?product_item_id=${this.detail.product_item_id}&order_no=${this.detail.order_no}&order_price=${this.detail.order_total_price}$order_id=${this.detail.order_id}`
-				uni.navigateTo({
-					url
-				})
+				if (this.$store.state.user.inApp) {
+					openAppPage({
+						"page": "diskConfirmOrderPage",
+						"isNeedLogin": true,
+						"params": this.item
+					})
+				} else {
+					let url =
+						`/pages/cashier/cashier?product_item_id=${this.detail.product_item_id}&order_no=${this.detail.order_no}&order_price=${this.detail.order_total_price}&order_id=${this.detail.order_id}`
+					uni.navigateTo({
+						url
+					})
+				}
+
+
 			}
 		}
 	}

@@ -16,22 +16,23 @@
 							<view class="cover-content">
 								<image class="cover-img" src="../../static/image-7 1-1.png"></image>
 								<image class="cover-turn" src="../../static/turn.png" mode=""></image>
-								<image class="cover-turn1" src="../../static/唱首歌给你听.png" mode=""></image>
-								<image class="cover-play" src="../../static/play.png" mode=""></image>
+								<image class="cover-turn1" :src="item.index_img" mode=""></image>
+								<image class="cover-play" src="../../static/play.png" mode=""
+									@tap.stop="handPlay(item)"></image>
 								<!-- <image class="cover-play" src="../../static/pause.png" mode=""></image> -->
 							</view>
 							<view class="item-row1">
-								黄金专辑黄金专辑黄金专辑黄金专辑黄金专辑黄金专辑
+								{{item.name}}
 							</view>
 							<view class="item-row2">
 								<text class="item-row2-1">
-									黑旗子黑旗子黑旗子
+									{{item.singer}}
 								</text>
 								<text class="item-row2-2">
 									<text class="row2-2-unit">
 										￥
 									</text>
-									<text class="row2-2-price">19.90</text>
+									<text class="row2-2-price">{{item.price}}</text>
 								</text>
 							</view>
 						</view>
@@ -46,6 +47,17 @@
 	import NavHead from '../../components/navHead.vue'
 	import MyTab from '../../components/myTab.vue'
 	import MyScroll from '../../components/myScroll.vue'
+	import {
+		h5_collections_user_likeList,
+		collections_index_musicPlay,
+		collections_index_play
+	} from '../../request/api.js'
+	import {
+		post1
+	} from '../../request/index.js'
+	import {
+		openAppPage
+	} from '../../utils/index.js'
 	export default {
 		components: {
 			NavHead,
@@ -56,7 +68,7 @@
 			return {
 				tabList: [{
 						name: '数字音乐',
-						id: 1,
+						id: 3,
 						isFinish: false,
 						loading: false,
 						page: 1,
@@ -64,7 +76,7 @@
 					},
 					{
 						name: '黄金单曲',
-						id: 2,
+						id: 1,
 						isFinish: false,
 						loading: false,
 						page: 1,
@@ -72,7 +84,7 @@
 					},
 					{
 						name: '黄金专辑',
-						id: 3,
+						id: 2,
 						isFinish: false,
 						loading: false,
 						page: 1,
@@ -80,7 +92,7 @@
 					}
 
 				],
-				activeBar: 1
+				activeBar: 3
 			};
 		},
 		methods: {
@@ -131,10 +143,11 @@
 					const active = this.tabList.find((item) => item.id === data.id)
 					console.log('getlist')
 					active.loading = true
-					// const res = await this.$post(h5_community_memberList, {
-					// 	page: this.page++
-					// })
-					const res = await this.mock(active.page++)
+					const res = await post1(h5_collections_user_likeList, {
+						page: active.page++,
+						product_type: active.id
+					})
+					// const res = await this.mock(active.page++)
 					if (res.code !== 0) {
 						active.isFinish = true
 						active.loading = false
@@ -164,6 +177,48 @@
 					throw e
 					//TODO handle the exception
 				}
+			},
+			handGo(item) {
+				let url = ''
+				if (this.activeBar === 1) {
+					url = `/pages/goldSinglesDetail/goldSinglesDetail?product_item_id=${item.product_item_id}`
+				} else if (this.activeBar === 2) {
+					url = `/pages/preOrderDetails/preOrderDetails?product_item_id=${item.product_item_id}`
+				} else if (this.activeBar === 3) {
+					url = `/pages/recommendedAlbumDetail/recommendedAlbumDetail?product_item_id=${item.product_item_id}`
+				}
+				uni.navigateTo({
+					url
+				})
+			},
+			async handPlay(item) {
+				try {
+					const res = await this.$post(collections_index_musicPlay, {
+						product_item_id: item.product_item_id
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+					const res1 = await this.$post(collections_index_play, {
+						product_item_id: this.product_item_id
+					})
+					let data = {
+						"page": "musicPlayPage",
+						"isNeedLogin": false,
+						"params": res.data
+					}
+					openAppPage(data)
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						title: e.message,
+						icon: 'none'
+					})
+					throw e
+				}
 			}
 
 		}
@@ -188,6 +243,7 @@
 			text-align: center;
 			overflow: hidden;
 			padding-top: 300rpx;
+			width: 750rpx;
 
 			.empty-center {
 				.empty-img {

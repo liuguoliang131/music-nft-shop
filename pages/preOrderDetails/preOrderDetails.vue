@@ -406,11 +406,20 @@
 						}
 
 					} else {
-						// res.data.info.total = (res.data.info.buy_num * res.data.info.pay_price).toFixed(2)
 						const params = JSON.stringify(res.data.info)
-						uni.navigateTo({
-							url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}&params=${params}`
-						})
+						// res.data.info.total = (res.data.info.buy_num * res.data.info.pay_price).toFixed(2)
+						if (this.$store.state.user.inApp) {
+							let data = {
+								page: "diskConfirmOrderPage",
+								isNeedLogin: true,
+								params
+							}
+							openAppPage(data)
+						} else {
+							uni.navigateTo({
+								url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}&params=${params}`
+							})
+						}
 					}
 
 

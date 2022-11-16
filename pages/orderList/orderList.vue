@@ -18,10 +18,10 @@
 				<my-scroll v-else :key="data.id" class="scroll-box" :isFinish="data.isFinish" :loading="data.loading"
 					:data="data" @load="getList">
 					<view class="order-body-item" v-for="(item , index) in data.list" :key='index'
-						@click="handleGoToDetail(item)">
+						@click="handleGoToDetail(item,data.id)">
 						<view class="order-body-item-imageBox">
 							<view class="order-body-item-imageBox-image"
-								:style="`background-image:url(${item.index_img})`">
+								:style="`background-image:url(${item.index_img||item.music_pic})`">
 							</view>
 							<view class="order-body-item-imageBox-level" v-if="item.rare_type">
 								<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
@@ -34,37 +34,37 @@
 						<view class="order-body-item-box">
 							<view class="order-body-item-box-flex">
 								<view class="order-body-item-title">
-									{{item.title}}
+									{{item.name||item.music_name}}
 								</view>
 								<view class="order-body-item-type"
 									style="color: #D10910;font-size: 28rpx;font-weight: 500;">
-									{{item.order_status | filterStatus}} <text class="cuIcon-right"></text>
+									{{item.pay_status | filterStatus}} <text class="cuIcon-right"></text>
 								</view>
 							</view>
 							<view class="order-body-item-box-flex">
 
 								<view class="order-body-item-tag">
-									包含{{item.singles_num}}首单曲
+									包含{{item.singles_num||'1'}}首单曲
 								</view>
 								<view class="order-body-item-type" style="margin-top: 16rpx;">
-									￥{{item.buy_price}}
+									￥{{item.buy_price||item.order_price}}
 								</view>
 							</view>
 							<view class="order-body-item-box-flex">
 								<view class="order-body-item-price"
 									style="margin-left: auto;color: #666;font-size: 20rpx;">
-									× {{item.buy_num}}
+									× {{item.buy_num||'1'}}
 								</view>
 							</view>
 							<view class="order-body-item-box-flex">
 								<view class="order-body-item-price"
 									style="margin-left: auto;color: #fff;margin-top: 10rpx;">
-									实付金额 ￥{{item.order_total_price}}
+									实付金额 ￥{{item.order_price}}
 								</view>
 							</view>
 
 							<view class="order-body-item-box-flex" style="margin-top: 20rpx;"
-								v-if="item.order_status === 1">
+								v-if="item.pay_status === 0">
 								<view style="display: flex;align-items: center;margin-left: auto;margin-top: 8rpx;">
 									<button class="my-btn" @click.stop="handleClickCancle(item)">取消订单</button>
 									<button class="my-btn" @click.stop="handleGoCashier(item)"
@@ -155,10 +155,16 @@
 	import MyScroll from '../../components/myScroll.vue'
 	import {
 		h5_order_list,
-		h5_order_cancle
+		h5_order_cancle,
+		order_collectionsList, //唱片的列表
+		order_list //版权的列表
 	} from '../../request/api.js'
 	import {
-		post
+		openAppPage
+	} from '../../utils/index.js'
+	import {
+		post,
+		post1
 	} from '../../request/index.js'
 	export default {
 		components: {
@@ -167,26 +173,27 @@
 		},
 		data() {
 			return {
-				tabList: [{
-						name: '版权',
-						id: 1,
-						activeNav: 0,
-						isFinish: false,
-						loading: false,
-						page: 1,
-						list: []
-					}, {
-						name: '数字音乐',
-						id: 2,
-						activeNav: 0,
-						isFinish: false,
-						loading: false,
-						page: 1,
-						list: []
-					},
+				tabList: [
+					// {
+					// 	name: '版权',
+					// 	id: 4,
+					// 	activeNav: 0,
+					// 	isFinish: false,
+					// 	loading: false,
+					// 	page: 1,
+					// 	list: []
+					// }, {
+					// 	name: '数字音乐',
+					// 	id: 3,
+					// 	activeNav: 0,
+					// 	isFinish: false,
+					// 	loading: false,
+					// 	page: 1,
+					// 	list: []
+					// },
 					{
 						name: '黄金单曲',
-						id: 3,
+						id: 1,
 						activeNav: 0,
 						isFinish: false,
 						loading: false,
@@ -195,7 +202,7 @@
 					},
 					{
 						name: '黄金专辑',
-						id: 4,
+						id: 2,
 						activeNav: 0,
 						isFinish: false,
 						loading: false,
@@ -214,9 +221,13 @@
 		filters: {
 			filterStatus(e) {
 				const list = {
-					1: '待支付',
+					0: '待支付',
+					1: '已完成',
 					2: '已取消',
-					3: '已完成'
+					3: '已取消',
+					4: '已取消',
+					5: '已取消'
+
 				}
 				return list[e]
 			}
@@ -248,13 +259,27 @@
 				// 	}
 				// })
 				const active = this.tabList.find((item) => item.id === data.id)
-				console.log('getlist')
+				let url = null
+				let params = null
+				if (active.id === 4) {
+					url = order_list
+					// pay：已完成， cancel：已取消， create：待支付
+					const fType = ['', 'create', 'cancel', 'pay']
+					params = {
+						page: active.page++,
+						type: fType[active.activeNav]
+					}
+				} else {
+					url = order_collectionsList
+					params = {
+						page: active.page++,
+						order_type: active.activeNav,
+						product_type: active.id
+					}
+				}
 				try {
 					active.loading = true
-					const res = await post(h5_order_list, {
-						page: active.page++,
-						order_type: active.activeNav
-					})
+					const res = await post1(url, params)
 					if (res.code !== 0) {
 						active.isFinish = true
 						active.loading = false
@@ -263,12 +288,11 @@
 							icon: 'none'
 						})
 					}
-					if (res.data && Array.isArray(res.data) && res.data.length) {
-
+					if (res.data.list && Array.isArray(res.data.list) && res.data.list.length) {
 						if (active.page === 1) {
-							active.list = res.data
+							active.list = res.data.list
 						} else {
-							active.list = [...active.list, ...res.data]
+							active.list = [...active.list, ...res.data.list]
 						}
 
 					} else {
@@ -290,9 +314,10 @@
 				item.list = []
 				this.getList(item)
 			},
-			handleGoToDetail(e) {
+			handleGoToDetail(e, product_type) {
+				let url = `/pages/orderDetail/orderDetail?id=${e.order_id}&product_type=${product_type}`
 				uni.navigateTo({
-					url: '/pages/orderDetail/orderDetail?id=' + e.order_id
+					url
 				})
 			},
 			handleClickCancle(a) {
@@ -319,11 +344,20 @@
 			},
 			// 去往收银台
 			handleGoCashier(item) {
-				let url =
-					`/pages/cashier/cashier?product_item_id=${item.product_item_id}&order_no=${item.order_no}&order_price=${item.order_total_price}&order_id=${item.order_id}`
-				uni.navigateTo({
-					url
-				})
+				if (this.$store.state.user.inApp) {
+					openAppPage({
+						"page": "diskConfirmOrderPage",
+						"isNeedLogin": true,
+						"params": item
+					})
+				} else {
+					let url =
+						`/pages/cashier/cashier?product_item_id=${item.product_item_id}&order_no=${item.order_no}&order_price=${item.order_total_price}&order_id=${item.order_id}`
+					uni.navigateTo({
+						url
+					})
+				}
+
 			}
 		}
 	}
@@ -336,7 +370,7 @@
 
 
 		/deep/.bar {
-			padding: 0 56rpx;
+			padding: 0 140rpx;
 		}
 
 
