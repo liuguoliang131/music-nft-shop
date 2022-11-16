@@ -46,7 +46,10 @@
 					code: ''
 				},
 				posterImageBase64: '',
-				path: ''
+				path: '',
+				data: {
+
+				}
 			};
 		},
 		components: {
@@ -137,6 +140,7 @@
 					// 		share_sign: 'xasdasfasfadas'
 					// 	}
 					// }
+					this.data = res.data
 					this.initCanvas(res.data)
 				} catch (e) {
 					//TODO handle the exception
@@ -287,43 +291,39 @@
 				})
 			},
 			handleShare(share_way) {
-				try {
-					const url = window.location.protocol + '//' + window.location.host +
-						`${this.path}?product_item_id=${this.product_item_id}&share_sign=${encodeURIComponent(data.share_sign)}`
-					const share_title = '元音符' + url
-					let img = ''
-					uni.canvasToTempFilePath({ // res.tempFilePath临时路径
-						canvasId: 'firstCanvas',
-						success: (res) => {
-							console.log('res', res)
-							img = res.tempFilePath
-						},
-						fail: (error) => {
-							console.log(error)
-						}
-					})
-
-					let appConfig = window.localStorage.getItem('AppConfigInfo')
-					if (appConfig) {
-						appConfig = JSON.parse(appConfig)
-					} else {
-						appConfig = {
-							'version-code': '1710'
-						}
+				const url = window.location.protocol + '//' + window.location.host +
+					`${this.path}?product_item_id=${this.product_item_id}&share_sign=${encodeURIComponent(this.data.share_sign)}`
+				const share_title = '元音符' + url
+				let img = ''
+				uni.canvasToTempFilePath({ // res.tempFilePath临时路径
+					canvasId: 'firstCanvas',
+					success: (res) => {
+						console.log('res', res)
+						img = res.tempFilePath
+					},
+					fail: (error) => {
+						console.log(error)
 					}
-					if (Number(appConfig['version-code']) >= 1750) {
-						shareBase64Image({
-							share_title,
-							share_way,
-							img
-						})
-					} else {
+				})
 
+				let appConfig = window.localStorage.getItem('AppConfigInfo')
+				if (appConfig) {
+					appConfig = JSON.parse(appConfig)
+				} else {
+					appConfig = {
+						'version-code': '1710'
 					}
-				} catch (e) {
-					//TODO handle the exception
-					alert(e)
 				}
+				if (Number(appConfig['version-code']) >= 1750) {
+					shareBase64Image({
+						share_title,
+						share_way,
+						img
+					})
+				} else {
+
+				}
+
 
 			}
 		},

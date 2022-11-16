@@ -38,7 +38,8 @@
 				isWx: false,
 				inApp: false, //是否在app内
 				context: null,
-				posterImageBase64: ''
+				posterImageBase64: '',
+				data: {}
 			};
 		},
 		components: {
@@ -127,6 +128,7 @@
 					// 		share_sign: 'xasdasfasfadas'
 					// 	}
 					// }
+					this.data = res.data
 					this.initCanvas(res.data)
 				} catch (e) {
 					//TODO handle the exception
@@ -278,7 +280,7 @@
 			},
 			handleShare(share_way) {
 				const url = window.location.protocol + '//' + window.location.host +
-					`/#/pages/preOrderDetails/preOrderDetails?product_item_id=${this.product_item_id}&share_sign=${encodeURIComponent(data.share_sign)}`
+					`/#/pages/preOrderDetails/preOrderDetails?product_item_id=${this.product_item_id}&share_sign=${encodeURIComponent(this.data.share_sign)}`
 				const share_title = '元音符' + url
 				let img = ''
 				uni.canvasToTempFilePath({ // res.tempFilePath临时路径
