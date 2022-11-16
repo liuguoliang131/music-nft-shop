@@ -723,6 +723,7 @@
 		}
 
 		.preOrderDetails-footer {
+			z-index: 8;
 			position: fixed;
 			bottom: 0;
 			left: 0;

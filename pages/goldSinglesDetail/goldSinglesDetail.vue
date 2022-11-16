@@ -235,7 +235,19 @@
 					is_login: '',
 					publish_time1: '',
 					sale_time1: '',
-					statistics_info: {}
+					author_info: {
+						author_name: '',
+						author_avatar: '',
+						desc: '',
+						video_url: '',
+						video_index_pic: ''
+					},
+					statistics_info: {
+						like: '',
+						play: '',
+						visit: '',
+						share: ''
+					}
 				},
 				count: 1,
 				statusTimer: null,
@@ -868,6 +880,7 @@
 		}
 
 		.bottom1 {
+			z-index: 8;
 			position: fixed;
 			bottom: 0;
 			left: 0;
