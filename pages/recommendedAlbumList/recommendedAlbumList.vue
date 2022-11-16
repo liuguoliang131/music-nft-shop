@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<nav-head title="数字唱片"></nav-head>
+		<cu-head></cu-head>
 		<view class="empty" v-if="isFinish&&list.length===0">
 			<view class="empty-center">
 				<image src="../../static/emptybox.png" mode="" class="empty-img"></image>
@@ -104,10 +104,10 @@
 				try {
 					console.log('getlist')
 					this.loading = true
-					// const res = await post1(collections_index_digitMusicList, {
-					// 	page: this.page++
-					// })
-					const res = await this.mock(this.page++)
+					const res = await post1(collections_index_digitMusicList, {
+						page: this.page++
+					})
+					// const res = await this.mock(this.page++)
 					if (res.code !== 0) {
 						this.isFinish = true
 						this.loading = false

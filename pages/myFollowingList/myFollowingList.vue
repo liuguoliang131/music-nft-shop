@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<nav-head title="我的关注"></nav-head>
+		<cu-head></cu-head>
 		<view class="tabbar">
 			<my-tab :list="tabList" @active="handActiveBar" :activeBar="activeBar" :slide="false">
 				<template v-slot:item="{data}">

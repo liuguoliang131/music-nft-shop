@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<nav-head title="黄金专辑"></nav-head>
+		<cu-head></cu-head>
 		<view class="empty" v-if="isFinish&&list.length===0">
 			<view class="empty-center">
 				<image src="../../static/emptybox.png" mode="" class="empty-img"></image>
@@ -10,14 +10,14 @@
 		<my-scroll v-else class="list" @load="getList" :isFinish="isFinish" :loading="loading">
 			<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
 				<view class="item-1">
-					<image class="item-1-sign" v-if="data.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
-					<image class="item-1-sign" v-else-if="data.rare_type==='UR'" src="../../static/UR.png" mode="">
+					<image class="item-1-sign" v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
+					<image class="item-1-sign" v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode="">
 					</image>
-					<image class="item-1-sign" v-else-if="data.rare_type==='R'" src="../../static/R.png" mode="">
+					<image class="item-1-sign" v-else-if="item.rare_type==='R'" src="../../static/R.png" mode="">
 					</image>
-					<image class="item-1-sign" v-else-if="data.rare_type==='N'" src="../../static/N.png" mode="">
+					<image class="item-1-sign" v-else-if="item.rare_type==='N'" src="../../static/N.png" mode="">
 					</image>
-					<image class="item-1-sign" v-else-if="data.rare_type==='SR'" src="../../static/SR.png" mode="">
+					<image class="item-1-sign" v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode="">
 					</image>
 					<image class="item-1-out" src="../../static/唱首歌给你听.png" mode=""></image>
 					<image class="item-1-in" src="../../static/turn.png" mode=""></image>
