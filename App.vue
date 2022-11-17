@@ -27,11 +27,13 @@
 				})
 			},
 			onWebEntry() {
+				const that = this
+
 				function plusReady() {
 					try {
 						const token = window.plus.storage.getItem('MetaNoteToken')
-						this.$store.commit('user/set_token', token)
-						this.setInfo()
+						that.$store.commit('user/set_token', token)
+						that.setInfo()
 					} catch (e) {
 						//TODO handle the exception
 						alert(e.message)
