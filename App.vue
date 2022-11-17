@@ -28,9 +28,15 @@
 			},
 			onWebEntry() {
 				function plusReady() {
-					const token = window.plus.storage.getItem('MetaNoteToken')
-					this.$store.commit('user/set_token', token)
-					this.setInfo()
+					try {
+						const token = window.plus.storage.getItem('MetaNoteToken')
+						this.$store.commit('user/set_token', token)
+						this.setInfo()
+					} catch (e) {
+						//TODO handle the exception
+						alert(e.message)
+					}
+
 				}
 				if (window.plus) {
 					plusReady()
