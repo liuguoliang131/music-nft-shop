@@ -199,8 +199,12 @@
 		h5_conllections_buy_checkout,
 		collections_index_like,
 		collections_index_musicPlay,
-		collections_index_play
+		collections_index_play,
+		collections_index_visit
 	} from '../../request/api.js'
+	import {
+		post1
+	} from '../../request/index.js'
 	import {
 		getTimeData,
 		goLogin,
@@ -550,6 +554,12 @@
 					})
 					throw e
 				}
+			},
+			// 访问统计
+			async visitStatics() {
+				const res = await post1(collections_index_visit, {
+					product_item_id: this.product_item_id
+				})
 			}
 		},
 		onLoad(option) {
@@ -557,6 +567,7 @@
 			this.product_item_id = Number(option.product_item_id)
 			this.share_sign = option.share_sign || ''
 			this.getDetails(this.product_item_id)
+			this.visitStatics()
 		},
 		onShow() {
 

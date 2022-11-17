@@ -29,8 +29,12 @@
 		shareBase64Image
 	} from '../../utils/index.js'
 	import {
-		h5_community_sharePoster
+		h5_community_sharePoster,
+		collections_index_share
 	} from '../../request/api.js'
+	import {
+		post1
+	} from '../../request/index.js'
 	import CuHead from '../../components/cu-head.vue'
 	export default {
 		data() {
@@ -115,6 +119,7 @@
 						console.log(error)
 					}
 				})
+				this.shareStatics()
 			},
 			async getInfo() {
 				try {
@@ -316,6 +321,14 @@
 				} else {
 
 				}
+				this.shareStatics()
+			},
+			// 分享统计
+			async shareStatics() {
+				const res = await post1(collections_index_share, {
+					product_item_id: this.product_item_id
+				})
+
 			}
 		},
 		mounted() {

@@ -442,27 +442,14 @@ export const playAlbum = (playList, albumName = '元音符', albumImage = '') =>
 	}))
 }
 // 注册plus应用ready事件
-// export const addPlusReady=()=>{
-// 	function plusReady() {
+export const addPlusReady = () => {
+	function plusReady() {
 
-// 	}
-// 	if(window.plus) {
-// 		plusReady()
-// 	}else {
-// 		document.addEventListener('plusready',plusReady,false)
-// 	}
-// }
-
-// 是否有plus对象（内嵌到5+runtime的app内时使用此方法）
-export const hasPlus = () => {
-	try {
-		if (window.plus) {
-			return true
-		} else {
-			return false
-		}
-	} catch (error) {
-		return false
+	}
+	if (window.plus) {
+		plusReady()
+	} else {
+		document.addEventListener('plusready', plusReady, false)
 	}
 }
 // 获取APP信息

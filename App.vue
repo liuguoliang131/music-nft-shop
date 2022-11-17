@@ -37,7 +37,7 @@
 						that.setInfo()
 					} catch (e) {
 						//TODO handle the exception
-						alert(e.message)
+						console.log(e.message)
 					}
 
 				}
