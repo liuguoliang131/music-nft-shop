@@ -40,8 +40,8 @@
 							￥{{item.sale_price}}
 						</view>
 						<view class="item-2-4-2" @tap.stop="handPlay(item)">
-							<!-- <image src="../../static/play.png" mode=""></image> -->
-							<image src="../../static/pause.png" mode=""></image>
+							<image src="../../static/play.png" mode=""></image>
+							<!-- <image src="../../static/pause.png" mode=""></image> -->
 							<text>立即试听</text>
 						</view>
 					</view>
@@ -157,22 +157,15 @@
 			},
 			async handPlay(item) {
 				try {
-					const res = await this.$post(collections_index_musicPlay, {
-						product_item_id: item.product_item_id
-					})
-					if (res.code !== 0) {
-						return uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
-					}
 					const res1 = await this.$post(collections_index_play, {
-						product_item_id: this.product_item_id
+						product_item_id: item.product_item_id
 					})
 					let data = {
 						"page": "musicPlayPage",
 						"isNeedLogin": false,
-						"params": res.data
+						"params": {
+							product_item_id: item.product_item_id
+						}
 					}
 					openAppPage(data)
 				} catch (e) {

@@ -193,22 +193,16 @@
 			},
 			async handPlay(item) {
 				try {
-					const res = await this.$post(collections_index_musicPlay, {
-						product_item_id: item.product_item_id
-					})
-					if (res.code !== 0) {
-						return uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
-					}
+
 					const res1 = await this.$post(collections_index_play, {
 						product_item_id: this.product_item_id
 					})
 					let data = {
 						"page": "musicPlayPage",
 						"isNeedLogin": false,
-						"params": res.data
+						"params": {
+							product_item_id: this.product_item_id
+						}
 					}
 					openAppPage(data)
 				} catch (e) {

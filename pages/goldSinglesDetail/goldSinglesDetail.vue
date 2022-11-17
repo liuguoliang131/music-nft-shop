@@ -236,6 +236,7 @@
 					is_login: '',
 					publish_time1: '',
 					sale_time1: '',
+					is_like: 0,
 					author_info: {
 						author_name: '',
 						author_avatar: '',
@@ -530,19 +531,12 @@
 			},
 			async handPlay() {
 				try {
-					const res = await this.$post(collections_index_musicPlay, {
-						product_item_id: this.product_item_id
-					})
-					if (res.code !== 0) {
-						return uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
-					}
 					let data = {
 						"page": "musicPlayPage",
 						"isNeedLogin": false,
-						"params": res.data
+						"params": {
+							product_item_id: this.product_item_id
+						}
 					}
 					const res1 = await this.$post(collections_index_play, {
 						product_item_id: this.product_item_id
