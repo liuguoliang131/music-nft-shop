@@ -74,7 +74,7 @@
 			"path": "pages/poster/poster",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "专辑海报",
+				"navigationBarTitleText": "唱片海报",
 				"enablePullDownRefresh": false
 			}
 
@@ -114,7 +114,7 @@
 			"path": "pages/musicPlayer/musicPlayer",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "欣赏专辑",
+				"navigationBarTitleText": "欣赏唱片",
 				"enablePullDownRefresh": false
 			}
 
@@ -129,7 +129,7 @@
 		}, {
 			"path": "pages/inviteFriends/inviteFriends",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "邀请海报",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
@@ -215,7 +215,7 @@
 		}, {
 			"path": "pages/myFollowingList/myFollowingList",
 			"style": {
-				"navigationBarTitleText": "我的关注列表",
+				"navigationBarTitleText": "我的关注",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}

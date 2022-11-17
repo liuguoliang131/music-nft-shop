@@ -441,6 +441,19 @@ export const playAlbum = (playList, albumName = '元音符', albumImage = '') =>
 		},
 	}))
 }
+
+// 是否有plus对象（内嵌到5+runtime的app内时使用此方法）
+export const hasPlus = () => {
+	try {
+		if (plus) {
+			return true
+		} else {
+			return false
+		}
+	} catch (error) {
+		return false
+	}
+}
 // 获取APP信息
 export const getAppConfig = () => {
 	if (isApp()) {

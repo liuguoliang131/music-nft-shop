@@ -3,7 +3,7 @@
 		<cu-head></cu-head>
 		<view class="title pt23">
 			<view class="title-l"></view>
-			<view class="title-r">专辑信息</view>
+			<view class="title-r">唱片信息</view>
 		</view>
 		<view class="box1">
 			<view class="box1-l">

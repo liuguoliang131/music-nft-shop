@@ -14,6 +14,7 @@
 		<view class="box2">
 			<view class="box2-item" v-for="(item,idx) in list" :key="item.pay_id">
 				<image v-if="item.pay_id===2" class="icon" src="../../static/wx.png"></image>
+				<image v-else-if="item.pay_id===3" class="icon" src="../../static/zhifubao.png"></image>
 				<image v-else-if="item.pay_id===4" class="icon" src="../../static/lingqian.png"></image>
 				<view class="text">
 					{{item.pay_name}}

@@ -42,16 +42,16 @@
 		},
 		methods: {
 			scroll(e) {
-				console.log('scroll', this.$refs.scroll.$el.scrollHeight - this.$refs.window.$el.scrollTop)
+				// console.log('scroll', this.$refs.scroll.$el.scrollHeight - this.$refs.window.$el.scrollTop)
 				if (this.$refs.scroll.$el.scrollHeight - this.$refs.window.$el.scrollTop <= this.$refs.window
 					.$el.clientHeight + 10) {
-					console.log('到底了')
+					// console.log('到底了')
 					this.onload()
 				}
 			},
 			// 只要底边在窗口内 就触发load
 			onload() {
-				console.log('onload')
+				// console.log('onload')
 				if (this.isFinish === false) {
 					this.$emit('load', this.data)
 				}
@@ -59,7 +59,7 @@
 			},
 			// 滚动块高度小于窗口高度时会一直调用onload
 			notFull() {
-				console.log('notFull', this.$refs.window.$el.clientHeight, this.$refs.scroll.$el.scrollHeight)
+				// console.log('notFull', this.$refs.window.$el.clientHeight, this.$refs.scroll.$el.scrollHeight)
 				if (this.$refs.scroll.$el.scrollHeight < this.$refs.window.$el.clientHeight) {
 					console.log(this.$refs.window.$el.clientHeight, this.$refs.scroll.$el.scrollHeight)
 					this.onload()

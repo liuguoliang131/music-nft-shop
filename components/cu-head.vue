@@ -9,7 +9,8 @@
 
 <script>
 	import {
-		isApp
+		isApp,
+		hasPlus
 	} from '../utils/index.js'
 	export default {
 		name: "cu-head",
@@ -33,7 +34,7 @@
 			}
 		},
 		created() {
-			if (isApp()) {
+			if (isApp() || hasPlus()) {
 				this.isWeb = false
 			} else {
 				this.isWeb = true

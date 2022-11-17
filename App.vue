@@ -7,17 +7,30 @@
 		isApp,
 		isWxBrowser,
 		jumpWxAuthUrl,
-		getAppConfig
+		getAppConfig,
+		hasPlus
 	} from 'utils/index.js'
 	import {
 		h5_user_info
 	} from 'request/api.js'
 	export default {
 		methods: {
+			setInfo() {
+				this.$get(h5_user_info).then(res => {
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
+					}
+					this.$store.commit('user/set_userInfo', res.data)
+				})
+			},
 			onWebEntry() {
 				const inApp = isApp()
 				this.$store.commit('user/set_inApp', inApp)
 				if (inApp) {
+					// 元音符app
 					if (document.cookie) {
 						console.log(document.cookie)
 						const arr = document.cookie.split('&')
@@ -28,22 +41,20 @@
 								this.$store.commit('user/set_token', token)
 							}
 						})
-						this.$get(h5_user_info).then(res => {
-							if (res.code !== 0) {
-								return uni.showToast({
-									title: res.msg,
-									icon: 'error'
-								})
-							}
-							this.$store.commit('user/set_userInfo', res.data)
-						})
+						this.setInfo()
 
 					} else {
 						this.$store.commit('user/set_token', '')
 						this.$store.commit('user/set_userInfo', '')
 					}
 					getAppConfig()
+				} else if (hasPlus()) {
+					// 其他app
+					const token = plus.storage.getItem('MetaNoteToken')
+					this.$store.commit('user/set_token', token)
+					this.setInfo()
 				} else {
+					// 浏览器
 					if (isWxBrowser()) {
 						jumpWxAuthUrl()
 					}
