@@ -1,5 +1,5 @@
 <template>
-	<view class="slots" v-show="show">
+	<view class="slots" v-show="isWeb?!$store.state.user.inPlus:false">
 		<view class="nav">
 			<image @tap="navBack()" class="nav-left" src="../static/navLeft.png" mode=""></image>
 		</view>
@@ -19,18 +19,6 @@
 			return {
 				isWeb: false //是否是浏览器环境下
 			};
-		},
-		watch: {
-			'this.$store.state.user.inPlus': {
-				handler(newVal) {
-					if (newVal || this.$store.state.user.inApp) {
-						this.show = false
-					} else {
-						this.show = true
-					}
-				},
-				immediate: true
-			}
 		},
 		methods: {
 			navBack() {
@@ -53,7 +41,11 @@
 			}
 		},
 		created() {
-
+			if (isApp()) {
+				this.isWeb = false
+			} else {
+				this.isWeb = true
+			}
 		}
 	}
 </script>
