@@ -217,11 +217,16 @@
 			handleBack() {
 
 				let currentRoutes = getCurrentPages(); // 获取当前打开过的页面路由数组
-				console.log(currentRoutes)
 				if (currentRoutes.length === 1) {
-					uni.redirectTo({
-						url: '/pages/index/index'
-					})
+					if (this.$store.state.user.token) {
+						uni.redirectTo({
+							url: '/pages/index/index'
+						})
+
+					} else {
+						goLogin()
+					}
+
 				} else {
 					uni.navigateBack({
 						delta: 1, //返回层数，2则上上页

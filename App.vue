@@ -27,6 +27,16 @@
 				})
 			},
 			onWebEntry() {
+				function plusReady() {
+					const token = window.plus.storage.getItem('MetaNoteToken')
+					this.$store.commit('user/set_token', token)
+					this.setInfo()
+				}
+				if (window.plus) {
+					plusReady()
+				} else {
+					document.addEventListener('plusready', plusReady, false)
+				}
 				const inApp = isApp()
 				this.$store.commit('user/set_inApp', inApp)
 				if (inApp) {
@@ -48,11 +58,6 @@
 						this.$store.commit('user/set_userInfo', '')
 					}
 					getAppConfig()
-				} else if (hasPlus()) {
-					// 其他app
-					const token = window.plus.storage.getItem('MetaNoteToken')
-					this.$store.commit('user/set_token', token)
-					this.setInfo()
 				} else {
 					// 浏览器
 					if (isWxBrowser()) {
