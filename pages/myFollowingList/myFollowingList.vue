@@ -17,8 +17,8 @@
 								<image class="cover-img" src="../../static/image-7 1-1.png"></image>
 								<image class="cover-turn" src="../../static/turn.png" mode=""></image>
 								<image class="cover-turn1" :src="item.index_img" mode=""></image>
-								<image class="cover-play" src="../../static/play.png" mode=""
-									@tap.stop="handPlay(item)"></image>
+								<image v-show="item.publish_type===1" class="cover-play" src="../../static/play.png"
+									mode="" @tap.stop="handPlay(item)"></image>
 								<!-- <image class="cover-play" src="../../static/pause.png" mode=""></image> -->
 							</view>
 							<view class="item-row1">
