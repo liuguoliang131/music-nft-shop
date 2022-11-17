@@ -50,7 +50,7 @@
 					getAppConfig()
 				} else if (hasPlus()) {
 					// 其他app
-					const token = plus.storage.getItem('MetaNoteToken')
+					const token = window.plus.storage.getItem('MetaNoteToken')
 					this.$store.commit('user/set_token', token)
 					this.setInfo()
 				} else {
