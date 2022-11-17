@@ -27,7 +27,7 @@
 						{{item.product_name}}
 					</view>
 					<view class="item-2-2">
-						<image class="item-2-2-1" :src="item.index_img" mode=""></image>
+						<image class="item-2-2-1" :src="item.author_avatar" mode=""></image>
 						<view class="item-2-2-2">
 							{{item.author_name}}
 						</view>

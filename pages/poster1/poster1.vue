@@ -94,13 +94,13 @@
 							saveBase64Image(res.tempFilePath)
 						} else {
 							if (this.$store.state.user.inPlus) {
-								uni.saveImageToPhotosAlbum({ // 保存本地
-									filePath: res.tempFilePath,
-									success: (response) => {
-										console.log(response, 'success')
-									},
-									fail: (response) => {}
-								})
+								// uni.saveImageToPhotosAlbum({ // 保存本地
+								// 	filePath: res.tempFilePath,
+								// 	success: (response) => {
+								// 		console.log(response, 'success')
+								// 	},
+								// 	fail: (response) => {}
+								// })
 							} else {
 								const btn = document.createElement('a')
 								btn.download = '分享海报'
