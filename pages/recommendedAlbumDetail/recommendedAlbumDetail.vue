@@ -104,7 +104,7 @@
 		</view>
 		<view class="footer"></view>
 		<view class="bottom1">
-			<view v-if="data.is_like===1" class="bottom1-1 followed" @tap="handFollow(0)">
+			<view v-if="data.is_like===1" class="bottom1-1 followed" @tap="handFollow(2)">
 				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
 				<view class="bottom1-1-2">
 					关注
@@ -522,7 +522,7 @@
 							icon: 'error'
 						})
 					}
-					this.data.is_like = operation_type === 1 ? 0 : 1
+					this.data.is_like = operation_type === 1 ? 1 : 0
 				} catch (e) {
 					//TODO handle the exception
 				}

@@ -42,7 +42,7 @@
 			"path": "pages/preOrderDetails/preOrderDetails",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "专辑详情",
+				"navigationBarTitleText": "详情",
 				"enablePullDownRefresh": false
 			}
 
@@ -192,7 +192,7 @@
 		}, {
 			"path": "pages/recommendedAlbumDetail/recommendedAlbumDetail",
 			"style": {
-				"navigationBarTitleText": "数字音乐详情",
+				"navigationBarTitleText": "详情",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
@@ -207,7 +207,7 @@
 		}, {
 			"path": "pages/goldSinglesDetail/goldSinglesDetail",
 			"style": {
-				"navigationBarTitleText": "黄金单曲详情",
+				"navigationBarTitleText": "详情",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
