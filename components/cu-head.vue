@@ -41,7 +41,7 @@
 			}
 		},
 		created() {
-			if (isApp() || hasPlus()) {
+			if (isApp() || window.plus) {
 				this.isWeb = false
 			} else {
 				this.isWeb = true
