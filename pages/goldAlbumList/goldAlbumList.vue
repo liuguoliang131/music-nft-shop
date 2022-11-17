@@ -19,7 +19,7 @@
 					</image>
 					<image class="item-1-sign" v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode="">
 					</image>
-					<image class="item-1-out" src="../../static/唱首歌给你听.png" mode=""></image>
+					<image class="item-1-out" :src="item.index_img" mode=""></image>
 					<image class="item-1-in" src="../../static/turn.png" mode=""></image>
 				</view>
 				<view class="item-2">
