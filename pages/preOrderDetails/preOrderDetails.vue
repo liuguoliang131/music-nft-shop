@@ -171,7 +171,8 @@
 		h5_collections_index_info,
 		h5_collections_user_if_approve,
 		h5_conllections_buy_checkout,
-		collections_index_visit
+		collections_index_visit,
+		collections_index_detail
 	} from '../../request/api.js'
 	import {
 		post1
@@ -245,7 +246,7 @@
 			},
 			async getDetails(product_item_id) {
 				try {
-					const res = await this.$post(h5_collections_index_info, {
+					const res = await this.$post(collections_index_detail, {
 						product_item_id
 					})
 					console.log(res)

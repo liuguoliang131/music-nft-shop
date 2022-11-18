@@ -100,17 +100,17 @@
 						<video class="text3-video" :src="data.video_url" controls
 							:poster="data.video_index_pic"></video>
 					</view>
-					<view class="title1 mb8">
+					<view class="title1 mb8" v-if="data.music_list.length">
 						创作灵感
 					</view>
 					<view class="text1" v-if="data.music_list.length" v-html="data.music_list[0].desc"></view>
 				</view>
 				<!-- 专辑 -->
 				<view class="" v-else-if="data.publish_type===2">
-					<view class="title1 mb8">
+					<view class="title1 mb8" v-if="data.introduction">
 						专辑介绍
 					</view>
-					<view class="text1 mb8" v-html="data.introduction"></view>
+					<view class="text1 mb8" v-if="data.introduction" v-html="data.introduction"></view>
 					<view class="work" v-for="(item,idx) in data.music_list" :key="idx">
 						<view class="row1">{{item.name}}</view>
 						<view class="row2" v-html="item.desc">
