@@ -118,9 +118,14 @@
 				</view>
 			</view>
 			<view class="bottom1-2">
-				<view v-if="data.sale_status===0" class="bottom1-status0" @tap="handOrLogin(0)">{{countDown}}</view>
-				<view v-else-if="data.sale_status===1" class="bottom1-status1" @tap="$refs.popup.show()">立即抢购</view>
-				<view v-else-if="data.sale_status===2" class="bottom1-status2" @tap="handOrLogin(2)">已停售</view>
+				<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handOrLogin(2)">已停售</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0" @tap="handOrLogin(0)">
+					{{countDown}}
+				</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1"
+					@tap="$refs.popup.show()">立即抢购</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===2" class="bottom1-status2" @tap="handOrLogin(2)">
+					已售罄</view>
 			</view>
 		</view>
 		<wyb-popup ref="popup" type="bottom" zIndex="99" height="701" width="750" radius="6" bgColor="#1D1D1D"
@@ -348,7 +353,9 @@
 					res.data.sale_time1 = `${date.mon}月${date.dd}日${date.hh}:${date.MM}`
 					res.data.publish_time1 = `${date1.y}-${date1.mon}-${date1.dd}`
 					this.data = res.data
-					this.handSetTimeout()
+					if (res.data.is_halt === 1) {
+						this.handSetTimeout()
+					}
 				} catch (e) {
 					//TODO handle the exception
 					uni.showToast({
@@ -413,9 +420,14 @@
 			},
 			// 是否去登录 
 			handOrLogin(status) {
-				if (status === 2) {
+				if (status === 3) {
 					uni.showToast({
 						title: '已停售，感谢您的关注',
+						icon: 'none'
+					})
+				} else if (status === 2) {
+					uni.showToast({
+						title: '已售罄，感谢您的关注',
 						icon: 'none'
 					})
 				} else if (status === 0) {
@@ -424,6 +436,7 @@
 						icon: 'none'
 					})
 				}
+
 
 				if (!this.$store.state.user.token) {
 					goLogin()

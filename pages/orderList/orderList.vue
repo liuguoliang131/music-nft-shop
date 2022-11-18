@@ -182,15 +182,16 @@
 					// 	loading: false,
 					// 	page: 1,
 					// 	list: []
-					// }, {
-					// 	name: '数字音乐',
-					// 	id: 3,
-					// 	activeNav: 0,
-					// 	isFinish: false,
-					// 	loading: false,
-					// 	page: 1,
-					// 	list: []
 					// },
+					{
+						name: '数字音乐',
+						id: 3,
+						activeNav: 0,
+						isFinish: false,
+						loading: false,
+						page: 1,
+						list: []
+					},
 					{
 						name: '黄金单曲',
 						id: 1,
@@ -370,7 +371,7 @@
 
 
 		/deep/.bar {
-			padding: 0 140rpx;
+			padding: 0 80rpx;
 		}
 
 
