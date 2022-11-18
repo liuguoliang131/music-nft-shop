@@ -135,7 +135,7 @@
 				</view>
 			</view>
 			<view class="bottom1-2">
-				<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handOrLogin(2)">已停售</view>
+				<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handOrLogin(3)">已停售</view>
 				<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0" @tap="handOrLogin(0)">
 					{{countDown}}
 				</view>
