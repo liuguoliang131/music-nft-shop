@@ -65,6 +65,7 @@ export const post = function(url, data = {}) {
 		})
 	})
 }
+// 不提示的
 export const post1 = function(url, data = {}) {
 	return new Promise((resolve, reject) => {
 		uni.request({

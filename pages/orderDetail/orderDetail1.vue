@@ -204,7 +204,7 @@
 
 <script>
 	import {
-		h5_collections_user_collectionInfo,
+		collections_user_collectionInfo,
 		h5_order_detail
 	} from '../../request/api.js'
 	import {

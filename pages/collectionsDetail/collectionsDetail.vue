@@ -145,7 +145,7 @@
 
 <script>
 	import {
-		h5_collections_user_collectionInfo,
+		collections_user_collectionInfo,
 		h5_order_detail
 	} from '../../request/api.js'
 	import {
@@ -202,7 +202,7 @@
 				return dayjs(e).format('YYYY/MM/DD HH:mm:ss')
 			},
 			getDetail(e) {
-				post(h5_collections_user_collectionInfo, {
+				post(collections_user_collectionInfo, {
 					owner_id: Number(e)
 				}).then(res => {
 					console.log(res)

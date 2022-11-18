@@ -77,6 +77,8 @@ export const collections_index_sharePoster = '/collections/index/sharePoster'
 export const order_list = '/order/list'
 // 订单列表 唱片的
 export const order_collectionsList = '/order/collectionsList'
+// 唱片详情 v1.9
+export const collections_user_collectionInfo = '/collections_user/collectionInfo'
 /**
  * @description 首页列表
  */

@@ -24,7 +24,8 @@
         "router" : {
             "mode" : "hash",
             "base" : "./"
-        }
+        },
+        "title" : "元音符"
     },
     /* 5+App特有相关 */
     "app-plus" : {
