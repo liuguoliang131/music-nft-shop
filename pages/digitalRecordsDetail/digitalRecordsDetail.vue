@@ -185,7 +185,8 @@
 	} from '../../request/index.js'
 	import {
 		openAppPage,
-		jumpBefore
+		jumpBefore,
+		playAlbum
 	} from '../../utils/index.js'
 	import dayjs from 'dayjs'
 	export default {

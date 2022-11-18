@@ -187,7 +187,7 @@
 								price: '12.22',
 								index_img: 'https://file.yuanyinfu.com/collections/product/product-1666854389017.jpg'
 							}, {
-								name: '黄金专辑',
+								name: '黄金专辑qqqa阿达阿三发生法发是否氨法沙发沙发',
 								rare_type: 'SSR',
 								code_num: '123',
 								price: '12.22',
@@ -359,6 +359,9 @@
 
 	.item {
 		// width: calc(50vw - 40rpx);
+		box-sizing: border-box;
+		width: 349rpx;
+		height: 459rpx;
 		overflow: hidden;
 		padding: 10rpx 10rpx;
 		display: flex;
@@ -369,8 +372,8 @@
 
 		&-image {
 			border-radius: 24rpx;
-			width: calc(50vw - 50rpx);
-			height: calc(50vw - 60rpx);
+			width: 324rpx;
+			height: 314rpx;
 			position: relative;
 			padding-bottom: 20rpx;
 
@@ -398,9 +401,13 @@
 		}
 
 		&-title {
+			width: 324rpx;
 			font-size: 28rpx;
 			font-weight: 500;
 			// color: #E8D18A;
+			overflow: hidden; // 溢出隐藏
+			white-space: nowrap; // 强制一行
+			text-overflow: ellipsis; // 文字溢出显示省略号
 		}
 
 		&-number {
@@ -419,5 +426,9 @@
 		align-items: center;
 		justify-content: space-between;
 		padding-top: 20rpx;
+		width: 324rpx;
+		overflow: hidden; // 溢出隐藏
+		white-space: nowrap; // 强制一行
+		text-overflow: ellipsis; // 文字溢出显示省略号
 	}
 </style>
