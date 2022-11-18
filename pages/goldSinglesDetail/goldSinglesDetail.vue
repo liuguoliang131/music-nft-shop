@@ -75,7 +75,7 @@
 						{{data.stock_num}}张
 					</view>
 				</view>
-				<view class="title1 mt32">
+				<view class="title1 mt32 mb8">
 					购买须知
 				</view>
 				<view class="text1" v-html="data.buy_notice">
@@ -97,12 +97,10 @@
 					<!-- <my-swiper :list="swiperList"></my-swiper> -->
 					<video class="text3-video" :src="data.video_url" controls :poster="data.video_index_pic"></video>
 				</view>
-				<!-- <view class="title1">
+				<view class="title1 mb8">
 					创作灵感
 				</view>
-				<view class="text1">
-					有没有一位遥远的爱人，让你怕表达出来的思念之情都成为她前行的负担，也许明天、也许某年，你知道只要她会还，你什么都愿。
-				</view> -->
+				<view class="text1" v-if="data.music_list.length" v-html="data.music_list[0].desc"></view>
 			</view>
 		</view>
 		<view class="footer"></view>
@@ -759,6 +757,10 @@
 			line-height: 36rpx;
 			color: #AEAEAE;
 			white-space: pre-wrap; //识别换行符 并且超过父盒子宽度自动换行
+		}
+
+		.mb8 {
+			margin-bottom: 8rpx;
 		}
 
 		.card1 {

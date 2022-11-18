@@ -15,6 +15,11 @@
 			</view>
 		</view>
 		<view class="title">
+			<image v-if="data.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
+			<image v-else-if="data.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
+			<image v-else-if="data.rare_type==='R'" src="../../static/R.png" mode=""></image>
+			<!-- <image v-else-if="data.rare_type==='N'" src="../../static/N.png" mode=""></image> -->
+			<image v-else-if="data.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
 			{{data.name}}
 		</view>
 		<view class="price">
@@ -71,7 +76,7 @@
 						{{data.stock_num}}张
 					</view>
 				</view>
-				<view class="title1 mt32">
+				<view class="title1 mt32 mb8">
 					购买须知
 				</view>
 				<view class="text1" v-html="data.buy_notice">
@@ -81,24 +86,38 @@
 		</view>
 		<view class="card2">
 			<view class="card2-body">
-				<view class="title1">
-					介绍信息
+				<view class="" v-if="data.publish_type===1">
+					<view class="title1 mb8">
+						介绍信息
+					</view>
+					<view class="author">
+						<image :src="data.author_info.author_avatar" mode=""></image>
+						<text>{{data.author_info.author_name}}</text>
+					</view>
+					<view class="text2 mb8" v-html="data.author_info.desc"></view>
+					<view class="text3" v-if="data.video_url">
+						<!-- <my-swiper :list="swiperList"></my-swiper> -->
+						<video class="text3-video" :src="data.video_url" controls
+							:poster="data.video_index_pic"></video>
+					</view>
+					<view class="title1 mb8">
+						创作灵感
+					</view>
+					<view class="text1" v-if="data.music_list.length" v-html="data.music_list[0].desc"></view>
 				</view>
-				<view class="author">
-					<image :src="data.author_info.author_avatar" mode=""></image>
-					<text>{{data.author_info.author_name}}</text>
+				<!-- 专辑 -->
+				<view class="" v-else-if="data.publish_type===2">
+					<view class="title1 mb8">
+						专辑介绍
+					</view>
+					<view class="text1 mb8" v-html="data.introduction"></view>
+					<view class="work" v-for="(item,idx) in data.music_list" :key="idx">
+						<view class="row1">{{item.name}}</view>
+						<view class="row2" v-html="item.desc">
+						</view>
+					</view>
 				</view>
-				<view class="text2" v-html="data.author_info.desc"></view>
-				<view class="text3" v-if="data.video_url">
-					<!-- <my-swiper :list="swiperList"></my-swiper> -->
-					<video class="text3-video" :src="data.video_url" controls :poster="data.video_index_pic"></video>
-				</view>
-				<!-- <view class="title1">
-					创作灵感
-				</view>
-				<view class="text1">
-					有没有一位遥远的爱人，让你怕表达出来的思念之情都成为她前行的负担，也许明天、也许某年，你知道只要她会还，你什么都愿。
-				</view> -->
+
 			</view>
 		</view>
 		<view class="footer"></view>
@@ -654,21 +673,46 @@
 			}
 		}
 
+		// .title {
+		// 	width: 648rpx;
+		// 	height: 100rpx;
+		// 	margin: auto;
+		// 	margin-top: 26rpx;
+		// 	font-family: 'PingFang SC';
+		// 	font-style: normal;
+		// 	overflow: hidden;
+		// 	font-weight: 500;
+		// 	font-size: 36rpx;
+		// 	line-height: 50rpx;
+		// 	text-align: center;
+
+		// 	color: #DDDDDD;
+		// }
 		.title {
 			width: 648rpx;
-			height: 100rpx;
+			// height: 100rpx;
 			margin: auto;
 			margin-top: 26rpx;
+			color: #DDDDDD;
 			font-family: 'PingFang SC';
 			font-style: normal;
-			overflow: hidden;
+			text-align: center;
 			font-weight: 500;
 			font-size: 36rpx;
-			line-height: 50rpx;
-			text-align: center;
+			line-height: 36rpx;
+			overflow: hidden; // 溢出隐藏
+			white-space: nowrap; // 强制一行
+			text-overflow: ellipsis; // 文字溢出显示省略号
 
-			color: #DDDDDD;
+			image {
+				width: 84rpx;
+				height: 40rpx;
+				margin-right: 16rpx;
+				vertical-align: middle;
+			}
 		}
+
+
 
 		.price {
 			display: flex;
@@ -753,6 +797,37 @@
 			line-height: 36rpx;
 			color: #AEAEAE;
 			white-space: pre-wrap; //识别换行符 并且超过父盒子宽度自动换行
+		}
+
+		.mb8 {
+			margin-bottom: 8rpx;
+		}
+
+		.work {
+			.row1 {
+				margin-bottom: 16rpx;
+				font-family: 'PingFang SC';
+				font-style: normal;
+				font-weight: 600;
+				font-size: 32rpx;
+				line-height: 44rpx;
+				overflow: hidden; // 溢出隐藏
+				white-space: nowrap; // 强制一行
+				text-overflow: ellipsis; // 文字溢出显示省略号
+				color: #E4C985;
+			}
+
+			.row2 {
+				padding-bottom: 24rpx;
+				font-size: 26rpx;
+				line-height: 36rpx;
+				color: #AEAEAE;
+				white-space: pre-wrap;
+			}
+
+			.row2:nth-last-child(1) {
+				padding-bottom: 24rpx;
+			}
 		}
 
 		.card1 {

@@ -407,16 +407,24 @@
 					post1(h5_conllections_buy_showsuccess, {
 						order_no: this.order_no
 					}).then(res => {
-						if (res.code === 200) {
+						if (res.code !== 0) {
+							return uni.showToast({
+								title: res.msg,
+								icon: 'none'
+							})
+						}
+
+						if (res.data.pay_status === 1) {
 							clearTimeout(this.timer)
 							uni.redirectTo({
 								url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}&order_id=${res.data.order_id}`
 							})
-						} else if (res.code !== 0 && res.code !== 200) {
+						} else {
 							uni.showToast({
 								title: res.msg,
 								icon: 'none'
 							})
+
 						}
 
 					})
@@ -498,18 +506,27 @@
 				post1(h5_conllections_buy_showsuccess, {
 					order_no: this.order_no
 				}).then(res => {
-					if (res.code === 200) {
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+
+					if (res.data.pay_status === 1) {
 						clearTimeout(this.timer)
 						uni.redirectTo({
 							url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}&order_id=${res.data.order_id}`
 						})
-					} else if (res.code !== 0 && res.code !== 200) {
+					} else if (res.data.pay_status === 0) {
+						this.listenPaySuccess()
+
+					} else if (res.data.pay_status === 2 || res.data.pay_status === 3 || res.data.pay_status ===
+						4) {
 						uni.showToast({
 							title: res.msg,
 							icon: 'none'
 						})
-					} else {
-						this.listenPaySuccess()
 					}
 
 				}).catch(error => {

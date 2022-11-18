@@ -11,7 +11,7 @@ const getHeader = (data) => {
 	const ts = new Date().getTime()
 	console.log('store', store)
 	const headers = {
-		'app-id': 'yyf_h5',
+		'app-id': store.state.user.inApp ? 'yyf_app_h5' : 'yyf_h5',
 		'x-token': store.state.user.token,
 		ts,
 		ak: 'hanhou-app',
