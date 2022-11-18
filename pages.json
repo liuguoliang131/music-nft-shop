@@ -223,7 +223,7 @@
 		}, {
 			"path": "pages/albumRecordsDetail/albumRecordsDetail",
 			"style": {
-				"navigationBarTitleText": "专辑唱片详情",
+				"navigationBarTitleText": "唱片详情",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
@@ -231,7 +231,7 @@
 		}, {
 			"path": "pages/singlesRecordsDetail/singlesRecordsDetail",
 			"style": {
-				"navigationBarTitleText": "单曲唱片详情",
+				"navigationBarTitleText": "唱片详情",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
@@ -239,7 +239,7 @@
 		}, {
 			"path": "pages/digitalRecordsDetail/digitalRecordsDetail",
 			"style": {
-				"navigationBarTitleText": "数字音乐详情",
+				"navigationBarTitleText": "唱片详情",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
