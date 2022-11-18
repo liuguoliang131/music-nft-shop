@@ -179,7 +179,8 @@
 	} from '../../request/index.js'
 	import {
 		getTimeData,
-		goLogin
+		goLogin,
+		openAppPage
 	} from '../../utils/index.js'
 	export default {
 		components: {
