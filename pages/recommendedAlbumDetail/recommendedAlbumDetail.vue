@@ -68,7 +68,7 @@
 						本次发行量
 					</view>
 					<view class="info-2">
-						{{data.stock_num}}
+						{{data.stock_num}}张
 					</view>
 				</view>
 				<view class="title1 mt32">
@@ -89,10 +89,9 @@
 					<text>{{data.author_info.author_name}}</text>
 				</view>
 				<view class="text2" v-html="data.author_info.desc"></view>
-				<view class="text3">
+				<view class="text3" v-if="data.video_url">
 					<!-- <my-swiper :list="swiperList"></my-swiper> -->
-					<video class="text3-video" :src="data.author_info.video_url" controls
-						:poster="data.author_info.video_index_pic"></video>
+					<video class="text3-video" :src="data.video_url" controls :poster="data.video_index_pic"></video>
 				</view>
 				<!-- <view class="title1">
 					创作灵感
@@ -237,12 +236,12 @@
 					publish_time1: '',
 					sale_time1: '',
 					is_like: 0,
+					video_url: '',
+					video_index_pic: '',
 					author_info: {
 						author_name: '',
 						author_avatar: '',
-						desc: '',
-						video_url: '',
-						video_index_pic: ''
+						desc: ''
 					},
 					statistics_info: {
 						like: '',

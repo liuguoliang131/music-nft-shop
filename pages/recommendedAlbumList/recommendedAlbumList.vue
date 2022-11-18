@@ -156,7 +156,7 @@
 					// 	})
 					// }
 					const res1 = await this.$post(collections_index_play, {
-						product_item_id: this.product_item_id
+						product_item_id: item.product_item_id
 					})
 					let data = {
 						"page": "musicPlayPage",
