@@ -431,6 +431,9 @@
 			},
 			// 分享
 			handShare() {
+				if (!this.$store.state.user.token) {
+					return goLogin()
+				}
 				uni.navigateTo({
 					url: `/pages/poster/poster?product_item_id=${this.product_item_id}&product_type=3`
 				})

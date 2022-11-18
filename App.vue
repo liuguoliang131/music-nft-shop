@@ -72,7 +72,6 @@
 							}
 						})
 						this.setInfo()
-
 					} else {
 						this.$store.commit('user/set_token', '')
 						this.$store.commit('user/set_userInfo', '')
