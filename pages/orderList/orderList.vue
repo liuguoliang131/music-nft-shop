@@ -212,7 +212,7 @@
 					}
 
 				],
-				activeBar: 1,
+				activeBar: 3,
 				navList: ['全部', '待支付', '已取消', '已完成']
 			}
 		},
