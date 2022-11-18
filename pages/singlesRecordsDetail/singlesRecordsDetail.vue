@@ -244,7 +244,7 @@
 			},
 			getOrderDetail(e) {
 				post(collections_user_collectionInfo, {
-					owner_id: Number(e)
+					owner_id: e
 				}).then(res => {
 					this.detail = res.data
 				})

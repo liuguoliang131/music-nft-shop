@@ -474,5 +474,4 @@ window.appConfig = function(config) {
 		AppConfigInfo = JSON.stringify(config)
 	}
 	window.localStorage.setItem('AppConfigInfo', AppConfigInfo)
-	alert(AppConfigInfo)
 }
