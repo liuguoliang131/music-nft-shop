@@ -11,8 +11,12 @@
 		hasPlus
 	} from 'utils/index.js'
 	import {
-		h5_user_info
+		h5_user_info,
+		h5_show_configure
 	} from 'request/api.js'
+	import {
+		post1
+	} from './request/index.js'
 	export default {
 		methods: {
 			setInfo() {
@@ -24,6 +28,13 @@
 						})
 					}
 					this.$store.commit('user/set_userInfo', res.data)
+				})
+			},
+			async getApprovalShowInfo() {
+				const res = await post1(h5_show_configure, {
+					version_code: '',
+					os: '',
+					channel: ''
 				})
 			},
 			onWebEntry() {

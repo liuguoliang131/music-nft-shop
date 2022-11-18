@@ -79,6 +79,8 @@ export const order_list = '/order/list'
 export const order_collectionsList = '/order/collectionsList'
 // 唱片详情 v1.9
 export const collections_user_collectionInfo = '/collections_user/collectionInfo'
+// H5公共配置接口 (add v1.9)
+export const h5_show_configure = '/h5/show/configure'
 /**
  * @description 首页列表
  */
