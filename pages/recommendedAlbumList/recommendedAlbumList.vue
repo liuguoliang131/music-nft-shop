@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<nav-head title="数字音乐"></nav-head>
 		<view class="empty" v-if="isFinish&&list.length===0">
 			<view class="empty-center">
 				<image src="../../static/emptybox.png" mode="" class="empty-img"></image>

@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<nav-head title="结算页"></nav-head>
 		<view class="title pt23">
 			<view class="title-l"></view>
 			<view class="title-r">唱片信息</view>
@@ -67,10 +67,10 @@
 		h5_conllections_buy_submit,
 		h5_conllections_buy_result
 	} from '../../request/api.js'
-	import CuHead from '../../components/cu-head.vue'
+	import NavHead from '../../components/navHead.vue'
 	export default {
 		components: {
-			CuHead
+			NavHead
 		},
 		data() {
 			return {

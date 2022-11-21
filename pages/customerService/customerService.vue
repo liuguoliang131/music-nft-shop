@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<nav-head title="联系客服"></nav-head>
 		<view class="item-content item1" v-if="identity_type===2">
 			<view class="row1">大客户咨询二维码</view>
 			<view class="row2">
@@ -32,7 +32,7 @@
 	import {
 		h5_user_info
 	} from '../../request/api.js'
-	import CuHead from '../../components/cu-head.vue'
+	import NavHead from '../../components/navHead.vue'
 	export default {
 		data() {
 			return {
@@ -42,7 +42,7 @@
 			};
 		},
 		components: {
-			CuHead
+			NavHead
 		},
 		methods: {
 			handleBack() {

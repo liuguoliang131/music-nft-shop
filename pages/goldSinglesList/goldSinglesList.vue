@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<nav-head title="黄金单曲"></nav-head>
 		<view class="empty" v-if="isFinish&&list.length===0">
 			<view class="empty-center">
 				<image src="../../static/empty-icon.png" mode="" class="empty-img"></image>

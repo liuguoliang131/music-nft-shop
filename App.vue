@@ -8,7 +8,8 @@
 		isWxBrowser,
 		jumpWxAuthUrl,
 		getAppConfig,
-		hasPlus
+		hasPlus,
+		controlTitleBar
 	} from 'utils/index.js'
 	import {
 		h5_user_info,
@@ -61,6 +62,7 @@
 				this.$store.commit('user/set_inApp', inApp)
 				if (inApp) {
 					// 元音符app
+					controlTitleBar()
 					if (document.cookie) {
 						console.log(document.cookie)
 						const arr = document.cookie.split('&')

@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<nav-head title="欣赏音乐"></nav-head>
 		<view class="title">
 			<text class="title-l"></text>
 			{{name}}
@@ -31,11 +31,12 @@
 </template>
 
 <script>
-	import CuHead from '../../components/cu-head.vue'
+	import NavHead from '../../components/navHead.vue'
 	import WxyAudio from '../../uni_modules/wxy-audio/components/wxy-audio/wxy-audio.vue'
 	export default {
 		components: {
-			WxyAudio
+			WxyAudio,
+			NavHead
 		},
 		data() {
 			return {

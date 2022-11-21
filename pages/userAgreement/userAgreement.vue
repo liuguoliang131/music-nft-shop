@@ -1,12 +1,12 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<nav-head title="用户协议"></nav-head>
 		<web-view :src="url"></web-view>
 	</view>
 </template>
 
 <script>
-	import CuHead from '../../components/cu-head.vue'
+	import NavHead from "../../components/navHead.vue"
 	export default {
 		data() {
 			return {
@@ -14,7 +14,7 @@
 			}
 		},
 		components: {
-			CuHead
+			NavHead
 		},
 		methods: {
 			handleBack() {

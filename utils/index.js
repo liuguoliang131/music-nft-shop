@@ -295,6 +295,28 @@ export const goDownload = () => {
 	}, 3000)
 }
 
+// 隐藏原生标题栏
+export const controlTitleBar = (isShow = false) => {
+	HSApp.postMessage(JSON.stringify({
+		'type': 'controlTitleBar',
+		'params': {
+			isShow
+		},
+	}))
+}
+// 关闭浏览器
+export const closeWebPage = () => {
+	HSApp.postMessage(JSON.stringify({
+		'type': 'closeWebPage',
+	}))
+}
+// 回退
+export const goBack = () => {
+	HSApp.postMessage(JSON.stringify({
+		'type': 'goBack',
+	}))
+}
+
 export const filterTime = (time) => {
 	const da = new Date(time);
 	var year = da.getFullYear();

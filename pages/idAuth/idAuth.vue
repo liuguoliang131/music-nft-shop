@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<nav-head title="身份认证"></nav-head>
 		<view class="header">
 			<view class="header-text">
 				个人身份未认证
@@ -33,7 +33,7 @@
 	import {
 		h5_collections_user_verified
 	} from '../../request/api.js'
-	import CuHead from '../../components/cu-head.vue'
+	import NavHead from '../../components/navHead.vue'
 	export default {
 		data() {
 			return {
@@ -44,7 +44,7 @@
 			}
 		},
 		components: {
-			CuHead
+			NavHead
 		},
 		methods: {
 			handleBack() {

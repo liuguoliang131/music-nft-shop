@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<nav-head title="订单详情"></nav-head>
 		<view class="title mt20">
 			<text class="title-v"></text>
 			<text v-if="product_type===1">单曲信息</text>

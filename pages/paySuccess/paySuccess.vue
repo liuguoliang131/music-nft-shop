@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<!-- <cu-head></cu-head> -->
+		<nav-head title="支付成功"></nav-head>
 		<view class="box1">
 			<image class="icon" src="../../static/Frame 41.png"></image>
 			<view class="row1">支付成功</view>
@@ -15,10 +15,10 @@
 </template>
 
 <script>
-	import CuHead from '../../components/cu-head.vue'
+	import NavHead from '../../components/navHead.vue'
 	export default {
 		components: {
-			CuHead
+			NavHead
 		},
 		data() {
 			return {

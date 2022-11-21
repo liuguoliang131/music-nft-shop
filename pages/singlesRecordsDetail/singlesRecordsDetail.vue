@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<nav-head title="唱片详情"></nav-head>
 		<view class="title mt20">
 			<text class="title-v"></text>
 			单曲信息

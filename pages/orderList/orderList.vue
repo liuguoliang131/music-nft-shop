@@ -1,6 +1,6 @@
 <template>
 	<view class="container order">
-		<cu-head />
+		<nav-head title="我的订单"></nav-head>
 		<my-tab :list="tabList" :activeBar="activeBar" @active="handActive" :slide="false"></my-tab>
 		<view class="order-nav">
 			<view class="order-nav-item" :class="index === activeNav ? 'active' : ''"
@@ -76,6 +76,7 @@
 <script>
 	import MyTab from '../../components/myTab.vue'
 	import MyScroll from '../../components/myScroll.vue'
+	import NavHead from '../../components/navHead.vue'
 	import {
 		h5_order_list,
 		h5_order_cancle,
@@ -92,7 +93,8 @@
 	export default {
 		components: {
 			MyTab,
-			MyScroll
+			MyScroll,
+			NavHead
 		},
 		data() {
 			return {

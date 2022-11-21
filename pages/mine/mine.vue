@@ -1,6 +1,6 @@
 <template>
 	<view class="container mine">
-		<cu-head></cu-head>
+		<nav-head title="我的"></nav-head>
 		<view class="mine-head">
 			<image :src="userInfo.avatar" class="mine-head-image" mode=""></image>
 			<view class="mine-head-box">

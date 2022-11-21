@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<nav-head title="收银台"></nav-head>
 		<view class="box1">
 			<view class="price">
 				<text class="rmb">￥</text>
@@ -93,7 +93,7 @@
 	import {
 		requestPayment
 	} from '../../request/index.js'
-	import CuHead from '../../components/cu-head.vue'
+	import NavHead from '../../components/navHead.vue'
 	import {
 		openAppPage,
 		jumpBefore,
@@ -121,7 +121,7 @@
 			};
 		},
 		components: {
-			CuHead,
+			NavHead,
 			WybPopup,
 			MyDialog
 		},

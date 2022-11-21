@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<nav-head title="我的唱片"></nav-head>
 		<my-tab :list="tabList" @active="handActiveBar" :activeBar="activeBar" :slide="false"></my-tab>
 		<view class="notice">
 			当前拥有{{total_num}}张
@@ -50,10 +50,12 @@
 	} from '../../request/index.js'
 	import MyTab from '../../components/myTab.vue'
 	import MyScroll from '../../components/myScroll.vue'
+	import NavHead from '../../components/navHead.vue'
 	export default {
 		components: {
 			MyTab,
-			MyScroll
+			MyScroll,
+			NavHead
 		},
 		data() {
 			return {

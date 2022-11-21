@@ -15,7 +15,8 @@
 	import {
 		isApp,
 		hasPlus,
-		goLogin
+		goLogin,
+		goBack
 	} from '../utils/index.js'
 	export default {
 		name: "cu-head",
@@ -37,21 +38,26 @@
 		},
 		methods: {
 			navBack() {
-				let currentRoutes = getCurrentPages(); // 获取当前打开过的页面路由数组
-				if (currentRoutes.length === 1) {
-					if (this.$store.state.user.token) {
-						uni.redirectTo({
-							url: '/pages/index/index'
-						})
-
-					} else {
-						goLogin()
-					}
+				if (this.$store.state.user.inApp) {
+					goBack()
 				} else {
-					uni.navigateBack({
-						delta: 1, //返回层数，2则上上页
-					})
+					let currentRoutes = getCurrentPages(); // 获取当前打开过的页面路由数组
+					if (currentRoutes.length === 1) {
+						if (this.$store.state.user.token) {
+							uni.redirectTo({
+								url: '/pages/index/index'
+							})
+
+						} else {
+							goLogin()
+						}
+					} else {
+						uni.navigateBack({
+							delta: 1, //返回层数，2则上上页
+						})
+					}
 				}
+
 			}
 		},
 		created() {

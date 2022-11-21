@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<nav-head title="分享海报"></nav-head>
 		<view class="content">
 			<view class="box1">
 				<image class="posterImageBase64" v-if="posterImageBase64" :src="posterImageBase64" mode=""></image>
@@ -35,7 +35,7 @@
 	import {
 		post1
 	} from '../../request/index.js'
-	import CuHead from '../../components/cu-head.vue'
+	import NavHead from '../../components/navHead.vue'
 	export default {
 		data() {
 			return {
@@ -57,7 +57,7 @@
 			};
 		},
 		components: {
-			CuHead
+			NavHead
 		},
 		methods: {
 			handleBack() {

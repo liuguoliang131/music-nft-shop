@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<nav-head></nav-head>
 		<view class="header"></view>
 		<view class="main">
 			<view class="gobtn" @tap="handGo">邀请海报</view>
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-	import CuHead from '../../components/cu-head.vue'
+	import NavHead from '../../components/navHead.vue'
 	export default {
 		data() {
 			return {
@@ -28,7 +28,7 @@
 			};
 		},
 		components: {
-			CuHead
+			NavHead
 		},
 		methods: {
 			handGo() {
