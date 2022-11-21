@@ -193,7 +193,7 @@
 					this.loading = true
 					const res = await post1(h5_collections_user_collectionList, {
 						page: this.page++,
-						product_type: this.id
+						product_type: this.activeBar
 					})
 					// const res = await this.mock(this.page++)
 					console.log('res', res)

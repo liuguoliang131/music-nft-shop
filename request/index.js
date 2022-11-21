@@ -29,6 +29,7 @@ const getHeader = (data) => {
 	} else {
 		md5After = 'ak=' + 'hanhou-app' + '&ts=' + ts + onlykey
 	}
+	console.log('md5After', md5After)
 	const sign = md5(md5After)
 	headers.sign = sign
 	return headers
