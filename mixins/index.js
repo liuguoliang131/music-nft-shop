@@ -1,6 +1,6 @@
 import {
 	post1
-} from '../store/index.js'
+} from "../request/index.js"
 export default {
 	data() {
 		return {
@@ -22,7 +22,7 @@ export default {
 					const config = window.localStorage.getItem('AppConfigInfo') || {}
 					const appConfig = JSON.parse(config)
 					const data = {
-						version_code: appConfig.version_code,
+						version_code: appConfig.version_code || 1900,
 						os: appConfig.os,
 						channel: appConfig.channel
 					}
@@ -36,11 +36,13 @@ export default {
 						resolve(this.isApprove)
 					})
 				} else {
+					uni.hideLoading()
 					this.isApprove = false
 					resolve(this.isApprove)
 				}
 
 			})
+
 		}
 	}
 
