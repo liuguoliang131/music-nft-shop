@@ -1,10 +1,9 @@
 <template>
 	<!-- 预购专辑详情 -->
 	<view class="container">
-		<!-- <view class="nav">
-			<image @tap="handleBack()" class="nav-left" src="../../static/navLeft.png" mode=""></image>
-		</view> -->
-		<cu-head></cu-head>
+		<nav-head :left="!share_sign" :right="!share_sign" title="详情">
+			<image class="nav-r" src="../../static/share1.png" mode="" @tap="handShare"></image>
+		</nav-head>
 		<view class="preOrderDetails-header">
 			<view class="cover">
 				<div class="cover-content">
@@ -86,7 +85,7 @@
 			</view>
 		</view>
 		<view class="h120"></view>
-		<view class="preOrderDetails-footer">
+		<!-- <view class="preOrderDetails-footer">
 			<view class="abs" @tap="handShare()">
 				<image class="abs-img" src="../../static/share.png"></image>
 				<text class="abs-text">分享</text>
@@ -100,6 +99,57 @@
 			<view v-else-if="data.is_halt===1&&data.sale_status===2" class="footer-btn gray-btn" @tap="handOrLogin(2)">
 				已售罄</view>
 
+		</view> -->
+		<view class="bottom1" v-if="share_sign">
+			<view v-if="data.is_like===1" class="bottom1-1 followed" @tap="handFollow(2)">
+				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
+				<view class="bottom1-1-2">
+					关注
+				</view>
+			</view>
+			<view v-else class="bottom1-1 unfollow" @tap="handFollow(1)">
+				<image class="bottom1-1-1" src="../../static/follow-hollow.png" mode=""></image>
+				<view class="bottom1-1-2">
+					关注
+				</view>
+			</view>
+			<view class="bottom1-2">
+				<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handGoDownload">已停售</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0" @tap="handGoDownload">
+					{{countDown}}
+				</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1" @tap="handGoDownload">
+					立即抢购
+				</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===2" class="bottom1-status2" @tap="handGoDownload">
+					已售罄</view>
+
+			</view>
+		</view>
+		<view class="bottom1" v-else>
+			<view v-if="data.is_like===1" class="bottom1-1 followed" @tap="handFollow(2)">
+				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
+				<view class="bottom1-1-2">
+					关注
+				</view>
+			</view>
+			<view v-else class="bottom1-1 unfollow" @tap="handFollow(1)">
+				<image class="bottom1-1-1" src="../../static/follow-hollow.png" mode=""></image>
+				<view class="bottom1-1-2">
+					关注
+				</view>
+			</view>
+			<view class="bottom1-2">
+				<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handOrLogin(3)">已停售</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0" @tap="handOrLogin(0)">
+					{{countDown}}
+				</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1" @tap="handBuyThe">立即抢购
+				</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===2" class="bottom1-status2" @tap="handOrLogin(2)">
+					已售罄</view>
+
+			</view>
 		</view>
 		<wyb-popup ref="popup" type="bottom" height="701" width="750" radius="6" bgColor="#1D1D1D"
 			:showCloseIcon="true">
@@ -166,13 +216,14 @@
 
 <script>
 	import WybPopup from '@/components/wyb-popup/wyb-popup.vue'
-	import CuHead from '../../components/cu-head.vue'
+	import NavHead from '../../components/navHead.vue'
 	import {
 		h5_collections_index_info,
 		h5_collections_user_if_approve,
 		h5_conllections_buy_checkout,
 		collections_index_visit,
-		collections_index_detail
+		collections_index_detail,
+		collections_index_like
 	} from '../../request/api.js'
 	import {
 		post1
@@ -180,12 +231,13 @@
 	import {
 		getTimeData,
 		goLogin,
-		openAppPage
+		openAppPage,
+		goDownload
 	} from '../../utils/index.js'
 	export default {
 		components: {
 			WybPopup,
-			CuHead
+			NavHead
 		},
 		data() {
 			return {
@@ -210,7 +262,21 @@
 					music_list: [],
 					is_login: '',
 					publish_time1: '',
-					sale_time1: ''
+					sale_time1: '',
+					is_like: 0,
+					video_url: '',
+					video_index_pic: '',
+					author_info: {
+						author_name: '',
+						author_avatar: '',
+						desc: ''
+					},
+					statistics_info: {
+						like: '',
+						play: '',
+						visit: '',
+						share: ''
+					}
 				},
 				count: 1,
 				statusTimer: null,
@@ -404,23 +470,6 @@
 			// 立即抢购
 			async handOrder() {
 				try {
-					// const res = await this.$get(h5_collections_user_if_approve)
-					// if (res.code === 200 || res.code === 0) {
-					// 	uni.navigateTo({
-					// 		url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}`
-					// 	})
-					// } else if (res.code === 7) {
-					// 	// 身份认证
-					// 	uni.navigateTo({
-					// 		url: `/pages/idAuth/idAuth`
-					// 	})
-
-					// } else {
-					// 	return uni.showToast({
-					// 		title: res.msg,
-					// 		icon: 'error'
-					// 	})
-					// }
 					if (!this.$store.state.user.token) {
 						return goLogin()
 					}
@@ -442,8 +491,6 @@
 
 					} else {
 						const params = res.data.info
-						// res.data.info.total = (res.data.info.buy_num * res.data.info.pay_price).toFixed(2)
-
 						if (this.$store.state.user.inApp) {
 							let appConfig = window.localStorage.getItem('AppConfigInfo')
 							if (appConfig) {
@@ -484,11 +531,44 @@
 				}
 
 			},
+			async handFollow(operation_type) {
+				try {
+					const res = await this.$post(collections_index_like, {
+						product_item_id: this.product_item_id,
+						operation_type
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'error'
+						})
+					}
+					if (operation_type === 1) {
+						uni.showToast({
+							title: '关注成功',
+							icon: 'none'
+						})
+					} else {
+						uni.showToast({
+							title: '已取消关注',
+							icon: 'none'
+						})
+					}
+
+
+					this.data.is_like = operation_type === 1 ? 1 : 0
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
 			// 访问统计
 			async visitStatics() {
 				const res = await post1(collections_index_visit, {
 					product_item_id: this.product_item_id
 				})
+			},
+			handGoDownload() {
+				goDownload()
 			}
 		},
 		onLoad(option) {
@@ -519,6 +599,11 @@
 		100% {
 			transform: rotate(360deg);
 		}
+	}
+
+	.nav-r {
+		width: 48rpx;
+		height: 48rpx;
 	}
 
 	.card {
@@ -764,81 +849,108 @@
 			height: 120rpx;
 		}
 
-		.preOrderDetails-footer {
+		.bottom1 {
 			z-index: 8;
 			position: fixed;
 			bottom: 0;
 			left: 0;
-			display: flex;
-			align-items: center;
-			justify-content: flex-end;
+			box-sizing: border-box;
 			width: 100%;
 			height: 120rpx;
-			background-color: #151516;
+			padding: 0 42rpx 0 64rpx;
+			display: flex;
+			align-items: center;
+			background: #212121;
 
-			.abs {
-				position: absolute;
-				top: 26rpx;
-				left: 58rpx;
-				width: 50rpx;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
+			.bottom1-1 {
+				flex: 1;
 
-
-
-				.abs-img {
-					width: 42rpx;
-					height: 42rpx;
+				.bottom1-1-1 {
+					width: 48rpx;
+					height: 48rpx;
 				}
 
-				.abs-text {
-					font-family: 'PingFang SC';
+				.bottom1-1-2 {
+					width: 57.62rpx;
+					text-align: center;
+					font-family: 'PingFang HK';
 					font-style: normal;
 					font-weight: 400;
-					padding-top: 2rpx;
-					font-size: 22rpx;
-					transform: scale(0.95);
+					line-height: 28rpx;
+					font-size: 24rpx;
+					transform-origin: 0 0;
+					transform: scale(0.83);
+				}
+
+				.followed {
+					color: #C8A964;
+				}
+
+				.unfollow {
+					color: #777777;
+				}
+			}
+
+			.bottom1-2 {
+				width: 522rpx;
+				height: 74rpx;
+
+				.bottom1-status0 {
+					width: 522rpx;
+					height: 74rpx;
+					background: #D10910;
+					border-radius: 48rpx;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 500;
+					font-size: 32rpx;
+					line-height: 74rpx;
+					text-align: center;
 					color: #ECECEC;
+
+					&:active {
+						background-color: rgba(209, 9, 16, 0.6);
+						color: rgba(134, 134, 134, 1);
+					}
 				}
 
-				&:active .abs-text {
-					color: rgba(134, 134, 134, 1);
+				.bottom1-status1 {
+					width: 522rpx;
+					height: 74rpx;
+					background: #D10910;
+					border-radius: 48rpx;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 500;
+					font-size: 32rpx;
+					line-height: 74rpx;
+					text-align: center;
+					color: #ECECEC;
+
+					&:active {
+						background-color: rgba(209, 9, 16, 0.6);
+						color: rgba(134, 134, 134, 1);
+					}
 				}
-			}
 
-			.footer-btn {
-				width: 524rpx;
-				height: 73rpx;
-				margin-right: 40rpx;
-				line-height: 73rpx;
-				text-align: center;
-				background: #D10910;
-				border-radius: 48rpx;
-				font-weight: 500;
-				font-size: 32rpx;
-				color: #ECECEC;
-
-				&:active {
-					background-color: rgba(209, 9, 16, 0.6);
-					color: rgba(134, 134, 134, 1);
-				}
-			}
-
-			.noactive {
-				background: #D10910 !important;
-				color: #ECECEC !important;
-			}
-
-			.gray-btn {
-				background: #7C7C7C;
-
-				&:active {
+				.bottom1-status2 {
+					width: 522rpx;
+					height: 74rpx;
 					background: #7C7C7C;
+					border-radius: 48rpx;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 500;
+					font-size: 32rpx;
+					line-height: 74rpx;
+					text-align: center;
 					color: #ECECEC;
+
+					&:active {}
 				}
 			}
+
+
 		}
 
 		/deep/.icon-close {

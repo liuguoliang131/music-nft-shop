@@ -1,8 +1,8 @@
 <template>
 	<!-- 数字音乐详情 -->
 	<view class="container">
-		<nav-head title="详情">
-			<image class="share-icon" src="../../static/share1.png" mode="" @tap="handShare"></image>
+		<nav-head :left="!share_sign" :right="!share_sign" title="详情">
+			<image class="nav-r" src="../../static/share1.png" mode="" @tap="handShare"></image>
 		</nav-head>
 
 		<view class="cover">
@@ -121,7 +121,33 @@
 			</view>
 		</view>
 		<view class="footer"></view>
-		<view class="bottom1">
+		<view class="bottom1" v-if="share_sign">
+			<view v-if="data.is_like===1" class="bottom1-1 followed" @tap="handFollow(2)">
+				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
+				<view class="bottom1-1-2">
+					关注
+				</view>
+			</view>
+			<view v-else class="bottom1-1 unfollow" @tap="handFollow(1)">
+				<image class="bottom1-1-1" src="../../static/follow-hollow.png" mode=""></image>
+				<view class="bottom1-1-2">
+					关注
+				</view>
+			</view>
+			<view class="bottom1-2">
+				<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handGoDownload">已停售</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0" @tap="handGoDownload">
+					{{countDown}}
+				</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1" @tap="handGoDownload">
+					立即抢购
+				</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===2" class="bottom1-status2" @tap="handGoDownload">
+					已售罄</view>
+
+			</view>
+		</view>
+		<view class="bottom1" v-else>
 			<view v-if="data.is_like===1" class="bottom1-1 followed" @tap="handFollow(2)">
 				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
 				<view class="bottom1-1-2">
@@ -228,7 +254,8 @@
 	import {
 		getTimeData,
 		goLogin,
-		openAppPage
+		openAppPage,
+		goDownload
 	} from '../../utils/index.js'
 	export default {
 		components: {
@@ -617,6 +644,9 @@
 				const res = await post1(collections_index_visit, {
 					product_item_id: this.product_item_id
 				})
+			},
+			handGoDownload() {
+				goDownload()
 			}
 		},
 		onLoad(option) {
@@ -653,7 +683,7 @@
 	.container {
 		padding: 0 24rpx;
 
-		.share-icon {
+		.nav-r {
 			width: 48rpx;
 			height: 48rpx;
 		}

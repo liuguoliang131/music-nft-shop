@@ -1,9 +1,9 @@
 <template>
 	<view class="slots">
 		<view class="nav">
-			<image v-show="isWeb" @tap="navBack()" class="nav-left" src="../static/navLeft.png" mode=""></image>
-			<text v-show="isWeb" class="nav-center">{{title}}</text>
-			<text class="nav-right">
+			<image v-show="left" @tap="navBack()" class="nav-left" src="../static/navLeft.png" mode=""></image>
+			<text class="nav-center">{{title}}</text>
+			<text v-show="right" class="nav-right">
 				<slot></slot>
 			</text>
 		</view>
@@ -22,6 +22,12 @@
 		props: {
 			title: {
 				default: ''
+			},
+			left: {
+				default: true
+			},
+			right: {
+				default: true
 			}
 		},
 		data() {
@@ -49,11 +55,7 @@
 			}
 		},
 		created() {
-			if (isApp() || window.plus) {
-				this.isWeb = false
-			} else {
-				this.isWeb = true
-			}
+
 		}
 	}
 </script>

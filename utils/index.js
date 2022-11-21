@@ -280,6 +280,20 @@ export const jumpBefore = (url, fail) => {
 		}
 	}
 }
+// 去下载
+export const goDownload = () => {
+	uni.showToast({
+		title: '即将跳转到元音符App下载页面',
+		icon: 'none',
+		duration: 3000
+	})
+	if (timer) return false
+	timer = setTimeout(() => {
+		clearTimeout(timer)
+		timer = null
+		window.location.href = config.APP_DOWNLOAD_URL
+	}, 3000)
+}
 
 export const filterTime = (time) => {
 	const da = new Date(time);
