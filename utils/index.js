@@ -488,33 +488,7 @@ export const addPlusReady = () => {
 		document.addEventListener('plusready', plusReady, false)
 	}
 }
-// 获取审核配置
-export const getApproveConfig = (data) => {
-	const api = '/h5/show/configure'
-	return new Promise((resolve, reject) => {
-		uni.request({
-			timeout: 20000,
-			url: config.BASE_URL + api,
-			method: 'post',
-			header: getHeader(data),
-			data,
-			success(res) {
-				if (res.data.code !== 0) {
-					reject(new Error(res.data.msg))
-					return false
-				} else {
-					resolve(res.data)
-				}
-			},
-			fail(error) {
-				reject(new Error(error.message))
-			},
-			complete() {
 
-			}
-		})
-	})
-}
 // 获取APP信息
 export const getAppConfig = () => {
 	if (isApp()) {
@@ -537,19 +511,4 @@ window.appConfig = function(config) {
 		AppConfigInfo = JSON.stringify(config)
 	}
 	window.localStorage.setItem('AppConfigInfo', AppConfigInfo)
-	// 获取审核配置
-	const obj = JSON.parse(AppConfigInfo)
-	const data = {
-		version_code: obj.version_code,
-		os: obj.os,
-		channel: obj.channel
-	}
-
-	getApproveConfig(data).then(res => {
-		if (res.data && res.data.config && res.data.config.audit_status) {
-			window.sessionStorage.setItem('isApprove', res.data.config.audit_status)
-		} else {
-			window.sessionStorage.setItem('isApprove', 'true')
-		}
-	})
 }

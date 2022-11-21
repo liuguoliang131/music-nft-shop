@@ -10,14 +10,19 @@
 		<my-scroll v-else class="list" @load="getList" :isFinish="isFinish" :loading="loading">
 			<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
 				<view class="item-1">
-					<image class="item-1-sign" v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
-					<image class="item-1-sign" v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode="">
+					<image v-show="!isApprove" class="item-1-sign" v-if="item.rare_type==='SSR'"
+						src="../../static/SSR.png" mode=""></image>
+					<image v-show="!isApprove" class="item-1-sign" v-else-if="item.rare_type==='UR'"
+						src="../../static/UR.png" mode="">
 					</image>
-					<image class="item-1-sign" v-else-if="item.rare_type==='R'" src="../../static/R.png" mode="">
+					<image v-show="!isApprove" class="item-1-sign" v-else-if="item.rare_type==='R'"
+						src="../../static/R.png" mode="">
 					</image>
-					<image class="item-1-sign" v-else-if="item.rare_type==='N'" src="../../static/N.png" mode="">
+					<image v-show="!isApprove" class="item-1-sign" v-else-if="item.rare_type==='N'"
+						src="../../static/N.png" mode="">
 					</image>
-					<image class="item-1-sign" v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode="">
+					<image v-show="!isApprove" class="item-1-sign" v-else-if="item.rare_type==='SR'"
+						src="../../static/SR.png" mode="">
 					</image>
 					<image class="item-1-out" :src="item.index_img" mode=""></image>
 					<image class="item-1-in" src="../../static/turn.png" mode=""></image>
@@ -32,11 +37,11 @@
 							{{item.author_name}}
 						</view>
 					</view>
-					<view class="item-2-3">
+					<view class="item-2-3" v-show="!isApprove">
 						限量{{item.stock_num}}份
 					</view>
 					<view class="item-2-4">
-						<view class="item-2-4-1">
+						<view class="item-2-4-1" v-show="!isApprove">
 							￥{{item.sale_price}}
 						</view>
 						<view class="item-2-4-2" @tap.stop="handPlay(item)">
@@ -62,11 +67,13 @@
 	import {
 		openAppPage
 	} from '../../utils/index.js'
+	import Mixins from '../../mixins/index.js'
 	export default {
 		components: {
 			NavHead,
 			MyScroll
 		},
+		mixins: [Mixins],
 		data() {
 			return {
 				isFinish: false,
@@ -177,6 +184,11 @@
 					throw e
 				}
 			}
+		},
+		onLoad() {
+			this.getApprove().then(() => {
+
+			})
 		}
 	}
 </script>

@@ -234,11 +234,13 @@
 		openAppPage,
 		goDownload
 	} from '../../utils/index.js'
+	import Mixins from '../../mixins/index.js'
 	export default {
 		components: {
 			WybPopup,
 			NavHead
 		},
+		mixins: [Mixins],
 		data() {
 			return {
 				product_item_id: '',
@@ -280,8 +282,7 @@
 				},
 				count: 1,
 				statusTimer: null,
-				countDown: '',
-				isApprove: true
+				countDown: ''
 			};
 		},
 		computed: {
@@ -574,11 +575,13 @@
 		},
 		onLoad(option) {
 			console.log('onload', option)
-			this.isApprove = window.sessionStorage.getItem('isApprove') === 'true'
-			this.product_item_id = Number(option.product_item_id)
-			this.share_sign = option.share_sign || ''
-			this.getDetails(this.product_item_id)
-			this.visitStatics()
+			this.getApprove().then(() => {
+				this.product_item_id = Number(option.product_item_id)
+				this.share_sign = option.share_sign || ''
+				this.getDetails(this.product_item_id)
+				this.visitStatics()
+			})
+
 		},
 		onShow() {
 

@@ -24,7 +24,7 @@
 					<text class="item-row2-1">
 						{{item.author_name}}
 					</text>
-					<text class="item-row2-2">
+					<text class="item-row2-2" v-show="!isApprove">
 						<text class="row2-2-unit">
 							￥
 						</text>
@@ -50,11 +50,13 @@
 	import {
 		post1
 	} from '../../request/index.js'
+	import Mixins from '../../mixins/index.js'
 	export default {
 		components: {
 			NavHead,
 			MyScroll
 		},
+		mixins: [Mixins],
 		data() {
 			return {
 				isFinish: false,
@@ -175,6 +177,11 @@
 					throw e
 				}
 			}
+		},
+		onLoad() {
+			this.getApprove().then(() => {
+
+			})
 		}
 	}
 </script>

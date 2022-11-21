@@ -257,12 +257,14 @@
 		openAppPage,
 		goDownload
 	} from '../../utils/index.js'
+	import Mixins from '../../mixins/index.js'
 	export default {
 		components: {
 			WybPopup,
 			NavHead,
 			MySwiper
 		},
+		mixins: [Mixins],
 		data() {
 			return {
 				product_item_id: '',
@@ -314,8 +316,7 @@
 					{
 						image: 'https://file.yuanyinfu.com/a_2022-04-29-12-55-22-100053-5b9775e1fb6d29664102d4a3ef5a09b1.jpg'
 					}
-				],
-				isApprove: true
+				]
 			};
 		},
 		computed: {
@@ -652,11 +653,13 @@
 		},
 		onLoad(option) {
 			console.log('onload', option)
-			this.isApprove = window.sessionStorage.getItem('isApprove') === 'true'
-			this.product_item_id = Number(option.product_item_id)
-			this.share_sign = option.share_sign || ''
-			this.getDetails(this.product_item_id)
-			this.visitStatics()
+			this.getApprove().then(() => {
+				this.product_item_id = Number(option.product_item_id)
+				this.share_sign = option.share_sign || ''
+				this.getDetails(this.product_item_id)
+				this.visitStatics()
+			})
+
 		},
 		onShow() {
 
