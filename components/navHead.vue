@@ -73,19 +73,20 @@
 
 	.nav {
 		position: fixed;
-		top: 60rpx;
+		top: 0;
 		left: 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		width: 100%;
+		padding-top: 60rpx;
 		height: 88rpx;
 		background-color: #0D0D0D;
 		z-index: 10;
 
 		.nav-left {
 			position: absolute;
-			top: 20rpx;
+			top: 80rpx;
 			left: 28rpx;
 			width: 48rpx;
 			height: 48rpx;
@@ -105,7 +106,7 @@
 
 		.nav-right {
 			position: absolute;
-			top: 0rpx;
+			top: 60rpx;
 			right: 28rpx;
 			display: flex;
 			align-items: center;
