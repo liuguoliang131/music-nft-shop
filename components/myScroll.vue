@@ -2,9 +2,9 @@
 	<view class="window" @scroll="scroll" ref="window">
 		<view class="scroll" ref="scroll">
 			<slot :data="data"></slot>
-			<view class="loading" v-show="loading">
+			<!-- <view class="loading" v-show="loading">
 				加载中...
-			</view>
+			</view> -->
 			<view class="noMore" v-show="isFinish">
 				没有更多了
 			</view>
@@ -28,7 +28,8 @@
 				default: false
 			},
 			data: {
-				type: Object
+				type: Object,
+				description: '和myTab组件组合使用，接收每个tab的list'
 			}
 		},
 		watch: {
@@ -59,9 +60,9 @@
 			},
 			// 滚动块高度小于窗口高度时会一直调用onload
 			notFull() {
-				// console.log('notFull', this.$refs.window.$el.clientHeight, this.$refs.scroll.$el.scrollHeight)
+				console.log('notFull', this.$refs.window.$el.clientHeight, this.$refs.scroll.$el.scrollHeight)
 				if (this.$refs.scroll.$el.scrollHeight < this.$refs.window.$el.clientHeight) {
-					console.log(this.$refs.window.$el.clientHeight, this.$refs.scroll.$el.scrollHeight)
+					// console.log(this.$refs.window.$el.clientHeight, this.$refs.scroll.$el.scrollHeight)
 					this.onload()
 				}
 			}

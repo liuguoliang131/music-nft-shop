@@ -1,79 +1,42 @@
 <template>
 	<view class="container">
 		<cu-head></cu-head>
-		<my-tab :list="tabList" @active="handActiveBar" :activeBar="activeBar" :slide="false">
-			<template v-slot:item="{data}">
-				<view class="notice">
-					当前拥有{{data.total_num}}张
-				</view>
-				<view class="empty" v-if="data.isFinish&&data.list.length===0">
-					<view class="empty-center">
-						<image src="../../static/emptybox.png" mode="" class="empty-img"></image>
-						<view class="empty-text">空空如也，请先去选购</view>
+		<my-tab :list="tabList" @active="handActiveBar" :activeBar="activeBar" :slide="false"></my-tab>
+		<view class="notice">
+			当前拥有{{total_num}}张
+		</view>
+		<view class="empty" v-if="isFinish&&list.length===0">
+			<view class="empty-center">
+				<image src="../../static/emptybox.png" mode="" class="empty-img"></image>
+				<view class="empty-text">空空如也，请先去选购</view>
+			</view>
+		</view>
+		<my-scroll v-else class="scroll-box" :isFinish="isFinish" :loading="loading" @load="getList">
+			<view class="item" v-for="(item , index) in list" @click="handleGoToDetail(item)" :key='index'>
+				<view class="item-image">
+					<view class="item-image-image" :style="`background-image:url(${item.index_img})`">
+					</view>
+					<view class="item-image-level">
+						<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
+						<image v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
+						<image v-else-if="item.rare_type==='R'" src="../../static/R.png" mode=""></image>
+						<image v-else-if="item.rare_type==='N'" src="../../static/N.png" mode=""></image>
+						<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
 					</view>
 				</view>
-				<my-scroll v-else :key="data.id" class="scroll-box" :isFinish="data.isFinish" :loading="data.loading"
-					:data="data" @load="getList">
-					<view class="item" v-for="(item , index) in data.list" @click="handleGoToDetail(item)" :key='index'>
-						<view class="item-image">
-							<view class="item-image-image" :style="`background-image:url(${item.index_img})`">
-							</view>
-							<view class="item-image-level">
-								<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
-								<image v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
-								<image v-else-if="item.rare_type==='R'" src="../../static/R.png" mode=""></image>
-								<image v-else-if="item.rare_type==='N'" src="../../static/N.png" mode=""></image>
-								<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
-							</view>
-						</view>
-						<view class="item-title">
-							{{item.name}}
-						</view>
-						<view class="flex">
-							<view class="item-number">
-								{{item.code_num}}
-							</view>
-							<view class="item-price">
-								￥<text>{{item.price}}</text>
-							</view>
-						</view>
+				<view class="item-title">
+					{{item.name}}
+				</view>
+				<view class="flex">
+					<view class="item-number">
+						{{item.code_num}}
 					</view>
-				</my-scroll>
-			</template>
-		</my-tab>
-		<!-- <scroll-view scroll-y style="height: calc(100vh - 180rpx);" @scrolltolower='handleScrollTolower'>
-			<view class="grid-box">
-				<view class="item" v-for="(item , index) in list " @click="handleGoToDetail(item)" :key='index'>
-					<view class="item-image">
-						<view class="item-image-image" :style="`background-image:url(${item.index_img})`">
-						</view>
-						<view class="item-image-level">
-							<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
-							<image v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
-							<image v-else-if="item.rare_type==='R'" src="../../static/R.png" mode=""></image>
-							<image v-else-if="item.rare_type==='N'" src="../../static/N.png" mode=""></image>
-							<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
-						</view>
-					</view>
-					<view class="item-title">
-						{{item.name}}
-					</view>
-					<view class="flex">
-						<view class="item-number">
-							{{item.code_num}}
-						</view>
-						<view class="item-price">
-							￥<text>{{item.price}}</text>
-						</view>
+					<view class="item-price">
+						￥<text>{{item.price}}</text>
 					</view>
 				</view>
 			</view>
-			<view class="no-data" v-if="list.length===0">
-				<image src="../../static/no-data.png" mode=""></image>
-				~ 空空如也，请先去选购 ~
-			</view>
-		</scroll-view>
- -->
+		</my-scroll>
 	</view>
 </template>
 
@@ -125,6 +88,8 @@
 				],
 				activeBar: 3,
 				page: 1,
+				isFinish: false,
+				loading: false,
 				list: [],
 				total_num: 0
 			}
@@ -198,7 +163,13 @@
 				})
 			},
 			handActiveBar(id) {
+				if (id === this.activeBar) return false
 				this.activeBar = id
+				this.list = []
+				this.page = 1
+				this.loading = false
+				this.isFinish = false
+				this.getList()
 			},
 			async getList(data) {
 				// this.mock(h5_collections_user_collectionList, {
@@ -217,42 +188,40 @@
 				// 		this.page = this.page - 1
 				// 	}
 				// })
-				console.log('getList', data)
-				const active = this.tabList.find((item) => item.id === data.id)
 				try {
 
-					active.loading = true
+					this.loading = true
 					const res = await post1(h5_collections_user_collectionList, {
-						page: active.page++,
-						product_type: active.id
+						page: this.page++,
+						product_type: this.id
 					})
-					// const res = await this.mock(active.page++)
+					// const res = await this.mock(this.page++)
 					console.log('res', res)
 					if (res.code !== 0) {
-						active.isFinish = true
-						active.loading = false
+						this.isFinish = true
+						this.loading = false
 						return uni.showToast({
 							title: res.msg,
 							icon: 'none'
 						})
 					}
 					if (res.data.list && Array.isArray(res.data.list) && res.data.list.length) {
-						if (active.page === 1) {
-							active.list = res.data.list
+						if (this.page === 1) {
+							this.list = res.data.list
 						} else {
-							active.list = [...active.list, ...res.data.list]
+							this.list = [...this.list, ...res.data.list]
 						}
 
 
 					} else {
-						active.isFinish = true
-						active.page = active.page - 1
+						this.isFinish = true
+						this.page = this.page - 1
 					}
-					active.total_num = res.data.total_num
-					active.loading = false
+					this.total_num = res.data.total_num
+					this.loading = false
 				} catch (e) {
-					active.isFinish = true
-					active.loading = false
+					this.isFinish = true
+					this.loading = false
 					console.log(e)
 					throw e
 					//TODO handle the exception

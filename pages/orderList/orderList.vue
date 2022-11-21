@@ -1,150 +1,73 @@
 <template>
 	<view class="container order">
 		<cu-head />
-		<my-tab :list="tabList" :activeBar="activeBar" @active="handActive" :slide="false">
-			<template v-slot:item="{data}">
-				<view class="order-nav">
-					<view class="order-nav-item" :class="index === data.activeNav ? 'active' : ''"
-						v-for="( item , index ) in navList" :key='index' @click="handleClickNavItem(data,index)">
-						{{item}}
-					</view>
-				</view>
-				<view class="empty" v-if="data.isFinish&&data.list.length===0">
-					<view class="empty-center">
-						<image src="../../static/empty-icon.png" mode="" class="empty-img"></image>
-						<view class="empty-text">还没有相关订单</view>
-					</view>
-				</view>
-				<my-scroll v-else :key="data.id" class="scroll-box" :isFinish="data.isFinish" :loading="data.loading"
-					:data="data" @load="getList">
-					<view class="order-body-item" v-for="(item , index) in data.list" :key='index'
-						@click="handleGoToDetail(item,data.id)">
-						<view class="order-body-item-imageBox">
-							<view class="order-body-item-imageBox-image"
-								:style="`background-image:url(${item.index_img||item.music_pic})`">
-							</view>
-							<view class="order-body-item-imageBox-level" v-if="item.rare_type">
-								<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
-								<image v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
-								<image v-else-if="item.rare_type==='R'" src="../../static/R.png" mode=""></image>
-								<image v-else-if="item.rare_type==='N'" src="../../static/N.png" mode=""></image>
-								<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
-							</view>
-						</view>
-						<view class="order-body-item-box">
-							<view class="order-body-item-box-flex">
-								<view class="order-body-item-title">
-									{{item.name||item.music_name}}
-								</view>
-								<view class="order-body-item-type"
-									style="color: #D10910;font-size: 28rpx;font-weight: 500;">
-									{{item.pay_status | filterStatus}} <text class="cuIcon-right"></text>
-								</view>
-							</view>
-							<view class="order-body-item-box-flex">
-
-								<view class="order-body-item-tag">
-									包含{{item.singles_num||'1'}}首单曲
-								</view>
-								<view class="order-body-item-type" style="margin-top: 16rpx;">
-									￥{{item.buy_price||item.order_price}}
-								</view>
-							</view>
-							<view class="order-body-item-box-flex">
-								<view class="order-body-item-price"
-									style="margin-left: auto;color: #666;font-size: 20rpx;">
-									× {{item.buy_num||'1'}}
-								</view>
-							</view>
-							<view class="order-body-item-box-flex">
-								<view class="order-body-item-price"
-									style="margin-left: auto;color: #fff;margin-top: 10rpx;">
-									实付金额 ￥{{item.order_price}}
-								</view>
-							</view>
-
-							<view class="order-body-item-box-flex" style="margin-top: 20rpx;"
-								v-if="item.pay_status === 0">
-								<view style="display: flex;align-items: center;margin-left: auto;margin-top: 8rpx;">
-									<button class="my-btn" @click.stop="handleClickCancle(item)">取消订单</button>
-									<button class="my-btn" @click.stop="handleGoCashier(item)"
-										style="border-color: #C9A43D;color: #C9A43D;margin-left: 10rpx;">去支付</button>
-								</view>
-							</view>
-						</view>
-					</view>
-				</my-scroll>
-				<!-- <scroll-view class="order-body" scroll-y style="height: calc(100vh - 228rpx);"
-					@scrolltolower='handleScrollTolower'>
-					<view class="order-body-item" v-for="(item , index) in list" :key='index'
-						@click="handleGoToDetail(item)">
-						<view class="order-body-item-imageBox">
-							<view class="order-body-item-imageBox-image"
-								:style="`background-image:url(${item.index_img})`">
-							</view>
-							<view class="order-body-item-imageBox-level" v-if="item.rare_type">
-								<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
-								<image v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
-								<image v-else-if="item.rare_type==='R'" src="../../static/R.png" mode=""></image>
-								<image v-else-if="item.rare_type==='N'" src="../../static/N.png" mode=""></image>
-								<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
-							</view>
-						</view>
-						<view class="order-body-item-box">
-							<view class="order-body-item-box-flex">
-								<view class="order-body-item-title">
-									{{item.title}}
-								</view>
-								<view class="order-body-item-type"
-									style="color: #D10910;font-size: 28rpx;font-weight: 500;">
-									{{item.order_status | filterStatus}} <text class="cuIcon-right"></text>
-								</view>
-							</view>
-							<view class="order-body-item-box-flex">
-
-								<view class="order-body-item-tag">
-									包含{{item.singles_num}}首单曲
-								</view>
-								<view class="order-body-item-type" style="margin-top: 16rpx;">
-									￥{{item.buy_price}}
-								</view>
-							</view>
-							<view class="order-body-item-box-flex">
-								<view class="order-body-item-price"
-									style="margin-left: auto;color: #666;font-size: 20rpx;">
-									× {{item.buy_num}}
-								</view>
-							</view>
-							<view class="order-body-item-box-flex">
-								<view class="order-body-item-price"
-									style="margin-left: auto;color: #fff;margin-top: 10rpx;">
-									实付金额 ￥{{item.order_total_price}}
-								</view>
-							</view>
-
-							<view class="order-body-item-box-flex" style="margin-top: 20rpx;"
-								v-if="item.order_status === 1">
-								<view style="display: flex;align-items: center;margin-left: auto;margin-top: 8rpx;">
-									<button class="my-btn" @click.stop="handleClickCancle(item)">取消订单</button>
-									<button class="my-btn" @click.stop="handleGoCashier(item)"
-										style="border-color: #C9A43D;color: #C9A43D;margin-left: 10rpx;">去支付</button>
-								</view>
-							</view>
-						</view>
-					</view>
-					<view class="no-data" v-if="list.length===0">
-						<image src="../../static/no-data.png" mode=""></image>
-						~您还没有相关订单~
-					</view>
-				</scroll-view> -->
-			</template>
-		</my-tab>
-		<!-- <view class="order-nav">
+		<my-tab :list="tabList" :activeBar="activeBar" @active="handActive" :slide="false"></my-tab>
+		<view class="order-nav">
 			<view class="order-nav-item" :class="index === activeNav ? 'active' : ''"
 				v-for="( item , index ) in navList" :key='index' @click="handleClickNavItem(index)">
 				{{item}}
 			</view>
-		</view> -->
+		</view>
+		<view class="empty" v-if="isFinish&&list.length===0">
+			<view class="empty-center">
+				<image src="../../static/empty-icon.png" mode="" class="empty-img"></image>
+				<view class="empty-text">还没有相关订单</view>
+			</view>
+		</view>
+		<my-scroll v-else class="scroll-box" :isFinish="isFinish" :loading="loading" @load="getList">
+			<view class="order-body-item" v-for="(item , index) in list" :key='index'
+				@click="handleGoToDetail(item,activeBar)">
+				<view class="order-body-item-imageBox">
+					<view class="order-body-item-imageBox-image"
+						:style="`background-image:url(${item.index_img||item.music_pic})`">
+					</view>
+					<view class="order-body-item-imageBox-level" v-if="item.rare_type">
+						<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
+						<image v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
+						<image v-else-if="item.rare_type==='R'" src="../../static/R.png" mode=""></image>
+						<image v-else-if="item.rare_type==='N'" src="../../static/N.png" mode=""></image>
+						<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
+					</view>
+				</view>
+				<view class="order-body-item-box">
+					<view class="order-body-item-box-flex">
+						<view class="order-body-item-title">
+							{{item.name||item.music_name}}
+						</view>
+						<view class="order-body-item-type" style="color: #D10910;font-size: 28rpx;font-weight: 500;">
+							{{item.pay_status | filterStatus}} <text class="cuIcon-right"></text>
+						</view>
+					</view>
+					<view class="order-body-item-box-flex">
+
+						<view class="order-body-item-tag">
+							包含{{item.singles_num||'1'}}首单曲
+						</view>
+						<view class="order-body-item-type" style="margin-top: 16rpx;">
+							￥{{item.buy_price||item.order_price}}
+						</view>
+					</view>
+					<view class="order-body-item-box-flex">
+						<view class="order-body-item-price" style="margin-left: auto;color: #666;font-size: 20rpx;">
+							× {{item.buy_num||'1'}}
+						</view>
+					</view>
+					<view class="order-body-item-box-flex">
+						<view class="order-body-item-price" style="margin-left: auto;color: #fff;margin-top: 10rpx;">
+							实付金额 ￥{{item.order_price}}
+						</view>
+					</view>
+
+					<view class="order-body-item-box-flex" style="margin-top: 20rpx;" v-if="item.pay_status === 0">
+						<view style="display: flex;align-items: center;margin-left: auto;margin-top: 8rpx;">
+							<button class="my-btn" @click.stop="handleClickCancle(item)">取消订单</button>
+							<button class="my-btn" @click.stop="handleGoCashier(item)"
+								style="border-color: #C9A43D;color: #C9A43D;margin-left: 10rpx;">去支付</button>
+						</view>
+					</view>
+				</view>
+			</view>
+		</my-scroll>
 
 
 	</view>
@@ -213,7 +136,12 @@
 
 				],
 				activeBar: 3,
-				navList: ['全部', '待支付', '已取消', '已完成']
+				navList: ['全部', '待支付', '已取消', '已完成'],
+				activeNav: 0,
+				isFinish: false,
+				loading: false,
+				page: 1,
+				list: []
 			}
 		},
 		onLoad() {
@@ -234,86 +162,73 @@
 			}
 		},
 		methods: {
+			initParams() {
+				this.page = 1
+				this.list = []
+				this.isFinish = false
+				this.loading = false
+			},
 			handActive(id) {
+				if (this.activeBar === id) return false
 				this.activeBar = id
+				this.initParams()
+				this.getList()
 			},
 			async getList(data) {
-				// if (e) {
-				// 	this.page = 1
-				// 	this.list = []
-				// }
-				// post(h5_order_list, {
-				// 	page: this.page,
-				// 	order_type: this.activeNav
-				// }).then(res => {
-				// 	if (res.data && Array.isArray(res.data)) {
-				// 		if (this.page === 1) {
-				// 			console.log(1)
-				// 			this.list = res.data
-				// 		} else {
-				// 			console.log(2)
-				// 			this.list = [...this.list, ...res.data]
-				// 		}
-
-				// 	} else {
-				// 		this.page = this.page - 1
-				// 	}
-				// })
-				const active = this.tabList.find((item) => item.id === data.id)
 				let url = null
 				let params = null
-				if (active.id === 4) {
+				if (this.activeBar === 4) {
 					url = order_list
 					// pay：已完成， cancel：已取消， create：待支付
 					const fType = ['', 'create', 'cancel', 'pay']
 					params = {
-						page: active.page++,
-						type: fType[active.activeNav]
+						page: this.page++,
+						type: fType[this.activeNav]
 					}
 				} else {
 					url = order_collectionsList
 					params = {
-						page: active.page++,
-						order_type: active.activeNav,
-						product_type: active.id
+						page: this.page++,
+						order_type: this.activeNav,
+						product_type: this.activeBar
 					}
 				}
 				try {
-					active.loading = true
+					this.loading = true
 					const res = await post1(url, params)
 					if (res.code !== 0) {
-						active.isFinish = true
-						active.loading = false
+						this.isFinish = true
+						this.loading = false
 						return uni.showToast({
 							title: res.msg,
 							icon: 'none'
 						})
 					}
 					if (res.data.list && Array.isArray(res.data.list) && res.data.list.length) {
-						if (active.page === 1) {
-							active.list = res.data.list
+						if (this.page === 1) {
+							this.list = res.data.list
 						} else {
-							active.list = [...active.list, ...res.data.list]
+							this.list = [...this.list, ...res.data.list]
 						}
 
 					} else {
-						active.isFinish = true
-						active.page = active.page - 1
+						this.isFinish = true
+						this.page = this.page - 1
 					}
-					active.loading = false
+					this.loading = false
 				} catch (e) {
-					active.isFinish = true
-					active.loading = false
+					this.isFinish = true
+					this.loading = false
 					console.log(e)
 					throw e
 					//TODO handle the exception
 				}
 			},
-			handleClickNavItem(item, idx) {
-				item.activeNav = idx
-				item.page = 1
-				item.list = []
-				this.getList(item)
+			handleClickNavItem(idx) {
+				if (this.activeNav === idx) return false
+				this.activeNav = idx
+				this.initParams()
+				this.getList()
 			},
 			handleGoToDetail(e, product_type) {
 				let url = `/pages/orderDetail/orderDetail?id=${e.order_id}&product_type=${product_type}`

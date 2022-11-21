@@ -2,43 +2,39 @@
 	<view class="container">
 		<cu-head></cu-head>
 		<view class="tabbar">
-			<my-tab :list="tabList" @active="handActiveBar" :activeBar="activeBar" :slide="false">
-				<template v-slot:item="{data}">
-					<view class="empty" v-if="data.isFinish&&data.list.length===0">
-						<view class="empty-center">
-							<image src="../../static/emptybox.png" mode="" class="empty-img"></image>
-							<view class="empty-text">空空如也，请先去选购</view>
-						</view>
+			<my-tab :list="tabList" @active="handActiveBar" :activeBar="activeBar" :slide="false"></my-tab>
+			<view class="empty" v-if="isFinish&&list.length===0">
+				<view class="empty-center">
+					<image src="../../static/emptybox.png" mode="" class="empty-img"></image>
+					<view class="empty-text">空空如也，请先去选购</view>
+				</view>
+			</view>
+			<my-scroll v-else class="scroll-box" ref="myScroll" :isFinish="isFinish" :loading="loading" @load="getList">
+				<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
+					<view class="cover-content">
+						<image class="cover-img" src="../../static/image-7 1-1.png"></image>
+						<image class="cover-turn" src="../../static/turn.png" mode=""></image>
+						<image class="cover-turn1" :src="item.index_img" mode=""></image>
+						<image v-show="item.publish_type===1" class="cover-play" src="../../static/play.png" mode=""
+							@tap.stop="handPlay(item)"></image>
+						<!-- <image class="cover-play" src="../../static/pause.png" mode=""></image> -->
 					</view>
-					<my-scroll v-else :key="data.id" class="scroll-box" :isFinish="data.isFinish"
-						:loading="data.loading" :data="data" @load="getList">
-						<view class="item" v-for="(item,idx) in data.list" :key="idx" @tap="handGo(item)">
-							<view class="cover-content">
-								<image class="cover-img" src="../../static/image-7 1-1.png"></image>
-								<image class="cover-turn" src="../../static/turn.png" mode=""></image>
-								<image class="cover-turn1" :src="item.index_img" mode=""></image>
-								<image v-show="item.publish_type===1" class="cover-play" src="../../static/play.png"
-									mode="" @tap.stop="handPlay(item)"></image>
-								<!-- <image class="cover-play" src="../../static/pause.png" mode=""></image> -->
-							</view>
-							<view class="item-row1">
-								{{item.name}}
-							</view>
-							<view class="item-row2">
-								<text class="item-row2-1">
-									{{item.singer}}
-								</text>
-								<text class="item-row2-2">
-									<text class="row2-2-unit">
-										￥
-									</text>
-									<text class="row2-2-price">{{item.price}}</text>
-								</text>
-							</view>
-						</view>
-					</my-scroll>
-				</template>
-			</my-tab>
+					<view class="item-row1">
+						{{item.name}}
+					</view>
+					<view class="item-row2">
+						<text class="item-row2-1">
+							{{item.singer}}
+						</text>
+						<text class="item-row2-2">
+							<text class="row2-2-unit">
+								￥
+							</text>
+							<text class="row2-2-price">{{item.price}}</text>
+						</text>
+					</view>
+				</view>
+			</my-scroll>
 		</view>
 	</view>
 </template>
@@ -92,12 +88,21 @@
 					}
 
 				],
-				activeBar: 3
+				activeBar: 3,
+				isFinish: false,
+				loading: false,
+				page: 1,
+				list: []
 			};
 		},
 		methods: {
 			handActiveBar(id) {
+				if (id === this.activeBar) return false
+				this.list = []
 				this.activeBar = id
+				this.isFinish = false
+				this.page = 1
+				this.getList()
 			},
 
 			mock(page) {
@@ -139,18 +144,15 @@
 			},
 			async getList(data) {
 				try {
-					console.log('getList', data)
-					const active = this.tabList.find((item) => item.id === data.id)
-					console.log('getlist')
-					active.loading = true
+					this.loading = true
 					const res = await post1(h5_collections_user_likeList, {
-						page: active.page++,
-						product_type: active.id
+						page: this.page++,
+						product_type: this.activeBar
 					})
 					// const res = await this.mock(active.page++)
 					if (res.code !== 0) {
-						active.isFinish = true
-						active.loading = false
+						this.isFinish = true
+						this.loading = false
 						return uni.showToast({
 							title: res.msg,
 							icon: 'none'
@@ -158,22 +160,21 @@
 					}
 					if (res.data.list && Array.isArray(res.data.list) && res.data.list.length) {
 
-						if (active.page === 1) {
-							active.list = res.data.list
+						if (this.page === 1) {
+							this.list = res.data.list
 						} else {
-							active.list = [...active.list, ...res.data.list]
+							this.list = [...this.list, ...res.data.list]
 						}
-						console.log('active', active)
+
 
 					} else {
-						active.isFinish = true
-						active.page = active.page - 1
+						this.isFinish = true
+						this.page = this.page - 1
 					}
-					active.loading = false
+					this.loading = false
 				} catch (e) {
-					active.isFinish = true
-					active.loading = false
-					console.log(e)
+					this.isFinish = true
+					this.loading = false
 					throw e
 					//TODO handle the exception
 				}
