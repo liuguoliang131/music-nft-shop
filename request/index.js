@@ -49,17 +49,26 @@ export const post = function(url, data = {}) {
 			data,
 			success(res) {
 				console.log('post success', res)
-				if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
-					goLogin()
+				if (res.statusCode === 500) {
+					uni.showToast({
+						title: '网络请求错误，请检查网络',
+						icon: 'none'
+					})
+					reject(new Error('网络请求错误，请检查网络'))
 				} else {
-					resolve(res.data)
+					if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
+						goLogin()
+					} else {
+						resolve(res.data)
+					}
 				}
 
 			},
 			fail(res) {
+				console.log('post fail', res)
 				reject(res)
 			},
-			complete() {
+			complete(res) {
 				uni.hideLoading()
 			}
 		})
@@ -75,18 +84,28 @@ export const post1 = function(url, data = {}) {
 			url: config.BASE_URL + url,
 			data,
 			success(res) {
-				console.log('post success', res)
-				if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
-					goLogin()
+				console.log('post1 success', res)
+				if (res.statusCode === 500) {
+					uni.showToast({
+						title: '网络请求错误，请检查网络',
+						icon: 'none'
+					})
+					reject(new Error('网络请求错误，请检查网络'))
 				} else {
-					resolve(res.data)
+					if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
+						goLogin()
+					} else {
+						resolve(res.data)
+					}
 				}
 
 			},
 			fail(res) {
+				console.log('post1 fail', res)
 				reject(res)
 			},
-			complete() {
+			complete(res) {
+				console.log('complete', res)
 
 			}
 		})
@@ -108,10 +127,18 @@ export const get = function(url, params = {}) {
 			params,
 			success(res) {
 				console.log('post success', res)
-				if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
-					goLogin()
+				if (res.statusCode === 500) {
+					uni.showToast({
+						title: '网络请求错误，请检查网络',
+						icon: 'none'
+					})
+					reject(new Error('网络请求错误，请检查网络'))
 				} else {
-					resolve(res.data)
+					if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
+						goLogin()
+					} else {
+						resolve(res.data)
+					}
 				}
 
 			},
@@ -136,10 +163,18 @@ export const get1 = function(url, params = {}) {
 			params,
 			success(res) {
 				console.log('post success', res)
-				if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
-					goLogin()
+				if (res.statusCode === 500) {
+					uni.showToast({
+						title: '网络请求错误，请检查网络',
+						icon: 'none'
+					})
+					reject(new Error('网络请求错误，请检查网络'))
 				} else {
-					resolve(res.data)
+					if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
+						goLogin()
+					} else {
+						resolve(res.data)
+					}
 				}
 
 			},

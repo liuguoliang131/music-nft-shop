@@ -219,7 +219,10 @@
 				} catch (e) {
 					this.isFinish = true
 					this.loading = false
-					console.log(e)
+					uni.showToast({
+						title: e.message,
+						icon: 'none'
+					})
 					throw e
 					//TODO handle the exception
 				}
