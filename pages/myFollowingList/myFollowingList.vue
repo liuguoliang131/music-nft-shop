@@ -262,7 +262,7 @@
 
 		.scroll-box {
 			width: 750rpx;
-			height: calc(100vh - 228rpx);
+			height: calc(100vh - 168rpx);
 
 			/deep/.scroll {
 				display: flex;
@@ -273,7 +273,7 @@
 					width: 346rpx;
 					height: 448rpx;
 					border: 1rpx solid #5F5F5F;
-					border-radius: 20px;
+					border-radius: 20rpx;
 					margin-top: 20rpx;
 					margin-left: 20rpx;
 

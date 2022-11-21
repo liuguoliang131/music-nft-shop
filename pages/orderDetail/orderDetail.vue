@@ -202,9 +202,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="splitline">
 
-		</view>
 		<view class="container-btn" v-if="detail.order_status === 1" @click.stop="handleGoCashier">
 			去支付
 		</view>
@@ -489,6 +487,7 @@
 
 		.price {
 			color: #D10910 !important;
+			font-weight: 600;
 		}
 
 		.container-btn {

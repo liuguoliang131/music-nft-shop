@@ -95,7 +95,7 @@
 		<view class="splitline">
 
 		</view>
-		<view class="title mb7">
+		<view class="title mb9">
 			<text class="title-v"></text>
 			介绍信息
 		</view>
@@ -345,6 +345,10 @@
 			margin-bottom: 15rpx;
 		}
 
+		.mb9 {
+			margin-bottom: 22rpx;
+		}
+
 
 		.box1 {
 			margin-top: 23rpx;
@@ -430,7 +434,7 @@
 
 				.box2-1-l {
 					box-sizing: border-box;
-					width: 254rpx;
+					width: 250rpx;
 					padding-left: 18rpx;
 					color: #777777;
 				}
@@ -578,7 +582,7 @@
 					width: 526rpx;
 					height: 552rpx;
 					padding: 0 16rpx;
-					border: 1rpx solid #AC9147;
+					border: 0.5rpx solid #AC9147;
 					border-radius: 12rpx;
 					text-align: center;
 
@@ -611,14 +615,14 @@
 
 						.row2-line1 {
 							width: 56rpx;
-							height: 1rpx;
+							height: 0.5rpx;
 							background-color: #666666;
 							margin-right: 8rpx;
 						}
 
 						.row2-line2 {
 							width: 56rpx;
-							height: 1rpx;
+							height: 0.5rpx;
 							background-color: #666666;
 							margin-left: 8rpx;
 						}

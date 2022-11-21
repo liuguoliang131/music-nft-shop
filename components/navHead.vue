@@ -80,7 +80,7 @@
 			width: 100%;
 			padding-top: 60rpx;
 			height: 88rpx;
-			background-color: #0D0D0D;
+			background-color: $uni-bg-color;
 			z-index: 10;
 
 			.nav-left {

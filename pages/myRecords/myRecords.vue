@@ -13,7 +13,7 @@
 		</view>
 		<my-scroll v-else class="scroll-box" :isFinish="isFinish" :loading="loading" @load="getList">
 			<view class="item" v-for="(item , index) in list" @click="handleGoToDetail(item)" :key='index'>
-				<view class="item-image">
+				<!-- <view class="item-image">
 					<view class="item-image-image" :style="`background-image:url(${item.index_img})`">
 					</view>
 					<view class="item-image-level">
@@ -32,6 +32,18 @@
 						{{item.code_num}}
 					</view>
 					<view class="item-price">
+						￥<text>{{item.price}}</text>
+					</view>
+				</view> -->
+				<image class="cover" :src="item.index_img" mode=""></image>
+				<view class="item-title1">
+					{{item.name}}
+				</view>
+				<view class="item-title2">
+					<view class="title2-1">
+						{{item.code_num}}
+					</view>
+					<view class="title2-2">
 						￥<text>{{item.price}}</text>
 					</view>
 				</view>
@@ -320,75 +332,79 @@
 		margin-bottom: 20rpx;
 	}
 
-	.grid-box {
-
-		padding-bottom: 20rpx;
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-gap: 20rpx;
-	}
-
 	.item {
-		// width: calc(50vw - 40rpx);
 		box-sizing: border-box;
-		width: 349rpx;
-		height: 459rpx;
-		overflow: hidden;
-		padding: 10rpx 10rpx;
-		display: flex;
-		flex-direction: column;
+		width: 346rpx;
+		height: 448rpx;
 		border: 1rpx solid #5F5F5F;
 		border-radius: 20rpx;
 		margin-bottom: 20rpx;
+		text-align: center;
 
-		&-image {
-			border-radius: 24rpx;
-			width: 324rpx;
-			height: 314rpx;
-			position: relative;
-			padding-bottom: 20rpx;
-
-			&-image {
-				width: 100%;
-				height: 100%;
-				background-size: cover;
-				background-position: center center;
-				background-repeat: no-repeat;
-				border-radius: 20rpx;
-			}
-
-			&-level {
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 84rpx;
-				height: 40rpx;
-
-				image {
-					width: 100%;
-					height: 100%;
-				}
-			}
+		.cover {
+			width: 308rpx;
+			height: 308rpx;
+			margin: auto;
+			margin-top: 16rpx;
+			border-radius: 14rpx;
 		}
 
-		&-title {
-			width: 324rpx;
-			font-size: 28rpx;
+		.item-title1 {
+			font-family: 'PingFang SC';
+			font-style: normal;
 			font-weight: 500;
-			// color: #E8D18A;
+			font-size: 28rpx;
+			line-height: 40rpx;
+			/* identical to box height */
+			color: #DDDDDD;
+			margin-top: 16rpx;
+			margin-bottom: 8rpx;
 			overflow: hidden; // 溢出隐藏
 			white-space: nowrap; // 强制一行
 			text-overflow: ellipsis; // 文字溢出显示省略号
+			text-align: left;
+			padding: 0 20rpx;
 		}
 
-		&-number {
-			font-size: 24rpx;
-		}
+		.item-title2 {
+			display: flex;
+			align-items: center;
+			padding: 0 16rpx 0 20rpx;
+			line-height: 32rpx;
 
-		&-price {
-			font-size: 32rpx;
-			color: #D10910;
-			font-weight: 500;
+			.title2-1 {
+				flex: 1;
+				font-family: 'PingFang SC';
+				font-style: normal;
+				font-weight: 400;
+				font-size: 24rpx;
+				color: #AEAEAE;
+				overflow: hidden; // 溢出隐藏
+				white-space: nowrap; // 强制一行
+				text-overflow: ellipsis; // 文字溢出显示省略号
+				text-align: left;
+			}
+
+			.title2-2 {
+				flex: 1;
+				display: flex;
+				justify-content: flex-end;
+				overflow: hidden; // 溢出隐藏
+				white-space: nowrap; // 强制一行
+				text-overflow: ellipsis; // 文字溢出显示省略号
+				font-family: 'PingFang SC';
+				font-style: normal;
+				font-weight: 400;
+				font-size: 24rpx;
+				color: #D10910;
+
+				text {
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 600;
+					font-size: 32rpx;
+				}
+			}
 		}
 	}
 

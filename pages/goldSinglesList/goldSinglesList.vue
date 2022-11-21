@@ -348,7 +348,7 @@
 							.item-2-4-2 {
 								display: flex;
 								align-items: center;
-								width: 192rpx;
+								width: 182rpx;
 								height: 48rpx;
 								border-radius: 24rpx;
 								background: linear-gradient(92.75deg, #F4C85F 53.95%, #FFEBBC 151.4%);

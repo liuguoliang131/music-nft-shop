@@ -897,7 +897,7 @@
 		}
 
 		.card1 {
-			margin-top: 70rpx;
+			margin-top: 24rpx;
 			background: #292929;
 			border-radius: 8rpx;
 			box-sizing: border-box;

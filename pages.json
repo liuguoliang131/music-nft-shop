@@ -50,7 +50,7 @@
 			"path": "pages/settlement/settlement",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "结算页",
+				"navigationBarTitleText": "订单预览",
 				"enablePullDownRefresh": false
 			}
 

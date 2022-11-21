@@ -95,7 +95,7 @@
 					overflow: hidden; // 溢出隐藏
 					white-space: nowrap; // 强制一行
 					text-overflow: ellipsis; // 文字溢出显示省略号
-					transition: all 0.5s;
+					// transition: all 0.5s;
 
 					.line {
 						position: absolute;
@@ -103,7 +103,7 @@
 						left: 50%;
 						transform: translate(-50%, 0);
 						width: 60rpx;
-						height: 4rpx;
+						height: 6rpx;
 						border-radius: 2rpx;
 						opacity: 0;
 						background-color: #C8A964;
@@ -113,6 +113,7 @@
 
 				.bar-active {
 					color: #C8A964;
+					font-weight: 600;
 
 					.line {
 						opacity: 1;
@@ -148,7 +149,7 @@
 					overflow: hidden; // 溢出隐藏
 					white-space: nowrap; // 强制一行
 					text-overflow: ellipsis; // 文字溢出显示省略号
-					transition: all 0.5s;
+					// transition: all 0.5s;
 
 					.line {
 						position: absolute;
@@ -166,6 +167,7 @@
 
 				.bar-active {
 					color: #C8A964;
+					font-weight: 600;
 
 					.line {
 						opacity: 1;
