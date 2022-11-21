@@ -65,11 +65,15 @@
 	import {
 		h5_user_info
 	} from '../../request/api.js'
+	import NavHead from '../../components/navHead.vue'
 	export default {
 		data() {
 			return {
 				userInfo: {}
 			}
+		},
+		components: {
+			NavHead
 		},
 		methods: {
 			copy(data) {

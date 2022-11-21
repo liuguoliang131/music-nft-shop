@@ -111,6 +111,9 @@
 		onShow() {
 			// this.getList()
 		},
+		onLoad() {
+			console.log('onload')
+		},
 		methods: {
 			mock() {
 				return new Promise((resolve) => {

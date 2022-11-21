@@ -2,7 +2,8 @@
 export default {
 	namespaced: true,
 	state: {
-		noNetwork: false //网络状态
+		noNetwork: false, //网络状态
+		isApprove: true
 	},
 	mutations: {
 		set_noNetwork(state, data) {

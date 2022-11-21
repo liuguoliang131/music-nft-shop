@@ -15,19 +15,19 @@
 			</view>
 		</view>
 		<view class="title">
-			<image v-if="data.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
-			<image v-else-if="data.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
-			<image v-else-if="data.rare_type==='R'" src="../../static/R.png" mode=""></image>
+			<image v-show="!isApprove" v-if="data.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
+			<image v-show="!isApprove" v-else-if="data.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
+			<image v-show="!isApprove" v-else-if="data.rare_type==='R'" src="../../static/R.png" mode=""></image>
 			<!-- <image v-else-if="data.rare_type==='N'" src="../../static/N.png" mode=""></image> -->
-			<image v-else-if="data.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
+			<image v-show="!isApprove" v-else-if="data.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
 			{{data.name}}
 		</view>
-		<view class="price">
+		<view class="price" v-show="!isApprove">
 			<text class="rmb">￥</text>
 			<text class="count">{{data.sale_price}}</text>
 			<text class="unit">/张</text>
 		</view>
-		<view class="action-bar">
+		<view class="action-bar" v-show="!isApprove">
 			<view class="bar-item">
 				<image src="../../static/clickRate.png" mode=""></image>
 				<text>{{data.statistics_info.visit}}</text>
@@ -41,7 +41,7 @@
 				<text>{{data.statistics_info.share}}</text>
 			</view>
 		</view>
-		<view class="card1">
+		<view class="card1" v-show="!isApprove">
 			<view class="card1-body">
 				<view class="title1">唱片信息</view>
 				<view class="info">
@@ -121,7 +121,7 @@
 			</view>
 		</view>
 		<view class="footer"></view>
-		<view class="bottom1" v-if="share_sign">
+		<view class="bottom1" v-if="share_sign" v-show="!isApprove">
 			<view v-if="data.is_like===1" class="bottom1-1 followed" @tap="handFollow(2)">
 				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
 				<view class="bottom1-1-2">
@@ -147,7 +147,7 @@
 
 			</view>
 		</view>
-		<view class="bottom1" v-else>
+		<view class="bottom1" v-else v-show="!isApprove">
 			<view v-if="data.is_like===1" class="bottom1-1 followed" @tap="handFollow(2)">
 				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
 				<view class="bottom1-1-2">
@@ -314,7 +314,8 @@
 					{
 						image: 'https://file.yuanyinfu.com/a_2022-04-29-12-55-22-100053-5b9775e1fb6d29664102d4a3ef5a09b1.jpg'
 					}
-				]
+				],
+				isApprove: true
 			};
 		},
 		computed: {
@@ -651,6 +652,7 @@
 		},
 		onLoad(option) {
 			console.log('onload', option)
+			this.isApprove = window.sessionStorage.getItem('isApprove') === 'true'
 			this.product_item_id = Number(option.product_item_id)
 			this.share_sign = option.share_sign || ''
 			this.getDetails(this.product_item_id)
