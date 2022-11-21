@@ -139,8 +139,8 @@
 				<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0" @tap="handOrLogin(0)">
 					{{countDown}}
 				</view>
-				<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1"
-					@tap="$refs.popup.show()">立即抢购</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1" @tap="handBuyThe">立即抢购
+				</view>
 				<view v-else-if="data.is_halt===1&&data.sale_status===2" class="bottom1-status2" @tap="handOrLogin(2)">
 					已售罄</view>
 
@@ -461,6 +461,13 @@
 					goLogin()
 				}
 			},
+			handBuyThe() {
+				if (!this.$store.state.user.token) {
+					goLogin()
+				} else {
+					this.$refs.popup.show()
+				}
+			},
 			// 立即抢购
 			async handOrder() {
 				try {
@@ -556,6 +563,19 @@
 							icon: 'error'
 						})
 					}
+					if (operation_type === 1) {
+						uni.showToast({
+							title: '关注成功',
+							icon: 'none'
+						})
+					} else {
+						uni.showToast({
+							title: '已取消关注',
+							icon: 'none'
+						})
+					}
+
+
 					this.data.is_like = operation_type === 1 ? 1 : 0
 				} catch (e) {
 					//TODO handle the exception

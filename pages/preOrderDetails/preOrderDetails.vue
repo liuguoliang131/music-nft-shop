@@ -95,7 +95,7 @@
 			<view v-else-if="data.is_halt===1&&data.sale_status===0" class="footer-btn noactive" @tap="handOrLogin(0)">
 				{{countDown}}
 			</view>
-			<view v-else-if="data.is_halt===1&&data.sale_status===1" class="footer-btn" @tap="$refs.popup.show()">立即抢购
+			<view v-else-if="data.is_halt===1&&data.sale_status===1" class="footer-btn" @tap="handBuyThe">立即抢购
 			</view>
 			<view v-else-if="data.is_halt===1&&data.sale_status===2" class="footer-btn gray-btn" @tap="handOrLogin(2)">
 				已售罄</view>
@@ -392,6 +392,13 @@
 
 				if (!this.$store.state.user.token) {
 					goLogin()
+				}
+			},
+			handBuyThe() {
+				if (!this.$store.state.user.token) {
+					goLogin()
+				} else {
+					this.$refs.popup.show()
 				}
 			},
 			// 立即抢购
