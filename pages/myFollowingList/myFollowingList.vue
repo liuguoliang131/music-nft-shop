@@ -234,7 +234,7 @@
 			position: relative;
 			box-sizing: border-box;
 			padding: 0 32rpx 32rpx 32rpx;
-			height: calc(100vh - 88rpx);
+			height: calc(100vh - 148rpx);
 			text-align: center;
 			overflow: hidden;
 			padding-top: 300rpx;
@@ -262,7 +262,7 @@
 
 		.scroll-box {
 			width: 750rpx;
-			height: calc(100vh - 168rpx);
+			height: calc(100vh - 228rpx);
 
 			/deep/.scroll {
 				display: flex;

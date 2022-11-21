@@ -281,7 +281,7 @@
 			}
 
 			.scroll-view {
-				height: calc(100vh - 535rpx);
+				height: calc(100vh - 595rpx);
 			}
 
 			.item {

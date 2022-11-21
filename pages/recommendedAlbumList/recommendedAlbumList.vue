@@ -188,7 +188,7 @@
 			position: relative;
 			box-sizing: border-box;
 			padding: 0 32rpx 32rpx 32rpx;
-			height: calc(100vh - 88rpx);
+			height: calc(100vh - 148rpx);
 			text-align: center;
 			overflow: hidden;
 			padding-top: 300rpx;

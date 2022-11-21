@@ -68,12 +68,12 @@
 
 <style lang="scss" scoped>
 	.slots {
-		height: 88rpx;
+		height: 148rpx;
 	}
 
 	.nav {
 		position: fixed;
-		top: 0;
+		top: 60rpx;
 		left: 0;
 		display: flex;
 		align-items: center;
