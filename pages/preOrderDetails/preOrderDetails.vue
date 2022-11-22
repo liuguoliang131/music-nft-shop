@@ -24,8 +24,8 @@
 					src="../../static/UR.png" mode=""></image>
 				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='R'"
 					src="../../static/R.png" mode=""></image>
-				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='N'"
-					src="../../static/N.png" mode=""></image>
+				<!-- <image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='N'"
+					src="../../static/N.png" mode=""></image> -->
 				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='SR'"
 					src="../../static/SR.png" mode=""></image>
 				{{data.name}}
@@ -98,7 +98,7 @@
 						{{data.name}}
 					</view>
 				</view>
-				<view class="info">
+				<view class="info" v-if="data.rare_type!=='N'">
 					<view class="info-1">
 						稀有度
 					</view>

@@ -59,7 +59,7 @@
 						{{data.name}}
 					</view>
 				</view>
-				<view class="info" v-if="data.rare_type==='SSR'">
+				<view class="info" v-if="data.rare_type!=='N'">
 					<view class="info-1">
 						稀有度
 					</view>
@@ -83,7 +83,7 @@
 						{{data.publish_author}}
 					</view>
 				</view>
-				<view class="info" v-if="data.rare_type==='SSR'">
+				<view class="info">
 					<view class="info-1">
 						本次发行量
 					</view>

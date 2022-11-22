@@ -74,6 +74,14 @@
 						{{data.publish_author}}
 					</view>
 				</view>
+				<view class="info">
+					<view class="info-1">
+						本次发行量
+					</view>
+					<view class="info-2">
+						{{data.stock_num}}张
+					</view>
+				</view>
 				<view class="title1 mt32 mb8">
 					购买须知
 				</view>
