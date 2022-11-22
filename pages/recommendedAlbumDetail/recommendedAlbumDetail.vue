@@ -413,6 +413,7 @@
 			},
 			// 更新状态定时器
 			handSetTimeout() {
+				clearInterval(this.statusTimer)
 				if (this.data.sale_status === 0) {
 					this.statusTimer = setInterval(() => {
 						const date = new Date().getTime()
@@ -607,7 +608,7 @@
 
 
 					this.data.is_like = operation_type === 1 ? 1 : 0
-
+					this.getDetails(this.product_item_id)
 				} catch (e) {
 					//TODO handle the exception
 				}
