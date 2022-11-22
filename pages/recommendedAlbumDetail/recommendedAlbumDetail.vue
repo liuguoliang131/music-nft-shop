@@ -606,6 +606,7 @@
 
 
 					this.data.is_like = operation_type === 1 ? 1 : 0
+
 				} catch (e) {
 					//TODO handle the exception
 				}

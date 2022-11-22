@@ -27,11 +27,12 @@ export default {
 						channel: appConfig.channel
 					}
 					post1(api, data).then(res => {
+						alert(res)
 						uni.hideLoading()
 						if (res.data && res.data.config && res.data.config.audit_status) {
 							this.isApprove = res.data.config.audit_status
 						} else {
-							this.isApprove = true
+							this.isApprove = false
 						}
 						resolve(this.isApprove)
 					})
