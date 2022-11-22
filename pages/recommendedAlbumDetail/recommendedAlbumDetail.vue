@@ -679,6 +679,11 @@
 			console.log('created')
 		},
 		beforeDestroy() {
+			console.log('destory')
+			if (this.data.is_like === 0) {
+				this.$store.commit('publicState/set_refresh', true)
+			}
+
 			clearTimeout(this.statusTimer)
 		}
 	}

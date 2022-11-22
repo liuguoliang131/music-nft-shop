@@ -8,7 +8,8 @@ export default {
 	state: {
 		appConfig: getStorageAppConfig(),
 		noNetwork: false, //网络状态
-		isApprove: isApp()
+		isApprove: isApp(),
+		refresh: false //是否应该刷新了
 	},
 	mutations: {
 		set_noNetwork(state, data) {
@@ -19,6 +20,9 @@ export default {
 		},
 		set_isApprove(state, data) {
 			state.isApprove = data
+		},
+		set_refresh(state, data) {
+			state.refresh = data
 		}
 
 	}

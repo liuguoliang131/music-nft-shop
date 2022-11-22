@@ -105,6 +105,15 @@
 				list: []
 			};
 		},
+		onShow() {
+			if (this.$store.state.publicState.refresh) {
+				this.list = []
+				this.isFinish = false
+				this.page = 1
+				this.getList()
+				this.$store.commit('publicState/set_refresh', false)
+			}
+		},
 		methods: {
 			handActiveBar(id) {
 				if (id === this.activeBar) return false
