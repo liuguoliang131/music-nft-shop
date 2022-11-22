@@ -17,7 +17,7 @@
 		name: "myScroll",
 		data() {
 			return {
-
+				scrollTop: 0
 			};
 		},
 		props: {
@@ -43,6 +43,7 @@
 		},
 		methods: {
 			scroll(e) {
+				this.scrollTop = this.$refs.window.$el.scrollTop
 				// console.log('scroll', this.$refs.scroll.$el.scrollHeight - this.$refs.window.$el.scrollTop)
 				if (this.$refs.scroll.$el.scrollHeight - this.$refs.window.$el.scrollTop <= this.$refs.window
 					.$el.clientHeight + 10) {
@@ -68,8 +69,19 @@
 			}
 		},
 		mounted() {
+			console.log('myScroll mounted')
 			this.notFull()
 
+		},
+		created() {
+			console.log('myScroll created')
+		},
+		updated() {
+			console.log('myScroll updated')
+		},
+		activated() {
+			console.log('myScroll activated')
+			this.$refs.window.$el.scrollTop = this.scrollTop
 		}
 	}
 </script>
