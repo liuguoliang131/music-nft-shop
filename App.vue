@@ -31,13 +31,7 @@
 					this.$store.commit('user/set_userInfo', res.data)
 				})
 			},
-			async getApprovalShowInfo() {
-				const res = await post1(h5_show_configure, {
-					version_code: '',
-					os: '',
-					channel: ''
-				})
-			},
+
 			onWebEntry() {
 				const that = this
 
@@ -78,7 +72,22 @@
 						this.$store.commit('user/set_token', '')
 						this.$store.commit('user/set_userInfo', '')
 					}
-					getAppConfig()
+					getAppConfig().then(config => {
+						this.$store.commit('public/set_appConfig', config)
+						const data = {
+							version_code: config.version_code || 1900,
+							os: config.os,
+							channel: config.channel
+						}
+						post1(h5_show_configure, data).then(res => {
+							if (res.data && res.data.config) {
+								const isApprove = res.data.config.audit_status
+								this.$store.commit('public/set_isApprove', isApprove)
+							} else {
+								this.$store.commit('public/set_isApprove', true)
+							}
+						})
+					})
 				} else {
 					// 浏览器
 					if (isWxBrowser()) {

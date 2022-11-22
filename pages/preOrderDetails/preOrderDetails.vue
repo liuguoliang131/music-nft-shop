@@ -15,25 +15,30 @@
 
 			</view>
 			<view class="row1">
-				<image v-show="!isApprove" v-if="data.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
-				<image v-show="!isApprove" v-else-if="data.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
-				<image v-show="!isApprove" v-else-if="data.rare_type==='R'" src="../../static/R.png" mode=""></image>
-				<image v-show="!isApprove" v-else-if="data.rare_type==='N'" src="../../static/N.png" mode=""></image>
-				<image v-show="!isApprove" v-else-if="data.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
+				<image v-show="!$store.state.publicState.isApprove" v-if="data.rare_type==='SSR'" src="../../static/SSR.png"
+					mode=""></image>
+				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='UR'"
+					src="../../static/UR.png" mode=""></image>
+				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='R'" src="../../static/R.png"
+					mode=""></image>
+				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='N'" src="../../static/N.png"
+					mode=""></image>
+				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='SR'"
+					src="../../static/SR.png" mode=""></image>
 				{{data.name}}
 			</view>
-			<view class="row2" v-show="!isApprove">
+			<view class="row2" v-show="!$store.state.publicState.isApprove">
 				{{data.sale_time1}}&nbsp;{{data.sale_status===0?'未开售':(data.sale_status===1?'开售中':'已停售')}}
 				<text>限量{{data.stock_num_desc}}张</text>
 			</view>
-			<view class="price" v-show="!isApprove">
+			<view class="price" v-show="!$store.state.publicState.isApprove">
 				<text class="rmb">￥</text>
 				<text class="count">{{data.sale_price}}</text>
 				<text class="unit">/张</text>
 			</view>
 		</view>
 		<view class="preOrderDetails-body">
-			<view class="card cardbox1" v-show="!isApprove">
+			<view class="card cardbox1" v-show="!$store.state.publicState.isApprove">
 				<view class="card-body">
 					<view class="row1">专辑信息</view>
 					<view class="row2">
@@ -100,7 +105,7 @@
 				已售罄</view>
 
 		</view> -->
-		<view class="bottom1" v-if="share_sign" v-show="!isApprove">
+		<view class="bottom1" v-if="share_sign" v-show="!$store.state.publicState.isApprove">
 			<view v-if="data.is_like===1" class="bottom1-1 followed" @tap="handFollow(2)">
 				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
 				<view class="bottom1-1-2">
@@ -126,7 +131,7 @@
 
 			</view>
 		</view>
-		<view class="bottom1" v-else v-show="!isApprove">
+		<view class="bottom1" v-else v-show="!$store.state.publicState.isApprove">
 			<view v-if="data.is_like===1" class="bottom1-1 followed" @tap="handFollow(2)">
 				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
 				<view class="bottom1-1-2">
@@ -578,12 +583,16 @@
 		},
 		onLoad(option) {
 			console.log('onload', option)
-			this.getApprove().then(() => {
-				this.product_item_id = Number(option.product_item_id)
-				this.share_sign = option.share_sign || ''
-				this.getDetails(this.product_item_id)
-				this.visitStatics()
-			})
+			// this.getApprove().then(() => {
+			// 	this.product_item_id = Number(option.product_item_id)
+			// 	this.share_sign = option.share_sign || ''
+			// 	this.getDetails(this.product_item_id)
+			// 	this.visitStatics()
+			// })
+			this.product_item_id = Number(option.product_item_id)
+			this.share_sign = option.share_sign || ''
+			this.getDetails(this.product_item_id)
+			this.visitStatics()
 
 		},
 		onShow() {

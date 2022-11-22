@@ -489,16 +489,35 @@ export const addPlusReady = () => {
 	}
 }
 
+// 从本地储存中获取app信息
+export const getStorageAppConfig = () => {
+
+	const str = window.localStorage.getItem('AppConfigInfo')
+	if (str) {
+		return JSON.parse(str)
+	} else {
+		return {}
+	}
+}
 // 获取APP信息
 export const getAppConfig = () => {
-	if (isApp()) {
+	let getAppConfigTimer = null
+	return new Promise((resolve) => {
+		window.appConfigReady = false
 		HSApp.postMessage(JSON.stringify({
 			type: 'getAppConfig',
 			params: {},
 			callback: 'appConfig'
 		}))
+		getAppConfigTimer = setInterval(() => {
+			if (window.appConfigReady) {
+				clearInterval(getAppConfigTimer)
+				resolve(window.appConfigReady)
+			}
+		}, 10)
+	})
 
-	}
+
 	// return new Promise((resolve) => {
 	// 	if (isApp()) {
 	// 		HSApp.postMessage(JSON.stringify({
@@ -524,4 +543,5 @@ window.appConfig = function(config) {
 		AppConfigInfo = JSON.stringify(config)
 	}
 	window.localStorage.setItem('AppConfigInfo', AppConfigInfo)
+	window.appConfigReady = JSON.parse(AppConfigInfo)
 }

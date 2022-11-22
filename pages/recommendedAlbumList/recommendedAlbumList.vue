@@ -24,7 +24,7 @@
 					<text class="item-row2-1">
 						{{item.author_name}}
 					</text>
-					<text class="item-row2-2" v-show="!isApprove">
+					<text class="item-row2-2" v-show="!$store.state.publicState.isApprove">
 						<text class="row2-2-unit">
 							￥
 						</text>
@@ -179,9 +179,7 @@
 			}
 		},
 		onLoad() {
-			this.getApprove().then(() => {
 
-			})
 		}
 	}
 </script>

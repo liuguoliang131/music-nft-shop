@@ -10,18 +10,18 @@
 		<my-scroll v-else class="list" @load="getList" :isFinish="isFinish" :loading="loading">
 			<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
 				<view class="item-1">
-					<image v-show="!isApprove" class="item-1-sign" v-if="item.rare_type==='SSR'"
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign" v-if="item.rare_type==='SSR'"
 						src="../../static/SSR.png" mode=""></image>
-					<image v-show="!isApprove" class="item-1-sign" v-else-if="item.rare_type==='UR'"
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign" v-else-if="item.rare_type==='UR'"
 						src="../../static/UR.png" mode="">
 					</image>
-					<image v-show="!isApprove" class="item-1-sign" v-else-if="item.rare_type==='R'"
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign" v-else-if="item.rare_type==='R'"
 						src="../../static/R.png" mode="">
 					</image>
-					<image v-show="!isApprove" class="item-1-sign" v-else-if="item.rare_type==='N'"
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign" v-else-if="item.rare_type==='N'"
 						src="../../static/N.png" mode="">
 					</image>
-					<image v-show="!isApprove" class="item-1-sign" v-else-if="item.rare_type==='SR'"
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign" v-else-if="item.rare_type==='SR'"
 						src="../../static/SR.png" mode="">
 					</image>
 					<image class="item-1-out" :src="item.index_img" mode=""></image>
@@ -37,11 +37,11 @@
 							{{item.author_name}}
 						</view>
 					</view>
-					<view class="item-2-3" v-show="!isApprove">
+					<view class="item-2-3" v-show="!$store.state.publicState.isApprove">
 						限量{{item.stock_num}}份
 					</view>
 					<view class="item-2-4">
-						<view class="item-2-4-1" v-show="!isApprove">
+						<view class="item-2-4-1" v-show="!$store.state.publicState.isApprove">
 							￥{{item.sale_price}}
 						</view>
 						<view class="item-2-4-2" @tap.stop="handPlay(item)">
@@ -186,9 +186,7 @@
 			}
 		},
 		onLoad() {
-			this.getApprove().then(() => {
 
-			})
 		}
 	}
 </script>
