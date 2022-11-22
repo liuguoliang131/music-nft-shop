@@ -35,7 +35,18 @@
 						￥<text>{{item.price}}</text>
 					</view>
 				</view> -->
-				<image class="cover" :src="item.index_img" mode=""></image>
+				<view class="cover">
+					<image class="cover-img" :src="item.index_img" mode=""></image>
+					<view class="type-icon" v-if="activeBar!==3">
+						<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
+						<image v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
+						<image v-else-if="item.rare_type==='R'" src="../../static/R.png" mode=""></image>
+						<image v-else-if="item.rare_type==='N'" src="../../static/N.png" mode=""></image>
+						<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
+					</view>
+				</view>
+
+
 				<view class="item-title1">
 					{{item.name}}
 				</view>
@@ -345,11 +356,31 @@
 		text-align: center;
 
 		.cover {
+			position: relative;
 			width: 308rpx;
 			height: 308rpx;
 			margin: auto;
 			margin-top: 16rpx;
 			border-radius: 14rpx;
+
+			.cover-img {
+				width: 100%;
+				height: 100%;
+				border-radius: 14rpx;
+			}
+
+			.type-icon {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 84rpx;
+				height: 40rpx;
+
+				image {
+					width: 100%;
+					height: 100%;
+				}
+			}
 		}
 
 		.item-title1 {
@@ -367,6 +398,8 @@
 			text-overflow: ellipsis; // 文字溢出显示省略号
 			text-align: left;
 			padding: 0 20rpx;
+
+
 		}
 
 		.item-title2 {

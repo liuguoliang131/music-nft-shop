@@ -20,7 +20,17 @@
 						<!-- <image class="cover-play" src="../../static/pause.png" mode=""></image> -->
 					</view>
 					<view class="item-row1">
-						{{item.name}}
+						<view class="type-icon" v-if="activeBar!==3">
+							<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
+							<image v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
+							<image v-else-if="item.rare_type==='R'" src="../../static/R.png" mode=""></image>
+							<image v-else-if="item.rare_type==='N'" src="../../static/N.png" mode=""></image>
+							<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
+						</view>
+
+						<view class="name">
+							{{item.name}}
+						</view>
 					</view>
 					<view class="item-row2">
 						<text class="item-row2-1">
@@ -334,19 +344,33 @@
 					}
 
 					.item-row1 {
-						width: 344rpx;
+						display: flex;
 						padding-top: 16rpx;
-						text-indent: 20rpx;
+						padding-left: 20rpx;
 						margin: auto;
-						font-family: 'PingFang SC';
-						font-style: normal;
-						font-weight: 600;
-						font-size: 28rpx;
-						line-height: 40rpx;
-						color: #DDDDDD;
-						overflow: hidden; // 溢出隐藏
-						white-space: nowrap; // 强制一行
-						text-overflow: ellipsis; // 文字溢出显示省略号
+
+						.type-icon {
+							width: 60rpx;
+							height: 28.6rpx;
+							margin-right: 10rpx;
+
+							image {
+								width: 100%;
+								height: 100%;
+							}
+						}
+
+						.name {
+							font-family: 'PingFang SC';
+							font-style: normal;
+							font-weight: 600;
+							font-size: 28rpx;
+							line-height: 40rpx;
+							color: #DDDDDD;
+							overflow: hidden; // 溢出隐藏
+							white-space: nowrap; // 强制一行
+							text-overflow: ellipsis; // 文字溢出显示省略号
+						}
 
 					}
 
