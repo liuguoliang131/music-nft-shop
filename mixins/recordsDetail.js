@@ -19,9 +19,11 @@ export default {
 			// app转赠页面返回到唱片详情页面 触发这个函数
 			const that = this
 			window.onPageAppear = function() {
+				alert('onPageAppear')
 				post1(collections_user_collectionInfo, {
 					owner_id: that.id
 				}).then(res => {
+					alert(JSON.stringify(res))
 					if (res.code !== 0) {
 						goBack()
 					}

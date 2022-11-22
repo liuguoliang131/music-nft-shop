@@ -202,6 +202,7 @@
 								<view :class="['v',this.count<100?'active-icon':'']"></view>
 							</view>
 						</view>
+
 					</view>
 				</view>
 				<view class="popup-e">
