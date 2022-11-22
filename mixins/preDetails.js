@@ -3,11 +3,20 @@
 export default {
 	methods: {
 		onWatchState() {
-			// 
-			const that = this
-			window.onPageAppear = function() {
-				that.getDetails(that.product_item_id)
+			try {
+				const that = this
+
+				window.onPageAppear = function() {
+					alert('onPageAppear触发了')
+					that.getDetails(that.product_item_id)
+				}
+				alert(window.onPageAppear ? '有onPageAppear函数' : '没onPageAppear函数')
+			} catch (e) {
+				//TODO handle the exception
+				alert(e)
 			}
+
+
 		}
 	},
 	onShow() {
