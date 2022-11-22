@@ -81,6 +81,7 @@
 						}
 						post1(h5_show_configure, data).then(res => {
 							if (res.data && res.data.config) {
+								alert(JSON.stringify(res))
 								const isApprove = res.data.config.audit_status
 								this.$store.commit('public/set_isApprove', isApprove)
 							} else {
