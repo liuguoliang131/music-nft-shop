@@ -25,7 +25,10 @@
             "mode" : "hash",
             "base" : "./"
         },
-        "title" : "元音符"
+        "title" : "元音符",
+        "async" : {
+            "delay" : "10000" // 这个时间内页面js已经加载了，所以不展示默认的loading  
+        }
     },
     /* 5+App特有相关 */
     "app-plus" : {
