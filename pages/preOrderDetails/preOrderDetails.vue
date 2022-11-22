@@ -370,7 +370,7 @@
 			},
 			async getDetails(product_item_id) {
 				try {
-					const res = await this.$post(collections_index_detail, {
+					const res = await post1(collections_index_detail, {
 						product_item_id
 					})
 					console.log(res)
@@ -603,12 +603,12 @@
 					}
 					if (operation_type === 1) {
 						uni.showToast({
-							title: '关注成功',
+							title: '您已关注',
 							icon: 'none'
 						})
 					} else {
 						uni.showToast({
-							title: '已取消关注',
+							title: '您已取消关注',
 							icon: 'none'
 						})
 					}
