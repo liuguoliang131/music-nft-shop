@@ -18,15 +18,14 @@
 			</view>
 		</view>
 		<view class="title">
-			<image v-show="!$store.state.publicState.isApprove" v-if="data.rare_type==='SSR'" src="../../static/SSR.png"
+			<!-- <image v-show="!$store.state.publicState.isApprove" v-if="data.rare_type==='SSR'" src="../../static/SSR.png"
 				mode=""></image>
 			<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='UR'"
 				src="../../static/UR.png" mode=""></image>
 			<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='R'"
 				src="../../static/R.png" mode=""></image>
-			<!-- <image v-else-if="data.rare_type==='N'" src="../../static/N.png" mode=""></image> -->
 			<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='SR'"
-				src="../../static/SR.png" mode=""></image>
+				src="../../static/SR.png" mode=""></image> -->
 			{{data.name}}
 		</view>
 		<view class="price" v-show="!$store.state.publicState.isApprove">
@@ -59,14 +58,6 @@
 						{{data.name}}
 					</view>
 				</view>
-				<view class="info" v-if="data.rare_type==='SSR'">
-					<view class="info-1">
-						稀有度
-					</view>
-					<view class="info-2">
-						{{data.rare_type}}
-					</view>
-				</view>
 				<view class="info">
 					<view class="info-1">
 						发行时间
@@ -81,14 +72,6 @@
 					</view>
 					<view class="info-2">
 						{{data.publish_author}}
-					</view>
-				</view>
-				<view class="info" v-if="data.rare_type==='SSR'">
-					<view class="info-1">
-						本次发行量
-					</view>
-					<view class="info-2">
-						{{data.stock_num}}张
 					</view>
 				</view>
 				<view class="title1 mt32 mb8">
