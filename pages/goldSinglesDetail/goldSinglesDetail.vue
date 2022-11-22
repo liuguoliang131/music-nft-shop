@@ -9,7 +9,7 @@
 			<view class="cover-1">
 				<image class="cover-1-1" src="../../static/image-7 1-1.png" mode=""></image>
 				<image class="cover-1-2" src="../../static/turn.png" mode=""></image>
-				<image class="cover-1-3" src="../../static/verify/1.jpeg" mode=""></image>
+				<image class="cover-1-3" :src="data.index_img" mode=""></image>
 				<image class="cover-1-4" src="../../static/play.png" mode="" @tap="handPlay"></image>
 			</view>
 		</view>

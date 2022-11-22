@@ -392,7 +392,7 @@
 			/* identical to box height */
 			color: #DDDDDD;
 			margin-top: 16rpx;
-			margin-bottom: 8rpx;
+			margin-bottom: 15rpx;
 			overflow: hidden; // 溢出隐藏
 			white-space: nowrap; // 强制一行
 			text-overflow: ellipsis; // 文字溢出显示省略号

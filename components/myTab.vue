@@ -157,8 +157,8 @@
 						left: 50%;
 						transform: translate(-50%, 0);
 						width: 60rpx;
-						height: 4rpx;
-						border-radius: 2rpx;
+						height: 6rpx;
+						border-radius: 3rpx;
 						opacity: 0;
 						background-color: #C8A964;
 						transition: all 0.5s;

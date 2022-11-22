@@ -37,7 +37,7 @@
 				<text class="unit">/张</text>
 			</view>
 		</view>
-		<view class="preOrderDetails-body">
+		<!-- <view class="preOrderDetails-body">
 			<view class="card cardbox1" v-show="!$store.state.publicState.isApprove">
 				<view class="card-body">
 					<view class="row1">专辑信息</view>
@@ -67,11 +67,6 @@
 						购买须知
 					</view>
 					<view class="row4" v-html="data.buy_notice">
-						<!-- 1.用户点击“购买”后2分钟内未付款，则订单将自动取消。专辑一经售卖，概不退货
-						<br />
-						2.专辑的版权由发行方、原创者所有，用户不得将其用于任何商业用途。
-						<br />
-						3.最终解释权归官方所有。 -->
 					</view>
 				</view>
 			</view>
@@ -88,23 +83,76 @@
 					</view>
 				</view>
 			</view>
+		</view> -->
+		<view class="card1" v-show="!$store.state.publicState.isApprove">
+			<view class="card1-body">
+				<view class="title1">专辑信息</view>
+				<view class="info">
+					<view class="info-1">
+						专辑名称
+					</view>
+					<view class="info-2">
+						{{data.name}}
+					</view>
+				</view>
+				<view class="info">
+					<view class="info-1">
+						稀有度
+					</view>
+					<view class="info-2">
+						{{data.rare_type}}
+					</view>
+				</view>
+				<view class="info">
+					<view class="info-1">
+						发行时间
+					</view>
+					<view class="info-2">
+						{{data.publish_time1}}
+					</view>
+				</view>
+				<view class="info">
+					<view class="info-1">
+						发行方
+					</view>
+					<view class="info-2">
+						{{data.publish_author}}
+					</view>
+				</view>
+				<view class="info">
+					<view class="info-1">
+						本次发行量
+					</view>
+					<view class="info-2">
+						{{data.stock_num}}张
+					</view>
+				</view>
+				<view class="title1 mt32 mb8">
+					购买须知
+				</view>
+				<view class="text1" v-html="data.buy_notice">
+
+				</view>
+			</view>
+		</view>
+		<view class="card2">
+			<view class="card2-body">
+				<!-- 专辑 -->
+				<view class="">
+					<view class="title1 mb8" v-if="data.introduction">
+						专辑介绍
+					</view>
+					<view class="text1 mb8" v-if="data.introduction" v-html="data.introduction"></view>
+					<view class="work" v-for="(item,idx) in data.music_list" :key="idx">
+						<view class="row1">{{item.name}}</view>
+						<view class="row2" v-html="item.desc">
+						</view>
+					</view>
+				</view>
+
+			</view>
 		</view>
 		<view class="h120"></view>
-		<!-- <view class="preOrderDetails-footer">
-			<view class="abs" @tap="handShare()">
-				<image class="abs-img" src="../../static/share.png"></image>
-				<text class="abs-text">分享</text>
-			</view>
-			<view v-if="data.is_halt===2" class="footer-btn gray-btn" @tap="handOrLogin(3)">已停售</view>
-			<view v-else-if="data.is_halt===1&&data.sale_status===0" class="footer-btn noactive" @tap="handOrLogin(0)">
-				{{countDown}}
-			</view>
-			<view v-else-if="data.is_halt===1&&data.sale_status===1" class="footer-btn" @tap="handBuyThe">立即抢购
-			</view>
-			<view v-else-if="data.is_halt===1&&data.sale_status===2" class="footer-btn gray-btn" @tap="handOrLogin(2)">
-				已售罄</view>
-
-		</view> -->
 		<view class="bottom1" v-if="share_sign" v-show="!$store.state.publicState.isApprove">
 			<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
 				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
@@ -773,97 +821,270 @@
 			}
 		}
 
-		.preOrderDetails-body {
-			margin-top: 16rpx;
+		// .preOrderDetails-body {
+		// 	margin-top: 16rpx;
 
-			.cardbox1 {
-				.row1 {
-					height: 44rpx;
-					margin-bottom: 16rpx;
-					font-weight: 600;
-					font-size: 32rpx;
-					line-height: 44rpx;
-					color: #AC9147;
-				}
+		// 	.cardbox1 {
+		// 		.row1 {
+		// 			height: 44rpx;
+		// 			margin-bottom: 16rpx;
+		// 			font-weight: 600;
+		// 			font-size: 32rpx;
+		// 			line-height: 44rpx;
+		// 			color: #AC9147;
+		// 		}
 
-				.row2 {
+		// 		.row2 {
 
-					.row2-1 {
-						display: flex;
-						font-size: 26rpx;
-						line-height: 48rpx;
-						/* identical to box height, or 185% */
-						overflow: hidden; // 溢出隐藏
-						white-space: nowrap; // 强制一行
-						text-overflow: ellipsis; // 文字溢出显示省略号
-						color: #AEAEAE;
+		// 			.row2-1 {
+		// 				display: flex;
+		// 				font-size: 26rpx;
+		// 				line-height: 48rpx;
+		// 				/* identical to box height, or 185% */
+		// 				overflow: hidden; // 溢出隐藏
+		// 				white-space: nowrap; // 强制一行
+		// 				text-overflow: ellipsis; // 文字溢出显示省略号
+		// 				color: #AEAEAE;
 
-						.row2-1-l {
-							margin-right: 24rpx;
-							width: 104rpx;
-							text-align: right;
-						}
+		// 				.row2-1-l {
+		// 					margin-right: 24rpx;
+		// 					width: 104rpx;
+		// 					text-align: right;
+		// 				}
 
-						.row2-1-r {
-							overflow: hidden; // 溢出隐藏
-							white-space: nowrap; // 强制一行
-							text-overflow: ellipsis; // 文字溢出显示省略号
-						}
-					}
-				}
+		// 				.row2-1-r {
+		// 					overflow: hidden; // 溢出隐藏
+		// 					white-space: nowrap; // 强制一行
+		// 					text-overflow: ellipsis; // 文字溢出显示省略号
+		// 				}
+		// 			}
+		// 		}
 
-				.row3 {
-					margin-top: 24rpx;
-					margin-bottom: 16rpx;
-					font-weight: 600;
-					font-size: 32rpx;
-					line-height: 44rpx;
-					color: #AC9147;
-				}
+		// 		.row3 {
+		// 			margin-top: 24rpx;
+		// 			margin-bottom: 16rpx;
+		// 			font-weight: 600;
+		// 			font-size: 32rpx;
+		// 			line-height: 44rpx;
+		// 			color: #AC9147;
+		// 		}
 
-				.row4 {
-					width: 100%;
-					font-size: 26rpx;
-					line-height: 36rpx;
-					color: #AEAEAE;
-					white-space: pre-wrap; //识别换行符 并且超过父盒子宽度自动换行
-				}
+		// 		.row4 {
+		// 			width: 100%;
+		// 			font-size: 26rpx;
+		// 			line-height: 36rpx;
+		// 			color: #AEAEAE;
+		// 			white-space: pre-wrap; //识别换行符 并且超过父盒子宽度自动换行
+		// 		}
+		// 	}
+
+		// 	.cardbox2 {
+		// 		margin-top: 21rpx;
+		// 		margin-bottom: 25rpx;
+
+		// 		.work {
+		// 			.row1 {
+		// 				margin-bottom: 16rpx;
+		// 				font-weight: 600;
+		// 				font-size: 32rpx;
+		// 				line-height: 44rpx;
+		// 				color: #AC9147;
+		// 				overflow: hidden; // 溢出隐藏
+		// 				white-space: nowrap; // 强制一行
+		// 				text-overflow: ellipsis; // 文字溢出显示省略号
+		// 			}
+
+		// 			.row2 {
+		// 				padding-bottom: 24rpx;
+		// 				font-size: 26rpx;
+		// 				line-height: 36rpx;
+		// 				color: #AEAEAE;
+		// 				white-space: pre-wrap;
+		// 			}
+
+		// 			.row2:nth-last-child(1) {
+		// 				padding-bottom: 24rpx;
+		// 			}
+		// 		}
+
+		// 	}
+		// }
+		.title1 {
+			font-family: 'PingFang SC';
+			font-style: normal;
+			font-weight: 600;
+			font-size: 32rpx;
+			line-height: 44rpx;
+			overflow: hidden; // 溢出隐藏
+			white-space: nowrap; // 强制一行
+			text-overflow: ellipsis; // 文字溢出显示省略号
+			color: #E4C985;
+		}
+
+		.text1 {
+			width: 620rpx;
+			font-family: 'PingFang SC';
+			font-style: normal;
+			font-weight: 400;
+			font-size: 26rpx;
+			line-height: 36rpx;
+			color: #AEAEAE;
+			white-space: pre-wrap; //识别换行符 并且超过父盒子宽度自动换行
+		}
+
+		.mb8 {
+			margin-bottom: 8rpx;
+		}
+
+		.work {
+			.row1 {
+				margin-bottom: 16rpx;
+				font-family: 'PingFang SC';
+				font-style: normal;
+				font-weight: 600;
+				font-size: 32rpx;
+				line-height: 44rpx;
+				overflow: hidden; // 溢出隐藏
+				white-space: nowrap; // 强制一行
+				text-overflow: ellipsis; // 文字溢出显示省略号
+				color: #E4C985;
 			}
 
-			.cardbox2 {
-				margin-top: 21rpx;
-				margin-bottom: 25rpx;
+			.row2 {
+				padding-bottom: 24rpx;
+				font-size: 26rpx;
+				line-height: 36rpx;
+				color: #AEAEAE;
+				white-space: pre-wrap;
+			}
 
-				.work {
-					.row1 {
-						margin-bottom: 16rpx;
-						font-weight: 600;
-						font-size: 32rpx;
-						line-height: 44rpx;
-						color: #AC9147;
+			.row2:nth-last-child(1) {
+				padding-bottom: 24rpx;
+			}
+		}
+
+		.card1 {
+			margin-top: 24rpx;
+			background: #292929;
+			border-radius: 8rpx;
+			box-sizing: border-box;
+			width: 702rpx;
+			padding: 32rpx 16rpx;
+
+			.card1-body {
+				border: 1rpx solid #5B5B5B;
+				border-radius: 8rpx;
+				padding: 20rpx;
+
+				.info {
+					display: flex;
+					align-items: center;
+					padding-top: 8rpx;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 400;
+					font-size: 26rpx;
+					line-height: 36rpx;
+					text-align: left;
+
+					color: #AEAEAE;
+
+					.info-1 {
+						width: 154rpx;
+					}
+
+					.info-2 {
+						flex: 1;
 						overflow: hidden; // 溢出隐藏
 						white-space: nowrap; // 强制一行
 						text-overflow: ellipsis; // 文字溢出显示省略号
 					}
-
-					.row2 {
-						padding-bottom: 24rpx;
-						font-size: 26rpx;
-						line-height: 36rpx;
-						color: #AEAEAE;
-						white-space: pre-wrap;
-					}
-
-					.row2:nth-last-child(1) {
-						padding-bottom: 24rpx;
-					}
 				}
+
+				.mt32 {
+					margin-top: 32rpx;
+				}
+
 
 			}
 		}
 
+		.card2 {
+			margin-top: 24rpx;
+			background: #292929;
+			border-radius: 8rpx;
+			box-sizing: border-box;
+			width: 702rpx;
+			padding: 32rpx 16rpx;
+
+			.card2-body {
+				border: 1rpx solid #5B5B5B;
+				border-radius: 8rpx;
+				padding: 20rpx;
+
+				.author {
+					display: flex;
+					align-items: center;
+					margin-top: 16rpx;
+
+
+					image {
+						width: 48rpx;
+						height: 48rpx;
+						margin-right: 8rpx;
+						border-radius: 24rpx;
+					}
+
+					text {
+						flex: 1;
+						overflow: hidden; // 溢出隐藏
+						white-space: nowrap; // 强制一行
+						text-overflow: ellipsis; // 文字溢出显示省略号
+						font-family: 'PingFang SC';
+						font-style: normal;
+						font-weight: 400;
+						font-size: 26rpx;
+						line-height: 36rpx;
+
+						color: #AEAEAE;
+					}
+				}
+
+				.text2 {
+					margin-top: 8rpx;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 400;
+					font-size: 24rpx;
+					line-height: 34rpx;
+					white-space: pre-wrap; //识别换行符 并且超过父盒子宽度自动换行
+					color: #777777;
+
+				}
+
+				.text3 {
+					position: relative;
+					margin-top: 16rpx;
+					margin-bottom: 26rpx;
+					width: 100%;
+					height: 362rpx;
+					border-radius: 8rpx;
+
+					.swiper {
+						border-radius: 8rpx;
+					}
+
+					.text3-video {
+						width: 100%;
+						height: 100%;
+						border-radius: 8rpx;
+					}
+				}
+			}
+		}
+
 		.h120 {
-			height: 120rpx;
+			height: 160rpx;
 		}
 
 		.bottom1 {
