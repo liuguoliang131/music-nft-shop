@@ -71,7 +71,7 @@ export const collections_index_visit = '/collections/index/visit'
 export const collections_index_play = '/collections/index/play'
 // 分享统计
 export const collections_index_share = '/collections/index/share'
-// 海报信息
+// 海报信息 APP内使用
 export const collections_index_sharePoster = '/collections/index/sharePoster'
 // 订单列表 版权的
 export const order_list = '/order/list'
@@ -81,6 +81,7 @@ export const order_collectionsList = '/order/collectionsList'
 export const collections_user_collectionInfo = '/collections_user/collectionInfo'
 // H5公共配置接口 (add v1.9)
 export const h5_show_configure = '/h5/show/configure'
+
 /**
  * @description 首页列表
  */

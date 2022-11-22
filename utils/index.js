@@ -497,9 +497,22 @@ export const getAppConfig = () => {
 			params: {},
 			callback: 'appConfig'
 		}))
-	}
-}
 
+	}
+	// return new Promise((resolve) => {
+	// 	if (isApp()) {
+	// 		HSApp.postMessage(JSON.stringify({
+	// 			type: 'getAppConfig',
+	// 			params: {},
+	// 			callback: 'appConfig'
+	// 		}))
+
+	// 	} else {
+	// 		resolve()
+	// 	}
+
+	// })
+}
 // 获取app信息的回调 保存
 window.appConfig = function(config) {
 	let AppConfigInfo = JSON.stringify({
@@ -511,4 +524,7 @@ window.appConfig = function(config) {
 		AppConfigInfo = JSON.stringify(config)
 	}
 	window.localStorage.setItem('AppConfigInfo', AppConfigInfo)
+}
+window.onPageAppear = function() {
+
 }

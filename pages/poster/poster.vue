@@ -29,7 +29,8 @@
 		shareBase64Image
 	} from '../../utils/index.js'
 	import {
-		h5_collections_index_sharePoster,
+		h5_collections_index_sharePoster, //h5内
+		collections_index_sharePoster, //app内
 		collections_index_share
 	} from '../../request/api.js'
 	import {
@@ -128,7 +129,11 @@
 			},
 			async getInfo() {
 				try {
-					const res = await this.$post(h5_collections_index_sharePoster, {
+					let url = h5_collections_index_sharePoster
+					if (this.$store.state.user.inApp) {
+						url = collections_index_sharePoster
+					}
+					const res = await this.$post(url, {
 						product_item_id: this.product_item_id
 					})
 					if (res.code !== 0) {
