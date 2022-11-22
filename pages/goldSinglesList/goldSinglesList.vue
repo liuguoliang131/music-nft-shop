@@ -10,19 +10,19 @@
 		<my-scroll v-else class="list" @load="getList" :isFinish="isFinish" :loading="loading">
 			<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
 				<view class="item-1">
-					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign" v-if="item.rare_type==='SSR'"
-						src="../../static/SSR.png" mode=""></image>
-					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign" v-else-if="item.rare_type==='UR'"
-						src="../../static/UR.png" mode="">
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+						v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+						v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode="">
 					</image>
-					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign" v-else-if="item.rare_type==='R'"
-						src="../../static/R.png" mode="">
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+						v-else-if="item.rare_type==='R'" src="../../static/R.png" mode="">
 					</image>
-					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign" v-else-if="item.rare_type==='N'"
-						src="../../static/N.png" mode="">
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+						v-else-if="item.rare_type==='N'" src="../../static/N.png" mode="">
 					</image>
-					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign" v-else-if="item.rare_type==='SR'"
-						src="../../static/SR.png" mode="">
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+						v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode="">
 					</image>
 					<image class="item-1-out" :src="item.index_img" mode=""></image>
 					<image class="item-1-in" src="../../static/turn.png" mode=""></image>
@@ -164,9 +164,9 @@
 			},
 			async handPlay(item) {
 				try {
-					const res1 = await this.$post(collections_index_play, {
-						product_item_id: item.product_item_id
-					})
+					// const res1 = await this.$post(collections_index_play, {
+					// 	product_item_id: item.product_item_id
+					// })
 					let data = {
 						"page": "musicPlayPage",
 						"isNeedLogin": false,

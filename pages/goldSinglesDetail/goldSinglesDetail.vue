@@ -624,9 +624,9 @@
 							product_item_id: this.product_item_id
 						}
 					}
-					const res1 = await this.$post(collections_index_play, {
-						product_item_id: this.product_item_id
-					})
+					// const res1 = await this.$post(collections_index_play, {
+					// 	product_item_id: this.product_item_id
+					// })
 					openAppPage(data)
 				} catch (e) {
 					//TODO handle the exception

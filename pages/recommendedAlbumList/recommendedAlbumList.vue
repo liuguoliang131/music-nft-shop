@@ -157,9 +157,9 @@
 					// 		icon: 'none'
 					// 	})
 					// }
-					const res1 = await this.$post(collections_index_play, {
-						product_item_id: item.product_item_id
-					})
+					// const res1 = await this.$post(collections_index_play, {
+					// 	product_item_id: item.product_item_id
+					// })
 					let data = {
 						"page": "musicPlayPage",
 						"isNeedLogin": false,

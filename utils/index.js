@@ -514,7 +514,7 @@ export const getAppConfig = () => {
 				clearInterval(getAppConfigTimer)
 				resolve(window.appConfigReady)
 			}
-		}, 10)
+		}, 1)
 	})
 
 
