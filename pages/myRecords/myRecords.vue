@@ -1,17 +1,19 @@
 <template>
 	<view class="container">
 		<nav-head title="我的唱片"></nav-head>
-		<my-tab :list="tabList" @active="handActiveBar" :activeBar="activeBar" :slide="false"></my-tab>
+		<my-tab v-show="$store.state.user.inApp" :list="tabList" @active="handActiveBar" :activeBar="activeBar"
+			:slide="false"></my-tab>
 		<view class="notice">
 			当前拥有{{total_num}}张
 		</view>
-		<view class="empty" v-if="isFinish&&list.length===0">
+		<view :class="['empty',$store.state.user.inApp?'':'h5-scroll']" v-if="isFinish&&list.length===0">
 			<view class="empty-center">
 				<image src="../../static/emptybox.png" mode="" class="empty-img"></image>
 				<view class="empty-text">空空如也，请先去选购</view>
 			</view>
 		</view>
-		<my-scroll v-else class="scroll-box" :isFinish="isFinish" :loading="loading" @load="getList">
+		<my-scroll v-else :class="['scroll-box',$store.state.user.inApp?'':'h5-scroll']" :isFinish="isFinish"
+			:loading="loading" @load="getList">
 			<view class="item" v-for="(item , index) in list" @click="handleGoToDetail(item)" :key='index'>
 				<!-- <view class="item-image">
 					<view class="item-image-image" :style="`background-image:url(${item.index_img})`">
@@ -117,6 +119,11 @@
 				loading: false,
 				list: [],
 				total_num: 0
+			}
+		},
+		created() {
+			if (!this.$store.state.user.inApp) {
+				this.activeBar = 2
 			}
 		},
 		onShow() {
@@ -327,6 +334,10 @@
 				flex-wrap: wrap;
 				justify-content: space-between;
 			}
+		}
+
+		.h5-scroll {
+			height: calc(100vh - 104rpx);
 		}
 	}
 

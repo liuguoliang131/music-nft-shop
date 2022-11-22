@@ -1,20 +1,22 @@
 <template>
 	<view class="container order">
 		<nav-head title="我的订单"></nav-head>
-		<my-tab :list="tabList" :activeBar="activeBar" @active="handActive" :slide="false"></my-tab>
+		<my-tab v-show="$store.state.user.inApp" :list="tabList" :activeBar="activeBar" @active="handActive"
+			:slide="false"></my-tab>
 		<view class="order-nav">
 			<view class="order-nav-item" :class="index === activeNav ? 'active' : ''"
 				v-for="( item , index ) in navList" :key='index' @click="handleClickNavItem(index)">
 				{{item}}
 			</view>
 		</view>
-		<view class="empty" v-if="isFinish&&list.length===0">
+		<view :class="['empty',$store.state.user.inApp?'':'h5-scroll']" v-if="isFinish&&list.length===0">
 			<view class="empty-center">
 				<image src="../../static/empty-icon.png" mode="" class="empty-img"></image>
 				<view class="empty-text">还没有相关订单</view>
 			</view>
 		</view>
-		<my-scroll v-else class="scroll-box" :isFinish="isFinish" :loading="loading" @load="getList">
+		<my-scroll v-else :class="['scroll-box',$store.state.user.inApp?'':'h5-scroll']" :isFinish="isFinish"
+			:loading="loading" @load="getList">
 			<view class="order-body-item" v-for="(item , index) in list" :key='index'
 				@click="handleGoToDetail(item,activeBar)">
 				<view class="order-body-item-imageBox">
@@ -146,7 +148,13 @@
 				list: []
 			}
 		},
+		created() {
+			if (!this.$store.state.user.inApp) {
+				this.activeBar = 2
+			}
+		},
 		onLoad() {
+			console.log('onload')
 
 		},
 		filters: {
@@ -354,6 +362,10 @@
 		.scroll-box {
 			width: 750rpx;
 			height: calc(100vh - 228rpx);
+		}
+
+		.h5-scroll {
+			height: calc(100vh - 80rpx);
 		}
 
 		&-body {

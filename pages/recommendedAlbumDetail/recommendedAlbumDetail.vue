@@ -1,6 +1,9 @@
 <template>
 	<!-- 数字音乐详情 -->
 	<view class="container">
+		<view @tap="handGoDownload" class="logo" v-if="share_sign">
+			<image src="../../static/logo-line.png" mode=""></image>
+		</view>
 		<nav-head :left="!share_sign" :right="!share_sign" title="详情">
 			<image class="nav-r" src="../../static/share1.png" mode="" @tap="handShare"></image>
 		</nav-head>
@@ -56,6 +59,14 @@
 						{{data.name}}
 					</view>
 				</view>
+				<view class="info" v-if="data.rare_type==='SSR'">
+					<view class="info-1">
+						稀有度
+					</view>
+					<view class="info-2">
+						{{data.rare_type}}
+					</view>
+				</view>
 				<view class="info">
 					<view class="info-1">
 						发行时间
@@ -72,7 +83,7 @@
 						{{data.publish_author}}
 					</view>
 				</view>
-				<view class="info">
+				<view class="info" v-if="data.rare_type==='SSR'">
 					<view class="info-1">
 						本次发行量
 					</view>
@@ -126,18 +137,6 @@
 		</view>
 		<view class="footer"></view>
 		<view class="bottom1" v-if="share_sign" v-show="!$store.state.publicState.isApprove">
-			<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
-				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
-				<view class="bottom1-1-2 followed">
-					关注
-				</view>
-			</view>
-			<view v-else class="bottom1-1" @tap="handFollow(1)">
-				<image class="bottom1-1-1" src="../../static/follow-hollow.png" mode=""></image>
-				<view class="bottom1-1-2 unfollow">
-					关注
-				</view>
-			</view>
 			<view class="bottom1-2">
 				<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handGoDownload">已停售</view>
 				<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0" @tap="handGoDownload">
@@ -618,6 +617,9 @@
 				}
 			},
 			async handPlay() {
+				if (this.share_sign) {
+					return this.handGoDownload()
+				}
 				try {
 					// const res = await this.$post(collections_index_musicPlay, {
 					// 	product_item_id: this.product_item_id
@@ -703,6 +705,21 @@
 
 	.container {
 		padding: 0 24rpx;
+
+		.logo {
+			position: fixed;
+			z-index: 11;
+			top: 22rpx;
+			left: 40rpx;
+			box-sizing: border-box;
+			width: 154rpx;
+			height: 48rpx;
+
+			image {
+				width: 100%;
+				height: 100%;
+			}
+		}
 
 		.nav-r {
 			width: 48rpx;
@@ -1052,6 +1069,7 @@
 			padding: 0 42rpx 0 64rpx;
 			display: flex;
 			align-items: center;
+			justify-content: center;
 			background: #212121;
 
 			.bottom1-1 {

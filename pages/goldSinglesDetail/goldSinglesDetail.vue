@@ -1,6 +1,9 @@
 <template>
 	<!-- 数字音乐详情 -->
 	<view class="container">
+		<view @tap="handGoDownload" class="logo" v-if="share_sign">
+			<image src="../../static/logo-line.png" mode=""></image>
+		</view>
 		<nav-head :left="!share_sign" :right="!share_sign" title="详情">
 			<image class="nav-r" src="../../static/share1.png" mode="" @tap="handShare"></image>
 		</nav-head>
@@ -20,8 +23,8 @@
 				src="../../static/UR.png" mode=""></image>
 			<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='R'"
 				src="../../static/R.png" mode=""></image>
-			<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='N'"
-				src="../../static/N.png" mode=""></image>
+			<!-- 			<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='N'"
+				src="../../static/N.png" mode=""></image> -->
 			<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='SR'"
 				src="../../static/SR.png" mode=""></image>
 			{{data.name}}
@@ -56,7 +59,7 @@
 						{{data.name}}
 					</view>
 				</view>
-				<view class="info">
+				<view class="info" v-if="data.rare_type==='SSR'">
 					<view class="info-1">
 						稀有度
 					</view>
@@ -80,7 +83,7 @@
 						{{data.publish_author}}
 					</view>
 				</view>
-				<view class="info">
+				<view class="info" v-if="data.rare_type==='SSR'">
 					<view class="info-1">
 						本次发行量
 					</view>
@@ -118,18 +121,6 @@
 		</view>
 		<view class="footer"></view>
 		<view class="bottom1" v-if="share_sign" v-show="!$store.state.publicState.isApprove">
-			<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
-				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
-				<view class="bottom1-1-2 followed">
-					关注
-				</view>
-			</view>
-			<view v-else class="bottom1-1" @tap="handFollow(1)">
-				<image class="bottom1-1-1" src="../../static/follow-hollow.png" mode=""></image>
-				<view class="bottom1-1-2 unfollow">
-					关注
-				</view>
-			</view>
 			<view class="bottom1-2">
 				<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handGoDownload">已停售</view>
 				<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0" @tap="handGoDownload">
@@ -166,7 +157,7 @@
 					已售罄</view>
 			</view>
 		</view>
-		<wyb-popup ref="popup" type="bottom" zIndex="99" height="701" width="750" radius="6" bgColor="#1D1D1D"
+		<wyb-popup ref="popup" type="bottom" zIndex="99" height="850" width="750" radius="6" bgColor="#1D1D1D"
 			:showCloseIcon="true">
 			<view class="popup-content">
 				<view class="popup-i">
@@ -187,6 +178,17 @@
 					<image class="popup-f-img" src="../../static/popupYf.png"></image>
 					<text>购买唱片可以永久聆听</text>
 				</view>
+				<view class="popup-g" v-if="data.rare_type==='SSR'">
+					<view class="g-1">
+						级别
+					</view>
+					<view class="g-2">
+						<view class="popup-h-btn">
+							SSR级
+						</view>
+					</view>
+				</view>
+
 				<view class="popup-count">
 					<view class="count-text">
 						数量
@@ -611,6 +613,9 @@
 				}
 			},
 			async handPlay() {
+				if (this.share_sign) {
+					return this.handGoDownload()
+				}
 				try {
 					let data = {
 						"page": "musicPlayPage",
@@ -685,6 +690,21 @@
 
 	.container {
 		padding: 0 24rpx;
+
+		.logo {
+			position: fixed;
+			z-index: 11;
+			top: 22rpx;
+			left: 40rpx;
+			box-sizing: border-box;
+			width: 154rpx;
+			height: 48rpx;
+
+			image {
+				width: 100%;
+				height: 100%;
+			}
+		}
 
 		.nav-r {
 			width: 48rpx;
@@ -990,6 +1010,7 @@
 			padding: 0 42rpx 0 64rpx;
 			display: flex;
 			align-items: center;
+			justify-content: center;
 			background: #212121;
 
 			.bottom1-1 {
@@ -1181,6 +1202,35 @@
 					margin-left: 16rpx;
 				}
 			}
+
+			.popup-g {
+				.g-1 {
+					color: #ECECEC;
+					font-size: 28rpx;
+					padding: 0 32rpx 24rpx 40rpx;
+				}
+
+				.g-2 {
+					font-size: 28rpx;
+					padding: 0 32rpx 24rpx 40rpx;
+					display: flex;
+					flex-wrap: wrap;
+
+					.popup-h-btn {
+						border-radius: 35rpx;
+						width: 140rpx;
+						height: 70rpx;
+						color: #ffff;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						background-color: #D10910;
+						line-height: 0;
+					}
+
+				}
+			}
+
 
 			.popup-count {
 				display: flex;
