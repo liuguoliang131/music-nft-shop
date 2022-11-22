@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<nav-head title="用户协议"></nav-head>
+		<nav-head title="查看协议"></nav-head>
 		<web-view :src="url"></web-view>
 	</view>
 </template>

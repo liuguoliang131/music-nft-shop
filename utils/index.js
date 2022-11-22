@@ -525,6 +525,3 @@ window.appConfig = function(config) {
 	}
 	window.localStorage.setItem('AppConfigInfo', AppConfigInfo)
 }
-window.onPageAppear = function() {
-
-}

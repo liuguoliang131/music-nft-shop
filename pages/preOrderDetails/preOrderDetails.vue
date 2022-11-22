@@ -235,12 +235,13 @@
 		goDownload
 	} from '../../utils/index.js'
 	import Mixins from '../../mixins/index.js'
+	import RefreshMixins from '../../mixins/preDetails.js'
 	export default {
 		components: {
 			WybPopup,
 			NavHead
 		},
-		mixins: [Mixins],
+		mixins: [Mixins, RefreshMixins],
 		data() {
 			return {
 				product_item_id: '',

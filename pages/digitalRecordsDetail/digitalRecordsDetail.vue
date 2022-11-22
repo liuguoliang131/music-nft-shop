@@ -189,13 +189,16 @@
 		playAlbum
 	} from '../../utils/index.js'
 	import dayjs from 'dayjs'
+	import Mixins from '../../mixins/recordsDetail.js'
 	export default {
 		components: {
 			NavHead,
 			MyDialog
 		},
+		mixins: [Mixins],
 		data() {
 			return {
+				id: null,
 				show: false,
 				detail: {
 					"order_id": null,
@@ -225,6 +228,7 @@
 		},
 		onLoad(e) {
 			const id = e.id
+			this.id = id
 			this.getOrderDetail(id)
 
 		},
