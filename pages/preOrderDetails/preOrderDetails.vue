@@ -15,14 +15,14 @@
 
 			</view>
 			<view class="row1">
-				<image v-show="!$store.state.publicState.isApprove" v-if="data.rare_type==='SSR'" src="../../static/SSR.png"
-					mode=""></image>
+				<image v-show="!$store.state.publicState.isApprove" v-if="data.rare_type==='SSR'"
+					src="../../static/SSR.png" mode=""></image>
 				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='UR'"
 					src="../../static/UR.png" mode=""></image>
-				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='R'" src="../../static/R.png"
-					mode=""></image>
-				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='N'" src="../../static/N.png"
-					mode=""></image>
+				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='R'"
+					src="../../static/R.png" mode=""></image>
+				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='N'"
+					src="../../static/N.png" mode=""></image>
 				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='SR'"
 					src="../../static/SR.png" mode=""></image>
 				{{data.name}}
