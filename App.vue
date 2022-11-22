@@ -81,14 +81,11 @@
 						}
 						post1(h5_show_configure, data).then(res => {
 							if (res.data && res.data.config) {
-								alert(1)
 								that.$store.commit('publicState/set_isApprove', res.data.config
 									.audit_status)
 							} else {
-								alert(2)
 								that.$store.commit('publicState/set_isApprove', true)
 							}
-							alert('app.vue' + that.$store.state.publicState.isApprove)
 						})
 					})
 				} else {

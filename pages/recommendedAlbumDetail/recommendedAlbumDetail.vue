@@ -17,13 +17,13 @@
 		<view class="title">
 			<image v-show="!$store.state.publicState.isApprove" v-if="data.rare_type==='SSR'" src="../../static/SSR.png"
 				mode=""></image>
-			<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='UR'" src="../../static/UR.png"
-				mode=""></image>
-			<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='R'" src="../../static/R.png"
-				mode=""></image>
+			<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='UR'"
+				src="../../static/UR.png" mode=""></image>
+			<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='R'"
+				src="../../static/R.png" mode=""></image>
 			<!-- <image v-else-if="data.rare_type==='N'" src="../../static/N.png" mode=""></image> -->
-			<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='SR'" src="../../static/SR.png"
-				mode=""></image>
+			<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='SR'"
+				src="../../static/SR.png" mode=""></image>
 			{{data.name}}
 		</view>
 		<view class="price" v-show="!$store.state.publicState.isApprove">
@@ -126,15 +126,15 @@
 		</view>
 		<view class="footer"></view>
 		<view class="bottom1" v-if="share_sign" v-show="!$store.state.publicState.isApprove">
-			<view v-if="data.is_like===1" class="bottom1-1 followed" @tap="handFollow(2)">
+			<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
 				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
-				<view class="bottom1-1-2">
+				<view class="bottom1-1-2 followed">
 					关注
 				</view>
 			</view>
-			<view v-else class="bottom1-1 unfollow" @tap="handFollow(1)">
+			<view v-else class="bottom1-1" @tap="handFollow(1)">
 				<image class="bottom1-1-1" src="../../static/follow-hollow.png" mode=""></image>
-				<view class="bottom1-1-2">
+				<view class="bottom1-1-2 unfollow">
 					关注
 				</view>
 			</view>
@@ -152,15 +152,15 @@
 			</view>
 		</view>
 		<view class="bottom1" v-else v-show="!$store.state.publicState.isApprove">
-			<view v-if="data.is_like===1" class="bottom1-1 followed" @tap="handFollow(2)">
+			<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
 				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
-				<view class="bottom1-1-2">
+				<view class="bottom1-1-2 followed">
 					关注
 				</view>
 			</view>
-			<view v-else class="bottom1-1 unfollow" @tap="handFollow(1)">
+			<view v-else class="bottom1-1" @tap="handFollow(1)">
 				<image class="bottom1-1-1" src="../../static/follow-hollow.png" mode=""></image>
-				<view class="bottom1-1-2">
+				<view class="bottom1-1-2 unfollow">
 					关注
 				</view>
 			</view>
@@ -1058,6 +1058,9 @@
 				}
 
 				.bottom1-1-2 {
+					position: relative;
+					top: -5rpx;
+					left: 1rpx;
 					width: 57.62rpx;
 					text-align: center;
 					font-family: 'PingFang HK';
