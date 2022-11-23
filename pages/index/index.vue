@@ -49,7 +49,10 @@
 						</view>
 					</view>
 					<view style="flex-shrink: 0;">
-						<view class="list-item-price-dit" style="font-weight: 500;">
+						<view v-if="item.is_halt===2" class="list-item-price-dit" style="font-weight: 500;">
+							已停售
+						</view>
+						<view v-else class="list-item-price-dit" style="font-weight: 500;">
 							{{item.sale_status | filterStatus}}
 						</view>
 					</view>
@@ -102,9 +105,9 @@
 				const list = {
 					0: '未开售',
 					1: '开售中',
-					2: '已停售'
+					2: '已售罄'
 				}
-				return list[e] || '已停售'
+				return list[e] || '已售罄'
 			}
 		},
 		methods: {
