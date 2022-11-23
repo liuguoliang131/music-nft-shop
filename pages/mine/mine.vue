@@ -1,6 +1,6 @@
 <template>
 	<view class="container mine">
-		<cu-head></cu-head>
+		<nav-head title="我的"></nav-head>
 		<view class="mine-head">
 			<image :src="userInfo.avatar" class="mine-head-image" mode=""></image>
 			<view class="mine-head-box">
@@ -39,12 +39,12 @@
 			</view>
 			<view class="mine-list-item" @click="goToCollections">
 				<image src="../../static/mine.png" class="mine-list-item-image" mode=""></image>
-				我的专辑
+				我的唱片
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 			<view class="mine-list-item" @click="goToOrder">
 				<image src="../../static/order.png" class="mine-list-item-image" mode=""></image>
-				专辑订单
+				我的订单
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 			<view class="mine-list-item" @click="goCustomer">
@@ -65,11 +65,15 @@
 	import {
 		h5_user_info
 	} from '../../request/api.js'
+	import NavHead from '../../components/navHead.vue'
 	export default {
 		data() {
 			return {
 				userInfo: {}
 			}
+		},
+		components: {
+			NavHead
 		},
 		methods: {
 			copy(data) {
@@ -87,7 +91,7 @@
 			},
 			goToCollections() {
 				uni.navigateTo({
-					url: '/pages/collections/collections'
+					url: '/pages/myRecords/myRecords'
 				})
 			},
 			goToOrder() {
@@ -127,7 +131,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					this.userInfo = res.data

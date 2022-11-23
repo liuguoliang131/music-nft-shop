@@ -1,5 +1,5 @@
 <template>
-	<view class="slots" v-show="isWeb">
+	<view class="slots" v-show="isWeb?!$store.state.user.inPlus:false">
 		<view class="nav">
 			<image @tap="navBack()" class="nav-left" src="../static/navLeft.png" mode=""></image>
 		</view>
@@ -9,7 +9,9 @@
 
 <script>
 	import {
-		isApp
+		isApp,
+		hasPlus,
+		goLogin
 	} from '../utils/index.js'
 	export default {
 		name: "cu-head",
@@ -22,9 +24,15 @@
 			navBack() {
 				let currentRoutes = getCurrentPages(); // 获取当前打开过的页面路由数组
 				if (currentRoutes.length === 1) {
-					uni.redirectTo({
-						url: '/pages/index/index'
-					})
+					if (this.$store.state.user.token) {
+						uni.redirectTo({
+							url: '/pages/index/index'
+						})
+
+					} else {
+						goLogin()
+					}
+
 				} else {
 					uni.navigateBack({
 						delta: 1, //返回层数，2则上上页

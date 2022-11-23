@@ -1,5 +1,5 @@
 <template>
-	<view :class="['dialog',visible?'visible':'']" @tap.self="close">
+	<view :class="['dialog',visible?'visible':'hidden']" @tap.self="close">
 		<view class="center-box">
 			<slot v-if="visible"></slot>
 		</view>
@@ -41,19 +41,24 @@
 
 		.center-box {
 			width: 500rpx;
-			min-height: 0rpx;
+			height: 0rpx;
 			background-color: transparent;
 			border-radius: 16rpx;
-			transition: all 0.3s;
+			transition: background-color 0.3s;
 		}
 	}
 
 	.visible {
 		background-color: rgba(0, 0, 0, 0.5);
 		height: 100vh;
+		visibility: visible;
 
 		.center-box {
 			background-color: #fff;
 		}
+	}
+
+	.hidden {
+		visibility: hidden;
 	}
 </style>

@@ -1,6 +1,6 @@
 <template>
 	<view class="container collection">
-		<cu-head></cu-head>
+		<nav-head></nav-head>
 		<view class="h23"></view>
 		<view class="title">
 			专辑信息
@@ -145,7 +145,7 @@
 
 <script>
 	import {
-		h5_collections_user_collectionInfo,
+		collections_user_collectionInfo,
 		h5_order_detail
 	} from '../../request/api.js'
 	import {
@@ -156,7 +156,11 @@
 		post
 	} from '../../request/index.js'
 	import dayjs from 'dayjs'
+	import NavHead from '../../components/navHead.vue'
 	export default {
+		components: {
+			NavHead
+		},
 		data() {
 			return {
 				show: false,
@@ -202,7 +206,7 @@
 				return dayjs(e).format('YYYY/MM/DD HH:mm:ss')
 			},
 			getDetail(e) {
-				post(h5_collections_user_collectionInfo, {
+				post(collections_user_collectionInfo, {
 					owner_id: Number(e)
 				}).then(res => {
 					console.log(res)

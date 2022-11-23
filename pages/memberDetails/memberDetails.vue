@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<nav-head></nav-head>
 		<view class="h16"></view>
 		<view class="board">
 			<view class="board-top">
@@ -49,9 +49,11 @@
 		getTimeData
 	} from '../../utils/index.js'
 	import MyScroll from '../../components/myScroll.vue'
+	import NavHead from '../../components/navHead.vue'
 	export default {
 		components: {
-			MyScroll
+			MyScroll,
+			NavHead
 		},
 		data() {
 			return {
@@ -279,7 +281,7 @@
 			}
 
 			.scroll-view {
-				height: calc(100vh - 535rpx);
+				height: calc(100vh - 595rpx);
 			}
 
 			.item {

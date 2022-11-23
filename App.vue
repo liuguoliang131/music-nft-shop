@@ -7,17 +7,56 @@
 		isApp,
 		isWxBrowser,
 		jumpWxAuthUrl,
-		getAppConfig
+		getAppConfig,
+		hasPlus,
+		controlTitleBar
 	} from 'utils/index.js'
 	import {
-		h5_user_info
+		h5_user_info,
+		h5_show_configure
 	} from 'request/api.js'
+	import {
+		post1
+	} from './request/index.js'
 	export default {
 		methods: {
+			setInfo() {
+				this.$get(h5_user_info).then(res => {
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+					this.$store.commit('user/set_userInfo', res.data)
+				})
+			},
+
 			onWebEntry() {
+				const that = this
+
+				function plusReady() {
+					try {
+						const token = window.plus.storage.getItem('MetaNoteToken')
+						that.$store.commit('user/set_inPlus', true)
+						that.$store.commit('user/set_token', token)
+						that.setInfo()
+					} catch (e) {
+						//TODO handle the exception
+						console.log(e.message)
+					}
+
+				}
+				if (window.plus) {
+					plusReady()
+				} else {
+					document.addEventListener('plusready', plusReady, false)
+				}
 				const inApp = isApp()
 				this.$store.commit('user/set_inApp', inApp)
 				if (inApp) {
+					// 元音符app
+					controlTitleBar()
 					if (document.cookie) {
 						console.log(document.cookie)
 						const arr = document.cookie.split('&')
@@ -28,22 +67,29 @@
 								this.$store.commit('user/set_token', token)
 							}
 						})
-						this.$get(h5_user_info).then(res => {
-							if (res.code !== 0) {
-								return uni.showToast({
-									title: res.msg,
-									icon: 'error'
-								})
-							}
-							this.$store.commit('user/set_userInfo', res.data)
-						})
-
+						this.setInfo()
 					} else {
 						this.$store.commit('user/set_token', '')
 						this.$store.commit('user/set_userInfo', '')
 					}
-					getAppConfig()
+					getAppConfig().then(config => {
+						that.$store.commit('public/set_appConfig', config)
+						const data = {
+							version_code: config.version_code || 1900,
+							os: config.os,
+							channel: config.channel
+						}
+						post1(h5_show_configure, data).then(res => {
+							if (res.data && res.data.config) {
+								that.$store.commit('publicState/set_isApprove', res.data.config
+									.audit_status)
+							} else {
+								that.$store.commit('publicState/set_isApprove', true)
+							}
+						})
+					})
 				} else {
+					// 浏览器
 					if (isWxBrowser()) {
 						jumpWxAuthUrl()
 					}
@@ -66,6 +112,10 @@
 </script>
 
 <style lang="scss">
+	body {
+		background-color: $uni-bg-color;
+	}
+
 	/*每个页面公共css */
 	.container {
 		flex: auto;

@@ -18,9 +18,9 @@ export const h5_base_captcha = '/h5/base/captcha'
 export const h5_user_info = '/h5/user/info'
 // 10、分享海报信息
 export const h5_collections_index_sharePoster = '/h5/collections_index/sharePoster'
-// 11、藏品列表
+// 11、藏品列表(唱片列表)
 export const h5_collections_user_collectionList = '/h5/collections_user/collectionList'
-// 12、藏品详情
+// 12、藏品详情（唱片详情）
 export const h5_collections_user_collectionInfo = '/h5/collections_user/collectionInfo'
 // 13、实名认证
 export const h5_collections_user_verified = '/h5/collections_user/verified'
@@ -46,6 +46,42 @@ export const h5_collections_wallet_pay_wallet = '/h5/collections_wallet/pay_wall
 export const h5_collections_user_getAmount = '/h5/collections_user/getAmount'
 // 24、查询是否账户设置了零钱支付密码
 export const h5_collections_user_if_password = '/h5/collections_user/if_password'
+
+// 25、【首页】数字音乐列表
+export const collections_index_digitMusicList = '/collections/index/digitMusicList'
+// 26、【首页】黄金专辑列表
+export const collections_index_albumMusicList = '/collections/index/albumMusicList'
+// 27、【首页】音乐播放信息
+export const collections_index_musicPlay = '/collections/index/musicPlay'
+// 28、【首页】黄金单曲列表
+export const collections_index_singleMusicList = '/collections/index/singleMusicList'
+// 29、【首页】详情
+export const collections_index_detail = '/collections/index/detail'
+// 30、【首页】关注&取消关注
+export const collections_index_like = '/collections/index/like'
+
+// 31、【转赠】点击唱片转赠按钮后-跳转-转赠页 v1.9
+export const collections_donation_checkout = '/collections_donation/checkout'
+
+// 32  【我的】我的收藏（add v1.9）
+export const h5_collections_user_likeList = '/h5/collections_user/likeList'
+// 详情访问统计
+export const collections_index_visit = '/collections/index/visit'
+// 播放统计
+export const collections_index_play = '/collections/index/play'
+// 分享统计
+export const collections_index_share = '/collections/index/share'
+// 海报信息 APP内使用
+export const collections_index_sharePoster = '/collections/index/sharePoster'
+// 订单列表 版权的
+export const order_list = '/order/list'
+// 订单列表 唱片的
+export const order_collectionsList = '/order/collectionsList'
+// 唱片详情 v1.9
+export const collections_user_collectionInfo = '/collections_user/collectionInfo'
+// H5公共配置接口 (add v1.9)
+export const h5_show_configure = '/h5/show/configure'
+
 /**
  * @description 首页列表
  */

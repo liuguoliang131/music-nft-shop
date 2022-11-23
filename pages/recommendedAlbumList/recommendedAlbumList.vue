@@ -1,9 +1,9 @@
 <template>
 	<view class="container">
-		<nav-head title="数字唱片"></nav-head>
+		<nav-head title="数字音乐"></nav-head>
 		<view class="empty" v-if="isFinish&&list.length===0">
 			<view class="empty-center">
-				<image src="../../static/empty-icon.png" mode="" class="empty-img"></image>
+				<image src="../../static/emptybox.png" mode="" class="empty-img"></image>
 				<view class="empty-text">空空如也</view>
 			</view>
 		</view>
@@ -12,22 +12,23 @@
 				<view class="cover-content">
 					<image class="cover-img" src="../../static/image-7 1-1.png"></image>
 					<image class="cover-turn" src="../../static/turn.png" mode=""></image>
-					<image class="cover-turn1" src="../../static/唱首歌给你听.png" mode=""></image>
-					<image class="cover-play" src="../../static/play.png" mode=""></image>
-					<!-- <image class="cover-play" src="../../static/pause.png" mode=""></image> -->
+					<image class="cover-turn1" :src="item.index_img" mode=""></image>
+					<image v-show="item.publish_type===1" class="cover-play" src="../../static/play.png" mode=""
+						@tap.stop="handPlay(item)"></image>
+					<!-- <image class="cover-play" src="../../static/pause.png" mode="" @tap.stop="handPlay(item)"></image> -->
 				</view>
 				<view class="item-row1">
-					黄金专辑黄金专辑黄金专辑黄金专辑黄金专辑黄金专辑
+					{{item.product_name}}
 				</view>
 				<view class="item-row2">
 					<text class="item-row2-1">
-						黑旗子黑旗子黑旗子
+						{{item.author_name}}
 					</text>
-					<text class="item-row2-2">
+					<text class="item-row2-2" v-show="!$store.state.publicState.isApprove">
 						<text class="row2-2-unit">
 							￥
 						</text>
-						<text class="row2-2-price">19.90</text>
+						<text class="row2-2-price">{{item.sale_price}}</text>
 					</text>
 				</view>
 			</view>
@@ -38,11 +39,24 @@
 <script>
 	import NavHead from '../../components/navHead.vue'
 	import MyScroll from '../../components/myScroll.vue'
+	import {
+		openAppPage
+	} from '../../utils/index.js'
+	import {
+		collections_index_digitMusicList,
+		collections_index_musicPlay,
+		collections_index_play
+	} from '../../request/api.js'
+	import {
+		post1
+	} from '../../request/index.js'
+	import Mixins from '../../mixins/index.js'
 	export default {
 		components: {
 			NavHead,
 			MyScroll
 		},
+		mixins: [Mixins],
 		data() {
 			return {
 				isFinish: false,
@@ -93,10 +107,10 @@
 				try {
 					console.log('getlist')
 					this.loading = true
-					// const res = await this.$post(h5_community_memberList, {
-					// 	page: this.page++
-					// })
-					const res = await this.mock(this.page++)
+					const res = await post1(collections_index_digitMusicList, {
+						page: this.page++
+					})
+					// const res = await this.mock(this.page++)
 					if (res.code !== 0) {
 						this.isFinish = true
 						this.loading = false
@@ -125,7 +139,47 @@
 					throw e
 					//TODO handle the exception
 				}
+			},
+			handGo(item) {
+				let url = '/pages/recommendedAlbumDetail/recommendedAlbumDetail?product_item_id=' + item.product_item_id
+				uni.navigateTo({
+					url
+				})
+			},
+			async handPlay(item) {
+				try {
+					// const res = await this.$post(collections_index_musicPlay, {
+					// 	product_item_id: item.product_item_id
+					// })
+					// if (res.code !== 0) {
+					// 	return uni.showToast({
+					// 		title: res.msg,
+					// 		icon: 'none'
+					// 	})
+					// }
+					// const res1 = await this.$post(collections_index_play, {
+					// 	product_item_id: item.product_item_id
+					// })
+					let data = {
+						"page": "musicPlayPage",
+						"isNeedLogin": false,
+						"params": {
+							product_item_id: item.product_item_id
+						}
+					}
+					openAppPage(data)
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						title: e.message,
+						icon: 'none'
+					})
+					throw e
+				}
 			}
+		},
+		onLoad() {
+
 		}
 	}
 </script>
@@ -139,7 +193,7 @@
 			position: relative;
 			box-sizing: border-box;
 			padding: 0 32rpx 32rpx 32rpx;
-			height: calc(100vh - 88rpx);
+			height: calc(100vh - 148rpx);
 			text-align: center;
 			overflow: hidden;
 			padding-top: 300rpx;
@@ -177,7 +231,7 @@
 					width: 346rpx;
 					height: 448rpx;
 					border: 1rpx solid #5F5F5F;
-					border-radius: 20px;
+					border-radius: 20rpx;
 					margin-top: 20rpx;
 					margin-left: 20rpx;
 

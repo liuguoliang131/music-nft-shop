@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<nav-head title="收银台"></nav-head>
 		<view class="box1">
 			<view class="price">
 				<text class="rmb">￥</text>
@@ -14,6 +14,7 @@
 		<view class="box2">
 			<view class="box2-item" v-for="(item,idx) in list" :key="item.pay_id">
 				<image v-if="item.pay_id===2" class="icon" src="../../static/wx.png"></image>
+				<image v-else-if="item.pay_id===1" class="icon" src="../../static/zhifubao.png"></image>
 				<image v-else-if="item.pay_id===4" class="icon" src="../../static/lingqian.png"></image>
 				<view class="text">
 					{{item.pay_name}}
@@ -92,7 +93,7 @@
 	import {
 		requestPayment
 	} from '../../request/index.js'
-	import CuHead from '../../components/cu-head.vue'
+	import NavHead from '../../components/navHead.vue'
 	import {
 		openAppPage,
 		jumpBefore,
@@ -120,7 +121,7 @@
 			};
 		},
 		components: {
-			CuHead,
+			NavHead,
 			WybPopup,
 			MyDialog
 		},
@@ -152,7 +153,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					// const res = {
@@ -173,7 +174,7 @@
 					console.log(e)
 					uni.showToast({
 						title: e.message,
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 			},
@@ -224,7 +225,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					// const res = {
@@ -242,17 +243,21 @@
 					// 		},
 					// 	]
 					// }
-					res.data.forEach((item, idx) => {
+					this.list = res.data.filter((item, idx) => {
 						item.checked = !idx
+						if (item.pay_id === 4) {
+							return true
+						} else {
+							return false
+						}
 					})
-					this.list = res.data || []
 					uni.hideLoading()
 
 				} catch (e) {
 					//TODO handle the exception
 					uni.showToast({
 						title: error.message,
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 			},
@@ -276,7 +281,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					// const res = {
@@ -303,7 +308,7 @@
 					console.log(e)
 					uni.showToast({
 						title: e.message,
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 			},
@@ -350,7 +355,7 @@
 							if (res.err_msg == "get_brand_wcpay_request:fail") {
 								uni.showToast({
 									title: '支付失败',
-									icon: 'error'
+									icon: 'none'
 								})
 							}
 							/**
@@ -361,7 +366,7 @@
 							if (res.err_msg == "调用支付JSAPI缺少参数：total_fee") {
 								uni.showToast({
 									title: '调用支付JSAPI缺少参数：total_fee',
-									icon: 'error'
+									icon: 'none'
 								})
 							}
 						})
@@ -399,23 +404,31 @@
 						// 其他报错
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					this.$refs.popup.close()
 					post1(h5_conllections_buy_showsuccess, {
 						order_no: this.order_no
 					}).then(res => {
-						if (res.code === 200) {
+						if (res.code !== 0) {
+							return uni.showToast({
+								title: res.msg,
+								icon: 'none'
+							})
+						}
+
+						if (res.data.pay_status === 1) {
 							clearTimeout(this.timer)
 							uni.redirectTo({
 								url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}&order_id=${res.data.order_id}`
 							})
-						} else if (res.code !== 0 && res.code !== 200) {
+						} else {
 							uni.showToast({
 								title: res.msg,
 								icon: 'none'
 							})
+
 						}
 
 					})
@@ -497,23 +510,32 @@
 				post1(h5_conllections_buy_showsuccess, {
 					order_no: this.order_no
 				}).then(res => {
-					if (res.code === 200) {
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+
+					if (res.data.pay_status === 1) {
 						clearTimeout(this.timer)
 						uni.redirectTo({
 							url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}&order_id=${res.data.order_id}`
 						})
-					} else if (res.code !== 0 && res.code !== 200) {
+					} else if (res.data.pay_status === 0) {
+						this.listenPaySuccess()
+
+					} else if (res.data.pay_status === 2 || res.data.pay_status === 3 || res.data.pay_status ===
+						4) {
 						uni.showToast({
 							title: res.msg,
 							icon: 'none'
 						})
-					} else {
-						this.listenPaySuccess()
 					}
 
 				}).catch(error => {
 					uni.showToast({
-						icon: 'error',
+						icon: 'none',
 						title: res.message
 					})
 				})

@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<nav-head title="我的团队"></nav-head>
 		<view class="h16"></view>
 		<view class="board">
 			<view class="board-1">
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-	import CuHead from '../../components/cu-head.vue'
+	import NavHead from '../../components/navHead.vue'
 	import MyScroll from '../../components/myScroll.vue'
 	import {
 		h5_community_overview, //信息
@@ -60,7 +60,7 @@
 	} from '../../utils/index.js'
 	export default {
 		components: {
-			CuHead,
+			NavHead,
 			MyScroll
 		},
 		data() {

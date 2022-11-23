@@ -17,10 +17,14 @@ import {
 } from './utils/index.js'
 Vue.prototype.$store = store
 Vue.config.productionTip = false
-Vue.component('cuHead',cuHead)
+Vue.component('cuHead', cuHead)
 App.mpType = 'app'
 Vue.prototype.$post = post
 Vue.prototype.$get = get
+// app.vue onlaunch同步加载子路由
+// Vue.prototype.$onLaunched = new Promise(resolve => {
+// 	Vue.prototype.$isResolve = resolve
+// })
 const app = new Vue({
 	store,
 	...App

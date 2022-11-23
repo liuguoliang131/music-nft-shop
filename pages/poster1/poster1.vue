@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-head></cu-head>
+		<nav-head title="分享海报"></nav-head>
 		<view class="content">
 			<view class="box1">
 				<image class="posterImageBase64" v-if="posterImageBase64" :src="posterImageBase64" mode=""></image>
@@ -11,9 +11,10 @@
 				<view v-else class="save" @tap="handleSavePhoto()">点击保存海报到相册</view>
 			</view>
 			<view class="box3" v-show="inApp">
-				可分享至微信或朋友圈
-				<image src="../../static/share-wx.png" mode=""></image>
-				<image src="../../static/share-friends.png" mode=""></image>
+				可分享至
+				<image src="../../static/share-wx.png" mode="" @tap="handleShare('wxFriend')"></image>
+				<image src="../../static/share-friends.png" mode="" @tap="handleShare('timeline')"></image>
+				<image src="../../static/weibo.png" mode="" @tap="handleShare('weibo')"></image>
 			</view>
 		</view>
 	</view>
@@ -24,23 +25,29 @@
 	import {
 		isApp,
 		isWxBrowser,
-		saveBase64Image
+		saveBase64Image,
+		shareBase64Image
 	} from '../../utils/index.js'
 	import {
-		h5_community_sharePoster
+		h5_community_sharePoster,
+		collections_index_share
 	} from '../../request/api.js'
-	import CuHead from '../../components/cu-head.vue'
+	import {
+		post1
+	} from '../../request/index.js'
+	import NavHead from '../../components/navHead.vue'
 	export default {
 		data() {
 			return {
 				isWx: false,
 				inApp: false, //是否在app内
 				context: null,
-				posterImageBase64: ''
+				posterImageBase64: '',
+				data: {}
 			};
 		},
 		components: {
-			CuHead
+			NavHead
 		},
 		methods: {
 			handleBack() {
@@ -90,23 +97,29 @@
 						if (isApp()) {
 							saveBase64Image(res.tempFilePath)
 						} else {
-							const btn = document.createElement('a')
-							btn.download = '分享海报'
-							btn.href = res.tempFilePath
-							btn.click()
+							if (this.$store.state.user.inPlus) {
+								// uni.saveImageToPhotosAlbum({ // 保存本地
+								// 	filePath: res.tempFilePath,
+								// 	success: (response) => {
+								// 		console.log(response, 'success')
+								// 	},
+								// 	fail: (response) => {}
+								// })
+							} else {
+								const btn = document.createElement('a')
+								btn.download = '分享海报'
+								btn.href = res.tempFilePath
+								btn.click()
+							}
+
 						}
-						// uni.saveImageToPhotosAlbum({ // 保存本地
-						// 	filePath: res.tempFilePath,
-						// 	success: (response) => {
-						// 		console.log(response, 'success');
-						// 	},
-						// 	fail: (response) => {}
-						// })
+
 					},
 					fail: (error) => {
 						console.log(error)
 					}
 				})
+				this.shareStatics()
 			},
 			async getInfo() {
 				try {
@@ -114,7 +127,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					// const res = {
@@ -125,12 +138,13 @@
 					// 		share_sign: 'xasdasfasfadas'
 					// 	}
 					// }
+					this.data = res.data
 					this.initCanvas(res.data)
 				} catch (e) {
 					//TODO handle the exception
 					console.log('error', e)
 					uni.showToast({
-						icon: 'error',
+						icon: 'none',
 						title: e.message
 					})
 				}
@@ -273,6 +287,48 @@
 						}
 					})
 				})
+			},
+			handleShare(share_way) {
+				const url = window.location.protocol + '//' + window.location.host +
+					`/#/pages/preOrderDetails/preOrderDetails?product_item_id=${this.product_item_id}&share_sign=${encodeURIComponent(this.data.share_sign)}`
+				const share_title = '元音符' + url
+				let img = ''
+				uni.canvasToTempFilePath({ // res.tempFilePath临时路径
+					canvasId: 'firstCanvas',
+					success: (res) => {
+						console.log('res', res)
+						img = res.tempFilePath
+					},
+					fail: (error) => {
+						console.log(error)
+					}
+				})
+
+				let appConfig = window.localStorage.getItem('AppConfigInfo')
+				if (appConfig) {
+					appConfig = JSON.parse(appConfig)
+				} else {
+					appConfig = {
+						'version-code': '1710'
+					}
+				}
+				if (Number(appConfig['version-code']) >= 1750) {
+					shareBase64Image({
+						share_title,
+						share_way,
+						img
+					})
+				} else {
+
+				}
+				this.shareStatics()
+			},
+			// 分享统计
+			async shareStatics() {
+				const res = await post1(collections_index_share, {
+					product_item_id: this.product_item_id
+				})
+
 			}
 		},
 		mounted() {

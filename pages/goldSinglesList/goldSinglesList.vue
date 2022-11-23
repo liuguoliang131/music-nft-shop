@@ -10,30 +10,43 @@
 		<my-scroll v-else class="list" @load="getList" :isFinish="isFinish" :loading="loading">
 			<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
 				<view class="item-1">
-					<image class="item-1-sign" src="../../static/SSR.png" mode=""></image>
-					<image class="item-1-out" src="../../static/唱首歌给你听.png" mode=""></image>
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+						v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+						v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode="">
+					</image>
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+						v-else-if="item.rare_type==='R'" src="../../static/R.png" mode="">
+					</image>
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+						v-else-if="item.rare_type==='N'" src="../../static/N.png" mode="">
+					</image>
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+						v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode="">
+					</image>
+					<image class="item-1-out" :src="item.index_img" mode=""></image>
 					<image class="item-1-in" src="../../static/turn.png" mode=""></image>
 				</view>
 				<view class="item-2">
 					<view class="item-2-1">
-						最新梦想单曲单曲单曲单曲单曲
+						{{item.product_name}}
 					</view>
 					<view class="item-2-2">
-						<image class="item-2-2-1" src="../../static/唱首歌给你听.png" mode=""></image>
+						<image class="item-2-2-1" :src="item.author_avatar" mode=""></image>
 						<view class="item-2-2-2">
-							黑旗子黑旗子黑旗子黑旗子黑旗子黑旗子
+							{{item.author_name}}
 						</view>
 					</view>
-					<view class="item-2-3">
-						限量1000份
+					<view class="item-2-3" v-show="!$store.state.publicState.isApprove">
+						限量{{item.stock_num}}份
 					</view>
 					<view class="item-2-4">
-						<view class="item-2-4-1">
-							￥20.09
+						<view class="item-2-4-1" v-show="!$store.state.publicState.isApprove">
+							￥{{item.sale_price}}
 						</view>
-						<view class="item-2-4-2">
-							<!-- <image src="../../static/play.png" mode=""></image> -->
-							<image src="../../static/pause.png" mode=""></image>
+						<view class="item-2-4-2" @tap.stop="handPlay(item)">
+							<image src="../../static/play.png" mode=""></image>
+							<!-- <image src="../../static/pause.png" mode=""></image> -->
 							<text>立即试听</text>
 						</view>
 					</view>
@@ -46,11 +59,21 @@
 <script>
 	import NavHead from '../../components/navHead.vue'
 	import MyScroll from '../../components/myScroll.vue'
+	import {
+		collections_index_singleMusicList,
+		collections_index_musicPlay,
+		collections_index_play
+	} from '../../request/api.js'
+	import {
+		openAppPage
+	} from '../../utils/index.js'
+	import Mixins from '../../mixins/index.js'
 	export default {
 		components: {
 			NavHead,
 			MyScroll
 		},
+		mixins: [Mixins],
 		data() {
 			return {
 				isFinish: false,
@@ -101,10 +124,10 @@
 				try {
 					console.log('getlist')
 					this.loading = true
-					// const res = await this.$post(h5_community_memberList, {
-					// 	page: this.page++
-					// })
-					const res = await this.mock(this.page++)
+					const res = await this.$post(collections_index_singleMusicList, {
+						page: this.page++
+					})
+					// const res = await this.mock(this.page++)
 					if (res.code !== 0) {
 						this.isFinish = true
 						this.loading = false
@@ -133,7 +156,37 @@
 					throw e
 					//TODO handle the exception
 				}
+			},
+			handGo(item) {
+				uni.navigateTo({
+					url: `/pages/goldSinglesDetail/goldSinglesDetail?product_item_id=${item.product_item_id}`
+				})
+			},
+			async handPlay(item) {
+				try {
+					// const res1 = await this.$post(collections_index_play, {
+					// 	product_item_id: item.product_item_id
+					// })
+					let data = {
+						"page": "musicPlayPage",
+						"isNeedLogin": false,
+						"params": {
+							product_item_id: item.product_item_id
+						}
+					}
+					openAppPage(data)
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						title: e.message,
+						icon: 'none'
+					})
+					throw e
+				}
 			}
+		},
+		onLoad() {
+
 		}
 	}
 </script>
@@ -147,7 +200,7 @@
 			position: relative;
 			box-sizing: border-box;
 			padding: 0 32rpx 32rpx 32rpx;
-			height: calc(100vh - 88rpx);
+			height: calc(100vh - 148rpx);
 			text-align: center;
 			overflow: hidden;
 			padding-top: 300rpx;
@@ -305,7 +358,7 @@
 							.item-2-4-2 {
 								display: flex;
 								align-items: center;
-								width: 192rpx;
+								width: 182rpx;
 								height: 48rpx;
 								border-radius: 24rpx;
 								background: linear-gradient(92.75deg, #F4C85F 53.95%, #FFEBBC 151.4%);

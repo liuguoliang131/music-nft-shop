@@ -14,6 +14,7 @@
                 "/api" : {
                     "target" : "https://c.yuanyinfu.com",
                     "changeOrigin" : true,
+                    "secure" : false, // 如果是https接口，需要配置这个参数
                     "pathRewrite" : {
                         "^/api" : ""
                     }
@@ -23,6 +24,10 @@
         "router" : {
             "mode" : "hash",
             "base" : "./"
+        },
+        "title" : "元音符",
+        "async" : {
+            "delay" : "10000" // 这个时间内页面js已经加载了，所以不展示默认的loading  
         }
     },
     /* 5+App特有相关 */

@@ -146,6 +146,15 @@ export const openAppPage = (pageJSON) => {
 	// {"page":"myScorePage","params":{}, "isNeedLogin": true}
 	// 跳转到支付
 	// {"page":"musicDetailPage","isNeedLogin":false,"params":{"music_info_id":0}}
+
+	// 跳转音乐播放详情：isRightsMusic 是否是版权音乐 v1.9
+	// {"page":"musicPlayPage","isNeedLogin":false,"params":{"music_id": 29, "music_info_id": 2, "isRightsMusic": false}}
+
+	// 跳转去结算页面：v1.9
+	//   {"page":"diskConfirmOrderPage","isNeedLogin":true,"params":{"product_item_id": 29, "buy_num": 2}}
+
+	// 跳转转赠页面：v1.9
+	//   {"page":"sendDiskGiftPage","isNeedLogin”:true,"params":{"product_item_id": 29, "owner_id": 2}}
 	if (isApp()) {
 		HSApp.postMessage(JSON.stringify({
 			type: 'openAppPage',
@@ -171,6 +180,38 @@ export const saveUrlImage = (img) => {
 		type: 'saveUrlImage',
 		params: {
 			img
+		}
+	}))
+}
+// 分享base64图片到微信 微博
+// share_way: 微信wxFriend、朋友圈timeline、微博weibo
+// share_title：标题
+export const shareBase64Image = ({
+	img,
+	share_way,
+	share_title
+}) => {
+	HSApp.postMessage(JSON.stringify({
+		type: 'shareBase64Image',
+		params: {
+			img,
+			share_way,
+			share_title
+		}
+	}))
+}
+// 分享url图片到微信 微博
+export const shareUrlImage = ({
+	img,
+	share_way,
+	share_title
+}) => {
+	HSApp.postMessage(JSON.stringify({
+		type: 'shareUrlImage',
+		params: {
+			img,
+			share_way,
+			share_title
 		}
 	}))
 }
@@ -238,6 +279,42 @@ export const jumpBefore = (url, fail) => {
 			}, 3000)
 		}
 	}
+}
+// 去下载
+export const goDownload = () => {
+	uni.showToast({
+		title: '即将跳转到元音符App下载页面',
+		icon: 'none',
+		duration: 3000
+	})
+	if (timer) return false
+	timer = setTimeout(() => {
+		clearTimeout(timer)
+		timer = null
+		window.location.href = config.APP_DOWNLOAD_URL
+	}, 3000)
+}
+
+// 隐藏原生标题栏
+export const controlTitleBar = (isShow = false) => {
+	HSApp.postMessage(JSON.stringify({
+		'type': 'controlTitleBar',
+		'params': {
+			isShow
+		},
+	}))
+}
+// 关闭浏览器
+export const closeWebPage = () => {
+	HSApp.postMessage(JSON.stringify({
+		'type': 'closeWebPage',
+	}))
+}
+// 回退
+export const goBack = () => {
+	HSApp.postMessage(JSON.stringify({
+		'type': 'goBack',
+	}))
 }
 
 export const filterTime = (time) => {
@@ -348,7 +425,7 @@ export const jumpWxAuthUrl = () => {
 		}).catch(error => {
 			uni.showToast({
 				title: error.message,
-				icon: 'error'
+				icon: 'none'
 			})
 		})
 
@@ -400,17 +477,61 @@ export const playAlbum = (playList, albumName = '元音符', albumImage = '') =>
 		},
 	}))
 }
+// 注册plus应用ready事件
+export const addPlusReady = () => {
+	function plusReady() {
+
+	}
+	if (window.plus) {
+		plusReady()
+	} else {
+		document.addEventListener('plusready', plusReady, false)
+	}
+}
+
+// 从本地储存中获取app信息
+export const getStorageAppConfig = () => {
+
+	const str = window.localStorage.getItem('AppConfigInfo')
+	if (str) {
+		return JSON.parse(str)
+	} else {
+		return {}
+	}
+}
 // 获取APP信息
 export const getAppConfig = () => {
-	if (isApp()) {
+	let getAppConfigTimer = null
+	return new Promise((resolve) => {
+		window.appConfigReady = false
 		HSApp.postMessage(JSON.stringify({
 			type: 'getAppConfig',
 			params: {},
 			callback: 'appConfig'
 		}))
-	}
-}
+		getAppConfigTimer = setInterval(() => {
+			if (window.appConfigReady) {
+				clearInterval(getAppConfigTimer)
+				resolve(window.appConfigReady)
+			}
+		}, 1)
+	})
 
+
+	// return new Promise((resolve) => {
+	// 	if (isApp()) {
+	// 		HSApp.postMessage(JSON.stringify({
+	// 			type: 'getAppConfig',
+	// 			params: {},
+	// 			callback: 'appConfig'
+	// 		}))
+
+	// 	} else {
+	// 		resolve()
+	// 	}
+
+	// })
+}
 // 获取app信息的回调 保存
 window.appConfig = function(config) {
 	let AppConfigInfo = JSON.stringify({
@@ -422,4 +543,5 @@ window.appConfig = function(config) {
 		AppConfigInfo = JSON.stringify(config)
 	}
 	window.localStorage.setItem('AppConfigInfo', AppConfigInfo)
+	window.appConfigReady = JSON.parse(AppConfigInfo)
 }

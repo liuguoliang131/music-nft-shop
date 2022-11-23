@@ -1,10 +1,12 @@
 <template>
 	<!-- 预购专辑详情 -->
 	<view class="container">
-		<!-- <view class="nav">
-			<image @tap="handleBack()" class="nav-left" src="../../static/navLeft.png" mode=""></image>
-		</view> -->
-		<cu-head></cu-head>
+		<view @tap="handGoDownload" class="logo" v-if="share_sign">
+			<image src="../../static/logo-line.png" mode=""></image>
+		</view>
+		<nav-head :left="!share_sign" :right="!share_sign" title="详情">
+			<image class="nav-r" src="../../static/share1.png" mode="" @tap="handShare"></image>
+		</nav-head>
 		<view class="preOrderDetails-header">
 			<view class="cover">
 				<div class="cover-content">
@@ -16,25 +18,30 @@
 
 			</view>
 			<view class="row1">
-				<image v-if="data.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
-				<image v-else-if="data.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
-				<image v-else-if="data.rare_type==='R'" src="../../static/R.png" mode=""></image>
-				<image v-else-if="data.rare_type==='N'" src="../../static/N.png" mode=""></image>
-				<image v-else-if="data.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
+				<image v-show="!$store.state.publicState.isApprove" v-if="data.rare_type==='SSR'"
+					src="../../static/SSR.png" mode=""></image>
+				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='UR'"
+					src="../../static/UR.png" mode=""></image>
+				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='R'"
+					src="../../static/R.png" mode=""></image>
+				<!-- <image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='N'"
+					src="../../static/N.png" mode=""></image> -->
+				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='SR'"
+					src="../../static/SR.png" mode=""></image>
 				{{data.name}}
 			</view>
-			<view class="row2">
+			<view class="row2" v-show="!$store.state.publicState.isApprove">
 				{{data.sale_time1}}&nbsp;{{data.sale_status===0?'未开售':(data.sale_status===1?'开售中':'已停售')}}
 				<text>限量{{data.stock_num_desc}}张</text>
 			</view>
-			<view class="price">
+			<view class="price" v-show="!$store.state.publicState.isApprove">
 				<text class="rmb">￥</text>
 				<text class="count">{{data.sale_price}}</text>
 				<text class="unit">/张</text>
 			</view>
 		</view>
-		<view class="preOrderDetails-body">
-			<view class="card cardbox1">
+		<!-- <view class="preOrderDetails-body">
+			<view class="card cardbox1" v-show="!$store.state.publicState.isApprove">
 				<view class="card-body">
 					<view class="row1">专辑信息</view>
 					<view class="row2">
@@ -63,11 +70,6 @@
 						购买须知
 					</view>
 					<view class="row4" v-html="data.buy_notice">
-						<!-- 1.用户点击“购买”后2分钟内未付款，则订单将自动取消。专辑一经售卖，概不退货
-						<br />
-						2.专辑的版权由发行方、原创者所有，用户不得将其用于任何商业用途。
-						<br />
-						3.最终解释权归官方所有。 -->
 					</view>
 				</view>
 			</view>
@@ -84,20 +86,118 @@
 					</view>
 				</view>
 			</view>
+		</view> -->
+		<view class="card1" v-show="!$store.state.publicState.isApprove">
+			<view class="card1-body">
+				<view class="title1">专辑信息</view>
+				<view class="info">
+					<view class="info-1">
+						专辑名称
+					</view>
+					<view class="info-2">
+						{{data.name}}
+					</view>
+				</view>
+				<view class="info" v-if="data.rare_type!=='N'">
+					<view class="info-1">
+						稀有度
+					</view>
+					<view class="info-2">
+						{{data.rare_type}}
+					</view>
+				</view>
+				<view class="info">
+					<view class="info-1">
+						发行时间
+					</view>
+					<view class="info-2">
+						{{data.publish_time1}}
+					</view>
+				</view>
+				<view class="info">
+					<view class="info-1">
+						发行方
+					</view>
+					<view class="info-2">
+						{{data.publish_author}}
+					</view>
+				</view>
+				<view class="info">
+					<view class="info-1">
+						本次发行量
+					</view>
+					<view class="info-2">
+						{{data.stock_num}}张
+					</view>
+				</view>
+				<view class="title1 mt32 mb8">
+					购买须知
+				</view>
+				<view class="text1" v-html="data.buy_notice">
+
+				</view>
+			</view>
+		</view>
+		<view class="card2">
+			<view class="card2-body">
+				<!-- 专辑 -->
+				<view class="">
+					<view class="title1 mb8" v-if="data.introduction">
+						专辑介绍
+					</view>
+					<view class="text1 mb8" v-if="data.introduction" v-html="data.introduction"></view>
+					<view class="work" v-for="(item,idx) in data.music_list" :key="idx">
+						<view class="row1">{{item.name}}</view>
+						<view class="row2" v-html="item.desc">
+						</view>
+					</view>
+				</view>
+
+			</view>
 		</view>
 		<view class="h120"></view>
-		<view class="preOrderDetails-footer">
-			<view class="abs" @tap="handShare()">
-				<image class="abs-img" src="../../static/share.png"></image>
-				<text class="abs-text">分享</text>
+		<view class="bottom1" v-if="share_sign" v-show="!$store.state.publicState.isApprove">
+			<view class="bottom1-2">
+				<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handGoDownload">已停售</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0" @tap="handGoDownload">
+					{{countDown}}
+				</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1" @tap="handGoDownload">
+					立即抢购
+				</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===2" class="bottom1-status2" @tap="handGoDownload">
+					已售罄</view>
+
 			</view>
-			<view v-if="data.sale_status===0" class="footer-btn noactive" @tap="handOrLogin(0)">{{countDown}}</view>
-			<view v-else-if="data.sale_status===1" class="footer-btn" @tap="$refs.popup.show()">立即抢购</view>
-			<view v-else-if="data.sale_status===2" class="footer-btn gray-btn" @tap="handOrLogin(2)">已停售</view>
 		</view>
-		<wyb-popup ref="popup" type="bottom" height="701" width="750" radius="6" bgColor="#1D1D1D"
+		<view class="bottom1" v-else v-show="!$store.state.publicState.isApprove">
+			<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
+				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
+				<view class="bottom1-1-2 followed">
+					关注
+				</view>
+			</view>
+			<view v-else class="bottom1-1" @tap="handFollow(1)">
+				<image class="bottom1-1-1" src="../../static/follow-hollow.png" mode=""></image>
+				<view class="bottom1-1-2 unfollow">
+					关注
+				</view>
+			</view>
+			<view class="bottom1-2">
+				<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handOrLogin(3)">已停售</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0" @tap="handOrLogin(0)">
+					{{countDown}}
+				</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1" @tap="handBuyThe">立即抢购
+				</view>
+				<view v-else-if="data.is_halt===1&&data.sale_status===2" class="bottom1-status2" @tap="handOrLogin(2)">
+					已售罄</view>
+
+			</view>
+		</view>
+		<wyb-popup ref="popup" type="bottom" height="800" width="750" radius="6" bgColor="#1D1D1D"
 			:showCloseIcon="true">
-			<view class="popup-content">
+			<view class="popup-content" ref="popupContent">
 				<view class="popup-i">
 					<view class="i-img">
 						<image :src="data.index_img" mode=""></image>
@@ -116,6 +216,16 @@
 					<image class="popup-f-img" src="../../static/popupYf.png"></image>
 					<text>购买专辑可以永久聆听</text>
 				</view>
+				<view class="popup-g" v-if="data.rare_type!=='N'">
+					<view class="g-1">
+						级别
+					</view>
+					<view class="g-2">
+						<view class="popup-h-btn">
+							{{data.rare_type}}级
+						</view>
+					</view>
+				</view>
 				<view class="popup-count">
 					<view class="count-text">
 						数量
@@ -128,7 +238,7 @@
 							</view>
 						</view>
 						<input class="countc" type="number" maxlength="3" name="" id="" v-model="count"
-							@blur="onCountChange()">
+							@blur="onCountChange()" @focus="countInputFocus()">
 						<view class="plus" @tap="handPlus()">
 							<!-- <image class="plus-img" src="../../static/Group 1000004650.png" mode=""></image> -->
 							<view class="plus-img">
@@ -160,21 +270,32 @@
 
 <script>
 	import WybPopup from '@/components/wyb-popup/wyb-popup.vue'
-	import CuHead from '../../components/cu-head.vue'
+	import NavHead from '../../components/navHead.vue'
 	import {
 		h5_collections_index_info,
 		h5_collections_user_if_approve,
-		h5_conllections_buy_checkout
+		h5_conllections_buy_checkout,
+		collections_index_visit,
+		collections_index_detail,
+		collections_index_like
 	} from '../../request/api.js'
 	import {
+		post1
+	} from '../../request/index.js'
+	import {
 		getTimeData,
-		goLogin
+		goLogin,
+		openAppPage,
+		goDownload
 	} from '../../utils/index.js'
+	import Mixins from '../../mixins/index.js'
+	import RefreshMixins from '../../mixins/preDetails.js'
 	export default {
 		components: {
 			WybPopup,
-			CuHead
+			NavHead
 		},
+		mixins: [Mixins, RefreshMixins],
 		data() {
 			return {
 				product_item_id: '',
@@ -198,11 +319,26 @@
 					music_list: [],
 					is_login: '',
 					publish_time1: '',
-					sale_time1: ''
+					sale_time1: '',
+					is_like: 0,
+					video_url: '',
+					video_index_pic: '',
+					author_info: {
+						author_name: '',
+						author_avatar: '',
+						desc: ''
+					},
+					statistics_info: {
+						like: '',
+						play: '',
+						visit: '',
+						share: ''
+					}
 				},
 				count: 1,
 				statusTimer: null,
-				countDown: ''
+				countDown: '',
+				followTimer: null
 			};
 		},
 		computed: {
@@ -214,14 +350,23 @@
 			}
 		},
 		methods: {
+			countInputFocus() {
+				// console.log(this.$refs.popupContent.$el.scrollTop)
+				// this.$refs.popupContent.$el.style.height = '90vh'
+			},
 			handleBack() {
 
 				let currentRoutes = getCurrentPages(); // 获取当前打开过的页面路由数组
-				console.log(currentRoutes)
 				if (currentRoutes.length === 1) {
-					uni.redirectTo({
-						url: '/pages/index/index'
-					})
+					if (this.$store.state.user.token) {
+						uni.redirectTo({
+							url: '/pages/index/index'
+						})
+
+					} else {
+						goLogin()
+					}
+
 				} else {
 					uni.navigateBack({
 						delta: 1, //返回层数，2则上上页
@@ -230,13 +375,13 @@
 			},
 			async getDetails(product_item_id) {
 				try {
-					const res = await this.$post(h5_collections_index_info, {
+					const res = await post1(collections_index_detail, {
 						product_item_id
 					})
 					console.log(res)
 					if (res.code !== 0) {
 						return uni.showToast({
-							icon: 'error',
+							icon: 'none',
 							title: res.msg
 						})
 					}
@@ -285,17 +430,21 @@
 					res.data.sale_time1 = `${date.mon}月${date.dd}日${date.hh}:${date.MM}`
 					res.data.publish_time1 = `${date1.y}-${date1.mon}-${date1.dd}`
 					this.data = res.data
-					this.handSetTimeout()
+					if (res.data.is_halt === 1) {
+						this.handSetTimeout()
+					}
+
 				} catch (e) {
 					//TODO handle the exception
 					uni.showToast({
-						icon: 'error',
+						icon: 'none',
 						title: e.message
 					})
 				}
 			},
 			// 更新状态定时器
 			handSetTimeout() {
+				clearInterval(this.statusTimer)
 				if (this.data.sale_status === 0) {
 					this.statusTimer = setInterval(() => {
 						const date = new Date().getTime()
@@ -328,6 +477,7 @@
 				} else if (this.count < 1) {
 					this.count = 1
 				}
+				this.$refs.popupContent.$el.style.height = 'auto'
 			},
 			// -1
 			handMinus() {
@@ -344,15 +494,23 @@
 			},
 			// 分享
 			handShare() {
+				if (!this.$store.state.user.token) {
+					return goLogin()
+				}
 				uni.navigateTo({
-					url: `/pages/poster/poster?product_item_id=${this.product_item_id}`
+					url: `/pages/poster/poster?product_item_id=${this.product_item_id}&product_type=2`
 				})
 			},
 			// 是否去登录 
 			handOrLogin(status) {
-				if (status === 2) {
+				if (status === 3) {
 					uni.showToast({
 						title: '已停售，感谢您的关注',
+						icon: 'none'
+					})
+				} else if (status === 2) {
+					uni.showToast({
+						title: '已售罄，感谢您的关注',
 						icon: 'none'
 					})
 				} else if (status === 0) {
@@ -366,26 +524,16 @@
 					goLogin()
 				}
 			},
+			handBuyThe() {
+				if (!this.$store.state.user.token) {
+					goLogin()
+				} else {
+					this.$refs.popup.show()
+				}
+			},
 			// 立即抢购
 			async handOrder() {
 				try {
-					// const res = await this.$get(h5_collections_user_if_approve)
-					// if (res.code === 200 || res.code === 0) {
-					// 	uni.navigateTo({
-					// 		url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}`
-					// 	})
-					// } else if (res.code === 7) {
-					// 	// 身份认证
-					// 	uni.navigateTo({
-					// 		url: `/pages/idAuth/idAuth`
-					// 	})
-
-					// } else {
-					// 	return uni.showToast({
-					// 		title: res.msg,
-					// 		icon: 'error'
-					// 	})
-					// }
 					if (!this.$store.state.user.token) {
 						return goLogin()
 					}
@@ -401,16 +549,39 @@
 						} else {
 							return uni.showToast({
 								title: res.msg,
-								icon: 'error'
+								icon: 'none'
 							})
 						}
 
 					} else {
-						// res.data.info.total = (res.data.info.buy_num * res.data.info.pay_price).toFixed(2)
-						const params = JSON.stringify(res.data.info)
-						uni.navigateTo({
-							url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}&params=${params}`
-						})
+						const params = res.data.info
+						if (this.$store.state.user.inApp) {
+							let appConfig = window.localStorage.getItem('AppConfigInfo')
+							if (appConfig) {
+								appConfig = JSON.parse(appConfig)
+							} else {
+								appConfig = {
+									'version-code': '1750'
+								}
+							}
+							if (Number(appConfig['version-code']) >= 1900) {
+								let data = {
+									page: "diskConfirmOrderPage",
+									isNeedLogin: true,
+									params
+								}
+								openAppPage(data)
+							} else {
+								uni.showToast({
+									title: '请更新到最新版本后重试',
+									icon: 'none'
+								})
+							}
+						} else {
+							uni.navigateTo({
+								url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}&params=${JSON.stringify(params)}`
+							})
+						}
 					}
 
 
@@ -419,17 +590,69 @@
 					console.log('error', e)
 					uni.showToast({
 						title: e.message,
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 
+			},
+			async handFollow(operation_type) {
+				try {
+					const res = await this.$post(collections_index_like, {
+						product_item_id: this.product_item_id,
+						operation_type
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+					if (operation_type === 1) {
+						uni.showToast({
+							title: '您已关注',
+							icon: 'none'
+						})
+					} else {
+						uni.showToast({
+							title: '您已取消关注',
+							icon: 'none'
+						})
+					}
+
+
+					this.data.is_like = operation_type === 1 ? 1 : 0
+					clearTimeout(this.followTimer)
+					this.followTimer = setTimeout(() => {
+						this.getDetails(this.product_item_id)
+					}, 3000)
+
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
+			// 访问统计
+			async visitStatics() {
+				const res = await post1(collections_index_visit, {
+					product_item_id: this.product_item_id
+				})
+			},
+			handGoDownload() {
+				goDownload()
 			}
 		},
 		onLoad(option) {
 			console.log('onload', option)
+			// this.getApprove().then(() => {
+			// 	this.product_item_id = Number(option.product_item_id)
+			// 	this.share_sign = option.share_sign || ''
+			// 	this.getDetails(this.product_item_id)
+			// 	this.visitStatics()
+			// })
 			this.product_item_id = Number(option.product_item_id)
 			this.share_sign = option.share_sign || ''
 			this.getDetails(this.product_item_id)
+			this.visitStatics()
+
 		},
 		onShow() {
 
@@ -438,6 +661,9 @@
 			console.log('created')
 		},
 		beforeDestroy() {
+			if (this.data.is_like === 0) {
+				this.$store.commit('publicState/set_refresh', true)
+			}
 			clearTimeout(this.statusTimer)
 		}
 	}
@@ -452,6 +678,11 @@
 		100% {
 			transform: rotate(360deg);
 		}
+	}
+
+	.nav-r {
+		width: 48rpx;
+		height: 48rpx;
 	}
 
 	.card {
@@ -469,6 +700,21 @@
 
 	.container {
 		padding: 0 24rpx;
+
+		.logo {
+			position: fixed;
+			z-index: 11;
+			top: 22rpx;
+			left: 40rpx;
+			box-sizing: border-box;
+			width: 154rpx;
+			height: 48rpx;
+
+			image {
+				width: 100%;
+				height: 100%;
+			}
+		}
 
 		// .nav {
 		// 	position: fixed;
@@ -604,173 +850,378 @@
 			}
 		}
 
-		.preOrderDetails-body {
-			margin-top: 16rpx;
+		// .preOrderDetails-body {
+		// 	margin-top: 16rpx;
 
-			.cardbox1 {
-				.row1 {
-					height: 44rpx;
-					margin-bottom: 16rpx;
-					font-weight: 600;
-					font-size: 32rpx;
-					line-height: 44rpx;
-					color: #AC9147;
-				}
+		// 	.cardbox1 {
+		// 		.row1 {
+		// 			height: 44rpx;
+		// 			margin-bottom: 16rpx;
+		// 			font-weight: 600;
+		// 			font-size: 32rpx;
+		// 			line-height: 44rpx;
+		// 			color: #AC9147;
+		// 		}
 
-				.row2 {
+		// 		.row2 {
 
-					.row2-1 {
-						display: flex;
-						font-size: 26rpx;
-						line-height: 48rpx;
-						/* identical to box height, or 185% */
-						overflow: hidden; // 溢出隐藏
-						white-space: nowrap; // 强制一行
-						text-overflow: ellipsis; // 文字溢出显示省略号
-						color: #AEAEAE;
+		// 			.row2-1 {
+		// 				display: flex;
+		// 				font-size: 26rpx;
+		// 				line-height: 48rpx;
+		// 				/* identical to box height, or 185% */
+		// 				overflow: hidden; // 溢出隐藏
+		// 				white-space: nowrap; // 强制一行
+		// 				text-overflow: ellipsis; // 文字溢出显示省略号
+		// 				color: #AEAEAE;
 
-						.row2-1-l {
-							margin-right: 24rpx;
-							width: 104rpx;
-							text-align: right;
-						}
+		// 				.row2-1-l {
+		// 					margin-right: 24rpx;
+		// 					width: 104rpx;
+		// 					text-align: right;
+		// 				}
 
-						.row2-1-r {
-							overflow: hidden; // 溢出隐藏
-							white-space: nowrap; // 强制一行
-							text-overflow: ellipsis; // 文字溢出显示省略号
-						}
-					}
-				}
+		// 				.row2-1-r {
+		// 					overflow: hidden; // 溢出隐藏
+		// 					white-space: nowrap; // 强制一行
+		// 					text-overflow: ellipsis; // 文字溢出显示省略号
+		// 				}
+		// 			}
+		// 		}
 
-				.row3 {
-					margin-top: 24rpx;
-					margin-bottom: 16rpx;
-					font-weight: 600;
-					font-size: 32rpx;
-					line-height: 44rpx;
-					color: #AC9147;
-				}
+		// 		.row3 {
+		// 			margin-top: 24rpx;
+		// 			margin-bottom: 16rpx;
+		// 			font-weight: 600;
+		// 			font-size: 32rpx;
+		// 			line-height: 44rpx;
+		// 			color: #AC9147;
+		// 		}
 
-				.row4 {
-					width: 100%;
-					font-size: 26rpx;
-					line-height: 36rpx;
-					color: #AEAEAE;
-					white-space: pre-wrap; //识别换行符 并且超过父盒子宽度自动换行
-				}
+		// 		.row4 {
+		// 			width: 100%;
+		// 			font-size: 26rpx;
+		// 			line-height: 36rpx;
+		// 			color: #AEAEAE;
+		// 			white-space: pre-wrap; //识别换行符 并且超过父盒子宽度自动换行
+		// 		}
+		// 	}
+
+		// 	.cardbox2 {
+		// 		margin-top: 21rpx;
+		// 		margin-bottom: 25rpx;
+
+		// 		.work {
+		// 			.row1 {
+		// 				margin-bottom: 16rpx;
+		// 				font-weight: 600;
+		// 				font-size: 32rpx;
+		// 				line-height: 44rpx;
+		// 				color: #AC9147;
+		// 				overflow: hidden; // 溢出隐藏
+		// 				white-space: nowrap; // 强制一行
+		// 				text-overflow: ellipsis; // 文字溢出显示省略号
+		// 			}
+
+		// 			.row2 {
+		// 				padding-bottom: 24rpx;
+		// 				font-size: 26rpx;
+		// 				line-height: 36rpx;
+		// 				color: #AEAEAE;
+		// 				white-space: pre-wrap;
+		// 			}
+
+		// 			.row2:nth-last-child(1) {
+		// 				padding-bottom: 24rpx;
+		// 			}
+		// 		}
+
+		// 	}
+		// }
+		.title1 {
+			font-family: 'PingFang SC';
+			font-style: normal;
+			font-weight: 600;
+			font-size: 32rpx;
+			line-height: 44rpx;
+			overflow: hidden; // 溢出隐藏
+			white-space: nowrap; // 强制一行
+			text-overflow: ellipsis; // 文字溢出显示省略号
+			color: #E4C985;
+		}
+
+		.text1 {
+			width: 620rpx;
+			font-family: 'PingFang SC';
+			font-style: normal;
+			font-weight: 400;
+			font-size: 26rpx;
+			line-height: 36rpx;
+			color: #AEAEAE;
+			white-space: pre-wrap; //识别换行符 并且超过父盒子宽度自动换行
+		}
+
+		.mb8 {
+			margin-bottom: 8rpx;
+		}
+
+		.work {
+			.row1 {
+				margin-bottom: 16rpx;
+				font-family: 'PingFang SC';
+				font-style: normal;
+				font-weight: 600;
+				font-size: 32rpx;
+				line-height: 44rpx;
+				overflow: hidden; // 溢出隐藏
+				white-space: nowrap; // 强制一行
+				text-overflow: ellipsis; // 文字溢出显示省略号
+				color: #E4C985;
 			}
 
-			.cardbox2 {
-				margin-top: 21rpx;
-				margin-bottom: 25rpx;
+			.row2 {
+				padding-bottom: 24rpx;
+				font-size: 26rpx;
+				line-height: 36rpx;
+				color: #AEAEAE;
+				white-space: pre-wrap;
+			}
 
-				.work {
-					.row1 {
-						margin-bottom: 16rpx;
-						font-weight: 600;
-						font-size: 32rpx;
-						line-height: 44rpx;
-						color: #AC9147;
+			.row2:nth-last-child(1) {
+				padding-bottom: 24rpx;
+			}
+		}
+
+		.card1 {
+			margin-top: 24rpx;
+			background: #292929;
+			border-radius: 8rpx;
+			box-sizing: border-box;
+			width: 702rpx;
+			padding: 32rpx 16rpx;
+
+			.card1-body {
+				border: 1rpx solid #5B5B5B;
+				border-radius: 8rpx;
+				padding: 20rpx;
+
+				.info {
+					display: flex;
+					align-items: center;
+					padding-top: 8rpx;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 400;
+					font-size: 26rpx;
+					line-height: 36rpx;
+					text-align: left;
+
+					color: #AEAEAE;
+
+					.info-1 {
+						width: 154rpx;
+					}
+
+					.info-2 {
+						flex: 1;
 						overflow: hidden; // 溢出隐藏
 						white-space: nowrap; // 强制一行
 						text-overflow: ellipsis; // 文字溢出显示省略号
 					}
+				}
 
-					.row2 {
-						padding-bottom: 24rpx;
-						font-size: 26rpx;
-						line-height: 36rpx;
-						color: #AEAEAE;
-						white-space: pre-wrap;
+				.mt32 {
+					margin-top: 32rpx;
+				}
+
+
+			}
+		}
+
+		.card2 {
+			margin-top: 24rpx;
+			background: #292929;
+			border-radius: 8rpx;
+			box-sizing: border-box;
+			width: 702rpx;
+			padding: 32rpx 16rpx;
+
+			.card2-body {
+				border: 1rpx solid #5B5B5B;
+				border-radius: 8rpx;
+				padding: 20rpx;
+
+				.author {
+					display: flex;
+					align-items: center;
+					margin-top: 16rpx;
+
+
+					image {
+						width: 48rpx;
+						height: 48rpx;
+						margin-right: 8rpx;
+						border-radius: 24rpx;
 					}
 
-					.row2:nth-last-child(1) {
-						padding-bottom: 24rpx;
+					text {
+						flex: 1;
+						overflow: hidden; // 溢出隐藏
+						white-space: nowrap; // 强制一行
+						text-overflow: ellipsis; // 文字溢出显示省略号
+						font-family: 'PingFang SC';
+						font-style: normal;
+						font-weight: 400;
+						font-size: 26rpx;
+						line-height: 36rpx;
+
+						color: #AEAEAE;
 					}
 				}
 
+				.text2 {
+					margin-top: 8rpx;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 400;
+					font-size: 24rpx;
+					line-height: 34rpx;
+					white-space: pre-wrap; //识别换行符 并且超过父盒子宽度自动换行
+					color: #777777;
+
+				}
+
+				.text3 {
+					position: relative;
+					margin-top: 16rpx;
+					margin-bottom: 26rpx;
+					width: 100%;
+					height: 362rpx;
+					border-radius: 8rpx;
+
+					.swiper {
+						border-radius: 8rpx;
+					}
+
+					.text3-video {
+						width: 100%;
+						height: 100%;
+						border-radius: 8rpx;
+					}
+				}
 			}
 		}
 
 		.h120 {
-			height: 120rpx;
+			height: 160rpx;
 		}
 
-		.preOrderDetails-footer {
+		.bottom1 {
+			z-index: 8;
 			position: fixed;
 			bottom: 0;
 			left: 0;
-			display: flex;
-			align-items: center;
-			justify-content: flex-end;
+			box-sizing: border-box;
 			width: 100%;
 			height: 120rpx;
-			background-color: #151516;
+			padding: 0 42rpx 0 64rpx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: #212121;
 
-			.abs {
-				position: absolute;
-				top: 26rpx;
-				left: 58rpx;
-				width: 50rpx;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
+			.bottom1-1 {
+				flex: 1;
 
-
-
-				.abs-img {
-					width: 42rpx;
-					height: 42rpx;
+				.bottom1-1-1 {
+					width: 48rpx;
+					height: 48rpx;
 				}
 
-				.abs-text {
-					font-family: 'PingFang SC';
+				.bottom1-1-2 {
+					position: relative;
+					top: -5rpx;
+					left: 1rpx;
+					width: 57.62rpx;
+					text-align: center;
+					font-family: 'PingFang HK';
 					font-style: normal;
 					font-weight: 400;
-					padding-top: 2rpx;
-					font-size: 22rpx;
-					transform: scale(0.95);
+					line-height: 28rpx;
+					font-size: 24rpx;
+					transform-origin: 0 0;
+					transform: scale(0.83);
+				}
+
+				.followed {
+					color: #C8A964;
+				}
+
+				.unfollow {
+					color: #777777;
+				}
+			}
+
+			.bottom1-2 {
+				width: 522rpx;
+				height: 74rpx;
+
+				.bottom1-status0 {
+					width: 522rpx;
+					height: 74rpx;
+					background: #D10910;
+					border-radius: 48rpx;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 500;
+					font-size: 32rpx;
+					line-height: 74rpx;
+					text-align: center;
 					color: #ECECEC;
+
+					&:active {
+						background-color: rgba(209, 9, 16, 0.6);
+						color: rgba(134, 134, 134, 1);
+					}
 				}
 
-				&:active .abs-text {
-					color: rgba(134, 134, 134, 1);
+				.bottom1-status1 {
+					width: 522rpx;
+					height: 74rpx;
+					background: #D10910;
+					border-radius: 48rpx;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 500;
+					font-size: 32rpx;
+					line-height: 74rpx;
+					text-align: center;
+					color: #ECECEC;
+
+					&:active {
+						background-color: rgba(209, 9, 16, 0.6);
+						color: rgba(134, 134, 134, 1);
+					}
 				}
-			}
 
-			.footer-btn {
-				width: 524rpx;
-				height: 73rpx;
-				margin-right: 40rpx;
-				line-height: 73rpx;
-				text-align: center;
-				background: #D10910;
-				border-radius: 48rpx;
-				font-weight: 500;
-				font-size: 32rpx;
-				color: #ECECEC;
-
-				&:active {
-					background-color: rgba(209, 9, 16, 0.6);
-					color: rgba(134, 134, 134, 1);
-				}
-			}
-
-			.noactive {
-				background: #D10910 !important;
-				color: #ECECEC !important;
-			}
-
-			.gray-btn {
-				background: #7C7C7C;
-
-				&:active {
+				.bottom1-status2 {
+					width: 522rpx;
+					height: 74rpx;
 					background: #7C7C7C;
+					border-radius: 48rpx;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 500;
+					font-size: 32rpx;
+					line-height: 74rpx;
+					text-align: center;
 					color: #ECECEC;
+
+					&:active {}
 				}
 			}
+
+
 		}
 
 		/deep/.icon-close {
@@ -875,6 +1326,35 @@
 					margin-left: 16rpx;
 				}
 			}
+
+			.popup-g {
+				.g-1 {
+					color: #ECECEC;
+					font-size: 28rpx;
+					padding: 0 32rpx 24rpx 40rpx;
+				}
+
+				.g-2 {
+					font-size: 28rpx;
+					padding: 0 32rpx 24rpx 40rpx;
+					display: flex;
+					flex-wrap: wrap;
+
+					.popup-h-btn {
+						border-radius: 35rpx;
+						width: 140rpx;
+						height: 70rpx;
+						color: #ffff;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						background-color: #D10910;
+						line-height: 0;
+					}
+
+				}
+			}
+
 
 			.popup-count {
 				display: flex;

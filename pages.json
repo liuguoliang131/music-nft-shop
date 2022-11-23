@@ -16,9 +16,9 @@
 
 		},
 		{
-			"path": "pages/collections/collections",
+			"path": "pages/myRecords/myRecords",
 			"style": {
-				"navigationBarTitleText": "我的专辑",
+				"navigationBarTitleText": "我的唱片",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
@@ -42,7 +42,7 @@
 			"path": "pages/preOrderDetails/preOrderDetails",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "专辑详情",
+				"navigationBarTitleText": "详情",
 				"enablePullDownRefresh": false
 			}
 
@@ -50,7 +50,7 @@
 			"path": "pages/settlement/settlement",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "结算页",
+				"navigationBarTitleText": "订单预览",
 				"enablePullDownRefresh": false
 			}
 
@@ -74,14 +74,14 @@
 			"path": "pages/poster/poster",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "专辑海报",
+				"navigationBarTitleText": "唱片海报",
 				"enablePullDownRefresh": false
 			}
 
 		}, {
 			"path": "pages/orderList/orderList",
 			"style": {
-				"navigationBarTitleText": "专辑订单",
+				"navigationBarTitleText": "我的订单",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
@@ -114,7 +114,7 @@
 			"path": "pages/musicPlayer/musicPlayer",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "欣赏专辑",
+				"navigationBarTitleText": "欣赏唱片",
 				"enablePullDownRefresh": false
 			}
 
@@ -129,7 +129,7 @@
 		}, {
 			"path": "pages/inviteFriends/inviteFriends",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "邀请海报",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
@@ -185,6 +185,61 @@
 			"path": "pages/goldAlbumList/goldAlbumList",
 			"style": {
 				"navigationBarTitleText": "黄金专辑",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/recommendedAlbumDetail/recommendedAlbumDetail",
+			"style": {
+				"navigationBarTitleText": "详情",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/testPage1/testPage1",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/goldSinglesDetail/goldSinglesDetail",
+			"style": {
+				"navigationBarTitleText": "详情",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/myFollowingList/myFollowingList",
+			"style": {
+				"navigationBarTitleText": "我的关注",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/albumRecordsDetail/albumRecordsDetail",
+			"style": {
+				"navigationBarTitleText": "唱片详情",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/singlesRecordsDetail/singlesRecordsDetail",
+			"style": {
+				"navigationBarTitleText": "唱片详情",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/digitalRecordsDetail/digitalRecordsDetail",
+			"style": {
+				"navigationBarTitleText": "唱片详情",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
