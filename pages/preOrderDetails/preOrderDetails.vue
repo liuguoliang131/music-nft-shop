@@ -352,7 +352,7 @@
 		methods: {
 			countInputFocus() {
 				// console.log(this.$refs.popupContent.$el.scrollTop)
-				this.$refs.popupContent.$el.style.height = '90vh'
+				// this.$refs.popupContent.$el.style.height = '90vh'
 			},
 			handleBack() {
 
