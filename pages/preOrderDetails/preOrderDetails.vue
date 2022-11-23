@@ -195,7 +195,7 @@
 
 			</view>
 		</view>
-		<wyb-popup ref="popup" type="bottom" height="850" width="750" radius="6" bgColor="#1D1D1D"
+		<wyb-popup ref="popup" type="bottom" height="800" width="750" radius="6" bgColor="#1D1D1D"
 			:showCloseIcon="true">
 			<view class="popup-content">
 				<view class="popup-i">
@@ -216,13 +216,13 @@
 					<image class="popup-f-img" src="../../static/popupYf.png"></image>
 					<text>购买专辑可以永久聆听</text>
 				</view>
-				<view class="popup-g" v-if="data.rare_type==='SSR'">
+				<view class="popup-g" v-if="data.rare_type!=='N'">
 					<view class="g-1">
 						级别
 					</view>
 					<view class="g-2">
 						<view class="popup-h-btn">
-							SSR级
+							{{data.rare_type}}级
 						</view>
 					</view>
 				</view>
@@ -377,7 +377,7 @@
 					console.log(res)
 					if (res.code !== 0) {
 						return uni.showToast({
-							icon: 'error',
+							icon: 'none',
 							title: res.msg
 						})
 					}
@@ -433,7 +433,7 @@
 				} catch (e) {
 					//TODO handle the exception
 					uni.showToast({
-						icon: 'error',
+						icon: 'none',
 						title: e.message
 					})
 				}
@@ -544,7 +544,7 @@
 						} else {
 							return uni.showToast({
 								title: res.msg,
-								icon: 'error'
+								icon: 'none'
 							})
 						}
 
@@ -585,7 +585,7 @@
 					console.log('error', e)
 					uni.showToast({
 						title: e.message,
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 
@@ -599,7 +599,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					if (operation_type === 1) {

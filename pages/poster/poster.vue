@@ -139,7 +139,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					// const res = {
@@ -156,7 +156,7 @@
 					//TODO handle the exception
 					console.log('error', e)
 					uni.showToast({
-						icon: 'error',
+						icon: 'none',
 						title: e.message
 					})
 				}

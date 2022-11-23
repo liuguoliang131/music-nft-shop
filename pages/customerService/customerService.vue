@@ -78,7 +78,7 @@
 					fail(error) {
 						uni.showToast({
 							title: error.message,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 				})
@@ -96,7 +96,7 @@
 						if (res.code !== 0) {
 							return uni.showToast({
 								title: res.msg,
-								icon: 'error'
+								icon: 'none'
 							})
 						}
 						this.$store.commit('user/set_userInfo', res.data)
@@ -109,7 +109,7 @@
 					//TODO handle the exception
 					uni.showToast({
 						title: e.message,
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 			}

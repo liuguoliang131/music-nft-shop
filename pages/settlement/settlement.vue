@@ -105,7 +105,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					// const res = {
@@ -150,7 +150,7 @@
 					//TODO handle the exception
 					uni.showToast({
 						title: e.message,
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 			},
@@ -164,7 +164,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					// const res = {
@@ -185,7 +185,7 @@
 					//TODO handle the exception
 					uni.showToast({
 						title: e.message,
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 			},
@@ -198,7 +198,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					// const res = {
@@ -215,7 +215,7 @@
 					//TODO handle the exception
 					uni.showToast({
 						title: e.message,
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 			}

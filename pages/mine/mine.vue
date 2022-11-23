@@ -131,7 +131,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					this.userInfo = res.data

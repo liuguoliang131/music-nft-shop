@@ -25,7 +25,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					this.$store.commit('user/set_userInfo', res.data)

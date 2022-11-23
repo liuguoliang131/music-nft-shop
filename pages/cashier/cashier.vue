@@ -153,7 +153,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					// const res = {
@@ -174,7 +174,7 @@
 					console.log(e)
 					uni.showToast({
 						title: e.message,
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 			},
@@ -225,7 +225,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					// const res = {
@@ -257,7 +257,7 @@
 					//TODO handle the exception
 					uni.showToast({
 						title: error.message,
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 			},
@@ -281,7 +281,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					// const res = {
@@ -308,7 +308,7 @@
 					console.log(e)
 					uni.showToast({
 						title: e.message,
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 			},
@@ -355,7 +355,7 @@
 							if (res.err_msg == "get_brand_wcpay_request:fail") {
 								uni.showToast({
 									title: '支付失败',
-									icon: 'error'
+									icon: 'none'
 								})
 							}
 							/**
@@ -366,7 +366,7 @@
 							if (res.err_msg == "调用支付JSAPI缺少参数：total_fee") {
 								uni.showToast({
 									title: '调用支付JSAPI缺少参数：total_fee',
-									icon: 'error'
+									icon: 'none'
 								})
 							}
 						})
@@ -404,7 +404,7 @@
 						// 其他报错
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					this.$refs.popup.close()
@@ -535,7 +535,7 @@
 
 				}).catch(error => {
 					uni.showToast({
-						icon: 'error',
+						icon: 'none',
 						title: res.message
 					})
 				})

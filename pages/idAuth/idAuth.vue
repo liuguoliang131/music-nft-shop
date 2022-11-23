@@ -66,14 +66,14 @@
 				if (!/^[\u4e00-\u9fa5]{1,11}$/.test(this.form.name)) {
 					return uni.showToast({
 						title: '真实姓名只能是汉字',
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 				if (!(/^[1-9]{1}[0-9Xx]{14,17}$/.test(
 						this.form.identification_number))) {
 					return uni.showToast({
 						title: '身份证号不符合规则',
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 				try {
@@ -83,7 +83,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					uni.navigateBack({
@@ -93,7 +93,7 @@
 					//TODO handle the exception
 					uni.showToast({
 						title: e.message,
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 

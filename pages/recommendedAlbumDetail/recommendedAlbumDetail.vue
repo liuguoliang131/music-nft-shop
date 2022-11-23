@@ -346,7 +346,7 @@
 					console.log(res)
 					if (res.code !== 0) {
 						return uni.showToast({
-							icon: 'error',
+							icon: 'none',
 							title: res.msg
 						})
 					}
@@ -401,7 +401,7 @@
 				} catch (e) {
 					//TODO handle the exception
 					uni.showToast({
-						icon: 'error',
+						icon: 'none',
 						title: e.message
 					})
 				}
@@ -511,7 +511,7 @@
 					// } else {
 					// 	return uni.showToast({
 					// 		title: res.msg,
-					// 		icon: 'error'
+					// 		icon: 'none'
 					// 	})
 					// }
 					if (!this.$store.state.user.token) {
@@ -529,7 +529,7 @@
 						} else {
 							return uni.showToast({
 								title: res.msg,
-								icon: 'error'
+								icon: 'none'
 							})
 						}
 
@@ -572,7 +572,7 @@
 					console.log('error', e)
 					uni.showToast({
 						title: e.message,
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 
@@ -586,7 +586,7 @@
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					if (operation_type === 1) {

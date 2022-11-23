@@ -66,8 +66,11 @@ export const post = function(url, data = {}) {
 
 			},
 			fail(res) {
-				console.log('post fail', res)
-				reject(res)
+				uni.showToast({
+					title: '网络请求错误，请检查网络',
+					icon: 'none'
+				})
+				reject(new Error('网络请求错误，请检查网络'))
 			},
 			complete(res) {
 				uni.hideLoading()
@@ -102,8 +105,11 @@ export const post1 = function(url, data = {}) {
 
 			},
 			fail(res) {
-				console.log('post1 fail', res)
-				reject(res)
+				uni.showToast({
+					title: '网络请求错误，请检查网络',
+					icon: 'none'
+				})
+				reject(new Error('网络请求错误，请检查网络'))
 			},
 			complete(res) {
 				console.log('complete', res)
@@ -144,7 +150,11 @@ export const get = function(url, params = {}) {
 
 			},
 			fail(res) {
-				reject(res)
+				uni.showToast({
+					title: '网络请求错误，请检查网络',
+					icon: 'none'
+				})
+				reject(new Error('网络请求错误，请检查网络'))
 			},
 			complete() {
 				uni.hideLoading()
@@ -180,7 +190,11 @@ export const get1 = function(url, params = {}) {
 
 			},
 			fail(res) {
-				reject(res)
+				uni.showToast({
+					title: '网络请求错误，请检查网络',
+					icon: 'none'
+				})
+				reject(new Error('网络请求错误，请检查网络'))
 			},
 			complete() {
 

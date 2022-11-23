@@ -425,7 +425,7 @@ export const jumpWxAuthUrl = () => {
 		}).catch(error => {
 			uni.showToast({
 				title: error.message,
-				icon: 'error'
+				icon: 'none'
 			})
 		})
 

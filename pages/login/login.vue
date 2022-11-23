@@ -106,7 +106,7 @@
 					console.log(this.form.phone)
 					return uni.showToast({
 						title: '手机号码不符合规则',
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 				this.showVerify = true
@@ -128,7 +128,7 @@
 				if (res.code !== 0) {
 					return uni.showToast({
 						title: res.msg,
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 				uni.showToast({
@@ -150,20 +150,20 @@
 				if (!this.agree) {
 					return uni.showToast({
 						title: '请勾选同意用户协议和隐私政策',
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 				if (!/^[1]{1}[0-9]{10}$/.test(this.form.phone)) {
 					console.log(this.form.phone)
 					return uni.showToast({
 						title: '手机号码不符合规则',
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 				if (!/^[0-9]{6}$/.test(this.form.captcha)) {
 					return uni.showToast({
 						title: '验证码不符合规则',
-						icon: 'error'
+						icon: 'none'
 					})
 				}
 				this.login()
@@ -185,7 +185,7 @@
 					console.log(res)
 					if (res.code !== 0) {
 						return uni.showToast({
-							icon: 'error',
+							icon: 'none',
 							title: res.msg
 						})
 					}
@@ -194,7 +194,7 @@
 					if (res1.code !== 0) {
 						return uni.showToast({
 							title: res1.msg,
-							icon: 'error'
+							icon: 'none'
 						})
 					}
 					this.$store.commit('user/set_userInfo', res1.data)
@@ -217,7 +217,7 @@
 					//TODO handle the exception
 					console.log('error', e)
 					uni.showToast({
-						icon: 'error',
+						icon: 'none',
 						title: e.message
 					})
 				}
