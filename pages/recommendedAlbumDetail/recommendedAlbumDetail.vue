@@ -168,7 +168,7 @@
 		</view>
 		<wyb-popup ref="popup" type="bottom" zIndex="99" height="701" width="750" radius="6" bgColor="#1D1D1D"
 			:showCloseIcon="true">
-			<view class="popup-content">
+			<view class="popup-content" ref="popupContent">
 				<view class="popup-i">
 					<view class="i-img">
 						<image :src="data.index_img" mode=""></image>
@@ -199,7 +199,7 @@
 							</view>
 						</view>
 						<input class="countc" type="number" maxlength="3" name="" id="" v-model="count"
-							@blur="onCountChange()">
+							@blur="onCountChange()" @focus="countInputFocus()">
 						<view class="plus" @tap="handPlus()">
 							<!-- <image class="plus-img" src="../../static/Group 1000004650.png" mode=""></image> -->
 							<view class="plus-img">
@@ -324,6 +324,10 @@
 			}
 		},
 		methods: {
+			countInputFocus() {
+				// console.log(this.$refs.popupContent.$el.scrollTop)
+				this.$refs.popupContent.$el.style.height = '90vh'
+			},
 			handleBack() {
 
 				let currentRoutes = getCurrentPages(); // 获取当前打开过的页面路由数组
@@ -441,6 +445,7 @@
 				} else if (this.count < 1) {
 					this.count = 1
 				}
+				this.$refs.popupContent.$el.style.height = 'auto'
 			},
 			// -1
 			handMinus() {
