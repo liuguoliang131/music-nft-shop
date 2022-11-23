@@ -337,7 +337,8 @@
 				},
 				count: 1,
 				statusTimer: null,
-				countDown: ''
+				countDown: '',
+				followTimer: null
 			};
 		},
 		computed: {
@@ -615,7 +616,11 @@
 
 
 					this.data.is_like = operation_type === 1 ? 1 : 0
-					this.getDetails(this.product_item_id)
+					clearTimeout(this.followTimer)
+					this.followTimer = setTimeout(() => {
+						this.getDetails(this.product_item_id)
+					}, 3000)
+
 				} catch (e) {
 					//TODO handle the exception
 				}

@@ -311,7 +311,8 @@
 					{
 						image: 'https://file.yuanyinfu.com/a_2022-04-29-12-55-22-100053-5b9775e1fb6d29664102d4a3ef5a09b1.jpg'
 					}
-				]
+				],
+				followTimer: null
 			};
 		},
 		computed: {
@@ -602,7 +603,10 @@
 
 
 					this.data.is_like = operation_type === 1 ? 1 : 0
-					this.getDetails(this.product_item_id)
+					clearTimeout(this.followTimer)
+					this.followTimer = setTimeout(() => {
+						this.getDetails(this.product_item_id)
+					}, 3000)
 				} catch (e) {
 					//TODO handle the exception
 				}
