@@ -95,7 +95,7 @@
 		<view class="splitline">
 
 		</view>
-		<view class="title mb9">
+		<!-- <view class="title mb9">
 			<text class="title-v"></text>
 			介绍信息
 		</view>
@@ -105,7 +105,46 @@
 				{{detail.music_list?detail.music_list[0].singer:''}}
 			</view>
 		</view>
-		<view class="text" v-html="detail.music_list?detail.music_list[0].desc:''"></view>
+		<view class="text" v-html="detail.music_list?detail.music_list[0].desc:''"></view> -->
+		<view class="" v-if="detail.publish_type===1">
+			<view class="title mb9">
+				<text class="title-v"></text>
+				介绍信息
+			</view>
+			<view class="auth">
+				<image :src="detail.author_info.author_avatar" mode="" class="auth-1"></image>
+				<view class="auth-2">
+					{{detail.author_info.author_name}}
+				</view>
+			</view>
+
+			<view class="text mb9" v-html="detail.author_info.desc"></view>
+			<view class="text3" v-if="detail.video_url">
+				<!-- <my-swiper :list="swiperList"></my-swiper> -->
+				<video class="text3-video" :src="detail.video_url" controls :poster="detail.video_index_pic"></video>
+			</view>
+			<view class="title mb9" v-if="detail.music_list.length">
+				<text class="title-v"></text>
+				创作灵感
+			</view>
+			<view class="text" v-if="detail.music_list.length" v-html="detail.music_list[0].desc"></view>
+		</view>
+		<!-- 专辑 -->
+		<view class="" v-else-if="detail.publish_type===2">
+			<view class="title mb9" v-if="detail.introduction">
+				<text class="title-v"></text>
+				专辑介绍
+			</view>
+			<view class="text mb9" v-if="detail.introduction" v-html="detail.introduction"></view>
+			<view class="work" v-for="(item,idx) in detail.music_list" :key="idx">
+				<view class="title mb9">
+					<text class="title-v"></text>
+					{{item.name}}
+				</view>
+				<view class="text mb9" v-html="item.desc">
+				</view>
+			</view>
+		</view>
 		<view class="h116">
 
 		</view>
@@ -220,6 +259,8 @@
 					"pay_type": 0,
 					"order_create_time": '',
 					"pay_time": 0,
+					music_list: [],
+					author_info: {},
 					certificate: {
 
 					}
@@ -253,6 +294,8 @@
 				}).then(res => {
 					this.detail = res.data
 				})
+
+				this.detail = Object.assign(this.detail, res.data)
 			},
 			handViewCert() {
 				this.$refs.dialog.show()
@@ -509,11 +552,31 @@
 			color: #777777;
 		}
 
+		.text3 {
+			position: relative;
+			margin-top: 16rpx;
+			margin-bottom: 26rpx;
+			width: 100%;
+			height: 362rpx;
+			border-radius: 8rpx;
+
+			.swiper {
+				border-radius: 8rpx;
+			}
+
+			.text3-video {
+				width: 100%;
+				height: 100%;
+				border-radius: 8rpx;
+			}
+		}
+
 		.price {
 			color: #D10910 !important;
 		}
 
 		.fixed-bottom {
+			z-index: 9;
 			position: fixed;
 			bottom: 20rpx;
 			left: 0;
@@ -565,7 +628,7 @@
 		}
 
 		.h116 {
-			height: 116rpx;
+			height: 216rpx;
 		}
 
 		/deep/.visible {

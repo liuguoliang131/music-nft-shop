@@ -95,7 +95,7 @@
 		<view class="splitline">
 
 		</view>
-		<view class="title mb9">
+		<!-- <view class="title mb9">
 			<text class="title-v"></text>
 			介绍信息
 		</view>
@@ -105,7 +105,22 @@
 				{{detail.music_list?detail.music_list[0].singer:''}}
 			</view>
 		</view>
-		<view class="text" v-html="detail.music_list?detail.music_list[0].desc:''"></view>
+		<view class="text" v-html="detail.music_list?detail.music_list[0].desc:''"></view> -->
+		<view class="">
+			<view class="title mb9" v-if="detail.introduction">
+				<text class="title-v"></text>
+				专辑介绍
+			</view>
+			<view class="text mb9" v-if="detail.introduction" v-html="detail.introduction"></view>
+			<view class="work" v-for="(item,idx) in detail.music_list" :key="idx">
+				<view class="title mb9">
+					<text class="title-v"></text>
+					{{item.name}}
+				</view>
+				<view class="text  mb9" v-html="item.desc">
+				</view>
+			</view>
+		</view>
 		<view class="h116">
 
 		</view>
@@ -220,6 +235,8 @@
 					"pay_type": 0,
 					"order_create_time": '',
 					"pay_time": 0,
+					author_info: {},
+					music_list: [],
 					certificate: {
 
 					}
@@ -254,6 +271,7 @@
 				}).then(res => {
 					this.detail = res.data
 				})
+
 			},
 			handViewCert() {
 				this.$refs.dialog.show()
@@ -566,7 +584,7 @@
 		}
 
 		.h116 {
-			height: 116rpx;
+			height: 216rpx;
 		}
 
 		/deep/.visible {

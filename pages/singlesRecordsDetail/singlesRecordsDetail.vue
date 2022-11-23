@@ -100,12 +100,21 @@
 			介绍信息
 		</view>
 		<view class="auth">
-			<image :src="detail.index_img" mode="" class="auth-1"></image>
+			<image :src="detail.author_info.author_avatar" mode="" class="auth-1"></image>
 			<view class="auth-2">
-				{{detail.music_list?detail.music_list[0].singer:''}}
+				{{detail.author_info.author_name}}
 			</view>
 		</view>
-		<view class="text" v-html="detail.music_list?detail.music_list[0].desc:''"></view>
+		<view class="text" v-html="detail.author_info.desc"></view>
+		<view class="text3" v-if="detail.video_url">
+			<!-- <my-swiper :list="swiperList"></my-swiper> -->
+			<video class="text3-video" :src="detail.video_url" controls :poster="detail.video_index_pic"></video>
+		</view>
+		<view class="title mb9" v-if="detail.music_list.length">
+			<text class="title-v"></text>
+			创作灵感
+		</view>
+		<view class="text" v-if="detail.music_list.length" v-html="detail.music_list[0].desc"></view>
 		<view class="h116">
 
 		</view>
@@ -509,11 +518,31 @@
 			color: #777777;
 		}
 
+		.text3 {
+			position: relative;
+			margin-top: 16rpx;
+			margin-bottom: 26rpx;
+			width: 100%;
+			height: 362rpx;
+			border-radius: 8rpx;
+
+			.swiper {
+				border-radius: 8rpx;
+			}
+
+			.text3-video {
+				width: 100%;
+				height: 100%;
+				border-radius: 8rpx;
+			}
+		}
+
 		.price {
 			color: #D10910 !important;
 		}
 
 		.fixed-bottom {
+			z-index: 9;
 			position: fixed;
 			bottom: 20rpx;
 			left: 0;
@@ -565,7 +594,7 @@
 		}
 
 		.h116 {
-			height: 116rpx;
+			height: 216rpx;
 		}
 
 		/deep/.visible {
