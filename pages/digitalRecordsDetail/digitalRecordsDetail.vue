@@ -148,16 +148,10 @@
 		<view class="h116">
 
 		</view>
-		<view class="fixed-bottom" v-if="$store.state.user.inApp">
+		<view class="fixed-bottom">
 			<view class="zhuanzeng" @tap="handZhuanZeng">
 				转赠
 			</view>
-			<view class="tingge" @tap="handTingGe">
-				<image src="../../static/play.png" mode=""></image>
-				听歌
-			</view>
-		</view>
-		<view class="fixed-bottom kelian" v-else>
 			<view class="tingge" @tap="handTingGe">
 				<image src="../../static/play.png" mode=""></image>
 				听歌
@@ -633,29 +627,6 @@
 			}
 		}
 
-		.kelian {
-			.tingge {
-				background: #FFFFFF;
-				width: 686rpx;
-				height: 96rpx;
-				border-radius: 48rpx;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				font-family: 'PingFang SC';
-				font-style: normal;
-				font-weight: 500;
-				font-size: 32rpx;
-				line-height: 96px;
-				color: #532609;
-
-				image {
-					margin-right: 8rpx;
-					width: 40rpx;
-					height: 40rpx;
-				}
-			}
-		}
 
 		.h116 {
 			height: 216rpx;
