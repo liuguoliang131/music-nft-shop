@@ -75,7 +75,7 @@
 					getAppConfig().then(config => {
 						that.$store.commit('public/set_appConfig', config)
 						const data = {
-							version_code: config.version_code || 1900,
+							version_code: config['version-code'] || 1900,
 							os: config.os,
 							channel: config.channel
 						}
