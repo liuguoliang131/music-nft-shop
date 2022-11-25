@@ -4,7 +4,7 @@
 			<view class="strip-item" v-for="(item,index) in list" :key="index" @touchstart="touchStart($event,index)"
 				@touchmove="touchMove($event,index)" @touchend="touchEnd($event,index)">
 				<image class="cover" :src="item.image" mode=""></image>
-				<image class="button" src="../static/play.png" mode="" @tap="handGo(item.url)"></image>
+				<image class="button" src="https://file.yuanyinfu.com/front-end-lib/play.png" mode="" @tap="handGo(item.url)"></image>
 			</view>
 		</view>
 		<view class="page">

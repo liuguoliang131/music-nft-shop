@@ -88,7 +88,7 @@
 					数字证书
 				</view>
 				<view class="box2-1-r viewcert" @tap="handViewCert">
-					查看证书<image src="../../static/gt.png" mode=""></image>
+					查看证书<image src="https://file.yuanyinfu.com/front-end-lib/gt.png" mode=""></image>
 				</view>
 			</view>
 		</view>
@@ -129,14 +129,14 @@
 				转赠
 			</view>
 			<view class="tingge" @tap="handTingGe">
-				<image src="../../static/play.png" mode=""></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""></image>
 				欣赏专辑
 			</view>
 		</view>
 		<my-dialog ref="dialog">
 			<view class="cert-content">
 				<view class="cert-row1">
-					<image src="../../static/Frame 1000006285.png" mode=""></image>
+					<image src="https://file.yuanyinfu.com/front-end-lib/Frame1000006285.png" mode=""></image>
 				</view>
 				<view class="cert-row2">
 					<view class="row2-line1"></view>

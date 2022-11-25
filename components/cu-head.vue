@@ -1,7 +1,7 @@
 <template>
 	<view class="slots" v-show="isWeb?!$store.state.user.inPlus:false">
 		<view class="nav">
-			<image @tap="navBack()" class="nav-left" src="../static/navLeft.png" mode=""></image>
+			<image @tap="navBack()" class="nav-left" src="https://file.yuanyinfu.com/front-end-lib/navLeft.png" mode=""></image>
 		</view>
 	</view>
 

@@ -1,7 +1,7 @@
 <template>
 	<view :class="$store.state.user.inApp?'slots':'web'">
 		<view class="nav">
-			<image v-show="left" @tap="navBack()" class="nav-left" src="../static/navLeft.png" mode=""></image>
+			<image v-show="left" @tap="navBack()" class="nav-left" src="https://file.yuanyinfu.com/front-end-lib/navLeft.png" mode=""></image>
 			<text class="nav-center">{{title}}</text>
 			<text v-show="right" class="nav-right">
 				<slot></slot>

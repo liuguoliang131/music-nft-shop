@@ -8,7 +8,7 @@
 		</view>
 		<view :class="['empty',$store.state.user.inApp?'':'h5-scroll']" v-if="isFinish&&list.length===0">
 			<view class="empty-center">
-				<image src="../../static/emptybox.png" mode="" class="empty-img"></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/emptybox.png" mode="" class="empty-img"></image>
 				<view class="empty-text">空空如也，请先去选购</view>
 			</view>
 		</view>
@@ -40,11 +40,11 @@
 				<view class="cover">
 					<image class="cover-img" :src="item.index_img" mode=""></image>
 					<view class="type-icon" v-if="activeBar!==3">
-						<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
-						<image v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
-						<image v-else-if="item.rare_type==='R'" src="../../static/R.png" mode=""></image>
-						<image v-else-if="item.rare_type==='N'" src="../../static/N.png" mode=""></image>
-						<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
+						<image v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
+						<image v-else-if="item.rare_type==='UR'" src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode=""></image>
+						<image v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png" mode=""></image>
+						<image v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png" mode=""></image>
+						<image v-else-if="item.rare_type==='SR'" src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode=""></image>
 					</view>
 				</view>
 

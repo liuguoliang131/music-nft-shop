@@ -1,7 +1,7 @@
 <template>
 	<view class="nonet" v-if="$store.state.public.noNetwork">
 		<view class="nonet-center">
-			<image src="../../static/no-data.png" mode=""></image>
+			<image src="https://file.yuanyinfu.com/front-end-lib/no-data.png" mode=""></image>
 			<text class="text">~网络遇到问题了~</text>
 			<text class="refresh" @tap="handRefresh">刷新页面</text>
 		</view>

@@ -12,9 +12,9 @@
 			</view>
 			<view class="box3" v-show="inApp">
 				可分享至
-				<image src="../../static/share-wx.png" mode="" @tap="handleShare('wxFriend')"></image>
-				<image src="../../static/share-friends.png" mode="" @tap="handleShare('timeline')"></image>
-				<image src="../../static/weibo.png" mode="" @tap="handleShare('weibo')"></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/share-wx.png" mode="" @tap="handleShare('wxFriend')"></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/share-friends.png" mode="" @tap="handleShare('timeline')"></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/weibo.png" mode="" @tap="handleShare('weibo')"></image>
 			</view>
 		</view>
 	</view>

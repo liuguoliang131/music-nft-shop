@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="h88"></view>
 		<view class="header">
-			<image class="head-img" src="../../static/logo.png" alt=""></image>
+			<image class="head-img" src="https://file.yuanyinfu.com/front-end-lib/logo.png" alt=""></image>
 		</view>
 		<view class="main">
 			<view class="form">

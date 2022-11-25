@@ -3,19 +3,19 @@
 		<nav-head title="数字音乐"></nav-head>
 		<view class="empty" v-if="isFinish&&list.length===0">
 			<view class="empty-center">
-				<image src="../../static/emptybox.png" mode="" class="empty-img"></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/emptybox.png" mode="" class="empty-img"></image>
 				<view class="empty-text">空空如也</view>
 			</view>
 		</view>
 		<my-scroll v-else class="list" @load="getList" :isFinish="isFinish" :loading="loading">
 			<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
 				<view class="cover-content">
-					<image class="cover-img" src="../../static/image-7 1-1.png"></image>
-					<image class="cover-turn" src="../../static/turn.png" mode=""></image>
+					<image class="cover-img" src="https://file.yuanyinfu.com/front-end-lib/albumbg.png"></image>
+					<image class="cover-turn" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode=""></image>
 					<image class="cover-turn1" :src="item.index_img" mode=""></image>
-					<image v-show="item.publish_type===1" class="cover-play" src="../../static/play.png" mode=""
+					<image v-show="item.publish_type===1" class="cover-play" src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""
 						@tap.stop="handPlay(item)"></image>
-					<!-- <image class="cover-play" src="../../static/pause.png" mode="" @tap.stop="handPlay(item)"></image> -->
+					<!-- <image class="cover-play" src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode="" @tap.stop="handPlay(item)"></image> -->
 				</view>
 				<view class="item-row1">
 					{{item.product_name}}

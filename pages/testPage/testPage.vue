@@ -142,7 +142,7 @@
 
 
 				&-1 {
-					background-image: url(../../static/Frame%2077.png);
+					background-image: url(https://file.yuanyinfu.com/front-end-lib/turn.png);
 					width: 326rpx;
 					height: 326rpx;
 					background-position: center;

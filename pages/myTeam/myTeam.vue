@@ -21,7 +21,7 @@
 			成员列表（{{board.total_members||'0'}}）
 		</view>
 		<view class="empty" v-if="isFinish&&list.length===0">
-			<image src="../../static/empty-icon.png" mode="" class="empty-img"></image>
+			<image src="https://file.yuanyinfu.com/front-end-lib/empty-icon.png" mode="" class="empty-img"></image>
 			<view class="empty-text">还没有记录</view>
 		</view>
 		<my-scroll v-else class="member-list" @load="getList" :isFinish="isFinish" :loading="loading">

@@ -2,14 +2,14 @@
 	<view class="container">
 		<view class="container-header">
 			<view @tap="handGoDownload">
-				<image src="../../static/logo-line.png" class="logo" mode=""></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/logo-line.png" class="logo" mode=""></image>
 			</view>
 			<view v-if="userInfo" class="user-center" @click="handleClickUserCenter">
 				<image class="avatar" :src="userInfo.avatar" mode=""></image>
 				<text>{{userInfo.nick_name||userInfo.phone}}</text>
 			</view>
 			<view v-else class="user-center" @click="handleClickUserCenter">
-				<image class="avatar" src="../../static/userNotLogin.png" mode=""></image>
+				<image class="avatar" src="https://file.yuanyinfu.com/front-end-lib/userNotLogin.png" mode=""></image>
 				<text>未登录</text>
 			</view>
 
@@ -32,11 +32,11 @@
 						</image>
 						<view class="list-item-image" :style="`background-image:url(${item.index_img})`"></view>
 						<view class="list-item-level">
-							<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
-							<image v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
-							<image v-else-if="item.rare_type==='R'" src="../../static/R.png" mode=""></image>
-							<image v-else-if="item.rare_type==='N'" src="../../static/N.png" mode=""></image>
-							<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
+							<image v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
+							<image v-else-if="item.rare_type==='UR'" src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode=""></image>
+							<image v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png" mode=""></image>
+							<image v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png" mode=""></image>
+							<image v-else-if="item.rare_type==='SR'" src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode=""></image>
 						</view>
 					</view>
 					<view class="list-item-box">

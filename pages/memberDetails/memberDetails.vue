@@ -20,7 +20,7 @@
 		</view>
 
 		<view class="empty" v-if="isFinish&&list.length===0">
-			<image src="../../static/empty-icon.png" mode="" class="empty-img"></image>
+			<image src="https://file.yuanyinfu.com/front-end-lib/empty-icon.png" mode="" class="empty-img"></image>
 			<view class="empty-text">还没有购买记录</view>
 		</view>
 		<view class="list" v-else>
