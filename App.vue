@@ -73,7 +73,8 @@
 						this.$store.commit('user/set_userInfo', '')
 					}
 					getAppConfig().then(config => {
-						that.$store.commit('public/set_appConfig', config)
+						that.$store.commit('publicState/set_appConfig', config)
+						// alert(JSON.stringify(config))
 						const data = {
 							version_code: config['version-code'] ? Number(config['version-code']) : 1900,
 							os: config.os,
