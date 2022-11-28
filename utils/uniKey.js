@@ -10,7 +10,7 @@ const development = {
 
 const prod = {
 	ENV: 'test', //打包到测试环境
-	BASE_URL: 'https://h5test.api.shenglangnft.com',
+	BASE_URL: 'https://c.yuanyinfu.com',
 	APP_DOWNLOAD_URL: 'https://share.yuanyinfu.com/h5/app',
 	appURL: 'https://c.yuanyinfu.com', //本web地址
 	appId: 'wxc71083a78fa68d77', //公众号id
