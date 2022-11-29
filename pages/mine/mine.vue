@@ -20,7 +20,7 @@
 			<view class="mine-notice-title">
 				{{userInfo.public_key}}
 			</view>
-			<image src="../../static/copy-icon.png" class="mine-notice-copy" mode="" @click='copy(userInfo.public_key)'>
+			<image src="https://file.yuanyinfu.com/front-end-lib/copy-icon.png" class="mine-notice-copy" mode="" @click='copy(userInfo.public_key)'>
 			</image>
 		</view>
 
@@ -33,22 +33,22 @@
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 			<view v-if="userInfo.identity_type===2" class="mine-list-item" @click="goToMyTeam">
-				<image src="../../static/team.png" class="mine-list-item-image" mode=""></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/team.png" class="mine-list-item-image" mode=""></image>
 				我的团队
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 			<view class="mine-list-item" @click="goToCollections">
-				<image src="../../static/mine.png" class="mine-list-item-image" mode=""></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/mine.png" class="mine-list-item-image" mode=""></image>
 				我的唱片
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 			<view class="mine-list-item" @click="goToOrder">
-				<image src="../../static/order.png" class="mine-list-item-image" mode=""></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/order.png" class="mine-list-item-image" mode=""></image>
 				我的订单
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 			<view class="mine-list-item" @click="goCustomer">
-				<image src="../../static/kefu.png" class="mine-list-item-image" mode=""></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/kefu.png" class="mine-list-item-image" mode=""></image>
 				联系客服
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
@@ -287,7 +287,7 @@
 				}
 
 				&-bgimage {
-					background: url('../../static/yaoqing.png') 4rpx 0/48rpx 57.23rpx no-repeat;
+					background: url('https://file.yuanyinfu.com/front-end-lib/yaoqing.png') 4rpx 0/48rpx 57.23rpx no-repeat;
 				}
 			}
 

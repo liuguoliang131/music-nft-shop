@@ -87,7 +87,7 @@
 				<view style="border: 0.5px solid #AC9147;border-radius: 6px;padding: 10rpx;">
 					<view class="head">
 
-						<image src="../../static/logo-black.jpg" style="width: 49px;height: 65px;" class="head-logo">
+						<image src="https://file.yuanyinfu.com/front-end-lib/logo-black.jpg" style="width: 49px;height: 65px;" class="head-logo">
 						</image>
 
 						<view class="head-title">
@@ -305,7 +305,7 @@
 
 
 				&-1 {
-					background-image: url(../../static/Frame%2077.png);
+					background-image: url('https://file.yuanyinfu.com/front-end-lib/turn.png');
 					width: 326rpx;
 					height: 326rpx;
 					background-position: center;

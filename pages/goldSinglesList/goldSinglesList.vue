@@ -3,7 +3,7 @@
 		<nav-head title="黄金单曲"></nav-head>
 		<view class="empty" v-if="isFinish&&list.length===0">
 			<view class="empty-center">
-				<image src="../../static/empty-icon.png" mode="" class="empty-img"></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/empty-icon.png" mode="" class="empty-img"></image>
 				<view class="empty-text">空空如也</view>
 			</view>
 		</view>
@@ -11,21 +11,21 @@
 			<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
 				<view class="item-1">
 					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
-						v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
+						v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
 					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
-						v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode="">
+						v-else-if="item.rare_type==='UR'" src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode="">
 					</image>
 					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
-						v-else-if="item.rare_type==='R'" src="../../static/R.png" mode="">
+						v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png" mode="">
 					</image>
 					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
-						v-else-if="item.rare_type==='N'" src="../../static/N.png" mode="">
+						v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png" mode="">
 					</image>
 					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
-						v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode="">
+						v-else-if="item.rare_type==='SR'" src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode="">
 					</image>
 					<image class="item-1-out" :src="item.index_img" mode=""></image>
-					<image class="item-1-in" src="../../static/turn.png" mode=""></image>
+					<image class="item-1-in" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode=""></image>
 				</view>
 				<view class="item-2">
 					<view class="item-2-1">
@@ -45,8 +45,8 @@
 							￥{{item.sale_price}}
 						</view>
 						<view class="item-2-4-2" @tap.stop="handPlay(item)">
-							<image src="../../static/play.png" mode=""></image>
-							<!-- <image src="../../static/pause.png" mode=""></image> -->
+							<image src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""></image>
+							<!-- <image src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode=""></image> -->
 							<text>立即试听</text>
 						</view>
 					</view>

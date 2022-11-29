@@ -2,7 +2,7 @@
 	<view class="container">
 		<nav-head title="支付成功"></nav-head>
 		<view class="box1">
-			<image class="icon" src="../../static/Frame 41.png"></image>
+			<image class="icon" src="https://file.yuanyinfu.com/front-end-lib/Frame41.png"></image>
 			<view class="row1">支付成功</view>
 			<view class="row2">实付 ￥{{order_price}}</view>
 			<view class="row3">恭喜您已购买成功</view>

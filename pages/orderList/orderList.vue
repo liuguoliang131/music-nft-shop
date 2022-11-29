@@ -11,7 +11,7 @@
 		</view>
 		<view :class="['empty',$store.state.user.inApp?'':'h5-scroll']" v-if="isFinish&&list.length===0">
 			<view class="empty-center">
-				<image src="../../static/empty-icon.png" mode="" class="empty-img"></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/empty-icon.png" mode="" class="empty-img"></image>
 				<view class="empty-text">还没有相关订单</view>
 			</view>
 		</view>
@@ -24,10 +24,10 @@
 						:style="`background-image:url(${item.index_img||item.music_pic})`">
 					</view>
 					<view class="order-body-item-imageBox-level" v-if="item.rare_type">
-						<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
-						<image v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
-						<image v-else-if="item.rare_type==='R'" src="../../static/R.png" mode=""></image>
-						<image v-else-if="item.rare_type==='N'" src="../../static/N.png" mode=""></image>
+						<image v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
+						<image v-else-if="item.rare_type==='UR'" src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode=""></image>
+						<image v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png" mode=""></image>
+						<image v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png" mode=""></image>
 						<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
 					</view>
 				</view>

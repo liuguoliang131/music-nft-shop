@@ -14,8 +14,8 @@
 					<text class="name">{{item.name}}</text>
 					<text class="author">{{item.singer}}</text>
 				</text>
-				<image v-if="item.checked" class="item-icon" src="../../static/pauseIcon.png"></image>
-				<image v-else class="item-icon" src="../../static/playIcon.png"></image>
+				<image v-if="item.checked" class="item-icon" src="https://file.yuanyinfu.com/front-end-lib/pauseIcon.png"></image>
+				<image v-else class="item-icon" src="https://file.yuanyinfu.com/front-end-lib/playIcon.png"></image>
 
 			</view>
 		</view>

@@ -2,16 +2,17 @@
 	<!-- 预购专辑详情 -->
 	<view class="container">
 		<view @tap="handGoDownload" class="logo" v-if="share_sign">
-			<image src="../../static/logo-line.png" mode=""></image>
+			<image src="https://file.yuanyinfu.com/front-end-lib/logo-line.png" mode=""></image>
 		</view>
 		<nav-head :left="!share_sign" :right="!share_sign" title="详情">
-			<image class="nav-r" src="../../static/share1.png" mode="" @tap="handShare"></image>
+			<image class="nav-r" src="https://file.yuanyinfu.com/front-end-lib/share1.png" mode="" @tap="handShare">
+			</image>
 		</nav-head>
 		<view class="preOrderDetails-header">
 			<view class="cover">
 				<div class="cover-content">
-					<image class="cover-img" src="../../static/image-7 1-1.png"></image>
-					<image class="cover-turn" src="../../static/turn.png" mode=""></image>
+					<image class="cover-img" src="https://file.yuanyinfu.com/front-end-lib/albumbg.png"></image>
+					<image class="cover-turn" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode=""></image>
 					<image class="cover-turn1" :src="data.index_img" mode=""></image>
 					<!-- <image class="cover-play" src="../../static/Frame 62.png" mode=""></image> -->
 				</div>
@@ -19,15 +20,15 @@
 			</view>
 			<view class="row1">
 				<image v-show="!$store.state.publicState.isApprove" v-if="data.rare_type==='SSR'"
-					src="../../static/SSR.png" mode=""></image>
+					src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
 				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='UR'"
-					src="../../static/UR.png" mode=""></image>
+					src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode=""></image>
 				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='R'"
-					src="../../static/R.png" mode=""></image>
+					src="https://file.yuanyinfu.com/front-end-lib/R.png" mode=""></image>
 				<!-- <image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='N'"
-					src="../../static/N.png" mode=""></image> -->
+					src="https://file.yuanyinfu.com/front-end-lib/N.png" mode=""></image> -->
 				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='SR'"
-					src="../../static/SR.png" mode=""></image>
+					src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode=""></image>
 				{{data.name}}
 			</view>
 			<view class="row2" v-show="!$store.state.publicState.isApprove">
@@ -172,13 +173,15 @@
 		</view>
 		<view class="bottom1" v-else v-show="!$store.state.publicState.isApprove">
 			<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
-				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
+				<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png" mode="">
+				</image>
 				<view class="bottom1-1-2 followed">
 					关注
 				</view>
 			</view>
 			<view v-else class="bottom1-1" @tap="handFollow(1)">
-				<image class="bottom1-1-1" src="../../static/follow-hollow.png" mode=""></image>
+				<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png" mode="">
+				</image>
 				<view class="bottom1-1-2 unfollow">
 					关注
 				</view>
@@ -213,7 +216,7 @@
 					</view>
 				</view>
 				<view class="popup-f">
-					<image class="popup-f-img" src="../../static/popupYf.png"></image>
+					<image class="popup-f-img" src="https://file.yuanyinfu.com/front-end-lib/popupYf.png"></image>
 					<text>购买专辑可以永久聆听</text>
 				</view>
 				<view class="popup-g" v-if="data.rare_type!=='N'">
@@ -636,8 +639,14 @@
 					product_item_id: this.product_item_id
 				})
 			},
+			// 登陆还是下载
 			handGoDownload() {
-				goDownload()
+				if (!this.$store.state.user.token) {
+					goLogin()
+				} else {
+					goDownload()
+				}
+
 			}
 		},
 		onLoad(option) {
@@ -649,13 +658,15 @@
 			// 	this.visitStatics()
 			// })
 			this.product_item_id = Number(option.product_item_id)
-			this.share_sign = option.share_sign || ''
+			let share_sign = option.share_sign || ''
+			this.$store.commit('user/set_share_sign', share_sign)
+			this.share_sign = share_sign
 			this.getDetails(this.product_item_id)
 			this.visitStatics()
 
 		},
 		onShow() {
-
+			this.share_sign = this.$store.state.user.share_sign
 		},
 		created() {
 			console.log('created')

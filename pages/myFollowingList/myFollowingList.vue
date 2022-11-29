@@ -5,27 +5,27 @@
 			<my-tab :list="tabList" @active="handActiveBar" :activeBar="activeBar" :slide="false"></my-tab>
 			<view class="empty" v-if="isFinish&&list.length===0">
 				<view class="empty-center">
-					<image src="../../static/emptybox.png" mode="" class="empty-img"></image>
+					<image src="https://file.yuanyinfu.com/front-end-lib/emptybox.png" mode="" class="empty-img"></image>
 					<view class="empty-text">空空如也，请先去选购</view>
 				</view>
 			</view>
 			<my-scroll v-else class="scroll-box" ref="myScroll" :isFinish="isFinish" :loading="loading" @load="getList">
 				<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
 					<view class="cover-content">
-						<image class="cover-img" src="../../static/image-7 1-1.png"></image>
-						<image class="cover-turn" src="../../static/turn.png" mode=""></image>
+						<image class="cover-img" src="https://file.yuanyinfu.com/front-end-lib/albumbg.png"></image>
+						<image class="cover-turn" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode=""></image>
 						<image class="cover-turn1" :src="item.index_img" mode=""></image>
-						<image v-show="item.publish_type===1" class="cover-play" src="../../static/play.png" mode=""
+						<image v-show="item.publish_type===1" class="cover-play" src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""
 							@tap.stop="handPlay(item)"></image>
-						<!-- <image class="cover-play" src="../../static/pause.png" mode=""></image> -->
+						<!-- <image class="cover-play" src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode=""></image> -->
 					</view>
 					<view class="item-row1">
 						<view class="type-icon" v-if="activeBar!==3">
-							<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
-							<image v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
-							<image v-else-if="item.rare_type==='R'" src="../../static/R.png" mode=""></image>
-							<image v-else-if="item.rare_type==='N'" src="../../static/N.png" mode=""></image>
-							<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
+							<image v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
+							<image v-else-if="item.rare_type==='UR'" src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode=""></image>
+							<image v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png" mode=""></image>
+							<image v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png" mode=""></image>
+							<image v-else-if="item.rare_type==='SR'" src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode=""></image>
 						</view>
 
 						<view class="name">

@@ -2,31 +2,33 @@
 	<!-- 数字音乐详情 -->
 	<view class="container">
 		<view @tap="handGoDownload" class="logo" v-if="share_sign">
-			<image src="../../static/logo-line.png" mode=""></image>
+			<image src="https://file.yuanyinfu.com/front-end-lib/logo-line.png" mode=""></image>
 		</view>
 		<nav-head :left="!share_sign" :right="!share_sign" title="详情">
-			<image class="nav-r" src="../../static/share1.png" mode="" @tap="handShare"></image>
+			<image class="nav-r" src="https://file.yuanyinfu.com/front-end-lib/share1.png" mode="" @tap="handShare">
+			</image>
 		</nav-head>
 
 		<view class="cover">
 			<view class="cover-1">
-				<image class="cover-1-1" src="../../static/image-7 1-1.png" mode=""></image>
-				<image class="cover-1-2" src="../../static/turn.png" mode=""></image>
+				<image class="cover-1-1" src="https://file.yuanyinfu.com/front-end-lib/albumbg.png" mode=""></image>
+				<image class="cover-1-2" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode=""></image>
 				<image class="cover-1-3" :src="data.index_img" mode=""></image>
-				<image class="cover-1-4" src="../../static/play.png" mode="" @tap="handPlay"></image>
+				<image class="cover-1-4" src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""
+					@tap="handPlay"></image>
 			</view>
 		</view>
 		<view class="title">
-			<image v-show="!$store.state.publicState.isApprove" v-if="data.rare_type==='SSR'" src="../../static/SSR.png"
-				mode=""></image>
+			<image v-show="!$store.state.publicState.isApprove" v-if="data.rare_type==='SSR'"
+				src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
 			<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='UR'"
-				src="../../static/UR.png" mode=""></image>
+				src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode=""></image>
 			<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='R'"
-				src="../../static/R.png" mode=""></image>
+				src="https://file.yuanyinfu.com/front-end-lib/R.png" mode=""></image>
 			<!-- 			<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='N'"
-				src="../../static/N.png" mode=""></image> -->
+				src="https://file.yuanyinfu.com/front-end-lib/N.png" mode=""></image> -->
 			<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='SR'"
-				src="../../static/SR.png" mode=""></image>
+				src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode=""></image>
 			{{data.name}}
 		</view>
 		<view class="price" v-show="!$store.state.publicState.isApprove">
@@ -36,15 +38,15 @@
 		</view>
 		<view class="action-bar" v-show="!$store.state.publicState.isApprove">
 			<view class="bar-item">
-				<image src="../../static/clickRate.png" mode=""></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/clickRate.png" mode=""></image>
 				<text>{{data.statistics_info.visit}}</text>
 			</view>
 			<view class="bar-item">
-				<image src="../../static/follow.png" mode=""></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/follow.png" mode=""></image>
 				<text>{{data.statistics_info.like}}</text>
 			</view>
 			<view class="bar-item">
-				<image src="../../static/share1.png" mode=""></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/share1.png" mode=""></image>
 				<text>{{data.statistics_info.share}}</text>
 			</view>
 		</view>
@@ -135,13 +137,15 @@
 		</view>
 		<view class="bottom1" v-else v-show="!$store.state.publicState.isApprove">
 			<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
-				<image class="bottom1-1-1" src="../../static/follow-solid.png" mode=""></image>
+				<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png" mode="">
+				</image>
 				<view class="bottom1-1-2 followed">
 					关注
 				</view>
 			</view>
 			<view v-else class="bottom1-1" @tap="handFollow(1)">
-				<image class="bottom1-1-1" src="../../static/follow-hollow.png" mode=""></image>
+				<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png" mode="">
+				</image>
 				<view class="bottom1-1-2 unfollow">
 					关注
 				</view>
@@ -175,7 +179,7 @@
 					</view>
 				</view>
 				<view class="popup-f">
-					<image class="popup-f-img" src="../../static/popupYf.png"></image>
+					<image class="popup-f-img" src="https://file.yuanyinfu.com/front-end-lib/popupYf.png"></image>
 					<text>购买唱片可以永久聆听</text>
 				</view>
 				<view class="popup-g" v-if="data.rare_type!=='N'">
@@ -493,16 +497,17 @@
 				}
 
 
-				if (!this.$store.state.user.token) {
-					goLogin()
+				if (!this.$store.state.user.inApp) {
+					this.handGoDownload()
 				}
 			},
 			handBuyThe() {
-				if (!this.$store.state.user.token) {
-					goLogin()
+				if (!this.$store.state.user.inApp) {
+					this.handGoDownload()
 				} else {
 					this.$refs.popup.show()
 				}
+
 			},
 			// 立即抢购
 			async handOrder() {
@@ -622,7 +627,7 @@
 				}
 			},
 			async handPlay() {
-				if (this.share_sign) {
+				if (!this.$store.state.user.inApp) {
 					return this.handGoDownload()
 				}
 				try {
@@ -652,8 +657,15 @@
 					product_item_id: this.product_item_id
 				})
 			},
+			// 只要不在app中就引导下载
 			handGoDownload() {
-				goDownload()
+				if (!this.$store.state.user.token) {
+					goLogin()
+				} else {
+					goDownload()
+				}
+
+
 			}
 		},
 		onLoad(option) {
@@ -665,13 +677,15 @@
 			// 	this.visitStatics()
 			// })
 			this.product_item_id = Number(option.product_item_id)
-			this.share_sign = option.share_sign || ''
+			let share_sign = option.share_sign || ''
+			this.$store.commit('user/set_share_sign', share_sign)
+			this.share_sign = share_sign
 			this.getDetails(this.product_item_id)
 			this.visitStatics()
 
 		},
 		onShow() {
-
+			this.share_sign = this.$store.state.user.share_sign
 		},
 		created() {
 			console.log('created')
