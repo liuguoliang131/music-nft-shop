@@ -32,11 +32,16 @@
 						</image>
 						<view class="list-item-image" :style="`background-image:url(${item.index_img})`"></view>
 						<view class="list-item-level">
-							<image v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
-							<image v-else-if="item.rare_type==='UR'" src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode=""></image>
-							<image v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png" mode=""></image>
-							<image v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png" mode=""></image>
-							<image v-else-if="item.rare_type==='SR'" src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode=""></image>
+							<image v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png"
+								mode=""></image>
+							<image v-else-if="item.rare_type==='UR'"
+								src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode=""></image>
+							<image v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png"
+								mode=""></image>
+							<image v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png"
+								mode=""></image>
+							<image v-else-if="item.rare_type==='SR'"
+								src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode=""></image>
 						</view>
 					</view>
 					<view class="list-item-box">
@@ -64,7 +69,7 @@
 			<view class="need-login">
 				<text>元音符-原创音乐聚集地</text>
 				<button class="to-login" @tap="handLogin()">登录</button>
-				<text class="cuIcon-close" style="font-size: 16rpx;color: #686868" @click="handleCloseLogintag"></text>
+				<text class="cuIcon-close close-btn" style="" @click="handleCloseLogintag"></text>
 			</view>
 		</view>
 	</view>
@@ -370,7 +375,7 @@
 
 	.need-login {
 		position: fixed;
-		bottom: 80rpx;
+		bottom: 10rpx;
 		left: 20rpx;
 		right: 20rpx;
 		background-color: #201A17;
@@ -398,6 +403,11 @@
 			color: #ECECEC;
 			background: #D10910;
 			border-radius: 76rpx;
+
+			.close-btn {
+				font-size: 16rpx;
+				color: #686868
+			}
 		}
 	}
 
