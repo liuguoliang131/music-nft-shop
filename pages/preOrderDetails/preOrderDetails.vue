@@ -5,7 +5,8 @@
 			<image src="https://file.yuanyinfu.com/front-end-lib/logo-line.png" mode=""></image>
 		</view>
 		<nav-head :left="!share_sign" :right="!share_sign" title="详情">
-			<image class="nav-r" src="https://file.yuanyinfu.com/front-end-lib/share1.png" mode="" @tap="handShare"></image>
+			<image class="nav-r" src="https://file.yuanyinfu.com/front-end-lib/share1.png" mode="" @tap="handShare">
+			</image>
 		</nav-head>
 		<view class="preOrderDetails-header">
 			<view class="cover">
@@ -172,13 +173,15 @@
 		</view>
 		<view class="bottom1" v-else v-show="!$store.state.publicState.isApprove">
 			<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
-				<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png" mode=""></image>
+				<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png" mode="">
+				</image>
 				<view class="bottom1-1-2 followed">
 					关注
 				</view>
 			</view>
 			<view v-else class="bottom1-1" @tap="handFollow(1)">
-				<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png" mode=""></image>
+				<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png" mode="">
+				</image>
 				<view class="bottom1-1-2 unfollow">
 					关注
 				</view>
@@ -636,8 +639,14 @@
 					product_item_id: this.product_item_id
 				})
 			},
+			// 登陆还是下载
 			handGoDownload() {
-				goDownload()
+				if (!this.$store.state.user.token) {
+					goLogin()
+				} else {
+					goDownload()
+				}
+
 			}
 		},
 		onLoad(option) {
@@ -649,13 +658,15 @@
 			// 	this.visitStatics()
 			// })
 			this.product_item_id = Number(option.product_item_id)
-			this.share_sign = option.share_sign || ''
+			let share_sign = option.share_sign || ''
+			this.$store.commit('user/set_share_sign', share_sign)
+			this.share_sign = share_sign
 			this.getDetails(this.product_item_id)
 			this.visitStatics()
 
 		},
 		onShow() {
-
+			this.share_sign = this.$store.state.user.share_sign
 		},
 		created() {
 			console.log('created')

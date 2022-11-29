@@ -13,7 +13,8 @@ export default {
 		token: getToken() || '',
 		userInfo: getUserInfo() || null,
 		inApp: getInApp() || false,
-		inPlus: false
+		inPlus: false,
+		share_sign: ''
 	},
 	mutations: {
 		set_token(state, data) {
@@ -32,6 +33,9 @@ export default {
 		// 是否是在共域APP内
 		set_inPlus(state, data) {
 			state.inPlus = data
+		},
+		set_share_sign(state, data) {
+			state.share_sign = data
 		}
 
 	}
