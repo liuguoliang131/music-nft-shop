@@ -1,9 +1,11 @@
 <template>
 	<view class="container">
-		<nav-head title="结算页"></nav-head>
+		<nav-head title="订单预览"></nav-head>
 		<view class="title pt23">
 			<view class="title-l"></view>
-			<view class="title-r">唱片信息</view>
+			<view class="title-r" v-if="product_type===1">单曲信息</view>
+			<view class="title-r" v-else-if="product_type===2">专辑信息</view>
+			<view class="title-r" v-else-if="product_type===3">数字音乐信息</view>
 		</view>
 		<view class="box1">
 			<view class="box1-l">
@@ -78,7 +80,8 @@
 				buy_num: '',
 				data: {
 
-				}
+				},
+				product_type: 1
 			}
 		},
 		methods: {
@@ -224,6 +227,7 @@
 			this.product_item_id = Number(option.product_item_id)
 			this.buy_num = Number(option.buy_num)
 			this.data = JSON.parse(option.params)
+			this.product_type = Number(option.type)
 		}
 	}
 </script>

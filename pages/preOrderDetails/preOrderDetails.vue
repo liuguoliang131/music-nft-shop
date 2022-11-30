@@ -1,203 +1,339 @@
 <template>
 	<!-- 预购专辑详情 -->
 	<view class="container">
-		<view @tap="handGoDownload" class="logo" v-if="share_sign">
-			<image src="https://file.yuanyinfu.com/front-end-lib/logo-line.png" mode=""></image>
-		</view>
-		<nav-head :left="!share_sign" :right="!share_sign" title="详情">
-			<image class="nav-r" src="https://file.yuanyinfu.com/front-end-lib/share1.png" mode="" @tap="handShare">
-			</image>
-		</nav-head>
-		<view class="preOrderDetails-header">
-			<view class="cover">
-				<div class="cover-content">
-					<image class="cover-img" src="https://file.yuanyinfu.com/front-end-lib/albumbg.png"></image>
-					<image class="cover-turn" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode=""></image>
-					<image class="cover-turn1" :src="data.index_img" mode=""></image>
-					<!-- <image class="cover-play" src="../../static/Frame 62.png" mode=""></image> -->
-				</div>
+		<template v-if="$store.state.user.inApp">
+			<nav-head :left="true" :right="true" title="详情">
+				<image class="nav-r" src="https://file.yuanyinfu.com/front-end-lib/share1.png" mode="" @tap="handShare">
+				</image>
+			</nav-head>
+			<view class="preOrderDetails-header">
+				<view class="cover">
+					<div class="cover-content">
+						<image class="cover-img" src="https://file.yuanyinfu.com/front-end-lib/albumbg.png"></image>
+						<image class="cover-turn" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode="">
+						</image>
+						<image class="cover-turn1" :src="data.index_img" mode=""></image>
+						<!-- <image class="cover-play" src="../../static/Frame 62.png" mode=""></image> -->
+					</div>
 
+				</view>
+				<view class="row1">
+					<image v-show="!$store.state.publicState.isApprove" v-if="data.rare_type==='SSR'"
+						src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
+					<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='UR'"
+						src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode=""></image>
+					<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='R'"
+						src="https://file.yuanyinfu.com/front-end-lib/R.png" mode=""></image>
+					<!-- <image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='N'"
+						src="https://file.yuanyinfu.com/front-end-lib/N.png" mode=""></image> -->
+					<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='SR'"
+						src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode=""></image>
+					{{data.name}}
+				</view>
+				<view class="row2" v-show="!$store.state.publicState.isApprove">
+					{{data.sale_time1}}&nbsp;{{data.sale_status===0?'未开售':(data.sale_status===1?'开售中':'已停售')}}
+					<text>限量{{data.stock_num_desc}}张</text>
+				</view>
+				<view class="price" v-show="!$store.state.publicState.isApprove">
+					<text class="rmb">￥</text>
+					<text class="count">{{data.sale_price}}</text>
+					<text class="unit">/张</text>
+				</view>
 			</view>
-			<view class="row1">
-				<image v-show="!$store.state.publicState.isApprove" v-if="data.rare_type==='SSR'"
-					src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
-				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='UR'"
-					src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode=""></image>
-				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='R'"
-					src="https://file.yuanyinfu.com/front-end-lib/R.png" mode=""></image>
-				<!-- <image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='N'"
-					src="https://file.yuanyinfu.com/front-end-lib/N.png" mode=""></image> -->
-				<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='SR'"
-					src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode=""></image>
-				{{data.name}}
-			</view>
-			<view class="row2" v-show="!$store.state.publicState.isApprove">
-				{{data.sale_time1}}&nbsp;{{data.sale_status===0?'未开售':(data.sale_status===1?'开售中':'已停售')}}
-				<text>限量{{data.stock_num_desc}}张</text>
-			</view>
-			<view class="price" v-show="!$store.state.publicState.isApprove">
-				<text class="rmb">￥</text>
-				<text class="count">{{data.sale_price}}</text>
-				<text class="unit">/张</text>
-			</view>
-		</view>
-		<!-- <view class="preOrderDetails-body">
-			<view class="card cardbox1" v-show="!$store.state.publicState.isApprove">
-				<view class="card-body">
-					<view class="row1">专辑信息</view>
-					<view class="row2">
-						<view class="row2-1">
-							<text class="row2-1-l">专辑名称</text>
-							<text class="row2-1-r">{{data.name}}</text>
+			<!-- <view class="preOrderDetails-body">
+				<view class="card cardbox1" v-show="!$store.state.publicState.isApprove">
+					<view class="card-body">
+						<view class="row1">专辑信息</view>
+						<view class="row2">
+							<view class="row2-1">
+								<text class="row2-1-l">专辑名称</text>
+								<text class="row2-1-r">{{data.name}}</text>
+							</view>
+							<view class="row2-1">
+								<text class="row2-1-l">稀有度</text>
+								<text class="row2-1-r">{{data.rare_type}}</text>
+							</view>
+							<view class="row2-1">
+								<text class="row2-1-l">发行量</text>
+								<text class="row2-1-r">{{data.stock_num_desc}}张</text>
+							</view>
+							<view class="row2-1">
+								<text class="row2-1-l">发行方</text>
+								<text class="row2-1-r">{{data.publish_author}}</text>
+							</view>
+							<view class="row2-1">
+								<text class="row2-1-l">发行时间</text>
+								<text class="row2-1-r">{{data.publish_time1}}</text>
+							</view>
 						</view>
-						<view class="row2-1">
-							<text class="row2-1-l">稀有度</text>
-							<text class="row2-1-r">{{data.rare_type}}</text>
+						<view class="row3">
+							购买须知
 						</view>
-						<view class="row2-1">
-							<text class="row2-1-l">发行量</text>
-							<text class="row2-1-r">{{data.stock_num_desc}}张</text>
-						</view>
-						<view class="row2-1">
-							<text class="row2-1-l">发行方</text>
-							<text class="row2-1-r">{{data.publish_author}}</text>
-						</view>
-						<view class="row2-1">
-							<text class="row2-1-l">发行时间</text>
-							<text class="row2-1-r">{{data.publish_time1}}</text>
+						<view class="row4" v-html="data.buy_notice">
 						</view>
 					</view>
-					<view class="row3">
+				</view>
+				<view class="card cardbox2">
+					<view class="card-body">
+						<view class="work" v-show="data.introduction">
+							<view class="row1">专辑介绍</view>
+							<view class="row2" v-html="data.introduction"></view>
+						</view>
+						<view class="work" v-for="(item,idx) in data.music_list" :key="idx">
+							<view class="row1">{{item.name}}</view>
+							<view class="row2" v-html="item.desc">
+							</view>
+						</view>
+					</view>
+				</view>
+			</view> -->
+			<view class="card1" v-show="!$store.state.publicState.isApprove">
+				<view class="card1-body">
+					<view class="title1">专辑信息</view>
+					<view class="info">
+						<view class="info-1">
+							专辑名称
+						</view>
+						<view class="info-2">
+							{{data.name}}
+						</view>
+					</view>
+					<view class="info" v-if="data.rare_type!=='N'">
+						<view class="info-1">
+							稀有度
+						</view>
+						<view class="info-2">
+							{{data.rare_type}}
+						</view>
+					</view>
+					<view class="info">
+						<view class="info-1">
+							发行时间
+						</view>
+						<view class="info-2">
+							{{data.publish_time1}}
+						</view>
+					</view>
+					<view class="info">
+						<view class="info-1">
+							发行方
+						</view>
+						<view class="info-2">
+							{{data.publish_author}}
+						</view>
+					</view>
+					<view class="info">
+						<view class="info-1">
+							本次发行量
+						</view>
+						<view class="info-2">
+							{{data.stock_num}}张
+						</view>
+					</view>
+					<view class="title1 mt32 mb8">
 						购买须知
 					</view>
-					<view class="row4" v-html="data.buy_notice">
+					<view class="text1" v-html="data.buy_notice">
+
 					</view>
 				</view>
 			</view>
-			<view class="card cardbox2">
-				<view class="card-body">
-					<view class="work" v-show="data.introduction">
-						<view class="row1">专辑介绍</view>
-						<view class="row2" v-html="data.introduction"></view>
-					</view>
-					<view class="work" v-for="(item,idx) in data.music_list" :key="idx">
-						<view class="row1">{{item.name}}</view>
-						<view class="row2" v-html="item.desc">
+			<view class="card2">
+				<view class="card2-body">
+					<!-- 专辑 -->
+					<view class="">
+						<view class="title1 mb8" v-if="data.introduction">
+							专辑介绍
+						</view>
+						<view class="text1 mb8" v-if="data.introduction" v-html="data.introduction"></view>
+						<view class="work" v-for="(item,idx) in data.music_list" :key="idx">
+							<view class="row1">{{item.name}}</view>
+							<view class="row2" v-html="item.desc">
+							</view>
 						</view>
 					</view>
-				</view>
-			</view>
-		</view> -->
-		<view class="card1" v-show="!$store.state.publicState.isApprove">
-			<view class="card1-body">
-				<view class="title1">专辑信息</view>
-				<view class="info">
-					<view class="info-1">
-						专辑名称
-					</view>
-					<view class="info-2">
-						{{data.name}}
-					</view>
-				</view>
-				<view class="info" v-if="data.rare_type!=='N'">
-					<view class="info-1">
-						稀有度
-					</view>
-					<view class="info-2">
-						{{data.rare_type}}
-					</view>
-				</view>
-				<view class="info">
-					<view class="info-1">
-						发行时间
-					</view>
-					<view class="info-2">
-						{{data.publish_time1}}
-					</view>
-				</view>
-				<view class="info">
-					<view class="info-1">
-						发行方
-					</view>
-					<view class="info-2">
-						{{data.publish_author}}
-					</view>
-				</view>
-				<view class="info">
-					<view class="info-1">
-						本次发行量
-					</view>
-					<view class="info-2">
-						{{data.stock_num}}张
-					</view>
-				</view>
-				<view class="title1 mt32 mb8">
-					购买须知
-				</view>
-				<view class="text1" v-html="data.buy_notice">
 
 				</view>
 			</view>
-		</view>
-		<view class="card2">
-			<view class="card2-body">
-				<!-- 专辑 -->
-				<view class="">
-					<view class="title1 mb8" v-if="data.introduction">
-						专辑介绍
+			<view class="h120"></view>
+			<view class="bottom1" v-show="!$store.state.publicState.isApprove">
+				<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
+					<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png" mode="">
+					</image>
+					<view class="bottom1-1-2 followed">
+						关注
 					</view>
-					<view class="text1 mb8" v-if="data.introduction" v-html="data.introduction"></view>
-					<view class="work" v-for="(item,idx) in data.music_list" :key="idx">
-						<view class="row1">{{item.name}}</view>
-						<view class="row2" v-html="item.desc">
+				</view>
+				<view v-else class="bottom1-1" @tap="handFollow(1)">
+					<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png" mode="">
+					</image>
+					<view class="bottom1-1-2 unfollow">
+						关注
+					</view>
+				</view>
+				<view class="bottom1-2">
+					<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handOrLogin(3)">已停售</view>
+					<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0"
+						@tap="handOrLogin(0)">
+						{{countDown}}
+					</view>
+					<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1" @tap="handBuyThe">
+						立即抢购
+					</view>
+					<view v-else-if="data.is_halt===1&&data.sale_status===2" class="bottom1-status2"
+						@tap="handOrLogin(2)">
+						已售罄</view>
+
+				</view>
+			</view>
+		</template>
+		<!-- H5 -->
+		<template v-else>
+			<nav-head-pre :share_sign="!!share_sign"></nav-head-pre>
+			<view class="preOrderDetails-header">
+				<view class="cover">
+					<div class="cover-content">
+						<image class="cover-img" src="https://file.yuanyinfu.com/front-end-lib/albumbg.png"></image>
+						<image class="cover-turn" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode="">
+						</image>
+						<image class="cover-turn1" :src="data.index_img" mode=""></image>
+						<!-- <image class="cover-play" src="../../static/Frame 62.png" mode=""></image> -->
+					</div>
+
+				</view>
+				<view class="row1">
+					<image v-show="!$store.state.publicState.isApprove" v-if="data.rare_type==='SSR'"
+						src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
+					<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='UR'"
+						src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode=""></image>
+					<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='R'"
+						src="https://file.yuanyinfu.com/front-end-lib/R.png" mode=""></image>
+					<!-- <image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='N'"
+							src="https://file.yuanyinfu.com/front-end-lib/N.png" mode=""></image> -->
+					<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='SR'"
+						src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode=""></image>
+					{{data.name}}
+				</view>
+				<view class="row2" v-show="!$store.state.publicState.isApprove">
+					{{data.sale_time1}}&nbsp;{{data.sale_status===0?'未开售':(data.sale_status===1?'开售中':'已停售')}}
+					<text>限量{{data.stock_num_desc}}张</text>
+				</view>
+				<view class="price" v-show="!$store.state.publicState.isApprove">
+					<text class="rmb">￥</text>
+					<text class="count">{{data.sale_price}}</text>
+					<text class="unit">/张</text>
+				</view>
+			</view>
+			<view class="card1" v-show="!$store.state.publicState.isApprove">
+				<view class="card1-body">
+					<view class="title1">专辑信息</view>
+					<view class="info">
+						<view class="info-1">
+							专辑名称
+						</view>
+						<view class="info-2">
+							{{data.name}}
 						</view>
 					</view>
-				</view>
+					<view class="info" v-if="data.rare_type!=='N'">
+						<view class="info-1">
+							稀有度
+						</view>
+						<view class="info-2">
+							{{data.rare_type}}
+						</view>
+					</view>
+					<view class="info">
+						<view class="info-1">
+							发行时间
+						</view>
+						<view class="info-2">
+							{{data.publish_time1}}
+						</view>
+					</view>
+					<view class="info">
+						<view class="info-1">
+							发行方
+						</view>
+						<view class="info-2">
+							{{data.publish_author}}
+						</view>
+					</view>
+					<view class="info">
+						<view class="info-1">
+							本次发行量
+						</view>
+						<view class="info-2">
+							{{data.stock_num}}张
+						</view>
+					</view>
+					<view class="title1 mt32 mb8">
+						购买须知
+					</view>
+					<view class="text1" v-html="data.buy_notice">
 
+					</view>
+				</view>
 			</view>
-		</view>
-		<view class="h120"></view>
-		<view class="bottom1" v-if="share_sign" v-show="!$store.state.publicState.isApprove">
-			<view class="bottom1-2">
-				<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handGoDownload">已停售</view>
-				<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0" @tap="handGoDownload">
-					{{countDown}}
-				</view>
-				<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1" @tap="handGoDownload">
-					立即抢购
-				</view>
-				<view v-else-if="data.is_halt===1&&data.sale_status===2" class="bottom1-status2" @tap="handGoDownload">
-					已售罄</view>
+			<view class="card2">
+				<view class="card2-body">
+					<!-- 专辑 -->
+					<view class="">
+						<view class="title1 mb8" v-if="data.introduction">
+							专辑介绍
+						</view>
+						<view class="text1 mb8" v-if="data.introduction" v-html="data.introduction"></view>
+						<view class="work" v-for="(item,idx) in data.music_list" :key="idx">
+							<view class="row1">{{item.name}}</view>
+							<view class="row2" v-html="item.desc">
+							</view>
+						</view>
+					</view>
 
-			</view>
-		</view>
-		<view class="bottom1" v-else v-show="!$store.state.publicState.isApprove">
-			<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
-				<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png" mode="">
-				</image>
-				<view class="bottom1-1-2 followed">
-					关注
 				</view>
 			</view>
-			<view v-else class="bottom1-1" @tap="handFollow(1)">
-				<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png" mode="">
-				</image>
-				<view class="bottom1-1-2 unfollow">
-					关注
-				</view>
-			</view>
-			<view class="bottom1-2">
-				<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handOrLogin(3)">已停售</view>
-				<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0" @tap="handOrLogin(0)">
-					{{countDown}}
-				</view>
-				<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1" @tap="handBuyThe">立即抢购
-				</view>
-				<view v-else-if="data.is_halt===1&&data.sale_status===2" class="bottom1-status2" @tap="handOrLogin(2)">
-					已售罄</view>
+			<view class="h120"></view>
+			<view class="bottom1" v-if="share_sign" v-show="!$store.state.publicState.isApprove">
+				<view class="bottom1-2">
+					<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handGoDownload">已停售</view>
+					<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0"
+						@tap="handGoDownload">
+						{{countDown}}
+					</view>
+					<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1"
+						@tap="handGoDownload">
+						立即抢购
+					</view>
+					<view v-else-if="data.is_halt===1&&data.sale_status===2" class="bottom1-status2"
+						@tap="handGoDownload">
+						已售罄</view>
 
+				</view>
 			</view>
-		</view>
+			<view class="bottom1" v-else v-show="!$store.state.publicState.isApprove">
+				<view class="bottom1-1" @tap="handShare">
+					<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/share1.png" mode="">
+					</image>
+					<view class="bottom1-1-2">
+						分享
+					</view>
+				</view>
+				<view class="bottom1-2">
+					<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handOrLogin(3)">已停售</view>
+					<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0"
+						@tap="handOrLogin(0)">
+						{{countDown}}
+					</view>
+					<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1" @tap="handBuyThe">
+						立即抢购
+					</view>
+					<view v-else-if="data.is_halt===1&&data.sale_status===2" class="bottom1-status2"
+						@tap="handOrLogin(2)">
+						已售罄</view>
+
+				</view>
+			</view>
+		</template>
 		<wyb-popup ref="popup" type="bottom" height="800" width="750" radius="6" bgColor="#1D1D1D"
 			:showCloseIcon="true">
 			<view class="popup-content" ref="popupContent">
@@ -274,6 +410,7 @@
 <script>
 	import WybPopup from '@/components/wyb-popup/wyb-popup.vue'
 	import NavHead from '../../components/navHead.vue'
+	import NavHeadPre from '../../components/navHeadPre.vue'
 	import {
 		h5_collections_index_info,
 		h5_collections_user_if_approve,
@@ -296,14 +433,14 @@
 	export default {
 		components: {
 			WybPopup,
-			NavHead
+			NavHead,
+			NavHeadPre
 		},
 		mixins: [Mixins, RefreshMixins],
 		data() {
 			return {
 				product_item_id: '',
 				share_sign: '',
-				show_pop: false,
 				data: {
 					name: '',
 					product_item_id: '',
@@ -582,7 +719,7 @@
 							}
 						} else {
 							uni.navigateTo({
-								url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}&params=${JSON.stringify(params)}`
+								url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}&params=${JSON.stringify(params)}&type=2`
 							})
 						}
 					}
@@ -650,7 +787,7 @@
 			}
 		},
 		onLoad(option) {
-			console.log('onload', option)
+			console.log('onload````', option)
 			// this.getApprove().then(() => {
 			// 	this.product_item_id = Number(option.product_item_id)
 			// 	this.share_sign = option.share_sign || ''

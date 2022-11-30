@@ -1,9 +1,6 @@
 <template>
 	<view class="container">
 		<view class="container-header">
-			<view @tap="handGoDownload">
-				<image src="https://file.yuanyinfu.com/front-end-lib/logo-line.png" class="logo" mode=""></image>
-			</view>
 			<view v-if="userInfo" class="user-center" @click="handleClickUserCenter">
 				<image class="avatar" :src="userInfo.avatar" mode=""></image>
 				<text>{{userInfo.nick_name||userInfo.phone}}</text>
@@ -12,85 +9,209 @@
 				<image class="avatar" src="https://file.yuanyinfu.com/front-end-lib/userNotLogin.png" mode=""></image>
 				<text>未登录</text>
 			</view>
-
-		</view>
-
-		<view class="container-body">
-			<view class="search-bar" v-show="list.length>2" @click="handleChangeOrder">
-				<view class="upAndDown">
-					<text class="cuIcon-triangleupfill"
-						:style="`${order === 1?'color : #fff' :'color : #343434'};line-height: 22rpx;margin-top:2rpx`"></text>
-					<text class="cuIcon-triangledownfill"
-						:style="`${order === 2 ?'color : #fff' :'color : #343434'};line-height: 22rpx;`"></text>
-				</view>
-
-				按发行时间
+			<view>
+				<image src="https://file.yuanyinfu.com/front-end-lib/logo-line.png" class="logo" mode=""></image>
 			</view>
-			<scroll-view class="list" style="height:calc(100vh - 220rpx)" scroll-y @scrolltolower='handleScrollTolower'>
-				<view @tap="handViewDetail(item)" class="list-item" v-for="(item , index) in list" :key='index'>
-					<view class="list-item-image-box">
+		</view>
+		<my-tab :list="tabList" :activeBar="activeBar" @active="handActive" :slide="false"></my-tab>
+		<view :class="['empty']" v-if="isFinish&&list.length===0">
+			<view class="empty-center">
+				<image src="https://file.yuanyinfu.com/front-end-lib/emptybox.png" mode="" class="empty-img"></image>
+				<view class="empty-text">空空如也</view>
+			</view>
+		</view>
+		<my-scroll v-else :class="['scroll-box']" :isFinish="isFinish" :loading="loading" @load="getList">
+			<view class="list-content1" v-if="activeBar===1">
+				<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
+					<view class="item-1">
+						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+							v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png"
+							mode=""></image>
+						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+							v-else-if="item.rare_type==='UR'" src="https://file.yuanyinfu.com/front-end-lib/UR.png"
+							mode="">
 						</image>
-						<view class="list-item-image" :style="`background-image:url(${item.index_img})`"></view>
-						<view class="list-item-level">
-							<image v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png"
-								mode=""></image>
-							<image v-else-if="item.rare_type==='UR'"
-								src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode=""></image>
-							<image v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png"
-								mode=""></image>
-							<image v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png"
-								mode=""></image>
-							<image v-else-if="item.rare_type==='SR'"
-								src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode=""></image>
-						</view>
+						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+							v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png"
+							mode="">
+						</image>
+						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+							v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png"
+							mode="">
+						</image>
+						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+							v-else-if="item.rare_type==='SR'" src="https://file.yuanyinfu.com/front-end-lib/SR.png"
+							mode="">
+						</image>
+						<image class="item-1-out" :src="item.index_img" mode=""></image>
+						<image class="item-1-in" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode="">
+						</image>
 					</view>
-					<view class="list-item-box">
-						<view class="list-item-title">{{item.name}}</view>
-						<view class="list-item-time">{{filterTime1(item.sale_time*1000)}}开售</view>
-						<view class="list-item-tag">限量{{item.stock_num_desc}}张</view>
-						<view class="list-item-price-box">
-							<view class="list-item-price">￥<text class="count">{{item.sale_price}}</text></view>
-
+					<view class="item-2">
+						<view class="item-2-1">
+							{{item.product_name}}
 						</view>
-					</view>
-					<view style="flex-shrink: 0;">
-						<view v-if="item.is_halt===2" class="list-item-price-dit" style="font-weight: 500;">
-							已停售
+						<view class="item-2-2">
+							<image class="item-2-2-1" :src="item.author_avatar" mode=""></image>
+							<view class="item-2-2-2">
+								{{item.author_name}}
+							</view>
 						</view>
-						<view v-else class="list-item-price-dit" style="font-weight: 500;">
-							{{item.sale_status | filterStatus}}
+						<view class="item-2-3" v-show="!$store.state.publicState.isApprove">
+							限量{{item.stock_num}}份
+						</view>
+						<view class="item-2-4">
+							<view class="item-2-4-1" v-show="!$store.state.publicState.isApprove">
+								￥{{item.sale_price}}
+							</view>
+							<view class="item-2-4-2" @tap.stop="handPlay(item)">
+								<image src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""></image>
+								<!-- <image src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode=""></image> -->
+								<text>立即试听</text>
+							</view>
 						</view>
 					</view>
 				</view>
-			</scroll-view>
-
-		</view>
-		<view class="container-bottom" v-if="!loginFlag">
-			<view class="need-login">
-				<text>元音符-原创音乐聚集地</text>
-				<button class="to-login" @tap="handLogin()">登录</button>
-				<text class="cuIcon-close close-btn" style="" @click="handleCloseLogintag"></text>
 			</view>
-		</view>
+			<view class="list-content2" v-else-if="activeBar===2">
+				<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
+					<view class="item-1">
+						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+							v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png"
+							mode=""></image>
+						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+							v-else-if="item.rare_type==='UR'" src="https://file.yuanyinfu.com/front-end-lib/UR.png"
+							mode="">
+						</image>
+						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+							v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png"
+							mode="">
+						</image>
+						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+							v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png"
+							mode="">
+						</image>
+						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+							v-else-if="item.rare_type==='SR'" src="https://file.yuanyinfu.com/front-end-lib/SR.png"
+							mode="">
+						</image>
+						<image class="item-1-out" :src="item.index_img" mode=""></image>
+						<image class="item-1-in" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode="">
+						</image>
+					</view>
+					<view class="item-2">
+						<view class="item-2-1">
+							{{item.product_name}}
+						</view>
+						<view class="item-2-3" v-show="!$store.state.publicState.isApprove">
+							限量{{item.stock_num}}份
+						</view>
+						<view class="item-2-4">
+							<view class="item-2-4-1" v-show="!$store.state.publicState.isApprove">
+								￥{{item.sale_price}}
+							</view>
+							<view class="item-2-4-2" @tap="handGo(item)">
+								<text>查看专辑</text>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="list-content3" v-else-if="activeBar===3">
+				<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
+					<view class="cover-content">
+						<image class="cover-img" src="https://file.yuanyinfu.com/front-end-lib/albumbg.png"></image>
+						<image class="cover-turn" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode="">
+						</image>
+						<image class="cover-turn1" :src="item.index_img" mode=""></image>
+						<image v-show="item.publish_type===1" class="cover-play"
+							src="https://file.yuanyinfu.com/front-end-lib/play.png" mode="" @tap.stop="handPlay(item)">
+						</image>
+						<!-- <image class="cover-play" src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode="" @tap.stop="handPlay(item)"></image> -->
+					</view>
+					<view class="item-row1">
+						{{item.product_name}}
+					</view>
+					<view class="item-row2">
+						<text class="item-row2-1">
+							{{item.author_name}}
+						</text>
+						<text class="item-row2-2" v-show="!$store.state.publicState.isApprove">
+							<text class="row2-2-unit">
+								￥
+							</text>
+							<text class="row2-2-price">{{item.sale_price}}</text>
+						</text>
+					</view>
+				</view>
+			</view>
+		</my-scroll>
 	</view>
 </template>
 
 <script>
+	import MyTab from '../../components/myTab.vue'
+	import NavHead from '../../components/navHead.vue'
+	import MyScroll from '../../components/myScroll.vue'
 	import {
-		post
+		post,
+		post1
 	} from '@/request/index.js'
 	import {
-		h5_collections_index_list
+		collections_index_albumMusicList, //专辑
+		collections_index_singleMusicList, //单曲
+		collections_index_digitMusicList, //数字音乐
+		collections_index_musicPlay,
+		collections_index_play
 	} from '@/request/api.js'
 	import config from '../../utils/uniKey.js'
 	import {
 		filterTime,
 		getTimeData,
-		goLogin
+		goLogin,
+		openAppPage
 	} from '../../utils/index.js'
 	export default {
+		components: {
+			MyTab,
+			NavHead,
+			MyScroll
+		},
 		data() {
 			return {
+				tabList: [{
+						name: '数字音乐',
+						id: 3,
+						activeNav: 0,
+						isFinish: false,
+						loading: false,
+						page: 1,
+						list: []
+					},
+					{
+						name: '黄金单曲',
+						id: 1,
+						activeNav: 0,
+						isFinish: false,
+						loading: false,
+						page: 1,
+						list: []
+					},
+					{
+						name: '黄金专辑',
+						id: 2,
+						activeNav: 0,
+						isFinish: false,
+						loading: false,
+						page: 1,
+						list: []
+					}
+
+				],
+				activeBar: 3,
+				isFinish: false,
+				loading: false,
+				list: [],
 				loginFlag: true,
 				order: 1,
 				page: 1,
@@ -103,7 +224,7 @@
 			}
 		},
 		onLoad() {
-			this.getList()
+
 		},
 		filters: {
 			filterStatus(e) {
@@ -116,31 +237,119 @@
 			}
 		},
 		methods: {
+			initParams() {
+				this.list = []
+				this.page = 1
+				this.loading = false
+				this.isFinish = false
+			},
+			handActive(id) {
+				if (id === this.activeBar) return false
+				this.activeBar = id
+				this.initParams()
+				this.getList()
+			},
 			filterTime1(e) {
 				const date = getTimeData(e)
 				return `${date.mon}月${date.dd}日 ${date.hh}:${date.MM}`
 			},
 			getList() {
-				post(h5_collections_index_list, {
-					page: this.page,
-					sort: this.order
-				}).then(res => {
+				if (this.activeBar === 1) {
+					this.getSingles()
+				} else if (this.activeBar === 2) {
+					this.getAlbum()
+				} else if (this.activeBar === 3) {
+					this.getDigital()
+				}
+			},
+			async getSingles() {
+				try {
+					const res = await post1(collections_index_singleMusicList, {
+						page: this.page++
+					})
+
+					if (res.code !== 0) {
+						this.isFinish = true
+						this.loading = false
+						return uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
 					this.loginFlag = !!res.data.is_login
-					if (res.data.list) {
-						if (this.page === 1) {
-							this.list = res.data.list
-						} else {
-							this.list = [...this.list, ...res.data.list]
-						}
+					if (res.data.list && Array.isArray(res.data.list) && res.data.list.length) {
+
+						this.list = [...this.list, ...res.data.list]
 
 					} else {
+						this.isFinish = true
 						this.page = this.page - 1
 					}
+					this.loading = false
+				} catch (e) {
+					//TODO handle the exception
+					this.loading = false
+					this.isFinish = true
+				}
+			},
+			async getAlbum() {
+				try {
+					const res = await post1(collections_index_albumMusicList, {
+						page: this.page++
+					})
 
+					if (res.code !== 0) {
+						this.isFinish = true
+						this.loading = false
+						return uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+					if (res.data.list && Array.isArray(res.data.list) && res.data.list.length) {
 
+						this.list = [...this.list, ...res.data.list]
 
+					} else {
+						this.isFinish = true
+						this.page = this.page - 1
+					}
+					this.loading = false
+				} catch (e) {
+					//TODO handle the exception
+					this.loading = false
+					this.isFinish = true
+				}
+			},
+			async getDigital() {
+				try {
+					const res = await post1(collections_index_digitMusicList, {
+						page: this.page++
+					})
 
-				})
+					if (res.code !== 0) {
+						this.isFinish = true
+						this.loading = false
+						return uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+					this.loginFlag = !!res.data.is_login
+					if (res.data.list && Array.isArray(res.data.list) && res.data.list.length) {
+
+						this.list = [...this.list, ...res.data.list]
+
+					} else {
+						this.isFinish = true
+						this.page = this.page - 1
+					}
+					this.loading = false
+				} catch (e) {
+					//TODO handle the exception
+					this.loading = false
+					this.isFinish = true
+				}
 			},
 			handleClickUserCenter() {
 				if (this.$store.state.user.token) {
@@ -187,27 +396,65 @@
 
 				goLogin()
 			},
-			// 去下载
-			handGoDownload() {
-				return false
-				uni.showToast({
-					title: '即将跳转到元音符App下载页面',
-					icon: 'none',
-					duration: 3000
-				})
-				if (this.timer) return false
-				this.timer = setTimeout(() => {
-					clearTimeout(this.timer)
-					this.timer = null
-					window.location.href = config.APP_DOWNLOAD_URL
-				}, 3000)
+			handGo(item) {
+				if (this.activeBar === 1) {
+					uni.navigateTo({
+						url: `/pages/goldSinglesDetail/goldSinglesDetail?product_item_id=${item.product_item_id}`
+					})
+				} else if (this.activeBar === 2) {
+					uni.navigateTo({
+						url: `/pages/preOrderDetails/preOrderDetails?product_item_id=${item.product_item_id}`
+					})
+				} else if (this.activeBar === 3) {
+					uni.navigateTo({
+						url: `/pages/recommendedAlbumDetail/recommendedAlbumDetail?product_item_id=${item.product_item_id}`
+					})
+				}
+
+			},
+			async handPlay(item) {
+				try {
+
+					const res = await post1(collections_index_play, {
+						product_item_id: item.product_item_id
+					})
+					if (this.$store.state.user.inApp) {
+						let data = {
+							"page": "musicPlayPage",
+							"isNeedLogin": false,
+							"params": {
+								product_item_id: item.product_item_id
+							}
+						}
+						openAppPage(data)
+					} else {
+						const res = await this.$post(collections_index_musicPlay, {
+							product_item_id: item.product_item_id
+						})
+						if (res.code !== 0) {
+							return uni.showToast({
+								title: res.msg,
+								icon: 'none'
+							})
+						}
+
+					}
+
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						title: e.message,
+						icon: 'none'
+					})
+					throw e
+				}
 			}
 		},
 		onShow() {
 			this.userInfo = JSON.parse(JSON.stringify(this.$store.state.user.userInfo))
 
 			uni.$on('updateData', (data) => {
-				this.list = []
+				this.initParams()
 				this.getList()
 			})
 		}
@@ -215,232 +462,617 @@
 </script>
 
 <style lang="scss" scoped>
-	.user-center {
-		display: flex;
-		align-items: center;
+	.container {
+		padding: 0;
+		height: 100vh;
 
-		.avatar {
-			width: 64rpx;
-			height: 64rpx;
-			border-radius: 50%;
+		.container-header {
+			padding-left: 25rpx;
+			padding-right: 25rpx;
 		}
 
-		text {
-			margin-left: 20rpx;
-			font-size: 24rpx;
-			color: #f5f5f5;
-		}
-	}
-
-	.upAndDown {
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-		height: 40rpx;
-		font-size: 32rpx;
-	}
-
-	.tag {
-		border: 1rpx solid #434343;
-		border-radius: 40rpx;
-		padding: 10rpx;
-		display: flex;
-		align-items: center;
-
-		image {
-			width: 43rpx;
-			height: 43rpx;
-			border-radius: 50%;
-		}
-
-		text {
-			margin-left: 20rpx;
-			font-size: 24rpx;
-			color: #f5f5f5;
-		}
-	}
-
-	.search-bar {
-		font-size: 24rpx;
-		display: flex;
-		align-items: center;
-	}
-
-	.list {
-		padding: 20rpx 0;
-
-		&-item {
-			border-radius: 20rpx;
-			border: 1rpx solid #5F5F5F;
-			border-radius: 20rpx;
-			padding: 16rpx 16rpx 20rpx 16rpx;
+		.user-center {
 			display: flex;
-			align-items: flex-start;
-			margin-bottom: 16rpx;
+			align-items: center;
 
+			.avatar {
+				width: 64rpx;
+				height: 64rpx;
+				border-radius: 50%;
+			}
 
-			&-image {
-				width: 240rpx;
-				height: 240rpx;
-				border-radius: 24rpx;
-				background-size: cover;
-				background-position: center;
-				background-repeat: no-repeat;
+			text {
+				margin-left: 20rpx;
+				font-size: 24rpx;
+				color: #f5f5f5;
+			}
+		}
 
-				&-box {
-					width: 240rpx;
-					height: 240rpx;
-					position: relative;
+		.upAndDown {
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+			height: 40rpx;
+			font-size: 32rpx;
+		}
+
+		.tag {
+			border: 1rpx solid #434343;
+			border-radius: 40rpx;
+			padding: 10rpx;
+			display: flex;
+			align-items: center;
+
+			image {
+				width: 43rpx;
+				height: 43rpx;
+				border-radius: 50%;
+			}
+
+			text {
+				margin-left: 20rpx;
+				font-size: 24rpx;
+				color: #f5f5f5;
+			}
+		}
+
+		.search-bar {
+			font-size: 24rpx;
+			display: flex;
+			align-items: center;
+		}
+
+		/deep/.bar {
+			padding: 0 80rpx;
+		}
+
+		.empty {
+			position: relative;
+			box-sizing: border-box;
+			padding: 0 32rpx 32rpx 32rpx;
+			height: calc(100vh - 214rpx);
+			text-align: center;
+			overflow: hidden;
+			padding-top: 300rpx;
+			width: 750rpx;
+
+			.empty-center {
+				.empty-img {
+					width: 120rpx;
+					height: 120rpx;
+				}
+
+				.empty-text {
+					margin-top: 44rpx;
+					font-size: 24rpx;
+					line-height: 34rpx;
+					/* identical to box height */
+
+					text-align: center;
+
+					color: #CDCDCD;
 				}
 			}
 
-			&-level {
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 84rpx;
-				height: 40rpx;
+		}
 
-				image {
-					width: 100%;
-					height: 100%;
-				}
-			}
+		.scroll-box {
+			height: calc(100vh - 214rpx);
+		}
 
-			&-box {
+		.list-content1 {
+			.item {
 				display: flex;
-				flex-direction: column;
-				padding-left: 20rpx;
-				flex: auto;
-				color: #AEAEAE;
-			}
+				box-sizing: border-box;
+				width: 702rpx;
+				height: 270rpx;
+				background: #292929;
+				border-radius: 16rpx;
+				margin: auto;
+				margin-top: 20rpx;
 
-			&-title {
-				font-size: 32rpx;
-				font-weight: 500;
-				text-overflow: -o-ellipsis-lastline;
-				overflow: hidden; //溢出内容隐藏
-				text-overflow: ellipsis; //文本溢出部分用省略号表示
-				display: -webkit-box; //特别显示模式
-				-webkit-line-clamp: 2; //行数
-				line-clamp: 2;
-				-webkit-box-orient: vertical; //盒子中内容竖直排列
-				font-family: 'PingFang SC';
-				font-style: normal;
-				font-weight: 500;
-				font-size: 32rpx;
-				line-height: 44rpx;
-				color: #ECECEC;
+				.item-1 {
+					position: relative;
+					width: 270rpx;
+					height: 270rpx;
 
+					.item-1-sign {
+						z-index: 2;
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 84rpx;
+						height: 40rpx;
+					}
 
-			}
+					.item-1-out {
+						z-index: 1;
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 270rpx;
+						height: 270rpx;
+						border-radius: 16rpx;
+					}
 
-			&-time {
-				margin-top: 16rpx;
-				height: 34rpx;
-				font-size: 24rpx;
-				text-align: left;
-			}
+					.item-1-in {
+						z-index: 0;
+						position: relative;
+						left: 28rpx;
+						top: 4.34rpx;
+						width: 259.5rpx;
+						height: 259.5rpx;
 
-			&-tag {
-				margin-top: 4rpx;
-				font-size: 24rpx;
-			}
-
-			&-price {
-				font-size: 28rpx;
-				color: #D10910;
-				margin-top: auto;
-
-				.count {
-					font-weight: 600;
+					}
 				}
 
-				&-box {
-					display: flex;
-					align-items: flex-end;
-					justify-content: space-between;
-					width: 80%;
+				.item-2 {
+					width: 380rpx;
+					margin-left: 32rpx;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 400;
+					font-size: 32rpx;
+					line-height: 44rpx;
+
+					color: #DDDDDD;
+
+					.item-2-1 {
+						margin-top: 16rpx;
+						font-weight: 600;
+						font-size: 32rpx;
+						line-height: 44rpx;
+						overflow: hidden; // 溢出隐藏
+						white-space: nowrap; // 强制一行
+						text-overflow: ellipsis; // 文字溢出显示省略号
+						color: #DDDDDD;
+					}
+
+					.item-2-2 {
+						display: flex;
+						align-items: center;
+						line-height: 0;
+						vertical-align: middle;
+						margin-top: 8rpx;
+
+						.item-2-2-1 {
+							width: 40rpx;
+							height: 40rpx;
+							border-radius: 20rpx;
+						}
+
+						.item-2-2-2 {
+							flex: 1;
+
+							padding-left: 8rpx;
+							font-weight: 400;
+							font-size: 28rpx;
+							line-height: 40rpx;
+							/* identical to box height */
+
+
+							color: #AEAEAE;
+							overflow: hidden; // 溢出隐藏
+							white-space: nowrap; // 强制一行
+							text-overflow: ellipsis; // 文字溢出显示省略号
+						}
+					}
+
+					.item-2-3 {
+						margin-top: 16rpx;
+						font-weight: 400;
+						font-size: 28rpx;
+						line-height: 40rpx;
+						/* identical to box height */
+
+
+						color: #AEAEAE;
+					}
+
+					.item-2-4 {
+						margin-top: 40rpx;
+						display: flex;
+						align-items: center;
+
+						.item-2-4-1 {
+							flex: 1;
+							font-family: 'PingFang SC';
+							font-style: normal;
+							font-weight: 600;
+							font-size: 32rpx;
+							line-height: 44rpx;
+
+							color: #AEAEAE;
+						}
+
+						.item-2-4-2 {
+							display: flex;
+							align-items: center;
+							width: 182rpx;
+							height: 48rpx;
+							border-radius: 24rpx;
+							background: linear-gradient(92.75deg, #F4C85F 53.95%, #FFEBBC 151.4%);
+
+							image {
+								width: 36rpx;
+								height: 36rpx;
+								margin-left: 6rpx;
+								margin-right: 8rpx;
+							}
+
+							text {
+								font-weight: 500;
+								font-size: 28rpx;
+								/* identical to box height */
+
+								text-align: center;
+
+								color: #744B0D;
+							}
+						}
+					}
+				}
+
+			}
+		}
+
+		.list-content2 {
+			.item {
+				display: flex;
+				box-sizing: border-box;
+				width: 702rpx;
+				height: 270rpx;
+				background: #292929;
+				border-radius: 16rpx;
+				margin: auto;
+				margin-top: 20rpx;
+
+				.item-1 {
+					position: relative;
+					width: 270rpx;
+					height: 270rpx;
+
+					.item-1-sign {
+						z-index: 2;
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 84rpx;
+						height: 40rpx;
+					}
+
+					.item-1-out {
+						z-index: 1;
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 270rpx;
+						height: 270rpx;
+						border-radius: 16rpx;
+					}
+
+					.item-1-in {
+						z-index: 0;
+						position: relative;
+						left: 28rpx;
+						top: 4.34rpx;
+						width: 259.5rpx;
+						height: 259.5rpx;
+
+					}
+				}
+
+				.item-2 {
+					width: 380rpx;
+					margin-left: 32rpx;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 400;
+					font-size: 32rpx;
+					line-height: 44rpx;
+
+					color: #DDDDDD;
+
+					.item-2-1 {
+						margin-top: 16rpx;
+						font-weight: 600;
+						font-size: 32rpx;
+						line-height: 44rpx;
+						overflow: hidden; // 溢出隐藏
+						white-space: nowrap; // 强制一行
+						text-overflow: ellipsis; // 文字溢出显示省略号
+						color: #DDDDDD;
+					}
+
+					.item-2-2 {
+						display: flex;
+						align-items: center;
+						line-height: 0;
+						vertical-align: middle;
+						margin-top: 8rpx;
+
+						.item-2-2-1 {
+							width: 40rpx;
+							height: 40rpx;
+							border-radius: 20rpx;
+						}
+
+						.item-2-2-2 {
+							flex: 1;
+
+							padding-left: 8rpx;
+							font-weight: 400;
+							font-size: 28rpx;
+							line-height: 40rpx;
+							/* identical to box height */
+
+
+							color: #AEAEAE;
+							overflow: hidden; // 溢出隐藏
+							white-space: nowrap; // 强制一行
+							text-overflow: ellipsis; // 文字溢出显示省略号
+						}
+					}
+
+					.item-2-3 {
+						margin-top: 8rpx;
+						font-weight: 400;
+						font-size: 28rpx;
+						line-height: 40rpx;
+						/* identical to box height */
+
+
+						color: #AEAEAE;
+					}
+
+					.item-2-4 {
+						margin-top: 94rpx;
+						display: flex;
+						align-items: center;
+
+						.item-2-4-1 {
+							flex: 1;
+							font-family: 'PingFang SC';
+							font-style: normal;
+							font-weight: 600;
+							font-size: 32rpx;
+							line-height: 44rpx;
+
+							color: #AEAEAE;
+						}
+
+						.item-2-4-2 {
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							width: 208rpx;
+							height: 48rpx;
+							border-radius: 24rpx;
+							background: linear-gradient(92.75deg, #F4C85F 53.95%, #FFEBBC 151.4%);
+
+							text {
+								font-weight: 500;
+								font-size: 28rpx;
+								/* identical to box height */
+
+								text-align: center;
+
+								color: #744B0D;
+							}
+						}
+					}
+				}
+
+			}
+		}
+
+		.list-content3 {
+			display: flex;
+			flex-wrap: wrap;
+
+			.item {
+				box-sizing: border-box;
+				width: 346rpx;
+				height: 448rpx;
+				border: 1rpx solid #5F5F5F;
+				border-radius: 20rpx;
+				margin-top: 20rpx;
+				margin-left: 20rpx;
+
+				.cover-content {
+					position: relative;
+					width: 304rpx;
+					height: 304rpx;
+					margin: auto;
 					margin-top: 20rpx;
+
+					.cover-img {
+						width: 100%;
+						height: 100%;
+					}
+
+					.cover-turn {
+						z-index: 1;
+						position: absolute;
+						top: 0;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						margin: auto;
+						transform-origin: 50% 50%;
+						width: 279rpx;
+						height: 279rpx;
+						// animation: 3.7s turning linear infinite;
+					}
+
+					.cover-turn1 {
+						z-index: 2;
+						position: absolute;
+						top: 0;
+						left: 0;
+						bottom: 0;
+						right: 0;
+						margin: auto;
+						transform-origin: 50% 50%;
+						width: 180rpx;
+						height: 180rpx;
+						border-radius: 90rpx;
+						// animation: 3.7s turning linear infinite;
+					}
+
+					.cover-play {
+						z-index: 2;
+						position: absolute;
+						top: 0;
+						left: 0;
+						bottom: 0;
+						right: 0;
+						margin: auto;
+						width: 63.36rpx;
+						height: 63.36rpx;
+						border-radius: 31.68rpx;
+					}
+
 				}
 
-				&-dit {
+				.item-row1 {
+					width: 344rpx;
+					padding-top: 16rpx;
+					text-indent: 20rpx;
+					margin: auto;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 600;
 					font-size: 28rpx;
 					line-height: 40rpx;
-					color: #AC9147;
+					color: #DDDDDD;
+					overflow: hidden; // 溢出隐藏
+					white-space: nowrap; // 强制一行
+					text-overflow: ellipsis; // 文字溢出显示省略号
+
+				}
+
+				.item-row2 {
+					display: flex;
+					width: 344rpx;
+					padding-top: 12rpx;
+					margin: auto;
+
+					.item-row2-1 {
+						width: 50%;
+						text-indent: 20rpx;
+						font-family: 'PingFang SC';
+						font-style: normal;
+						font-weight: 400;
+						font-size: 24rpx;
+						line-height: 34rpx;
+						color: #AEAEAE;
+						overflow: hidden; // 溢出隐藏
+						white-space: nowrap; // 强制一行
+						text-overflow: ellipsis; // 文字溢出显示省略号
+					}
+
+					.item-row2-2 {
+						box-sizing: border-box;
+						width: 50%;
+						text-align: right;
+						padding-right: 16rpx;
+						font-family: 'PingFang SC';
+						font-style: normal;
+						font-weight: 400;
+						font-size: 24rpx;
+						line-height: 34rpx;
+						color: #D10910;
+						overflow: hidden; // 溢出隐藏
+						white-space: nowrap; // 强制一行
+						text-overflow: ellipsis; // 文字溢出显示省略号
+
+						.row2-2-unit {}
+
+						.row2-2-price {
+							font-family: 'PingFang SC';
+							font-style: normal;
+							font-weight: 600;
+							font-size: 32rpx;
+							line-height: 44rpx;
+
+							color: #D10910;
+
+						}
+					}
 				}
 			}
 		}
-	}
 
-	.need-login {
-		position: fixed;
-		bottom: 10rpx;
-		left: 20rpx;
-		right: 20rpx;
-		background-color: #201A17;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 0 40rpx;
-		border-radius: 100rpx;
-		height: 110rpx;
-		-webkit-animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-		animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+		.need-login {
+			position: fixed;
+			bottom: 10rpx;
+			left: 20rpx;
+			right: 20rpx;
+			background-color: #201A17;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 40rpx;
+			border-radius: 100rpx;
+			height: 110rpx;
+			-webkit-animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+			animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 
-		text {
-			font-size: 32rpx;
-			line-height: 44rpx;
+			text {
+				font-size: 32rpx;
+				line-height: 44rpx;
 
-			color: #ECECEC;
-		}
+				color: #ECECEC;
+			}
 
-		.to-login {
-			padding: 0 60rpx;
-			height: 80rpx;
-			line-height: 80rpx;
-			font-size: 32rpx;
-			color: #ECECEC;
-			background: #D10910;
-			border-radius: 76rpx;
+			.to-login {
+				padding: 0 60rpx;
+				height: 80rpx;
+				line-height: 80rpx;
+				font-size: 32rpx;
+				color: #ECECEC;
+				background: #D10910;
+				border-radius: 76rpx;
 
-			.close-btn {
-				font-size: 16rpx;
-				color: #686868
+				.close-btn {
+					font-size: 16rpx;
+					color: #686868
+				}
 			}
 		}
-	}
 
-	@-webkit-keyframes slide-in-bottom {
-		0% {
-			-webkit-transform: translateY(1000px);
-			transform: translateY(1000px);
-			opacity: 0;
+		@-webkit-keyframes slide-in-bottom {
+			0% {
+				-webkit-transform: translateY(1000px);
+				transform: translateY(1000px);
+				opacity: 0;
+			}
+
+			100% {
+				-webkit-transform: translateY(0);
+				transform: translateY(0);
+				opacity: 1;
+			}
 		}
 
-		100% {
-			-webkit-transform: translateY(0);
-			transform: translateY(0);
-			opacity: 1;
-		}
-	}
+		@keyframes slide-in-bottom {
+			0% {
+				-webkit-transform: translateY(1000px);
+				transform: translateY(1000px);
+				opacity: 0;
+			}
 
-	@keyframes slide-in-bottom {
-		0% {
-			-webkit-transform: translateY(1000px);
-			transform: translateY(1000px);
-			opacity: 0;
+			100% {
+				-webkit-transform: translateY(0);
+				transform: translateY(0);
+				opacity: 1;
+			}
 		}
 
-		100% {
-			-webkit-transform: translateY(0);
-			transform: translateY(0);
-			opacity: 1;
+		.logo {
+			width: 154rpx;
+			height: 48rpx;
 		}
-	}
-
-	.logo {
-		width: 154rpx;
-		height: 48rpx;
 	}
 </style>
