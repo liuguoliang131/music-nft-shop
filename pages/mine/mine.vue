@@ -20,40 +20,77 @@
 			<view class="mine-notice-title">
 				{{userInfo.public_key}}
 			</view>
-			<image src="https://file.yuanyinfu.com/front-end-lib/copy-icon.png" class="mine-notice-copy" mode="" @click='copy(userInfo.public_key)'>
+			<image src="https://file.yuanyinfu.com/front-end-lib/copy-icon.png" class="mine-notice-copy" mode=""
+				@click='copy(userInfo.public_key)'>
 			</image>
 		</view>
 
-
-		<view class="mine-list">
-			<view v-if="userInfo.identity_type===2" class="mine-list-item" @click="goToInviteFriends">
+		<!-- 大客户 -->
+		<view class="mine-list" v-if="userInfo.identity_type===2">
+			<view class="mine-list-item" @click="goToInviteFriends">
 				<!-- <image src="../../static/yaoqing.png" class="mine-list-item-image" mode=""></image> -->
 				<text class="mine-list-item-image mine-list-item-bgimage"></text>
 				邀请好友
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
-			<view v-if="userInfo.identity_type===2" class="mine-list-item" @click="goToMyTeam">
-				<image src="https://file.yuanyinfu.com/front-end-lib/team.png" class="mine-list-item-image" mode=""></image>
+			<view class="mine-list-item" @click="goToMyTeam">
+				<image src="https://file.yuanyinfu.com/front-end-lib/team.png" class="mine-list-item-image" mode="">
+				</image>
 				我的团队
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 			<view class="mine-list-item" @click="goToCollections">
-				<image src="https://file.yuanyinfu.com/front-end-lib/mine.png" class="mine-list-item-image" mode=""></image>
-				我的唱片
+				<image src="https://file.yuanyinfu.com/front-end-lib/mine.png" class="mine-list-item-image" mode="">
+				</image>
+				我的专辑
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 			<view class="mine-list-item" @click="goToOrder">
-				<image src="https://file.yuanyinfu.com/front-end-lib/order.png" class="mine-list-item-image" mode=""></image>
-				我的订单
+				<image src="https://file.yuanyinfu.com/front-end-lib/order.png" class="mine-list-item-image" mode="">
+				</image>
+				专辑订单
+				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
+			</view>
+			<view class="mine-list-item" @click="goToSubgiftRecord">
+				<image src="https://file.yuanyinfu.com/front-end-lib/order.png" class="mine-list-item-image" mode="">
+				</image>
+				转赠记录
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 			<view class="mine-list-item" @click="goCustomer">
-				<image src="https://file.yuanyinfu.com/front-end-lib/kefu.png" class="mine-list-item-image" mode=""></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/kefu.png" class="mine-list-item-image" mode="">
+				</image>
 				联系客服
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 		</view>
-
+		<!-- 小客户 -->
+		<view class="mine-list" v-else>
+			<view class="mine-list-item" @click="goToCollections">
+				<image src="https://file.yuanyinfu.com/front-end-lib/mine.png" class="mine-list-item-image" mode="">
+				</image>
+				我的唱片
+				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
+			</view>
+			<view class="mine-list-item" @click="goToOrder">
+				<image src="https://file.yuanyinfu.com/front-end-lib/order.png" class="mine-list-item-image" mode="">
+				</image>
+				我的订单
+				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
+			</view>
+			<view class="mine-list-item" @click="goToSubgiftRecord">
+				<image src="https://file.yuanyinfu.com/front-end-lib/order.png" class="mine-list-item-image" mode="">
+				</image>
+				转赠记录
+				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
+			</view>
+			<view class="mine-list-item" @click="goCustomer">
+				<image src="https://file.yuanyinfu.com/front-end-lib/kefu.png" class="mine-list-item-image" mode="">
+				</image>
+				联系客服
+				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
+			</view>
+		</view>
 
 		<view class="logout" @click="goToLogin">
 			退出登录
@@ -121,6 +158,11 @@
 			goToMyTeam() {
 				uni.navigateTo({
 					url: '/pages/myTeam/myTeam'
+				})
+			},
+			goToSubgiftRecord() {
+				uni.navigateTo({
+					url: '/pages/subgiftRecord/subgiftRecord'
 				})
 			},
 			async getUserInfo() {

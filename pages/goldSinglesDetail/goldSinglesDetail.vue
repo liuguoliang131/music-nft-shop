@@ -640,8 +640,8 @@
 				}
 			},
 			handBuyThe() {
-				if (!this.$store.state.user.inApp) {
-					this.handGoDownload()
+				if (!this.$store.state.user.token) {
+					return goLogin()
 				} else {
 					this.$refs.popup.show()
 				}

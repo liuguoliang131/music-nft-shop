@@ -665,7 +665,7 @@
 			},
 			handBuyThe() {
 				if (!this.$store.state.user.token) {
-					goLogin()
+					return goLogin()
 				} else {
 					this.$refs.popup.show()
 				}

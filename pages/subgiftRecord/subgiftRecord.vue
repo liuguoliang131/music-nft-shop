@@ -111,7 +111,10 @@
 			}
 		},
 		onLoad(e) {
-			this.activeBar = Number(e.tabbar)
+			if (e.tabbar) {
+				this.activeBar = Number(e.tabbar)
+			}
+
 		},
 		methods: {
 			filterTimes(e) {

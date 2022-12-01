@@ -146,6 +146,13 @@
 				</view>
 			</view>
 		</my-scroll>
+		<view class="container-bottom" v-if="!isLogin">
+			<view class="need-login">
+				<text>元音符-原创音乐聚集地</text>
+				<button class="to-login" @tap="handLogin()">登录</button>
+				<text class="cuIcon-close close-btn" style="" @click="handleCloseLogintag"></text>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -179,6 +186,7 @@
 		},
 		data() {
 			return {
+				isLogin: true,
 				tabList: [{
 						name: '数字音乐',
 						id: 3,
@@ -365,7 +373,7 @@
 				this.getList()
 			},
 			handleCloseLogintag() {
-				this.loginFlag = true
+				this.isLogin = true
 			},
 			handleScrollTolower() {
 				if (window.requestAnimationFrame && typeof window.requestAnimationFrame === 'function') {
@@ -452,7 +460,7 @@
 		},
 		onShow() {
 			this.userInfo = JSON.parse(JSON.stringify(this.$store.state.user.userInfo))
-
+			this.isLogin = !!this.$store.state.user.token
 			uni.$on('updateData', (data) => {
 				this.initParams()
 				this.getList()
