@@ -11,6 +11,14 @@
 			<view class="box1-1">
 				<image :src="detail.index_url" mode=""></image>
 				<view class="sideline"></view>
+				<image class="rare" v-if="detail.rare_type==='SSR'"
+					src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
+				<image class="rare" v-else-if="detail.rare_type==='UR'"
+					src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode=""></image>
+				<image class="rare" v-else-if="detail.rare_type==='R'"
+					src="https://file.yuanyinfu.com/front-end-lib/R.png" mode=""></image>
+				<image class="rare" v-else-if="detail.rare_type==='SR'"
+					src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode=""></image>
 			</view>
 			<view class="box1-2">
 				<view class="box1-2-1">
@@ -358,6 +366,7 @@
 				position: relative;
 				width: 240rpx;
 				height: 240rpx;
+				border-radius: 20rpx;
 
 				image {
 					width: 240rpx;
@@ -376,6 +385,15 @@
 					height: 220rpx;
 					border: 1rpx solid rgba(255, 255, 255, 0.2);
 					border-radius: 20rpx;
+				}
+
+				.rare {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 84rpx;
+					height: 40rpx;
+					border-radius: 0;
 				}
 			}
 

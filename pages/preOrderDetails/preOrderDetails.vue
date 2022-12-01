@@ -24,8 +24,7 @@
 						src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode=""></image>
 					<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='R'"
 						src="https://file.yuanyinfu.com/front-end-lib/R.png" mode=""></image>
-					<!-- <image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='N'"
-						src="https://file.yuanyinfu.com/front-end-lib/N.png" mode=""></image> -->
+
 					<image v-show="!$store.state.publicState.isApprove" v-else-if="data.rare_type==='SR'"
 						src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode=""></image>
 					{{data.name}}
