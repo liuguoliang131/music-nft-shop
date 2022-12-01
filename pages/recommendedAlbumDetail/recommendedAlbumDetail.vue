@@ -353,6 +353,13 @@
 				</view>
 			</view>
 		</wyb-popup>
+		<floating-component v-if="$store.state.publicState.music.show">
+			<my-audio ref="myAudio" :name="$store.state.publicState.music.product_name" class="audio1" id="audio1"
+				width="700" :poster="$store.state.publicState.music.index_url"
+				:src="$store.state.publicState.music.music_url" :play.sync="$store.state.publicState.music.play"
+				autoplay>
+			</my-audio>
+		</floating-component>
 	</view>
 </template>
 
@@ -361,6 +368,8 @@
 	import NavHead from '../../components/navHead.vue'
 	import NavHeadPre from '../../components/navHeadPre.vue'
 	import MySwiper from '../../components/mySwiper.vue'
+	import MyAudio from '../../components/my-audio/my-audio.vue'
+	import FloatingComponent from '../../components/floatingComponent.vue'
 	import {
 		collections_index_detail,
 		h5_collections_user_if_approve,
@@ -386,7 +395,9 @@
 			WybPopup,
 			NavHead,
 			NavHeadPre,
-			MySwiper
+			MySwiper,
+			FloatingComponent,
+			MyAudio
 		},
 		mixins: [Mixins, RefreshMixins],
 		data() {
@@ -617,8 +628,8 @@
 					})
 				}
 
-				if (!this.$store.state.user.inApp) {
-					return this.handGoDownload()
+				if (!this.$store.state.user.token) {
+					return goLogin()
 				}
 			},
 			handBuyThe() {
@@ -745,30 +756,38 @@
 				}
 			},
 			async handPlay() {
-				if (!this.$store.state.user.inApp) {
-					return this.handGoDownload()
+				if (!this.$store.state.user.token) {
+					return goLogin()
 				}
 				try {
-					// const res = await this.$post(collections_index_musicPlay, {
-					// 	product_item_id: this.product_item_id
-					// })
-					// if (res.code !== 0) {
-					// 	return uni.showToast({
-					// 		title: res.msg,
-					// 		icon: 'none'
-					// 	})
-					// }
-					let data = {
-						"page": "musicPlayPage",
-						"isNeedLogin": false,
-						"params": {
-							product_item_id: this.product_item_id
+					const res = await post1(collections_index_play, {
+						product_item_id: this.product_item_id
+					})
+					if (this.$store.state.user.inApp) {
+						let data = {
+							"page": "musicPlayPage",
+							"isNeedLogin": false,
+							"params": {
+								product_item_id: this.product_item_id
+							}
 						}
+						openAppPage(data)
+					} else {
+						const res = await this.$post(collections_index_musicPlay, {
+							product_item_id: this.product_item_id
+						})
+						if (res.code !== 0) {
+							return uni.showToast({
+								title: res.msg,
+								icon: 'none'
+							})
+						}
+						const musicInfo = res.data
+						musicInfo.play = true
+						musicInfo.show = true
+						this.$store.commit('publicState/set_music', musicInfo)
+
 					}
-					// const res1 = await this.$post(collections_index_play, {
-					// 	product_item_id: this.product_item_id
-					// })
-					openAppPage(data)
 				} catch (e) {
 					//TODO handle the exception
 					uni.showToast({

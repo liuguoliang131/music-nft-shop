@@ -237,7 +237,10 @@
 		overflow: hidden;
 		height: 3.5em;
 		border-radius: 0.2em;
-		border: 1px solid #e0e0e0;
+		border: 1px solid rgba(0, 0, 0, 0.3);
+		background-color: #353535;
+		padding: 0.5em 0;
+		border-radius: 0.5em;
 	}
 
 	.cover-warp {
@@ -245,9 +248,10 @@
 		flex-shrink: 0;
 		width: 3.5em;
 		height: 3.5em;
+		margin-left: 0.5em;
 
 		&.hasbg {
-			background-color: #e6e6e6;
+			background-color: #353535;
 		}
 
 		.cover-img {
@@ -277,13 +281,13 @@
 		position: relative;
 		flex: 1;
 		padding: 0 1em;
-		background-color: #fcfcfc;
+		background-color: #353535;
 
 		.audio-title {
 			position: absolute;
 			left: 10%;
 			top: 0;
-			color: #353535;
+			color: #AEAEAE;
 		}
 
 		.audio-author {

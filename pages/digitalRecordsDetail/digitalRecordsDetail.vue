@@ -292,10 +292,10 @@
 				post(collections_user_collectionInfo, {
 					owner_id: e
 				}).then(res => {
-					this.detail = res.data
+					this.detail = Object.assign(this.detail, res.data)
 				})
 
-				this.detail = Object.assign(this.detail, res.data)
+
 			},
 			handViewCert() {
 				this.$refs.dialog.show()

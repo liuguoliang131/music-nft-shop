@@ -65,8 +65,10 @@
 								￥{{item.sale_price}}
 							</view>
 							<view class="item-2-4-2" @tap.stop="handPlay(item)">
-								<image src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""></image>
-								<!-- <image src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode=""></image> -->
+								<image
+									v-if="item.product_item_id===$store.state.publicState.music.product_item_id&&$store.state.publicState.music.product_item_id!==''"
+									src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode=""></image>
+								<image v-else src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""></image>
 								<text>立即试听</text>
 							</view>
 						</view>
@@ -124,10 +126,14 @@
 						<image class="cover-turn" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode="">
 						</image>
 						<image class="cover-turn1" :src="item.index_img" mode=""></image>
-						<image v-show="item.publish_type===1" class="cover-play"
+						<image
+							v-if="item.product_item_id===$store.state.publicState.music.product_item_id&&$store.state.publicState.music.product_item_id!==''"
+							v-show="item.publish_type===1" class="cover-play"
+							src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode="" @tap.stop="handPlay(item)">
+						</image>
+						<image v-else v-show="item.publish_type===1" class="cover-play"
 							src="https://file.yuanyinfu.com/front-end-lib/play.png" mode="" @tap.stop="handPlay(item)">
 						</image>
-						<!-- <image class="cover-play" src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode="" @tap.stop="handPlay(item)"></image> -->
 					</view>
 					<view class="item-row1">
 						{{item.product_name}}
@@ -153,6 +159,13 @@
 				<text class="cuIcon-close close-btn" style="" @click="handleCloseLogintag"></text>
 			</view>
 		</view>
+		<floating-component v-if="$store.state.publicState.music.show">
+			<my-audio ref="myAudio" :name="$store.state.publicState.music.product_name" class="audio1" id="audio1"
+				width="700" :poster="$store.state.publicState.music.index_url"
+				:src="$store.state.publicState.music.music_url" :play.sync="$store.state.publicState.music.play"
+				autoplay>
+			</my-audio>
+		</floating-component>
 	</view>
 </template>
 
@@ -160,6 +173,8 @@
 	import MyTab from '../../components/myTab.vue'
 	import NavHead from '../../components/navHead.vue'
 	import MyScroll from '../../components/myScroll.vue'
+	import MyAudio from '../../components/my-audio/my-audio.vue'
+	import FloatingComponent from '../../components/floatingComponent.vue'
 	import {
 		post,
 		post1
@@ -182,7 +197,9 @@
 		components: {
 			MyTab,
 			NavHead,
-			MyScroll
+			MyScroll,
+			FloatingComponent,
+			MyAudio
 		},
 		data() {
 			return {
@@ -445,6 +462,10 @@
 								icon: 'none'
 							})
 						}
+						const musicInfo = res.data
+						musicInfo.play = true
+						musicInfo.show = true
+						this.$store.commit('publicState/set_music', musicInfo)
 
 					}
 

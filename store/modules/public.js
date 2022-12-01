@@ -9,7 +9,16 @@ export default {
 		appConfig: getStorageAppConfig(),
 		noNetwork: false, //网络状态
 		isApprove: isApp(),
-		refresh: false //是否应该刷新了
+		refresh: false, //是否应该刷新了
+		music: {
+			show: false,
+			play: false,
+			index_url: '', //封面图
+			music_url: '', //歌曲链接
+			author_name: '',
+			product_item_id: '',
+			product_name: '', //歌名
+		} // 当前播放的音乐信息
 	},
 	mutations: {
 		set_noNetwork(state, data) {
@@ -23,6 +32,9 @@ export default {
 		},
 		set_refresh(state, data) {
 			state.refresh = data
+		},
+		set_music(state, data) {
+			state.music = data
 		}
 
 	}
