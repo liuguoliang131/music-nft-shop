@@ -82,7 +82,7 @@
 			</view>
 			<view class="box1-2">
 				<view class="box1-2-1">
-					{{data.name}}
+					{{data.product_name}}
 				</view>
 				<!-- <view class="box1-2-2">
 					<view class="box1-2-2-r">

@@ -217,14 +217,14 @@
 	import MyDialog from '../../components/dialog.vue'
 	import {
 		collections_user_collectionInfo,
-		h5_order_detail
+		h5_order_detail,
+		h5_collections_donation_checkout
 	} from '../../request/api.js'
 	import {
 		post
 	} from '../../request/index.js'
 	import {
 		openAppPage,
-		jumpBefore,
 		playAlbum
 	} from '../../utils/index.js'
 	import dayjs from 'dayjs'
@@ -300,9 +300,30 @@
 			handViewCert() {
 				this.$refs.dialog.show()
 			},
-			handZhuanZeng() {
-				// {"page":"sendDiskGiftPage","isNeedLogin”:true,"params":{"product_item_id": 29, "owner_id": 2}}
-
+			async handZhuanZeng() {
+				const res = await this.$post(h5_collections_donation_checkout, {
+					owner_id: this.detail.owner_id,
+					product_item_id: this.detail.product_item_id
+				})
+				if (res.code !== 0) {
+					if (res.code === 710) {
+						uni.showToast({
+							title: '还没有实名认证,即将跳转到实名认证页',
+							icon: 'none'
+						})
+						setTimeout(() => {
+							uni.navigateTo({
+								url: `/pages/idAuth/idAuth`
+							})
+						}, 2000)
+					} else {
+						uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+					return false
+				}
 				if (this.$store.state.user.inApp) {
 					let appConfig = window.localStorage.getItem('AppConfigInfo')
 					if (appConfig) {
@@ -325,7 +346,9 @@
 						})
 					}
 				} else {
-					jumpBefore(null)
+					uni.navigateTo({
+						url: `/pages/subgift/subgift?product_type=3&info=${JSON.stringify(res.data.info)}`
+					})
 				}
 			},
 			handTingGe() {

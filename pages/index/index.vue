@@ -158,9 +158,9 @@
 		post1
 	} from '@/request/index.js'
 	import {
-		collections_index_albumMusicList, //专辑
-		collections_index_singleMusicList, //单曲
-		collections_index_digitMusicList, //数字音乐
+		h5_collections_index_albumMusicList, //专辑
+		h5_collections_index_singleMusicList, //单曲
+		h5_collections_index_digitMusicList, //数字音乐
 		collections_index_musicPlay,
 		collections_index_play
 	} from '@/request/api.js'
@@ -264,7 +264,7 @@
 			},
 			async getSingles() {
 				try {
-					const res = await post1(collections_index_singleMusicList, {
+					const res = await post1(h5_collections_index_singleMusicList, {
 						page: this.page++
 					})
 
@@ -294,7 +294,7 @@
 			},
 			async getAlbum() {
 				try {
-					const res = await post1(collections_index_albumMusicList, {
+					const res = await post1(h5_collections_index_albumMusicList, {
 						page: this.page++
 					})
 
@@ -323,7 +323,7 @@
 			},
 			async getDigital() {
 				try {
-					const res = await post1(collections_index_digitMusicList, {
+					const res = await post1(h5_collections_index_digitMusicList, {
 						page: this.page++
 					})
 

@@ -111,3 +111,21 @@ export const h5_collections_index_info = '/h5/collections_index/info'
  */
 
 export const h5_order_cancle = '/h5/collections_order/cancel'
+
+
+// v1.2版本
+// 转赠前的检查
+export const h5_collections_donation_checkout = '/h5/collections_donation/checkout'
+// 根据资产地址获取用户信息
+export const h5_user_check_user = '/h5/user/check_user'
+// 确认转赠
+export const h5_collections_donation_submit = '/h5/collections_donation/submit'
+// 转赠记录列表
+export const h5_collections_donation_list = '/h5/collections_donation/list'
+// 【首页】单曲列表
+export const h5_collections_index_singleMusicList = '/h5/collections_index/singleMusicList'
+
+// 【首页】数字音乐列表
+export const h5_collections_index_digitMusicList = '/h5/collections_index/digitMusicList'
+// 【首页】黄金专辑列表
+export const h5_collections_index_albumMusicList = '/h5/collections_index/albumMusicList'

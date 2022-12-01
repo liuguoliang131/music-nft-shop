@@ -244,6 +244,22 @@
 				"navigationStyle": "custom"
 			}
 
+		}, {
+			"path": "pages/subgift/subgift",
+			"style": {
+				"navigationBarTitleText": "转赠",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/subgiftRecord/subgiftRecord",
+			"style": {
+				"navigationBarTitleText": "转赠记录",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
 		}
 	],
 	"globalStyle": {
