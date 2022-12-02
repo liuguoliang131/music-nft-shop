@@ -229,7 +229,7 @@
 				try {
 					const res = await this.$post(h5_user_check_user, {
 						user_address: this.user_address,
-						is_check: this.certified ? 2 : 1
+						is_check: 1
 					})
 					if (res.code !== 0) {
 						return uni.showToast({

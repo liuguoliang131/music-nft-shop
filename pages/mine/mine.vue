@@ -79,7 +79,8 @@
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 			<view class="mine-list-item" @click="goToSubgiftRecord">
-				<image src="https://file.yuanyinfu.com/front-end-lib/order.png" class="mine-list-item-image" mode="">
+				<image src="https://file.yuanyinfu.com/front-end-lib/subgiftRecordIcon.png" class="mine-list-item-image"
+					mode="">
 				</image>
 				转赠记录
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
@@ -210,8 +211,8 @@
 			// position: absolute;
 			// bottom: 240rpx;
 			// left: 0;
-			padding-top: 360rpx;
-			padding-bottom: 50rpx;
+			margin-top: 360rpx;
+			margin-bottom: 50rpx;
 			width: 100%;
 		}
 
