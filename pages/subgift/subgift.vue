@@ -116,7 +116,7 @@
 		</view>
 		<view class="footer"></view>
 		<view :class="['container-btn']" v-show="addressCheck" @tap="handSubgift">确认转赠</view>
-		<view :class="['container-btn','cancel']" v-hide="addressCheck">确认转赠</view>
+		<view :class="['container-btn','cancel']" v-show="!addressCheck">确认转赠</view>
 
 		<wyb-popup ref="popup" type="bottom" height="701" width="750" radius="6" bgColor="#ffffff" :showCloseIcon="true"
 			@hide="clearPassword()">
@@ -229,7 +229,7 @@
 				try {
 					const res = await this.$post(h5_user_check_user, {
 						user_address: this.user_address,
-						is_check: this.certified ? '2' : '1'
+						is_check: this.certified ? 2 : 1
 					})
 					if (res.code !== 0) {
 						return uni.showToast({
