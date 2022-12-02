@@ -129,3 +129,5 @@ export const h5_collections_index_singleMusicList = '/h5/collections_index/singl
 export const h5_collections_index_digitMusicList = '/h5/collections_index/digitMusicList'
 // 【首页】黄金专辑列表
 export const h5_collections_index_albumMusicList = '/h5/collections_index/albumMusicList'
+// 获取奇点积分余额
+export const h5_user_getIntegral = '/h5/user/getIntegral'

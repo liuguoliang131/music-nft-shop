@@ -101,7 +101,7 @@
 			<view class="box3-row1">
 				<view class="row1-1">奇点余额：</view>
 				<view class="row1-2">
-					<text class="row1-2-1">{{myAmount}}</text>奇点
+					<text class="row1-2-1">{{usable_integral}}</text>奇点
 				</view>
 				<view class="row1-3" @tap="handRecharge">
 					充值<image src="https://file.yuanyinfu.com/front-end-lib/gt.png" mode=""></image>
@@ -164,7 +164,7 @@
 	} from '../../utils/index.js'
 	import {
 		h5_collections_user_if_approve,
-		h5_collections_user_getAmount,
+		h5_user_getIntegral,
 		h5_collections_user_if_password,
 		h5_user_check_user,
 		h5_collections_donation_submit
@@ -204,7 +204,7 @@
 				password: [],
 				keyboardList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'C', '0', '清空'],
 				certified: false, //是否实名认证
-				myAmount: 0, //余额
+				usable_integral: 0, //积分余额
 				hasPw: null //是否设置了密码
 			};
 		},
@@ -291,7 +291,7 @@
 					if (this.hasPw === null) {
 						return false
 					} else if (this.hasPw === true) {
-						if (this.myAmount - Number(this.detail.donation_fee) >= 0) {
+						if (this.usable_integral - Number(this.detail.donation_fee) >= 0) {
 							this.$refs.popup.show()
 						} else {
 							this.$refs.myDialog.show()
@@ -366,14 +366,14 @@
 				// 	}
 				// })
 
-				this.$post(h5_collections_user_getAmount).then(res => {
+				this.$post(h5_user_getIntegral).then(res => {
 					if (res.code !== 0) {
 						return uni.showToast({
 							icon: 'none',
 							title: res.msg
 						})
 					}
-					this.myAmount = res.data.money_account.amount || 0
+					this.usable_integral = res.data.usable_integral || 0
 					this.$post(h5_collections_user_if_password).then(res1 => {
 						this.hasPw = res1.data === 'false' ? false : true
 
