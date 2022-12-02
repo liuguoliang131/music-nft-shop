@@ -23,7 +23,7 @@
 					<view class="item-right-1">
 						<view class="right-1-1">{{item.product_name}}</view>
 						<view class="right-1-2">
-							<text v-if="item.donation_status_desc==='转出中'" class="status1">转出中</text>
+							<text v-if="item.donation_status_desc==='处理中'" class="status1">转出中</text>
 							<text v-else-if="item.donation_status_desc==='转出成功'" class="status2">转出成功</text>
 							<text v-else-if="item.donation_status_desc==='转出失败'" class="status3">转出失败</text>
 						</view>
