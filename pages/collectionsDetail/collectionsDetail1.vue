@@ -87,7 +87,8 @@
 				<view style="border: 0.5px solid #AC9147;border-radius: 6px;padding: 10rpx;">
 					<view class="head">
 
-						<image src="https://file.yuanyinfu.com/front-end-lib/logo-black.jpg" style="width: 49px;height: 65px;" class="head-logo">
+						<image src="https://file.yuanyinfu.com/front-end-lib/logo-black.jpg"
+							style="width: 49px;height: 65px;" class="head-logo">
 						</image>
 
 						<view class="head-title">
@@ -145,8 +146,7 @@
 
 <script>
 	import {
-		collections_user_collectionInfo,
-		h5_order_detail
+		collections_user_collectionInfo
 	} from '../../request/api.js'
 	import {
 		isApp,

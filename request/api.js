@@ -97,7 +97,7 @@ export const h5_order_list = '/h5/collections_user/orderList'
 /**
  * @description 订单详情
  */
-export const h5_order_detail = '/h5/collections_user/orderInfo'
+export const h5_order_detail = '/h5/collections_order/detail'
 
 
 /**

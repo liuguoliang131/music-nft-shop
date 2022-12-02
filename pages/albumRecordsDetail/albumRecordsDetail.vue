@@ -193,7 +193,6 @@
 	import MyDialog from '../../components/dialog.vue'
 	import {
 		collections_user_collectionInfo,
-		h5_order_detail,
 		h5_collections_donation_checkout
 	} from '../../request/api.js'
 	import {

@@ -1034,6 +1034,7 @@
 		}
 
 		.need-login {
+			z-index: 9;
 			position: fixed;
 			bottom: 10rpx;
 			left: 20rpx;
