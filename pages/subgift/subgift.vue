@@ -223,9 +223,9 @@
 			},
 			// 校验地址
 			async handValid() {
-				if (!this.certified) {
-					return this.goIdAuth()
-				}
+				// if (!this.certified) {
+				// 	return this.goIdAuth()
+				// }
 				try {
 					const res = await this.$post(h5_user_check_user, {
 						user_address: this.user_address,
@@ -349,24 +349,24 @@
 			},
 			// 查询账户余额和是否设置零钱支付的密码
 			getUserAmountAndHasPw() {
-				this.$get(h5_collections_user_if_approve).then(res => {
-					if (res.code === 200 || res.code === 0) {
-						this.certified = res.data === 'true' ? true : false
-					} else if (res.code === 7) {
-						// 身份认证
-						// uni.navigateTo({
-						// 	url: `/pages/idAuth/idAuth`
-						// })
+				// this.$get(h5_collections_user_if_approve).then(res => {
+				// 	if (res.code === 200 || res.code === 0) {
+				// 		this.certified = res.data === 'true' ? true : false
+				// 	} else if (res.code === 7) {
+				// 		// 身份认证
+				// 		// uni.navigateTo({
+				// 		// 	url: `/pages/idAuth/idAuth`
+				// 		// })
 
-					} else {
-						return uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
-					}
-				})
+				// 	} else {
+				// 		return uni.showToast({
+				// 			title: res.msg,
+				// 			icon: 'none'
+				// 		})
+				// 	}
+				// })
 
-				post1(h5_collections_user_getAmount).then(res => {
+				this.$post(h5_collections_user_getAmount).then(res => {
 					if (res.code !== 0) {
 						return uni.showToast({
 							icon: 'none',
@@ -374,7 +374,7 @@
 						})
 					}
 					this.myAmount = res.data.money_account.amount || 0
-					post1(h5_collections_user_if_password).then(res1 => {
+					this.$post(h5_collections_user_if_password).then(res1 => {
 						this.hasPw = res1.data === 'false' ? false : true
 
 					}).catch(error1 => {
