@@ -139,6 +139,16 @@
 				this.getList()
 			},
 			async getList() {
+				// this.list = [{
+				// 	product_item_id: 1,
+				// 	index_url: 'https://file.yuanyinfu.com/front-end-lib/subgiftRecordIcon.png',
+				// 	product_name: 'aaaaaaaaaaasd啊实打实大苏打实打实大大大的是',
+				// 	donation_status_desc: '处理中',
+				// 	donation_no: 'asdasdsadasdsfafssdgerhrfasdsfdsfhvcxxbcbvc',
+				// 	donation_address: 'aaaaaaaaaaaaaassssssssssssssssssssdddddddddddddddddddfff',
+				// 	donation_time: 11223344
+				// }]
+				// return false
 				try {
 					this.loading = true
 					let params = {
@@ -320,11 +330,12 @@
 					font-weight: 400;
 					font-size: 24rpx;
 					line-height: 34rpx;
+					width: 500rpx;
+					height: 34rpx;
 					/* identical to box height */
 
 					color: #DDDDDD;
 					margin-top: 7rpx;
-					width: 500rpx;
 					overflow: hidden; // 溢出隐藏
 					white-space: nowrap; // 强制一行
 					text-overflow: ellipsis; // 文字溢出显示省略号
@@ -335,12 +346,13 @@
 					font-style: normal;
 					font-weight: 400;
 					font-size: 24rpx;
+					width: 500rpx;
 					line-height: 34rpx;
+					height: 34rpx;
 					/* identical to box height */
 
 					color: #777777;
 					margin-top: 8rpx;
-					width: 500rpx;
 					overflow: hidden; // 溢出隐藏
 					white-space: nowrap; // 强制一行
 					text-overflow: ellipsis; // 文字溢出显示省略号
@@ -351,11 +363,11 @@
 					font-style: normal;
 					font-weight: 400;
 					font-size: 24rpx;
-					line-height: 34rpx;
-					/* identical to box height */
-
-					margin-top: 8rpx;
 					width: 500rpx;
+					line-height: 34rpx;
+					height: 34rpx;
+					margin-top: 8rpx;
+
 					color: #777777;
 					overflow: hidden; // 溢出隐藏
 					white-space: nowrap; // 强制一行
