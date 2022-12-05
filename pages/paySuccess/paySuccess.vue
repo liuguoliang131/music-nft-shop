@@ -4,8 +4,12 @@
 		<view class="box1">
 			<image class="icon" src="https://file.yuanyinfu.com/front-end-lib/Frame41.png"></image>
 			<view class="row1">支付成功</view>
-			<view class="row2">实付 ￥{{order_price}}</view>
-			<view class="row3">恭喜您已购买成功</view>
+			<view class="row2">实付 ￥{{data.order_price}}</view>
+			<view class="row3">
+				<text v-if="data.show_note">{{data.show_note}}</text>
+				<text class="ver" v-if="data.gift_desc">|</text>
+				<text v-if="data.gift_desc">{{data.gift_desc}}</text>
+			</view>
 		</view>
 		<view class="box2">
 			<view class="btn1" @tap="handGoDetail">查看订单</view>
@@ -106,6 +110,10 @@
 				font-size: 28rpx;
 				line-height: 40rpx;
 				text-align: center;
+
+				.ver {
+					padding: 0 30rpx;
+				}
 			}
 		}
 
