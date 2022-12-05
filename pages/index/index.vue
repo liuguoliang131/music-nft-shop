@@ -276,7 +276,7 @@
 		},
 		methods: {
 			filterTimes(e) {
-				return dayjs(e).format('YYYY年MM月DD日 HH:mm')
+				return dayjs(e).format('MM月DD日 HH:mm')
 			},
 			initParams() {
 				this.list = []
