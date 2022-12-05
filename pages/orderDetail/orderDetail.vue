@@ -222,7 +222,6 @@
 <script>
 	import NavHead from '../../components/navHead.vue'
 	import {
-		collections_user_collectionInfo,
 		h5_order_detail
 	} from '../../request/api.js'
 	import {
@@ -400,6 +399,9 @@
 			.box1-2 {
 				flex: 1;
 				padding-left: 40rpx;
+				overflow: hidden; // 溢出隐藏
+				white-space: nowrap; // 强制一行
+				text-overflow: ellipsis; // 文字溢出显示省略号
 
 				.box1-2-1 {
 					font-weight: 500;

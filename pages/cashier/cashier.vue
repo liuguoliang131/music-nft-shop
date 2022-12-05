@@ -425,7 +425,8 @@
 						if (res.data.pay_status === 1) {
 							clearTimeout(this.timer)
 							uni.redirectTo({
-								url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}&order_id=${res.data.order_id}`
+								// url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}&order_id=${res.data.order_id}`
+								url: `/pages/paySuccess/paySuccess?data=${JSON.stringify(res.data)}`
 							})
 						} else {
 							uni.showToast({

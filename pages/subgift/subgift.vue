@@ -272,9 +272,20 @@
 						})
 					}
 					this.$refs.popup.close()
-					uni.navigateTo({
-						url: `/pages/subgiftRecord/subgiftRecord?tabbar=${this.product_type}`
+					uni.showModal({
+						showCancel: false,
+						confirmColor: '#DC2D1E',
+						confirmText: '立即前往',
+						content: '转赠申请成功，请前往转赠记录查看结果！',
+						success: (e) => {
+							if (e.confirm) {
+								uni.navigateTo({
+									url: `/pages/subgiftRecord/subgiftRecord?tabbar=${this.product_type}`
+								})
+							}
+						}
 					})
+
 
 				} catch (e) {
 					//TODO handle the exception

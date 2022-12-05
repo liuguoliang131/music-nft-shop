@@ -22,15 +22,20 @@
 		},
 		data() {
 			return {
-				order_no: '',
-				order_id: '',
-				order_price: '0.00',
-				product_item_id: ''
+				data: {
+					order_no: '',
+					order_id: '',
+					order_price: '0.00',
+					product_item_id: '',
+					product_type: null,
+					show_note: '',
+					gift_desc: ''
+				}
+
 			};
 		},
 		onLoad(option) {
-			this.order_id = option.order_id
-			this.order_price = option.order_price
+			this.data = Object.assign(this.data, JSON.parse(option.data))
 		},
 		methods: {
 			handleBack() {
@@ -50,7 +55,7 @@
 			// 去往订单详情
 			handGoDetail() {
 				uni.reLaunch({
-					url: '/pages/orderDetail/orderDetail?id=' + this.order_id
+					url: `/pages/orderList/orderList?product_type=${this.data.product_type}`
 				})
 			},
 			// 去往首页
@@ -100,6 +105,7 @@
 				margin-top: 8rpx;
 				font-size: 28rpx;
 				line-height: 40rpx;
+				text-align: center;
 			}
 		}
 

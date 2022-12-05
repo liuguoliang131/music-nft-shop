@@ -28,8 +28,8 @@
 							mode=""></image>
 						<image v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png"
 							mode=""></image>
-						<image v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png"
-							mode=""></image>
+						<!-- <image v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png"
+							mode=""></image> -->
 						<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
 					</view>
 				</view>
@@ -154,8 +154,11 @@
 		created() {
 
 		},
-		onLoad() {
+		onLoad(e) {
 			console.log('onload')
+			this.activeBar = Number(e.product_type)
+		},
+		onShow() {
 
 		},
 		filters: {

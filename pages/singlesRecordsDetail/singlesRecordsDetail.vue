@@ -266,7 +266,24 @@
 				this.$refs.dialog.show()
 			},
 			async handZhuanZeng() {
-				// {"page":"sendDiskGiftPage","isNeedLogin”:true,"params":{"product_item_id": 29, "owner_id": 2}}
+				// 购买后24小时内不允许转赠
+				const startDate = new Date(this.detail.start_time).getTime()
+				const now = Date.now()
+				const differ = Date.now() - startDate
+				const timeStr = dayjs(differ).format('HH时mm分ss秒')
+				if (differ < 86400000) {
+					return uni.showModal({
+						title: '温馨提示',
+						showCancel: false,
+						confirmColor: '#DC2D1E',
+						confirmText: '好的，我知道了',
+						content: `转赠需在${timeStr}后方可赠与实名认证用户!`,
+						success: (e) => {
+
+						}
+					})
+				}
+
 				const res = await this.$post(h5_collections_donation_checkout, {
 					owner_id: this.detail.owner_id,
 					product_item_id: this.detail.product_item_id
