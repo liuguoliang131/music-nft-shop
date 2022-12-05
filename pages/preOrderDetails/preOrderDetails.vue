@@ -294,17 +294,16 @@
 			<view class="h120"></view>
 			<view class="bottom1" v-if="share_sign" v-show="!$store.state.publicState.isApprove">
 				<view class="bottom1-2">
-					<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handGoDownload">已停售</view>
+					<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handOrLogin(3)">已停售</view>
 					<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0"
-						@tap="handGoDownload">
+						@tap="handOrLogin(0)">
 						{{countDown}}
 					</view>
-					<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1"
-						@tap="handGoDownload">
+					<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1" @tap="handBuyThe">
 						立即抢购
 					</view>
 					<view v-else-if="data.is_halt===1&&data.sale_status===2" class="bottom1-status2"
-						@tap="handGoDownload">
+						@tap="handOrLogin(2)">
 						已售罄</view>
 
 				</view>
@@ -774,15 +773,6 @@
 				const res = await post1(collections_index_visit, {
 					product_item_id: this.product_item_id
 				})
-			},
-			// 登陆还是下载
-			handGoDownload() {
-				if (!this.$store.state.user.token) {
-					goLogin()
-				} else {
-					goDownload()
-				}
-
 			}
 		},
 		onLoad(option) {
