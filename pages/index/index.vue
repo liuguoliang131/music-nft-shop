@@ -58,7 +58,7 @@
 							</view>
 						</view>
 						<view class="item-2-3" v-show="!$store.state.publicState.isApprove">
-							限量{{item.stock_num}}份
+							限量{{item.stock_num_desc}}份
 						</view>
 						<view class="item-2-4">
 							<view class="item-2-4-1" v-show="!$store.state.publicState.isApprove">
@@ -103,10 +103,22 @@
 					</view>
 					<view class="item-2">
 						<view class="item-2-1">
-							{{item.product_name}}
+							<view class="item-2-1-t">
+								{{item.product_name}}
+							</view>
+							<view class="item-2-1-s">
+								<text v-if="item.is_halt===2">已停售</text>
+								<text v-else-if="item.sale_status===0">未开售</text>
+								<text v-else-if="item.sale_status===1">开售中</text>
+								<text v-else-if="item.sale_status===2">已售罄</text>
+							</view>
+
 						</view>
 						<view class="item-2-3" v-show="!$store.state.publicState.isApprove">
-							限量{{item.stock_num}}份
+							{{filterTimes(item.sale_time*1000)}}发售
+						</view>
+						<view class="item-2-3" v-show="!$store.state.publicState.isApprove">
+							限量{{item.stock_num_desc}}份
 						</view>
 						<view class="item-2-4">
 							<view class="item-2-4-1" v-show="!$store.state.publicState.isApprove">
@@ -193,6 +205,7 @@
 		goLogin,
 		openAppPage
 	} from '../../utils/index.js'
+	import dayjs from 'dayjs'
 	export default {
 		components: {
 			MyTab,
@@ -262,6 +275,9 @@
 			}
 		},
 		methods: {
+			filterTimes(e) {
+				return dayjs(e).format('YYYY年MM月DD日 HH:mm')
+			},
 			initParams() {
 				this.list = []
 				this.page = 1
@@ -422,6 +438,9 @@
 				goLogin()
 			},
 			handGo(item) {
+				if (!this.$store.state.user.token) {
+					return this.handLogin()
+				}
 				if (this.activeBar === 1) {
 					uni.navigateTo({
 						url: `/pages/goldSinglesDetail/goldSinglesDetail?product_item_id=${item.product_item_id}`
@@ -439,7 +458,9 @@
 			},
 			async handPlay(item) {
 				try {
-
+					if (!this.$store.state.user.token) {
+						return this.handLogin()
+					}
 					const res = await post1(collections_index_play, {
 						product_item_id: item.product_item_id
 					})
@@ -693,13 +714,15 @@
 						font-size: 28rpx;
 						line-height: 40rpx;
 						/* identical to box height */
-
+						overflow: hidden; // 溢出隐藏
+						white-space: nowrap; // 强制一行
+						text-overflow: ellipsis; // 文字溢出显示省略号
 
 						color: #AEAEAE;
 					}
 
 					.item-2-4 {
-						margin-top: 40rpx;
+						margin-top: 46rpx;
 						display: flex;
 						align-items: center;
 
@@ -803,6 +826,7 @@
 					color: #DDDDDD;
 
 					.item-2-1 {
+						display: flex;
 						margin-top: 16rpx;
 						font-weight: 600;
 						font-size: 32rpx;
@@ -811,6 +835,19 @@
 						white-space: nowrap; // 强制一行
 						text-overflow: ellipsis; // 文字溢出显示省略号
 						color: #DDDDDD;
+
+						.item-2-1-t {
+							flex: 1;
+							overflow: hidden; // 溢出隐藏
+							white-space: nowrap; // 强制一行
+							text-overflow: ellipsis; // 文字溢出显示省略号
+						}
+
+						.item-2-1-s {
+							font-size: 24rpx;
+							color: #F4C85F;
+							font-weight: 400;
+						}
 					}
 
 					.item-2-2 {
@@ -855,7 +892,7 @@
 					}
 
 					.item-2-4 {
-						margin-top: 94rpx;
+						margin-top: 46rpx;
 						display: flex;
 						align-items: center;
 
