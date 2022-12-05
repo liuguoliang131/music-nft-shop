@@ -29,13 +29,13 @@
 						</view>
 					</view>
 					<view class="item-right-2">
-						单号：{{item.donation_no}}
+						{{item.donation_no}}
 					</view>
 					<view class="item-right-3">
-						转入人: {{item.donation_address}}
+						{{item.donation_address}}
 					</view>
 					<view class="item-right-4">
-						转受时间: {{filterTimes(item.donation_time*1000)}}
+						{{item.donation_time}}
 					</view>
 				</view>
 			</view>
@@ -72,15 +72,7 @@
 					// 	page: 1,
 					// 	list: []
 					// },
-					{
-						name: '数字音乐',
-						id: 3,
-						activeNav: 0,
-						isFinish: false,
-						loading: false,
-						page: 1,
-						list: []
-					},
+
 					{
 						name: '黄金单曲',
 						id: 1,
@@ -98,10 +90,19 @@
 						loading: false,
 						page: 1,
 						list: []
+					},
+					{
+						name: '数字音乐',
+						id: 3,
+						activeNav: 0,
+						isFinish: false,
+						loading: false,
+						page: 1,
+						list: []
 					}
 
 				],
-				activeBar: 3,
+				activeBar: 1,
 				navList: ['全部', '转出', '转入'],
 				activeNav: 0,
 				isFinish: false,

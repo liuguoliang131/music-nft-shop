@@ -830,6 +830,7 @@
 			white-space: nowrap; // 强制一行
 			text-overflow: ellipsis; // 文字溢出显示省略号
 			text-align: center;
+			background-color: #fff;
 
 			.dialog-text1 {
 				padding-top: 70rpx;

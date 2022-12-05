@@ -45,6 +45,8 @@
 			background-color: transparent;
 			border-radius: 16rpx;
 			transition: background-color 0.3s;
+			background-color: #fff;
+			color: rgba(0, 0, 0, 0.9);
 		}
 	}
 
