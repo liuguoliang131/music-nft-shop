@@ -226,6 +226,14 @@
 			}
 		},
 		onLoad(option) {
+			// 先使用当前url携带的share_sign, 如果没有再使用本地储存的share_sign
+			const storage = window.sessionStorage.getItem('afterBackQuery')
+			if (storage) {
+				const {
+					query
+				} = JSON.parse(storage)
+				this.share_sign = decodeURIComponent(query.share_sign)
+			}
 			if (option.share_sign) {
 				this.share_sign = decodeURIComponent(option.share_sign)
 			}

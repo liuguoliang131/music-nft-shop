@@ -13,9 +13,12 @@
 		</view>
 		<view class="box2">
 			<view class="box2-item" v-for="(item,idx) in list" :key="item.pay_id">
-				<image v-if="item.pay_id===2" class="icon" src="https://file.yuanyinfu.com/front-end-lib/wx.png"></image>
-				<image v-else-if="item.pay_id===1" class="icon" src="https://file.yuanyinfu.com/front-end-lib/zhifubao.png"></image>
-				<image v-else-if="item.pay_id===4" class="icon" src="https://file.yuanyinfu.com/front-end-lib/lingqian.png"></image>
+				<image v-if="item.pay_id===2" class="icon" src="https://file.yuanyinfu.com/front-end-lib/wx.png">
+				</image>
+				<image v-else-if="item.pay_id===1" class="icon"
+					src="https://file.yuanyinfu.com/front-end-lib/zhifubao.png"></image>
+				<image v-else-if="item.pay_id===4" class="icon"
+					src="https://file.yuanyinfu.com/front-end-lib/lingqian.png"></image>
 				<view class="text">
 					{{item.pay_name}}
 					<text class="text-1" v-if="item.pay_id===4">
@@ -23,7 +26,8 @@
 					</text>
 				</view>
 				<view class="radio" @click="handSelect(idx)">
-					<image v-show="item.checked" class="checked" src="https://file.yuanyinfu.com/front-end-lib/select.png"></image>
+					<image v-show="item.checked" class="checked"
+						src="https://file.yuanyinfu.com/front-end-lib/select.png"></image>
 					<view v-show="!item.checked" class="nocheck"></view>
 				</view>
 			</view>
@@ -446,7 +450,7 @@
 					const pay_id = this.list.find(item => item.checked).pay_id
 					if (pay_id === 2) {
 						// 微信支付
-						this.wxPay(pay_id)
+						// this.wxPay(pay_id)  // 不再使用微信支付
 					} else if (pay_id === 4) {
 						// 打开零钱支付的密码输入框
 						if (this.hasPw === null) {
@@ -577,7 +581,7 @@
 			this.getOrderResult()
 		},
 		onShow() {
-			this.listenPaySuccess()
+			// this.listenPaySuccess()  // 不再使用微信支付了，注释掉
 			this.getUserAmountAndHasPw()
 		},
 		onHide() {

@@ -42,13 +42,13 @@
 			<view class="mine-list-item" @click="goToCollections">
 				<image src="https://file.yuanyinfu.com/front-end-lib/mine.png" class="mine-list-item-image" mode="">
 				</image>
-				我的专辑
+				我的唱片
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 			<view class="mine-list-item" @click="goToOrder">
 				<image src="https://file.yuanyinfu.com/front-end-lib/order.png" class="mine-list-item-image" mode="">
 				</image>
-				专辑订单
+				我的订单
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
 			<view class="mine-list-item" @click="goToSubgiftRecord">

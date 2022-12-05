@@ -89,7 +89,7 @@
 						包含{{data.singles_num}}首单曲
 					</view>
 				</view> -->
-				<view class="box1-2-2">
+				<view class="box1-2-2" v-if="product_type!==3">
 					<view class="box1-2-2-l">
 						创作者
 					</view>
@@ -102,7 +102,7 @@
 						发行方
 					</view>
 					<view class="box1-2-2-r">
-						{{data.publish_author}}
+						{{data.publish_author_name}}
 					</view>
 				</view>
 				<view class="box1-2-2">
@@ -435,6 +435,9 @@
 			.box1-2 {
 				flex: 1;
 				padding-left: 40rpx;
+				overflow: hidden; // 溢出隐藏
+				white-space: nowrap; // 强制一行
+				text-overflow: ellipsis; // 文字溢出显示省略号
 
 				.box1-2-1 {
 					font-weight: 500;
