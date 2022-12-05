@@ -112,15 +112,7 @@
 					// 	page: 1,
 					// 	list: []
 					// },
-					{
-						name: '数字音乐',
-						id: 3,
-						activeNav: 0,
-						isFinish: false,
-						loading: false,
-						page: 1,
-						list: []
-					},
+
 					{
 						name: '黄金单曲',
 						id: 1,
@@ -138,10 +130,19 @@
 						loading: false,
 						page: 1,
 						list: []
+					},
+					{
+						name: '数字音乐',
+						id: 3,
+						activeNav: 0,
+						isFinish: false,
+						loading: false,
+						page: 1,
+						list: []
 					}
 
 				],
-				activeBar: 3,
+				activeBar: 1,
 				navList: ['全部', '待支付', '已取消', '已完成'],
 				activeNav: 0,
 				isFinish: false,

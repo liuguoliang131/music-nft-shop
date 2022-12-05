@@ -3,14 +3,14 @@
 		<view class="nav">
 			<image @tap="handGoDownload" class="nav-left" src="https://file.yuanyinfu.com/front-end-lib/logo-line.png"
 				mode=""></image>
-			<text class="nav-center">详情</text>
+			<text class="nav-center" v-show="$store.state.user.inApp">详情</text>
 		</view>
 	</view>
 	<view class="tem2" v-else>
 		<view class="nav">
 			<image @tap="navBack()" class="nav-left" src="https://file.yuanyinfu.com/front-end-lib/navLeft.png" mode="">
 			</image>
-			<text class="nav-center">详情</text>
+			<text class="nav-center" v-show="$store.state.user.inApp">详情</text>
 			<view class="nav-right" @tap="handleClickUserCenter">
 				<image v-if="userInfo.avatar" class="avatar" :src="userInfo.avatar" mode=""></image>
 				<image v-else class="avatar" src="https://file.yuanyinfu.com/front-end-lib/userNotLogin.png" mode="">

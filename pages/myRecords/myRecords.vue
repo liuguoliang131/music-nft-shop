@@ -88,15 +88,6 @@
 		data() {
 			return {
 				tabList: [{
-						name: '数字音乐',
-						id: 3,
-						isFinish: false,
-						loading: false,
-						page: 1,
-						list: [],
-						total_num: 0
-					},
-					{
 						name: '黄金单曲',
 						id: 1,
 						isFinish: false,
@@ -113,10 +104,19 @@
 						page: 1,
 						list: [],
 						total_num: 0
+					},
+					{
+						name: '数字音乐',
+						id: 3,
+						isFinish: false,
+						loading: false,
+						page: 1,
+						list: [],
+						total_num: 0
 					}
 
 				],
-				activeBar: 3,
+				activeBar: 1,
 				page: 1,
 				isFinish: false,
 				loading: false,

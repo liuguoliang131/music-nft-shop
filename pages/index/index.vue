@@ -218,15 +218,6 @@
 			return {
 				isLogin: true,
 				tabList: [{
-						name: '数字音乐',
-						id: 3,
-						activeNav: 0,
-						isFinish: false,
-						loading: false,
-						page: 1,
-						list: []
-					},
-					{
 						name: '黄金单曲',
 						id: 1,
 						activeNav: 0,
@@ -243,10 +234,18 @@
 						loading: false,
 						page: 1,
 						list: []
+					}, {
+						name: '数字音乐',
+						id: 3,
+						activeNav: 0,
+						isFinish: false,
+						loading: false,
+						page: 1,
+						list: []
 					}
 
 				],
-				activeBar: 3,
+				activeBar: 1,
 				isFinish: false,
 				loading: false,
 				list: [],
@@ -1073,15 +1072,15 @@
 		.need-login {
 			z-index: 9;
 			position: fixed;
-			bottom: 10rpx;
+			bottom: 0rpx;
 			left: 20rpx;
 			right: 20rpx;
 			background-color: #201A17;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			padding: 0 40rpx;
-			border-radius: 100rpx;
+			padding: 0 40rpx 10rpx 40rpx;
+			border-radius: 30rpx 30rpx 0 0;
 			height: 110rpx;
 			-webkit-animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 			animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
