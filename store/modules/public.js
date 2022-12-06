@@ -3,6 +3,7 @@ import {
 	getStorageAppConfig,
 	isApp
 } from '../../utils/index.js'
+
 export default {
 	namespaced: true,
 	state: {

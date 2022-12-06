@@ -55,6 +55,7 @@
 			};
 		},
 		onLoad(option) {
+			this.$store.state.globalAudio.audioContext.pause()
 			if (option.music_list) {
 				const list = JSON.parse(option.music_list)
 				list.forEach((item, index) => {

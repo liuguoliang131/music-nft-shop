@@ -66,7 +66,7 @@
 							</view>
 							<view class="item-2-4-2" @tap.stop="handPlay(item)">
 								<image
-									v-if="item.product_item_id===$store.state.publicState.music.product_item_id&&$store.state.publicState.music.product_item_id!==''"
+									v-if="item.product_item_id===$store.state.globalAudio.music.product_item_id&&$store.state.globalAudio.music.product_item_id!==''"
 									src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode=""></image>
 								<image v-else src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""></image>
 								<text>立即试听</text>
@@ -139,7 +139,7 @@
 						</image>
 						<image class="cover-turn1" :src="item.index_img" mode=""></image>
 						<image
-							v-if="item.product_item_id===$store.state.publicState.music.product_item_id&&$store.state.publicState.music.product_item_id!==''"
+							v-if="item.product_item_id===$store.state.publicState.globalAudio.product_item_id&&$store.state.publicState.globalAudio.product_item_id!==''"
 							v-show="item.publish_type===1" class="cover-play"
 							src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode="" @tap.stop="handPlay(item)">
 						</image>
@@ -171,12 +171,8 @@
 				<text class="cuIcon-close close-btn" style="" @click="handleCloseLogintag"></text>
 			</view>
 		</view>
-		<floating-component v-if="$store.state.publicState.music.show">
-			<my-audio ref="myAudio" :name="$store.state.publicState.music.product_name" class="audio1" id="audio1"
-				width="700" :poster="$store.state.publicState.music.index_url"
-				:src="$store.state.publicState.music.music_url" :play.sync="$store.state.publicState.music.play"
-				autoplay>
-			</my-audio>
+		<floating-component v-if="$store.state.globalAudio.show">
+			<GlobalAudio></GlobalAudio>
 		</floating-component>
 	</view>
 </template>
@@ -261,6 +257,15 @@
 			}
 		},
 		onLoad() {
+
+		},
+		onHide() {
+			console.log('index hide')
+			const init = {
+				...this.$store.state.publicState.music,
+				show: false
+			}
+			this.$store.commit('publicState/set_music', init)
 
 		},
 		filters: {
@@ -483,9 +488,7 @@
 							})
 						}
 						const musicInfo = res.data
-						musicInfo.play = true
-						musicInfo.show = true
-						this.$store.commit('publicState/set_music', musicInfo)
+						this.$store.dispatch('globalAudio/dispatch_music', musicInfo)
 
 					}
 

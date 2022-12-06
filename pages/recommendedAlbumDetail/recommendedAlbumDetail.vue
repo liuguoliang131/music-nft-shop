@@ -352,12 +352,8 @@
 				</view>
 			</view>
 		</wyb-popup>
-		<floating-component v-if="$store.state.publicState.music.show">
-			<my-audio ref="myAudio" :name="$store.state.publicState.music.product_name" class="audio1" id="audio1"
-				width="700" :poster="$store.state.publicState.music.index_url"
-				:src="$store.state.publicState.music.music_url" :play.sync="$store.state.publicState.music.play"
-				autoplay>
-			</my-audio>
+		<floating-component v-if="$store.state.globalAudio.show">
+			<GlobalAudio></GlobalAudio>
 		</floating-component>
 	</view>
 </template>
@@ -367,7 +363,6 @@
 	import NavHead from '../../components/navHead.vue'
 	import NavHeadPre from '../../components/navHeadPre.vue'
 	import MySwiper from '../../components/mySwiper.vue'
-	import MyAudio from '../../components/my-audio/my-audio.vue'
 	import FloatingComponent from '../../components/floatingComponent.vue'
 	import {
 		collections_index_detail,
@@ -395,8 +390,7 @@
 			NavHead,
 			NavHeadPre,
 			MySwiper,
-			FloatingComponent,
-			MyAudio
+			FloatingComponent
 		},
 		mixins: [Mixins, RefreshMixins],
 		data() {
@@ -782,9 +776,7 @@
 							})
 						}
 						const musicInfo = res.data
-						musicInfo.play = true
-						musicInfo.show = true
-						this.$store.commit('publicState/set_music', musicInfo)
+						this.$store.dispatch('globalAudio/dispatch_music', musicInfo)
 
 					}
 				} catch (e) {

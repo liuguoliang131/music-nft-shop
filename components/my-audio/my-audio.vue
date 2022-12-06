@@ -163,6 +163,7 @@
 			_this.contextInit();
 		},
 		beforeDestroy() {
+			console.log('audio destroy')
 			_this.innerAudioContext.destroy();
 		},
 		methods: {
