@@ -232,7 +232,9 @@
 				const {
 					query
 				} = JSON.parse(storage)
-				this.share_sign = decodeURIComponent(query.share_sign)
+				if (query.share_sign) {
+					this.share_sign = decodeURIComponent(query.share_sign)
+				}
 			}
 			if (option.share_sign) {
 				this.share_sign = decodeURIComponent(option.share_sign)
