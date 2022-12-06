@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<nav-head title="支付成功" :useSelfBack="true" @navBack="handGoDetail"></nav-head>
+		<nav-head title="支付成功" :useSelfBack="true" @navBack="handleBack"></nav-head>
 		<view class="box1">
 			<image class="icon" src="https://file.yuanyinfu.com/front-end-lib/Frame41.png"></image>
 			<view class="row1">支付成功</view>
@@ -46,24 +46,27 @@
 		methods: {
 			handleBack() {
 
-				let currentRoutes = getCurrentPages(); // 获取当前打开过的页面路由数组
-				console.log(currentRoutes)
-				if (currentRoutes.length === 1) {
-					uni.redirectTo({
-						url: '/pages/index/index'
-					})
-				} else {
-					uni.navigateBack({
-						delta: 1, //返回层数，2则上上页
-					})
-				}
-			},
-			// 去往订单详情
-			handGoDetail() {
+				// let currentRoutes = getCurrentPages(); // 获取当前打开过的页面路由数组
+				// console.log(currentRoutes)
+				// if (currentRoutes.length === 1) {
+				// 	uni.redirectTo({
+				// 		url: '/pages/index/index'
+				// 	})
+				// } else {
+				// 	uni.navigateBack({
+				// 		delta: 1, //返回层数，2则上上页
+				// 	})
+				// }
 				// 通知页面刷新
 				this.$store.commit('publicState/set_refresh', true)
 				uni.navigateBack({
 					delta: 2
+				})
+			},
+			// 去往订单详情
+			handGoDetail() {
+				uni.reLaunch({
+					url: `/pages/orderList/orderList?product_type=${this.data.product_type}`
 				})
 			},
 			// 去往首页

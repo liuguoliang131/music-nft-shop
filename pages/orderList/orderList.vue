@@ -162,7 +162,6 @@
 
 		},
 		onShow() {
-
 			if (this.$store.state.publicState.refresh) {
 				this.initParams()
 				this.getList()

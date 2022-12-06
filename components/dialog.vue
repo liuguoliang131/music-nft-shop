@@ -41,7 +41,7 @@
 
 		.center-box {
 			width: 500rpx;
-			height: 0rpx;
+			min-height: 0;
 			background-color: transparent;
 			border-radius: 16rpx;
 			transition: background-color 0.3s;
