@@ -172,7 +172,7 @@
 						发行时间
 					</view>
 					<view class="row3-2">
-						{{filterTimes(detail.certificate.publish_time * 1000)}}
+						{{detail.certificate.publish_time?filterTimes(detail.certificate.publish_time * 1000):''}}
 					</view>
 				</view>
 				<view class="cert-row3">
@@ -236,9 +236,7 @@
 					"pay_time": 0,
 					author_info: {},
 					music_list: [],
-					certificate: {
-
-					}
+					certificate: {}
 				}
 			}
 		},
@@ -277,11 +275,12 @@
 			},
 			async handZhuanZeng() {
 				// 购买后24小时内不允许转赠
-				const startDate = new Date(this.detail.start_time).getTime()
+				const startDate = new Date(this.detail.start_time).getTime() + 86400000 //可以转赠的时间
 				const now = Date.now()
 				const differ = Date.now() - startDate
-				const timeStr = dayjs(differ).format('HH时mm分ss秒')
-				if (differ < 86400000) {
+
+				const timeStr = dayjs(Math.abs(differ)).format('HH时mm分ss秒')
+				if (differ < 0) {
 					return uni.showModal({
 						title: '温馨提示',
 						showCancel: false,
@@ -444,7 +443,8 @@
 
 			.box1-2 {
 				flex: 1;
-				padding-left: 40rpx;
+				margin-left: 40rpx;
+				min-width: 0;
 
 				.box1-2-1 {
 					font-weight: 500;

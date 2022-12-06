@@ -156,10 +156,18 @@
 		},
 		onLoad(e) {
 			console.log('onload')
-			this.activeBar = Number(e.product_type)
+			if (e.product_type) {
+				this.activeBar = Number(e.product_type)
+			}
+
 		},
 		onShow() {
 
+			if (this.$store.state.publicState.refresh) {
+				this.initParams()
+				this.getList()
+				this.$store.commit('publicState/set_refresh', false)
+			}
 		},
 		filters: {
 			filterStatus(e) {
@@ -269,6 +277,8 @@
 								uni.showToast({
 									title: '取消成功'
 								})
+								this.initParams()
+								this.getList()
 
 							})
 						}

@@ -30,6 +30,10 @@
 			},
 			right: {
 				default: true
+			},
+			useSelfBack: {
+				defalt: false,
+				description: '左侧返回键触发后调用新方法navBack'
 			}
 		},
 		data() {
@@ -39,6 +43,9 @@
 		},
 		methods: {
 			navBack() {
+				if (this.useSelfBack) {
+					return this.$emit('navBack', null)
+				}
 				if (this.$store.state.user.inApp) {
 					goBack()
 				} else {

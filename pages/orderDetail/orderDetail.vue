@@ -24,11 +24,11 @@
 				<view class="box1-2-1">
 					{{detail.name}}
 				</view>
-				<!-- <view class="box1-2-2">
+				<view class="box1-2-2">
 					<view class="box1-2-2-r">
 						包含{{detail.singles_num}}首单曲
 					</view>
-				</view> -->
+				</view>
 				<view class="box1-2-2">
 					<view class="box1-2-2-l">
 						发行方
@@ -239,6 +239,7 @@
 			return {
 				show: false,
 				product_type: 0,
+				order_id: null,
 				detail: {
 					"order_id": null,
 					"product_item_id": null,
@@ -263,10 +264,16 @@
 			}
 		},
 		onLoad(e) {
-			const id = e.id
+			this.order_id = Number(e.id)
 			this.product_type = Number(e.product_type)
-			this.getOrderDetail(id)
+			this.getOrderDetail()
 
+		},
+		onShow() {
+			if (this.$store.state.publicState.refresh) {
+				this.getOrderDetail()
+				this.$store.commit('publicState/set_refresh', false)
+			}
 		},
 		filters: {
 			filterPayType(e) {
@@ -283,9 +290,9 @@
 			filterTimes(e) {
 				return dayjs(e).format('YYYY/MM/DD HH:mm:ss')
 			},
-			getOrderDetail(e) {
+			getOrderDetail() {
 				post(h5_order_detail, {
-					order_id: Number(e)
+					order_id: this.order_id
 				}).then(res => {
 					this.detail = res.data
 				})

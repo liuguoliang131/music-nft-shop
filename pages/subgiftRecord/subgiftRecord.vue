@@ -26,6 +26,8 @@
 							<text v-if="item.donation_status_desc==='处理中'" class="status1">转出中</text>
 							<text v-else-if="item.donation_status_desc==='转出成功'" class="status2">转出成功</text>
 							<text v-else-if="item.donation_status_desc==='转出失败'" class="status3">转出失败</text>
+							<text v-else-if="item.donation_status_desc==='转入成功'" class="status2">转入成功</text>
+							<text v-else-if="item.donation_status_desc==='转入失败'" class="status3">转入失败</text>
 						</view>
 					</view>
 					<view class="item-right-2">
