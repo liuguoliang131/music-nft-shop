@@ -139,7 +139,7 @@
 						</image>
 						<image class="cover-turn1" :src="item.index_img" mode=""></image>
 						<image
-							v-if="item.product_item_id===$store.state.publicState.globalAudio.product_item_id&&$store.state.publicState.globalAudio.product_item_id!==''"
+							v-if="item.product_item_id===$store.state.globalAudio.music.product_item_id&&$store.state.globalAudio.music.product_item_id!==''"
 							v-show="item.publish_type===1" class="cover-play"
 							src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode="" @tap.stop="handPlay(item)">
 						</image>

@@ -35,7 +35,9 @@
 		watch: {
 			loading: {
 				handler(newVal) {
+					console.log('watch loading', newVal)
 					if (newVal === false) {
+						console.log('watch loading1', newVal)
 						this.notFull()
 					}
 				}
@@ -53,9 +55,14 @@
 			},
 			// 只要底边在窗口内 就触发load
 			onload() {
-				// console.log('onload')
+				console.log('onload', this.loading, this.isFinish)
 				if (this.isFinish === false) {
-					this.$emit('load', this.data)
+					if (!this.loading) {
+						console.log('onload1', this.loading, this.isFinish)
+						this.$emit('load', this.data)
+					}
+					// this.$emit('load', this.data)
+
 				}
 
 			},
