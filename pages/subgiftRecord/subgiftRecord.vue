@@ -264,9 +264,9 @@
 			display: flex;
 			height: 229rpx;
 			box-sizing: border-box;
-			padding: 32rpx 0;
-			border-bottom: 1rpx solid #363636;
+			padding-top: 32rpx;
 
+			// border-bottom: 1rpx solid #363636;
 			.item-left {
 				margin-left: 29.74rpx;
 				width: 180rpx;
@@ -281,6 +281,8 @@
 
 			.item-right {
 				flex: 1;
+				padding-bottom: 32rpx;
+				border-bottom: 0.5rpx solid #363636;
 
 				.item-right-1 {
 					display: flex;
@@ -377,6 +379,7 @@
 					text-overflow: ellipsis; // 文字溢出显示省略号
 				}
 			}
+
 		}
 	}
 </style>

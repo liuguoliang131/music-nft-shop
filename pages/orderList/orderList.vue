@@ -15,61 +15,65 @@
 			</view>
 		</view>
 		<my-scroll v-else :class="['scroll-box']" :isFinish="isFinish" :loading="loading" @load="getList">
-			<view class="order-body-item" v-for="(item , index) in list" :key='index'
-				@click="handleGoToDetail(item,activeBar)">
-				<view class="order-body-item-imageBox">
-					<view class="order-body-item-imageBox-image"
-						:style="`background-image:url(${item.index_img||item.music_pic})`">
+			<view class="hasbox" v-for="(item , index) in list" :key='index' @click="handleGoToDetail(item,activeBar)">
+				<view class="order-body-item">
+					<view class="order-body-item-imageBox">
+						<view class="order-body-item-imageBox-image"
+							:style="`background-image:url(${item.index_img||item.music_pic})`">
+						</view>
+						<view class="order-body-item-imageBox-level" v-if="item.rare_type">
+							<image v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png"
+								mode=""></image>
+							<image v-else-if="item.rare_type==='UR'"
+								src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode=""></image>
+							<image v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png"
+								mode=""></image>
+							<!-- <image v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png"
+								mode=""></image> -->
+							<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
+						</view>
 					</view>
-					<view class="order-body-item-imageBox-level" v-if="item.rare_type">
-						<image v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png"
-							mode=""></image>
-						<image v-else-if="item.rare_type==='UR'" src="https://file.yuanyinfu.com/front-end-lib/UR.png"
-							mode=""></image>
-						<image v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png"
-							mode=""></image>
-						<!-- <image v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png"
-							mode=""></image> -->
-						<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
+					<view class="order-body-item-box">
+						<view class="order-body-item-box-flex">
+							<view class="order-body-item-title">
+								{{item.name||item.music_name}}
+							</view>
+							<view class="order-body-item-type"
+								style="color: #D10910;font-size: 28rpx;font-weight: 500;">
+								{{item.pay_status | filterStatus}} <text class="cuIcon-right"></text>
+							</view>
+						</view>
+						<view class="order-body-item-box-flex">
+
+							<view class="order-body-item-tag">
+								包含{{item.singles_num||'1'}}首单曲
+							</view>
+							<view class="order-body-item-type" style="margin-top: 16rpx;">
+								￥{{item.buy_price||item.order_price}}
+							</view>
+						</view>
+						<view class="order-body-item-box-flex">
+							<view class="order-body-item-price" style="margin-left: auto;color: #666;font-size: 20rpx;">
+								× {{item.buy_num||'1'}}
+							</view>
+						</view>
+						<view class="order-body-item-box-flex">
+							<view class="order-body-item-price"
+								style="margin-left: auto;color: #fff;margin-top: 10rpx;">
+								实付金额 ￥{{item.order_price}}
+							</view>
+						</view>
+
+						<view class="order-body-item-box-flex" style="margin-top: 20rpx;" v-if="item.pay_status === 0">
+							<view style="display: flex;align-items: center;margin-left: auto;margin-top: 8rpx;">
+								<button class="my-btn" @click.stop="handleClickCancle(item)">取消订单</button>
+								<button class="my-btn" @click.stop="handleGoCashier(item)"
+									style="border-color: #C9A43D;color: #C9A43D;margin-left: 10rpx;">去支付</button>
+							</view>
+						</view>
 					</view>
 				</view>
-				<view class="order-body-item-box">
-					<view class="order-body-item-box-flex">
-						<view class="order-body-item-title">
-							{{item.name||item.music_name}}
-						</view>
-						<view class="order-body-item-type" style="color: #D10910;font-size: 28rpx;font-weight: 500;">
-							{{item.pay_status | filterStatus}} <text class="cuIcon-right"></text>
-						</view>
-					</view>
-					<view class="order-body-item-box-flex">
-
-						<view class="order-body-item-tag">
-							包含{{item.singles_num||'1'}}首单曲
-						</view>
-						<view class="order-body-item-type" style="margin-top: 16rpx;">
-							￥{{item.buy_price||item.order_price}}
-						</view>
-					</view>
-					<view class="order-body-item-box-flex">
-						<view class="order-body-item-price" style="margin-left: auto;color: #666;font-size: 20rpx;">
-							× {{item.buy_num||'1'}}
-						</view>
-					</view>
-					<view class="order-body-item-box-flex">
-						<view class="order-body-item-price" style="margin-left: auto;color: #fff;margin-top: 10rpx;">
-							实付金额 ￥{{item.order_price}}
-						</view>
-					</view>
-
-					<view class="order-body-item-box-flex" style="margin-top: 20rpx;" v-if="item.pay_status === 0">
-						<view style="display: flex;align-items: center;margin-left: auto;margin-top: 8rpx;">
-							<button class="my-btn" @click.stop="handleClickCancle(item)">取消订单</button>
-							<button class="my-btn" @click.stop="handleGoCashier(item)"
-								style="border-color: #C9A43D;color: #C9A43D;margin-left: 10rpx;">去支付</button>
-						</view>
-					</view>
-				</view>
+				<view class="splitline" v-if="index!==list.length-1"></view>
 			</view>
 		</my-scroll>
 
@@ -319,22 +323,23 @@
 		&-nav {
 			box-sizing: border-box;
 			width: 750rpx;
-			height: 60rpx;
+			height: 70rpx;
 			padding: 0 20rpx;
 			display: flex;
 			align-items: center;
 			justify-content: space-around;
-			font-family: 'PingFang SC';
-			font-style: normal;
-			font-weight: 400;
-			font-size: 24rpx;
-			line-height: 60rpx;
-			/* identical to box height, or 200% */
-			text-align: center;
-			color: #777777;
 
 			&-item {
+				font-family: 'PingFang SC';
+				font-style: normal;
+				font-weight: 400;
+				font-size: 24rpx;
+				line-height: 60rpx;
+				/* identical to box height, or 200% */
 				text-align: center;
+				color: #777777;
+				height: 60rpx;
+				padding-top: 10rpx;
 
 				&.active {
 					color: #C8A964;
@@ -347,7 +352,7 @@
 			position: relative;
 			box-sizing: border-box;
 			padding: 0 32rpx 32rpx 32rpx;
-			height: calc(100vh - 228rpx);
+			height: calc(100vh - 238rpx);
 			text-align: center;
 			overflow: hidden;
 			padding-top: 300rpx;
@@ -374,22 +379,34 @@
 
 		.scroll-box {
 			width: 750rpx;
-			height: calc(100vh - 228rpx);
+			height: calc(100vh - 238rpx);
 		}
 
 		.h5-scroll {
 			height: calc(100vh - 80rpx);
 		}
 
+		.splitline {
+			width: 542rpx;
+			height: 1px;
+			background-color: #343434;
+			position: relative;
+			left: 208rpx;
+		}
+
+		.hasbox:nth-last-child(1) .splitline {
+			visibility: hidden;
+		}
+
 		&-body {
 			padding-top: 20rpx;
 			width: 750rpx;
+
 
 			&-item {
 				padding: 20rpx 40rpx;
 				display: flex;
 				align-items: flex-start;
-				border-bottom: 1px solid #343434;
 
 				&-imageBox {
 					width: 140rpx;

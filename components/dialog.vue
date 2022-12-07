@@ -44,9 +44,10 @@
 			min-height: 0;
 			background-color: transparent;
 			border-radius: 16rpx;
-			transition: background-color 0.3s;
 			background-color: #fff;
+			transition: background-color 0.3s;
 			color: rgba(0, 0, 0, 0.9);
+			overflow: hidden;
 		}
 	}
 
@@ -56,7 +57,9 @@
 		visibility: visible;
 
 		.center-box {
+			border-radius: 16rpx;
 			background-color: #fff;
+			overflow: hidden;
 		}
 	}
 

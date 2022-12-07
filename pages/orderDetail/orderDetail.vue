@@ -427,10 +427,10 @@
 					font-weight: 400;
 					font-size: 26rpx;
 					line-height: 36rpx;
-
+					min-width: 0;
 
 					.box1-2-2-l {
-						width: 128rpx;
+						width: 122rpx;
 						color: #777777;
 					}
 

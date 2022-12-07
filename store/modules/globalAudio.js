@@ -135,7 +135,10 @@ export default {
 			}
 			WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
 				//在这里调用你的播放方法
-				context.state.audioContext.play()
+				if (data) {
+					context.state.audioContext.play()
+				}
+
 			}, false);
 		},
 		// 播放或暂停

@@ -976,9 +976,7 @@
 		}
 
 		.price {
-			display: flex;
-			justify-content: center;
-			align-items: center;
+			text-align: center;
 			line-height: 50rpx;
 			margin-top: 6rpx;
 			color: #D10910;

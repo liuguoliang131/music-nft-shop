@@ -604,6 +604,8 @@
 		}
 
 		.box3 {
+			margin-top: -15rpx;
+
 			.box3-row1 {
 				display: flex;
 				align-items: center;

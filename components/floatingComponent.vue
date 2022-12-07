@@ -55,7 +55,7 @@
 		position: fixed;
 		z-index: 11;
 		top: calc(100vh - 300rpx);
-		left: 0;
+		left: 25rpx;
 		// width: 300rpx;
 		// height: 300rpx;
 	}

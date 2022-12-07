@@ -429,7 +429,7 @@
 			.box2 {
 				display: flex;
 				justify-content: center;
-				margin-top: 24rpx;
+				margin-top: 48rpx;
 				width: 100%;
 
 				.save {

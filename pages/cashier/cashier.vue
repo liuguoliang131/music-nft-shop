@@ -2,13 +2,13 @@
 	<view class="container">
 		<nav-head title="收银台"></nav-head>
 		<view class="box1">
-			<view class="price">
-				<text class="rmb">￥</text>
-				<text class="count">{{order_price}}</text>
-			</view>
 			<view class="time">
 				<text class="time-text">剩余支付时间</text>
 				<text class="time-count">{{displayTime}}</text>
+			</view>
+			<view class="price">
+				<text class="rmb">￥</text>
+				<text class="count">{{order_price}}</text>
 			</view>
 		</view>
 		<view class="box2">
@@ -19,16 +19,30 @@
 					src="https://file.yuanyinfu.com/front-end-lib/zhifubao.png"></image>
 				<image v-else-if="item.pay_id===4" class="icon"
 					src="https://file.yuanyinfu.com/front-end-lib/lingqian.png"></image>
-				<view class="text">
-					{{item.pay_name}}
-					<text class="text-1" v-if="item.pay_id===4">
-						余额：￥{{myAmount.toFixed(2)}}
-					</text>
-				</view>
-				<view class="radio" @click="handSelect(idx)">
-					<image v-show="item.checked" class="checked"
-						src="https://file.yuanyinfu.com/front-end-lib/select.png"></image>
-					<view v-show="!item.checked" class="nocheck"></view>
+				<view class="item-right">
+					<view class="text">
+						<view class="text-1">
+							<view class="text-1-1">
+								<view class="text-1-1-1">
+									{{item.pay_name}}
+								</view>
+								<view class="text-1-1-2" v-if="item.pay_id===4">
+									余额：￥{{myAmount.toFixed(2)}}
+								</view>
+							</view>
+							<view class="text-1-2">
+								充值
+							</view>
+						</view>
+						<!-- <view class="text-2">
+							零钱支付送奇点
+						</view> -->
+					</view>
+					<view class="radio" @click="handSelect(idx)">
+						<image v-show="item.checked" class="checked"
+							src="https://file.yuanyinfu.com/front-end-lib/select.png"></image>
+						<view v-show="!item.checked" class="nocheck"></view>
+					</view>
 				</view>
 			</view>
 			<view class="empty-cell"></view>
@@ -191,6 +205,7 @@
 					if (this.count_down <= 1) {
 						clearInterval(this.timer)
 						uni.showToast({
+							icon: 'none',
 							title: '订单已失效请重新下单，即将为您返回到详情页',
 							mask: true,
 							duration: 3000
@@ -447,6 +462,7 @@
 			},
 			// 支付
 			handPay() {
+				return this.$refs.myDialog.show()
 				try {
 					const pay_id = this.list.find(item => item.checked).pay_id
 					if (pay_id === 2) {
@@ -602,23 +618,8 @@
 			height: 400rpx;
 			text-align: center;
 
-			.price {
-				padding-top: 150rpx;
-				height: 100rpx;
-				color: rgba(209, 9, 16, 1);
-				line-height: 100rpx;
-
-				.rmb {
-					font-size: 44rpx;
-				}
-
-				.count {
-					font-size: 58rpx;
-					font-weight: 600;
-				}
-			}
-
 			.time {
+				padding-top: 150rpx;
 				font-size: 28rpx;
 				line-height: 40rpx;
 				/* identical to box height */
@@ -633,10 +634,28 @@
 					margin-left: 8rpx;
 				}
 			}
+
+			.price {
+
+				height: 100rpx;
+				color: rgba(209, 9, 16, 1);
+				line-height: 100rpx;
+
+				.rmb {
+					font-size: 44rpx;
+				}
+
+				.count {
+					font-size: 64rpx;
+					font-weight: 600;
+				}
+			}
+
+
 		}
 
 		.box2 {
-			border-top: 1rpx solid #363636;
+			// border-top: 1rpx solid #363636;
 			overflow-y: scroll;
 			height: 800rpx;
 
@@ -646,47 +665,120 @@
 
 			.box2-item {
 				display: flex;
-				align-items: center;
+				// align-items: center;
 				height: 100rpx;
-				padding: 0 30rpx;
-				border-bottom: 1rpx solid #363636;
+				padding-top: 32rpx;
 
 				.icon {
 					width: 54rpx;
 					height: 54rpx;
+					margin-left: 30rpx;
+					// margin-top: 28rpx;
+
 				}
 
-				.text {
+				.item-right {
 					flex: 1;
-					margin-left: 20rpx;
-					margin-right: 20rpx;
-					font-size: 30rpx;
+					display: flex;
+					align-items: center;
+					margin-left: 40rpx;
+					border-bottom: 1rpx solid #363636;
+					padding-bottom: 28rpx;
 
-					.text-1 {
-						margin-left: 40rpx;
-						font-size: 20rpx;
-						color: #D10910;
+					.text {
+						flex: 1;
+						margin-right: 20rpx;
+						font-family: 'PingFang SC';
+						font-style: normal;
+						font-weight: 400;
+						color: #DDDDDD;
+						display: flex;
+
+						.text-1 {
+							// width: 358rpx;
+							flex: 1;
+							display: flex;
+
+							.text-1-1 {
+
+								.text-1-1-1 {
+									font-size: 30rpx;
+									line-height: 42rpx;
+									color: #DDDDDD;
+								}
+
+								.text-1-1-2 {
+									max-width: 250rpx;
+									padding-top: 2rpx;
+									font-size: 24rpx;
+									line-height: 34rpx;
+									color: #D10910;
+									overflow: hidden; // 溢出隐藏
+									white-space: nowrap; // 强制一行
+									text-overflow: ellipsis; // 文字溢出显示省略号
+								}
+							}
+
+							.text-1-2 {
+								margin-top: 38rpx;
+								margin-left: 10rpx;
+								border: 0.5rpx solid #C8A964;
+								border-radius: 19rpx;
+								width: 96rpx;
+								height: 38rpx;
+								display: flex;
+								align-items: center;
+								justify-content: center;
+
+								font-family: 'PingFang SC';
+								font-style: normal;
+								font-weight: 500;
+								font-size: 22rpx;
+								line-height: 38rpx;
+
+								color: #C8A964;
+							}
+						}
+
+						.text-2 {
+							font-family: 'PingFang SC';
+							font-style: normal;
+							font-weight: 400;
+							font-size: 24rpx;
+							line-height: 46rpx;
+							width: 200rpx;
+							height: 46rpx;
+							/* identical to box height */
+
+							text-align: center;
+							color: #ECECEC;
+
+							opacity: 0.8;
+							background: #292929;
+							border-radius: 23rpx 0 23rpx 23rpx;
+						}
 					}
-				}
 
-				.radio {
-					position: relative;
-					width: 44rpx;
-					height: 44rpx;
-
-					.nocheck {
-						width: 40rpx;
-						height: 40rpx;
-						border-radius: 22rpx;
-						border: 2rpx solid #363636;
-					}
-
-					.checked {
-						position: absolute;
-						top: 0rpx;
-						left: 0rpx;
+					.radio {
+						position: relative;
 						width: 44rpx;
 						height: 44rpx;
+						margin-right: 30rpx;
+
+						.nocheck {
+							width: 40rpx;
+							height: 40rpx;
+							border-radius: 22rpx;
+							border: 2rpx solid #363636;
+						}
+
+						.checked {
+							position: absolute;
+							top: 0rpx;
+							left: 0rpx;
+							width: 44rpx;
+							height: 44rpx;
+						}
 					}
 				}
 			}
@@ -708,7 +800,7 @@
 				background: #D10910;
 				border-radius: 48px;
 				height: 96rpx;
-				width: 474rpx;
+				width: 686rpx;
 				font-weight: 500;
 				font-size: 32rpx;
 
