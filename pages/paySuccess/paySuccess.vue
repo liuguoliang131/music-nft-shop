@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<nav-head title="支付成功" :useSelfBack="true" @navBack="handleBack"></nav-head>
+		<nav-head title="支付成功" :useSelfBack="true" @navBack="handGoDetail"></nav-head>
 		<view class="box1">
 			<image class="icon" src="https://file.yuanyinfu.com/front-end-lib/Frame41.png"></image>
 			<view class="row1">支付成功</view>

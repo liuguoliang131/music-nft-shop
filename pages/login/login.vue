@@ -34,12 +34,7 @@
 		<view class="footer">
 			COPYRIGHT © 2022 HANHOU
 		</view>
-		<!-- <wyb-popup ref="popup" type="bottom" height="701" width="750" radius="6" bgColor="#1D1D1D"
-			:showCloseIcon="true">
-			<view class="popup-content">
-				<tf-verify-img @succeed="verifySuccess" @close="showVerify = false" v-if="showVerify"></tf-verify-img>
-			</view>
-		</wyb-popup> -->
+
 		<tf-verify-img @succeed="verifySuccess" @close="showVerify = false" v-if="showVerify"></tf-verify-img>
 	</view>
 </template>
