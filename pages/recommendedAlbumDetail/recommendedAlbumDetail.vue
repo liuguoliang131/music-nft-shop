@@ -159,8 +159,16 @@
 					<image class="cover-1-1" src="https://file.yuanyinfu.com/front-end-lib/albumbg.png" mode=""></image>
 					<image class="cover-1-2" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode=""></image>
 					<image class="cover-1-3" :src="data.index_img" mode=""></image>
-					<image v-show="this.data.publish_type===1" class="cover-1-4"
-						src="https://file.yuanyinfu.com/front-end-lib/play.png" mode="" @tap="handPlay"></image>
+					<template v-if="data.product_item_id===$store.state.globalAudio.music.product_item_id">
+						<image class="cover-1-4 aa" v-if="$store.state.globalAudio.paused"
+							src="https://file.yuanyinfu.com/front-end-lib/play.png" mode="" @tap="handPlay"></image>
+						<image class="cover-1-4 bb" v-else src="https://file.yuanyinfu.com/front-end-lib/pause.png"
+							mode="" @tap="handPlay"></image>
+					</template>
+					<template v-else>
+						<image class="cover-1-4" src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""
+							@tap="handPlay"></image>
+					</template>
 				</view>
 			</view>
 			<view class="title">
@@ -753,10 +761,10 @@
 					return goLogin()
 				}
 				try {
-					const res = await post1(collections_index_play, {
-						product_item_id: this.product_item_id
-					})
 					if (this.$store.state.user.inApp) {
+						await post1(collections_index_play, {
+							product_item_id: this.product_item_id
+						})
 						let data = {
 							"page": "musicPlayPage",
 							"isNeedLogin": false,
@@ -766,6 +774,13 @@
 						}
 						openAppPage(data)
 					} else {
+						if (this.$store.state.globalAudio.music.product_item_id === this.data.product_item_id) {
+							this.$store.dispatch('globalAudio/dispatch_play')
+							return false
+						}
+						await post1(collections_index_play, {
+							product_item_id: this.product_item_id
+						})
 						const res = await this.$post(collections_index_musicPlay, {
 							product_item_id: this.product_item_id
 						})

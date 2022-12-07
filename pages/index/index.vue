@@ -65,10 +65,17 @@
 								￥{{item.sale_price}}
 							</view>
 							<view class="item-2-4-2" @tap.stop="handPlay(item)">
-								<image
-									v-if="item.product_item_id===$store.state.globalAudio.music.product_item_id&&$store.state.globalAudio.music.product_item_id!==''"
-									src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode=""></image>
-								<image v-else src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""></image>
+								<template
+									v-if="item.product_item_id===$store.state.globalAudio.music.product_item_id&&$store.state.globalAudio.music.product_item_id!==''">
+									<image v-if="$store.state.globalAudio.paused"
+										src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""></image>
+									<image v-else src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode="">
+									</image>
+								</template>
+								<template v-else>
+									<image src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""></image>
+								</template>
+
 								<text>立即试听</text>
 							</view>
 						</view>
@@ -138,14 +145,23 @@
 						<image class="cover-turn" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode="">
 						</image>
 						<image class="cover-turn1" :src="item.index_img" mode=""></image>
-						<image
-							v-if="item.product_item_id===$store.state.globalAudio.music.product_item_id&&$store.state.globalAudio.music.product_item_id!==''"
-							v-show="item.publish_type===1" class="cover-play"
-							src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode="" @tap.stop="handPlay(item)">
-						</image>
-						<image v-else v-show="item.publish_type===1" class="cover-play"
-							src="https://file.yuanyinfu.com/front-end-lib/play.png" mode="" @tap.stop="handPlay(item)">
-						</image>
+
+						<template
+							v-if="item.product_item_id===$store.state.globalAudio.music.product_item_id&&$store.state.globalAudio.music.product_item_id!==''">
+							<image v-if="$store.state.globalAudio.paused" v-show="item.publish_type===1"
+								class="cover-play" src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""
+								@tap.stop="handPlay(item)">
+							</image>
+							<image v-else v-show="item.publish_type===1" class="cover-play"
+								src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode=""
+								@tap.stop="handPlay(item)">
+							</image>
+						</template>
+						<template v-else>
+							<image v-show="item.publish_type===1" class="cover-play"
+								src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""
+								@tap.stop="handPlay(item)"></image>
+						</template>
 					</view>
 					<view class="item-row1">
 						{{item.product_name}}
@@ -468,10 +484,11 @@
 					if (!this.$store.state.user.token) {
 						return this.handLogin()
 					}
-					const res = await post1(collections_index_play, {
-						product_item_id: item.product_item_id
-					})
+
 					if (this.$store.state.user.inApp) {
+						await post1(collections_index_play, {
+							product_item_id: item.product_item_id
+						})
 						let data = {
 							"page": "musicPlayPage",
 							"isNeedLogin": false,
@@ -481,6 +498,13 @@
 						}
 						openAppPage(data)
 					} else {
+						if (this.$store.state.globalAudio.music.product_item_id === item.product_item_id) {
+							this.$store.dispatch('globalAudio/dispatch_play')
+							return false
+						}
+						await post1(collections_index_play, {
+							product_item_id: item.product_item_id
+						})
 						const res = await this.$post(collections_index_musicPlay, {
 							product_item_id: item.product_item_id
 						})

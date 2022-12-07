@@ -33,6 +33,7 @@ const addAudioEvent = (context) => {
 	const innerAudioContext = context.state.audioContext
 	innerAudioContext._events.onCanplay = []
 	innerAudioContext._events.onPlay = []
+	innerAudioContext._events.onPause = []
 	innerAudioContext._events.onTimeUpdate = []
 	innerAudioContext._events.onEnded = []
 	innerAudioContext.onCanplay(() => {
@@ -41,10 +42,14 @@ const addAudioEvent = (context) => {
 		context.commit('set_audioTimeTotal', audioTimeTotal)
 	});
 	innerAudioContext.onPlay(() => {
+		context.commit('set_paused', false)
 		const audioTimeUpdate = sToHs(Math.floor(innerAudioContext.currentTime * 1000));
 		context.commit('set_audioTimeUpdate', audioTimeUpdate)
-		// context.audioPlay();
+
 	});
+	innerAudioContext.onPause(() => {
+		context.commit('set_paused', true)
+	})
 	innerAudioContext.onTimeUpdate(function() {
 		const audioTimeUpdate = sToHs(Math.floor(innerAudioContext.currentTime * 1000));
 		context.commit('set_audioTimeUpdate', audioTimeUpdate)
@@ -56,7 +61,7 @@ const addAudioEvent = (context) => {
 		const audioTimeUpdate = sToHs(Math.floor(innerAudioContext.duration * 1000));
 		context.commit('set_audioTimeUpdate', audioTimeUpdate)
 		context.commit('set_slider', 100)
-		// context.audioPause();
+		context.commit('set_paused', true)
 	});
 
 	// innerAudioContext.onError(res => {});
@@ -81,7 +86,8 @@ export default {
 		audioContext: createAudioContext(),
 		audioTimeTotal: 0, //总时长
 		audioTimeUpdate: 0, //现在时间位置
-		slider: 0 //进度条进度
+		slider: 0, //进度条进度
+		paused: false
 
 	},
 	mutations: {
@@ -102,10 +108,15 @@ export default {
 		// 设置进度条进度
 		set_slider(state, data) {
 			state.slider = data
+		},
+		// 播放暂停
+		set_paused(state, data) {
+			state.paused = data
 		}
 
 	},
 	actions: {
+		// 新增播放歌曲
 		dispatch_music(context, data) {
 			context.commit('set_audioTimeTotal', sToHs(Math.floor(0)))
 			context.commit('set_audioTimeUpdate', sToHs(Math.floor(0)))
@@ -116,6 +127,16 @@ export default {
 			if (!context.state.show) {
 				context.commit('set_show', true)
 			}
+		},
+		// 播放或暂停
+		dispatch_play(context, data) {
+			// 调用实例播放暂停方法 在实例里监听播放暂停事件改变paused
+			if (context.state.audioContext.paused) {
+				context.state.audioContext.play()
+			} else {
+				context.state.audioContext.pause()
+			}
+
 		}
 	}
 }
