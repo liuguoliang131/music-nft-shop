@@ -309,6 +309,7 @@
 			},
 			async getSingles() {
 				try {
+					this.loading = true
 					const res = await post1(h5_collections_index_singleMusicList, {
 						page: this.page++
 					})
@@ -339,6 +340,7 @@
 			},
 			async getAlbum() {
 				try {
+					this.loading = true
 					const res = await post1(h5_collections_index_albumMusicList, {
 						page: this.page++
 					})
@@ -368,6 +370,7 @@
 			},
 			async getDigital() {
 				try {
+					this.loading = true
 					const res = await post1(h5_collections_index_digitMusicList, {
 						page: this.page++
 					})

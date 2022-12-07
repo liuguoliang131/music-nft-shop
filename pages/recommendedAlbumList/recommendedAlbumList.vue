@@ -13,8 +13,9 @@
 					<image class="cover-img" src="https://file.yuanyinfu.com/front-end-lib/albumbg.png"></image>
 					<image class="cover-turn" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode=""></image>
 					<image class="cover-turn1" :src="item.index_img" mode=""></image>
-					<image v-show="item.publish_type===1" class="cover-play" src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""
-						@tap.stop="handPlay(item)"></image>
+					<image v-show="item.publish_type===1" class="cover-play"
+						src="https://file.yuanyinfu.com/front-end-lib/play.png" mode="" @tap.stop="handPlay(item)">
+					</image>
 					<!-- <image class="cover-play" src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode="" @tap.stop="handPlay(item)"></image> -->
 				</view>
 				<view class="item-row1">
@@ -105,7 +106,7 @@
 			},
 			async getList() {
 				try {
-					console.log('getlist')
+					// console.log('getlist')
 					this.loading = true
 					const res = await post1(collections_index_digitMusicList, {
 						page: this.page++

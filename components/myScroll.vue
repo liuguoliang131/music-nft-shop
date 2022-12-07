@@ -33,15 +33,15 @@
 			}
 		},
 		watch: {
-			loading: {
-				handler(newVal) {
-					console.log('watch loading', newVal)
-					if (newVal === false) {
-						console.log('watch loading1', newVal)
-						this.notFull()
-					}
-				}
-			}
+			// loading: {
+			// 	handler(newVal) {
+			// 		// console.log('watch loading', newVal)
+			// 		if (newVal === false) {
+			// 			// console.log('watch loading1', newVal)
+			// 			this.notFull()
+			// 		}
+			// 	}
+			// }
 		},
 		methods: {
 			scroll(e) {
@@ -55,10 +55,11 @@
 			},
 			// 只要底边在窗口内 就触发load
 			onload() {
-				console.log('onload', this.loading, this.isFinish)
+				// console.log('onload', this.loading, this.isFinish)
 				if (this.isFinish === false) {
 					if (!this.loading) {
-						console.log('onload1', this.loading, this.isFinish)
+						// console.log('onload1', this.loading, this.isFinish)
+						// console.log('onload', this.$refs.window.$el.clientHeight, this.$refs.scroll.$el.scrollHeight)
 						this.$emit('load', this.data)
 					}
 					// this.$emit('load', this.data)
@@ -68,26 +69,31 @@
 			},
 			// 滚动块高度小于窗口高度时会一直调用onload
 			notFull() {
-				console.log('notFull', this.$refs.window.$el.clientHeight, this.$refs.scroll.$el.scrollHeight)
+				// console.log('notFull', this.$refs.window.$el.clientHeight, this.$refs.scroll.$el.scrollHeight)
 				if (this.$refs.scroll.$el.scrollHeight < this.$refs.window.$el.clientHeight) {
-					// console.log(this.$refs.window.$el.clientHeight, this.$refs.scroll.$el.scrollHeight)
+					console.log('notFull', this.$refs.window.$el.clientHeight, this.$refs.scroll.$el.scrollHeight)
 					this.onload()
 				}
 			}
 		},
 		mounted() {
-			console.log('myScroll mounted')
+			// console.log('myScroll mounted')
 			this.notFull()
 
 		},
 		created() {
-			console.log('myScroll created')
+			// console.log('myScroll created')
 		},
 		updated() {
-			console.log('myScroll updated')
+			// console.log('myScroll updated')
+			// 防止没有渲染就调用下次
+			if (this.loading === false) {
+				// console.log('watch loading1', newVal)
+				this.notFull()
+			}
 		},
 		activated() {
-			console.log('myScroll activated')
+			// console.log('myScroll activated')
 			this.$refs.window.$el.scrollTop = this.scrollTop
 		}
 	}
