@@ -8,7 +8,7 @@
 
 <script>
 	export default {
-		name: "dialog",
+		name: "MyDialog",
 		data() {
 			return {
 				visible: false

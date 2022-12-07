@@ -30,7 +30,7 @@
 									余额：￥{{myAmount.toFixed(2)}}
 								</view>
 							</view>
-							<view class="text-1-2">
+							<view class="text-1-2" @tap="handShowDialog2">
 								充值
 							</view>
 						</view>
@@ -88,6 +88,15 @@
 				<view :class="['dialog-text2',$store.state.user.inApp?'hideText':'']">请前往元音符App进行设置</view>
 				<view v-if="$store.state.user.inApp" class="dialog-bottom" @tap="goNativePage({
 					page:'pwdSettingPage',isNeedLogin:true,params:{}})">去设置</view>
+				<view v-else class="dialog-bottom" @tap="goDownload">下载App</view>
+			</view>
+		</my-dialog>
+		<my-dialog ref="myDialog2">
+			<view class="dialog-content">
+				<view class="dialog-text1">零钱充值</view>
+				<view :class="['dialog-text2',$store.state.user.inApp?'hideText':'']">请前往元音符App进行充值</view>
+				<view v-if="$store.state.user.inApp" class="dialog-bottom" @tap="goNativePage({
+					page:'cashRechargePage',isNeedLogin:true,params:{}})">去充值</view>
 				<view v-else class="dialog-bottom" @tap="goDownload">下载App</view>
 			</view>
 		</my-dialog>
@@ -460,9 +469,11 @@
 					})
 				}
 			},
+			handShowDialog2() {
+				this.$refs.myDialog2.show()
+			},
 			// 支付
 			handPay() {
-				return this.$refs.myDialog.show()
 				try {
 					const pay_id = this.list.find(item => item.checked).pay_id
 					if (pay_id === 2) {
