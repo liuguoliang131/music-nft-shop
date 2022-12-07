@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<nav-head title="订单详情"></nav-head>
+		<nav-head title="转赠"></nav-head>
 		<view class="title mt20">
 			<text class="title-v"></text>
 			<text v-if="product_type===1">单曲信息</text>
@@ -51,10 +51,10 @@
 					</view>
 					<view class="box1-2-2-r">
 						<template v-if="product_type===1">
-							单曲唱片
+							黄金单曲
 						</template>
 						<template v-else-if="product_type===2">
-							专辑唱片
+							黄金专辑
 						</template>
 						<template v-else-if="product_type===3">
 							数字音乐
