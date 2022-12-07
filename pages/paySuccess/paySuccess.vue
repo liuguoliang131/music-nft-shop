@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<nav-head title="支付成功" :useSelfBack="true" @navBack="handGoDetail"></nav-head>
+		<nav-head title="支付成功" :useSelfBack="true" @navBack="handleBack"></nav-head>
 		<view class="box1">
 			<image class="icon" src="https://file.yuanyinfu.com/front-end-lib/Frame41.png"></image>
 			<view class="row1">支付成功</view>
@@ -12,7 +12,7 @@
 			</view>
 		</view>
 		<view class="box2">
-			<view class="btn1" @tap="handGoDetail">查看订单</view>
+			<view class="btn1" @tap="handleBack">查看订单</view>
 			<view class="btn2" @tap="handBackIndex">返回首页</view>
 		</view>
 	</view>
@@ -26,6 +26,7 @@
 		},
 		data() {
 			return {
+				pageOrigin: '',
 				data: {
 					order_no: '',
 					order_id: '',
@@ -39,9 +40,10 @@
 			};
 		},
 		onLoad(option) {
+			if (option.pageOrigin) {
+				this.pageOrigin = option.pageOrigin
+			}
 			this.data = Object.assign(this.data, JSON.parse(option.data))
-			let currentRoutes = getCurrentPages(); // 获取当前打开过的页面路由数组
-			console.log(currentRoutes)
 		},
 		methods: {
 			handleBack() {
@@ -57,15 +59,24 @@
 				// 		delta: 1, //返回层数，2则上上页
 				// 	})
 				// }
-				// 通知页面刷新
-				this.$store.commit('publicState/set_refresh', true)
-				uni.navigateBack({
-					delta: 2
-				})
+
+				if (this.pageOrigin === 'settlement') {
+					// 返回到商品详情
+					uni.navigateBack({
+						delta: 2
+					})
+				} else {
+					// 返回到订单列表或者订单详情
+					// 通知页面刷新
+					this.$store.commit('publicState/set_refresh', true)
+					uni.navigateBack({
+						delta: 1
+					})
+				}
 			},
 			// 去往订单详情
 			handGoDetail() {
-				uni.reLaunch({
+				uni.redirectTo({
 					url: `/pages/orderList/orderList?product_type=${this.data.product_type}`
 				})
 			},

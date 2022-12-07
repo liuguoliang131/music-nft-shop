@@ -76,28 +76,28 @@
 		<my-dialog ref="myDialog">
 			<view class="dialog-content">
 				<view class="dialog-text1">您的余额不足</view>
-				<view :class="['dialog-text2',$store.state.user.inApp?'hideText':'']">请前往元音符App进行充值</view>
+				<view :class="['dialog-text2',$store.state.user.inApp?'hideText':'']">请前往元音符APP进行充值</view>
 				<view v-if="$store.state.user.inApp" class="dialog-bottom" @tap="goNativePage({
 					page:'cashRechargePage',isNeedLogin:true,params:{}})">去充值</view>
-				<view v-else class="dialog-bottom" @tap="goDownload">下载App</view>
+				<view v-else class="dialog-bottom" @tap="goDownload">下载APP</view>
 			</view>
 		</my-dialog>
 		<my-dialog ref="myDialog1">
 			<view class="dialog-content">
 				<view class="dialog-text1">未设置支付密码</view>
-				<view :class="['dialog-text2',$store.state.user.inApp?'hideText':'']">请前往元音符App进行设置</view>
+				<view :class="['dialog-text2',$store.state.user.inApp?'hideText':'']">请前往元音符APP进行设置</view>
 				<view v-if="$store.state.user.inApp" class="dialog-bottom" @tap="goNativePage({
 					page:'pwdSettingPage',isNeedLogin:true,params:{}})">去设置</view>
-				<view v-else class="dialog-bottom" @tap="goDownload">下载App</view>
+				<view v-else class="dialog-bottom" @tap="goDownload">下载APP</view>
 			</view>
 		</my-dialog>
 		<my-dialog ref="myDialog2">
 			<view class="dialog-content">
 				<view class="dialog-text1">零钱充值</view>
-				<view :class="['dialog-text2',$store.state.user.inApp?'hideText':'']">请前往元音符App进行充值</view>
+				<view :class="['dialog-text2',$store.state.user.inApp?'hideText':'']">请前往元音符APP进行充值</view>
 				<view v-if="$store.state.user.inApp" class="dialog-bottom" @tap="goNativePage({
 					page:'cashRechargePage',isNeedLogin:true,params:{}})">去充值</view>
-				<view v-else class="dialog-bottom" @tap="goDownload">下载App</view>
+				<view v-else class="dialog-bottom" @tap="goDownload">下载APP</view>
 			</view>
 		</my-dialog>
 	</view>
@@ -144,7 +144,8 @@
 				password: [],
 				keyboardList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'C', '0', '清空'],
 				myAmount: 0, //余额
-				hasPw: null //是否设置了密码  null为请求loading状态
+				hasPw: null, //是否设置了密码  null为请求loading状态
+				pageOrigin: ''
 			};
 		},
 		components: {
@@ -450,7 +451,7 @@
 							clearTimeout(this.timer)
 							uni.redirectTo({
 								// url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}&order_id=${res.data.order_id}`
-								url: `/pages/paySuccess/paySuccess?data=${JSON.stringify(res.data)}`
+								url: `/pages/paySuccess/paySuccess?data=${JSON.stringify(res.data)}&pageOrigin=${this.pageOrigin}`
 							})
 						} else {
 							uni.showToast({
@@ -607,6 +608,10 @@
 			this.order_no = option.order_no
 			this.order_price = option.order_price
 			this.getOrderResult()
+			// 页面来源 用于跳转逻辑 优化体验
+			if (option.pageOrigin) {
+				this.pageOrigin = option.pageOrigin
+			}
 		},
 		onShow() {
 			// this.listenPaySuccess()  // 不再使用微信支付了，注释掉

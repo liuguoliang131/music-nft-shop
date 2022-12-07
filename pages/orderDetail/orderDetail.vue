@@ -275,6 +275,9 @@
 				this.$store.commit('publicState/set_refresh', false)
 			}
 		},
+		beforeDestroy() {
+			this.$store.commit('publicState/set_refresh', true)
+		},
 		filters: {
 			filterPayType(e) {
 				const list = {

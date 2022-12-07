@@ -143,15 +143,15 @@
 		</wyb-popup>
 		<my-dialog ref="myDialog">
 			<view class="dialog-content">
-				<view :class="['dialog-text3']">请前往元音符App进行充值</view>
-				<view class="dialog-bottom" @tap="goDownload">下载App</view>
+				<view :class="['dialog-text3']">请前往元音符APP进行充值</view>
+				<view class="dialog-bottom" @tap="goDownload">下载APP</view>
 			</view>
 		</my-dialog>
 		<my-dialog ref="myDialog1">
 			<view class="dialog-content">
 				<view class="dialog-text1">未设置支付密码</view>
-				<view :class="['dialog-text2']">请前往元音符App进行设置</view>
-				<view class="dialog-bottom" @tap="goDownload">下载App</view>
+				<view :class="['dialog-text2']">请前往元音符APP进行设置</view>
+				<view class="dialog-bottom" @tap="goDownload">下载APP</view>
 			</view>
 		</my-dialog>
 	</view>

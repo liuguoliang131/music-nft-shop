@@ -89,7 +89,7 @@
 						包含{{data.singles_num}}首单曲
 					</view>
 				</view> -->
-				<view class="box1-2-2" v-if="product_type!==2">
+				<view class="box1-2-2" v-if="data.publish_type==1">
 					<view class="box1-2-2-l">
 						创作者
 					</view>
@@ -333,7 +333,7 @@
 					// 	}
 					// }
 					uni.navigateTo({
-						url: `/pages/cashier/cashier?product_item_id=${this.product_item_id}&order_no=${res.data.order_no}&order_price=${res.data.order_price}&count_down=${res.data.count_down}`
+						url: `/pages/cashier/cashier?product_item_id=${this.product_item_id}&order_no=${res.data.order_no}&order_price=${res.data.order_price}&count_down=${res.data.count_down}&pageOrigin=settlement`
 					})
 				} catch (e) {
 					//TODO handle the exception
@@ -349,6 +349,7 @@
 			this.buy_num = Number(option.buy_num)
 			this.data = JSON.parse(option.params)
 			this.product_type = Number(option.type)
+
 		}
 	}
 </script>
