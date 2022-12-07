@@ -138,8 +138,9 @@
 				})
 			},
 			goToLogin() {
-				this.$store.commit('user/set_token', '')
-				this.$store.commit('user/set_userInfo', '')
+				this.$store.dispatch('user/dispatch_clearUserData')
+				this.$store.dispatch('globalAudio/dispatch_music')
+				this.$store.commit('globalAudio/set_show', false)
 				uni.redirectTo({
 					url: '/pages/login/login'
 				})

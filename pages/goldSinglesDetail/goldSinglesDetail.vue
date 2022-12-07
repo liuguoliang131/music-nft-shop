@@ -304,7 +304,7 @@
 			</view>
 		</template>
 
-		<wyb-popup ref="popup" type="bottom" zIndex="99" height="800" width="750" radius="6" bgColor="#1D1D1D"
+		<wyb-popup ref="popup" type="bottom" zIndex="10" height="800" width="750" radius="6" bgColor="#1D1D1D"
 			:showCloseIcon="true">
 			<view class="popup-content" ref="popupContent">
 				<view class="popup-i">

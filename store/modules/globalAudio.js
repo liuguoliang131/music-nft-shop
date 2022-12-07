@@ -81,7 +81,7 @@ export default {
 			music_url: '', //歌曲链接
 			author_name: '',
 			product_item_id: '',
-			product_name: '', //歌名
+			product_name: '' //歌名
 		}, // 当前播放的音乐信息
 		audioContext: createAudioContext(),
 		audioTimeTotal: 0, //总时长
@@ -94,7 +94,13 @@ export default {
 		set_show(state, data) {
 			state.show = data
 		},
-		set_music(state, data) {
+		set_music(state, data = {
+			index_url: '', //封面图
+			music_url: '', //歌曲链接
+			author_name: '',
+			product_item_id: '',
+			product_name: '' //歌名
+		}) {
 			state.music = data
 		},
 		// 设置总时长
@@ -127,6 +133,10 @@ export default {
 			if (!context.state.show) {
 				context.commit('set_show', true)
 			}
+			WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
+				//在这里调用你的播放方法
+				context.state.audioContext.play()
+			}, false);
 		},
 		// 播放或暂停
 		dispatch_play(context, data) {

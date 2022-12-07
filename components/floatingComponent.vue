@@ -53,7 +53,7 @@
 	.floatingComponent {
 		color: #ffff;
 		position: fixed;
-		z-index: 3;
+		z-index: 11;
 		top: calc(100vh - 300rpx);
 		left: 0;
 		// width: 300rpx;

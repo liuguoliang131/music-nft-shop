@@ -22,17 +22,25 @@ const getHeader = (data) => {
 		sortParams[idx] = key + '=' + data[key]
 	})
 	const afterUrl = sortParams.join('&') // 参数串
-	console.log(afterUrl)
+	// console.log(afterUrl)
 	let md5After = ''
 	if (afterUrl) {
 		md5After = afterUrl + '&ak=' + 'hanhou-app' + '&ts=' + ts + onlykey
 	} else {
 		md5After = 'ak=' + 'hanhou-app' + '&ts=' + ts + onlykey
 	}
-	console.log('md5After', md5After)
+	// console.log('md5After', md5After)
 	const sign = md5(md5After)
 	headers.sign = sign
 	return headers
+
+}
+// 清空个人数据
+const clearUserData = () => {
+	store.dispatch('globalAudio/dispatch_music')
+	store.commit('globalAudio/set_show', false)
+	store.dispatch('user/dispatch_clearUserData')
+	goLogin()
 
 }
 // post
@@ -58,7 +66,7 @@ export const post = function(url, data = {}) {
 					reject(new Error('网络请求错误，请检查网络'))
 				} else {
 					if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
-						goLogin()
+						clearUserData()
 					} else {
 						resolve(res.data)
 					}
@@ -97,7 +105,7 @@ export const post1 = function(url, data = {}) {
 					reject(new Error('网络请求错误，请检查网络'))
 				} else {
 					if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
-						goLogin()
+						clearUserData()
 					} else {
 						resolve(res.data)
 					}
@@ -142,7 +150,7 @@ export const get = function(url, params = {}) {
 					reject(new Error('网络请求错误，请检查网络'))
 				} else {
 					if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
-						goLogin()
+						clearUserData()
 					} else {
 						resolve(res.data)
 					}
@@ -182,7 +190,7 @@ export const get1 = function(url, params = {}) {
 					reject(new Error('网络请求错误，请检查网络'))
 				} else {
 					if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
-						goLogin()
+						clearUserData()
 					} else {
 						resolve(res.data)
 					}

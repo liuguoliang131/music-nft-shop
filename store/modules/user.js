@@ -38,5 +38,11 @@ export default {
 			state.share_sign = data
 		}
 
+	},
+	actions: {
+		dispatch_clearUserData(context) {
+			context.commit('set_token', '')
+			context.commit('set_userInfo', '')
+		}
 	}
 }
