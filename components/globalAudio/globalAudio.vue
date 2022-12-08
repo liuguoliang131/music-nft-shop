@@ -76,26 +76,29 @@
 		width: 700rpx;
 		height: 3.5em;
 		border-radius: 0.2em;
-		border: 1px solid rgba(0, 0, 0, 0.3);
+		// border: 1px solid rgba(0, 0, 0, 0.3);
 		background-color: #ffff;
-		padding: 0.5em 0;
+		// padding: 0.5em 0;
 		border-radius: 0.5em;
 	}
 
 	.cover-warp {
 		position: relative;
 		flex-shrink: 0;
-		width: 3.5em;
-		height: 3.5em;
-		margin-left: 0.5em;
+		width: 112rpx;
+		height: 112rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		// margin-left: 0.5em;
 
 		&.hasbg {
 			background-color: #353535;
 		}
 
 		.cover-img {
-			width: 3.5em;
-			height: 3.5em;
+			width: 90rpx;
+			height: 90rpx;
 		}
 
 		.play-btn {
@@ -104,8 +107,8 @@
 			left: 50%;
 			top: 50%;
 			transform: translateX(-50%) translateY(-50%);
-			width: 2.5em;
-			height: 2.5em;
+			width: 50rpx;
+			height: 50rpx;
 			border-radius: 50%;
 			background-size: 100% 100%;
 			background-image: url('https://file.yuanyinfu.com/front-end-lib/play.png');
@@ -119,14 +122,15 @@
 	.audio-con {
 		position: relative;
 		flex: 1;
-		padding: 0 1em;
+		padding: 0 32rpx 0 20rpx;
 		background-color: #ffff;
 
 		.audio-title {
 			position: absolute;
-			left: 10%;
-			top: 0;
-			color: #AEAEAE;
+			left: 20rpx;
+			top: 14rpx;
+			color: #1E1E1E;
+			font-size: 26rpx;
 		}
 
 		.audio-author {
@@ -139,13 +143,16 @@
 		.audio-time-info {
 			display: flex;
 			flex-wrap: nowrap;
+			box-sizing: border-box;
 			height: 100%;
+			padding-top: 40rpx;
 			align-items: center;
 			//要添加该属性，防止滑动报错
 			touch-action: none;
 
 			.audio-time {
 				color: #9d9d9d;
+				font-size: 26rpx;
 			}
 
 			.audio-slider {
