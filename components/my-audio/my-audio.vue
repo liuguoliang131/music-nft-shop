@@ -204,6 +204,14 @@
 				innerAudioContext.onError(res => {});
 				_this.innerAudioContext = innerAudioContext;
 				_this.$emit('update:play', false);
+				if (window.hasOwnProperty('WeixinJSBridge')) {
+					WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
+						//在这里调用你的播放方法
+						_this.innerAudioContext.play()
+
+					}, false)
+				}
+
 			},
 			_seeking(e) {},
 			_seeked(e) {
