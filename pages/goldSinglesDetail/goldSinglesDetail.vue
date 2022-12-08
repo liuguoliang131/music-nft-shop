@@ -1183,7 +1183,7 @@
 		}
 
 		.footer {
-			height: 160rpx;
+			height: 272rpx;
 		}
 
 		.floatingCom {
