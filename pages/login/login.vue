@@ -34,12 +34,7 @@
 		<view class="footer">
 			COPYRIGHT © 2022 HANHOU
 		</view>
-		<!-- <wyb-popup ref="popup" type="bottom" height="701" width="750" radius="6" bgColor="#1D1D1D"
-			:showCloseIcon="true">
-			<view class="popup-content">
-				<tf-verify-img @succeed="verifySuccess" @close="showVerify = false" v-if="showVerify"></tf-verify-img>
-			</view>
-		</wyb-popup> -->
+
 		<tf-verify-img @succeed="verifySuccess" @close="showVerify = false" v-if="showVerify"></tf-verify-img>
 	</view>
 </template>
@@ -226,6 +221,16 @@
 			}
 		},
 		onLoad(option) {
+			// 先使用当前url携带的share_sign, 如果没有再使用本地储存的share_sign
+			const storage = window.sessionStorage.getItem('afterBackQuery')
+			if (storage) {
+				const {
+					query
+				} = JSON.parse(storage)
+				if (query.share_sign) {
+					this.share_sign = decodeURIComponent(query.share_sign)
+				}
+			}
 			if (option.share_sign) {
 				this.share_sign = decodeURIComponent(option.share_sign)
 			}

@@ -8,7 +8,7 @@
 
 <script>
 	export default {
-		name: "dialog",
+		name: "MyDialog",
 		data() {
 			return {
 				visible: false
@@ -41,10 +41,13 @@
 
 		.center-box {
 			width: 500rpx;
-			height: 0rpx;
+			min-height: 0;
 			background-color: transparent;
 			border-radius: 16rpx;
+			background-color: #fff;
 			transition: background-color 0.3s;
+			color: rgba(0, 0, 0, 0.9);
+			overflow: hidden;
 		}
 	}
 
@@ -54,7 +57,9 @@
 		visibility: visible;
 
 		.center-box {
+			border-radius: 16rpx;
 			background-color: #fff;
+			overflow: hidden;
 		}
 	}
 

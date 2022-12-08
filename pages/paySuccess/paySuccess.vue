@@ -1,14 +1,18 @@
 <template>
 	<view class="container">
-		<nav-head title="支付成功"></nav-head>
+		<nav-head title="支付成功" :useSelfBack="true" @navBack="handleBack"></nav-head>
 		<view class="box1">
 			<image class="icon" src="https://file.yuanyinfu.com/front-end-lib/Frame41.png"></image>
 			<view class="row1">支付成功</view>
-			<view class="row2">实付 ￥{{order_price}}</view>
-			<view class="row3">恭喜您已购买成功</view>
+			<view class="row2">实付 ￥{{data.order_price}}</view>
+			<view class="row3">
+				<text v-if="data.show_note">{{data.show_note}}</text>
+				<text class="ver" v-if="data.gift_desc">|</text>
+				<text v-if="data.gift_desc">{{data.gift_desc}}</text>
+			</view>
 		</view>
 		<view class="box2">
-			<view class="btn1" @tap="handGoDetail">查看订单</view>
+			<view class="btn1" @tap="handleBack">查看订单</view>
 			<view class="btn2" @tap="handBackIndex">返回首页</view>
 		</view>
 	</view>
@@ -22,35 +26,61 @@
 		},
 		data() {
 			return {
-				order_no: '',
-				order_id: '',
-				order_price: '0.00',
-				product_item_id: ''
+				pageOrigin: '',
+				data: {
+					order_no: '',
+					order_id: '',
+					order_price: '0.00',
+					product_item_id: '',
+					product_type: null,
+					show_note: '',
+					gift_desc: ''
+				}
+
 			};
 		},
 		onLoad(option) {
-			this.order_id = option.order_id
-			this.order_price = option.order_price
+			if (option.pageOrigin) {
+				this.pageOrigin = option.pageOrigin
+			}
+			this.data = Object.assign(this.data, JSON.parse(option.data))
 		},
 		methods: {
 			handleBack() {
 
-				let currentRoutes = getCurrentPages(); // 获取当前打开过的页面路由数组
-				console.log(currentRoutes)
-				if (currentRoutes.length === 1) {
-					uni.redirectTo({
-						url: '/pages/index/index'
+				// let currentRoutes = getCurrentPages(); // 获取当前打开过的页面路由数组
+				// console.log(currentRoutes)
+				// if (currentRoutes.length === 1) {
+				// 	uni.redirectTo({
+				// 		url: '/pages/index/index'
+				// 	})
+				// } else {
+				// 	uni.navigateBack({
+				// 		delta: 1, //返回层数，2则上上页
+				// 	})
+				// }
+
+				if (this.pageOrigin === 'settlement') {
+					// // 返回到商品详情
+					// uni.navigateBack({
+					// 	delta: 2
+					// })
+					uni.reLaunch({
+						url: `/pages/orderList/orderList?product_type=${this.data.product_type}`
 					})
 				} else {
+					// 返回到订单列表或者订单详情
+					// 通知页面刷新
+					this.$store.commit('publicState/set_refresh', true)
 					uni.navigateBack({
-						delta: 1, //返回层数，2则上上页
+						delta: 1
 					})
 				}
 			},
 			// 去往订单详情
 			handGoDetail() {
-				uni.reLaunch({
-					url: '/pages/orderDetail/orderDetail?id=' + this.order_id
+				uni.redirectTo({
+					url: `/pages/orderList/orderList?product_type=${this.data.product_type}`
 				})
 			},
 			// 去往首页
@@ -100,6 +130,11 @@
 				margin-top: 8rpx;
 				font-size: 28rpx;
 				line-height: 40rpx;
+				text-align: center;
+
+				.ver {
+					padding: 0 14rpx;
+				}
 			}
 		}
 

@@ -2,29 +2,47 @@
 	<view class="container">
 		<nav-head title="收银台"></nav-head>
 		<view class="box1">
-			<view class="price">
-				<text class="rmb">￥</text>
-				<text class="count">{{order_price}}</text>
-			</view>
 			<view class="time">
 				<text class="time-text">剩余支付时间</text>
 				<text class="time-count">{{displayTime}}</text>
 			</view>
+			<view class="price">
+				<text class="rmb">￥</text>
+				<text class="count">{{order_price}}</text>
+			</view>
 		</view>
 		<view class="box2">
 			<view class="box2-item" v-for="(item,idx) in list" :key="item.pay_id">
-				<image v-if="item.pay_id===2" class="icon" src="https://file.yuanyinfu.com/front-end-lib/wx.png"></image>
-				<image v-else-if="item.pay_id===1" class="icon" src="https://file.yuanyinfu.com/front-end-lib/zhifubao.png"></image>
-				<image v-else-if="item.pay_id===4" class="icon" src="https://file.yuanyinfu.com/front-end-lib/lingqian.png"></image>
-				<view class="text">
-					{{item.pay_name}}
-					<text class="text-1" v-if="item.pay_id===4">
-						余额：￥{{myAmount.toFixed(2)}}
-					</text>
-				</view>
-				<view class="radio" @click="handSelect(idx)">
-					<image v-show="item.checked" class="checked" src="https://file.yuanyinfu.com/front-end-lib/select.png"></image>
-					<view v-show="!item.checked" class="nocheck"></view>
+				<image v-if="item.pay_id===2" class="icon" src="https://file.yuanyinfu.com/front-end-lib/wx.png">
+				</image>
+				<image v-else-if="item.pay_id===1" class="icon"
+					src="https://file.yuanyinfu.com/front-end-lib/zhifubao.png"></image>
+				<image v-else-if="item.pay_id===4" class="icon"
+					src="https://file.yuanyinfu.com/front-end-lib/lingqian.png"></image>
+				<view class="item-right">
+					<view class="text">
+						<view class="text-1">
+							<view class="text-1-1">
+								<view class="text-1-1-1">
+									{{item.pay_name}}
+								</view>
+								<view class="text-1-1-2" v-if="item.pay_id===4">
+									余额：￥{{myAmount.toFixed(2)}}
+								</view>
+							</view>
+							<view class="text-1-2" @tap="handShowDialog2">
+								充值
+							</view>
+						</view>
+						<!-- <view class="text-2">
+							零钱支付送奇点
+						</view> -->
+					</view>
+					<view class="radio" @click="handSelect(idx)">
+						<image v-show="item.checked" class="checked"
+							src="https://file.yuanyinfu.com/front-end-lib/select.png"></image>
+						<view v-show="!item.checked" class="nocheck"></view>
+					</view>
 				</view>
 			</view>
 			<view class="empty-cell"></view>
@@ -58,19 +76,28 @@
 		<my-dialog ref="myDialog">
 			<view class="dialog-content">
 				<view class="dialog-text1">您的余额不足</view>
-				<view :class="['dialog-text2',$store.state.user.inApp?'hideText':'']">请前往元音符App进行充值</view>
+				<view :class="['dialog-text2',$store.state.user.inApp?'hideText':'']">请前往元音符APP进行充值</view>
 				<view v-if="$store.state.user.inApp" class="dialog-bottom" @tap="goNativePage({
 					page:'cashRechargePage',isNeedLogin:true,params:{}})">去充值</view>
-				<view v-else class="dialog-bottom" @tap="goDownload">下载App</view>
+				<view v-else class="dialog-bottom" @tap="goDownload">下载APP</view>
 			</view>
 		</my-dialog>
 		<my-dialog ref="myDialog1">
 			<view class="dialog-content">
 				<view class="dialog-text1">未设置支付密码</view>
-				<view :class="['dialog-text2',$store.state.user.inApp?'hideText':'']">请前往元音符App进行设置</view>
+				<view :class="['dialog-text2',$store.state.user.inApp?'hideText':'']">请前往元音符APP进行设置</view>
 				<view v-if="$store.state.user.inApp" class="dialog-bottom" @tap="goNativePage({
 					page:'pwdSettingPage',isNeedLogin:true,params:{}})">去设置</view>
-				<view v-else class="dialog-bottom" @tap="goDownload">下载App</view>
+				<view v-else class="dialog-bottom" @tap="goDownload">下载APP</view>
+			</view>
+		</my-dialog>
+		<my-dialog ref="myDialog2">
+			<view class="dialog-content">
+				<view class="dialog-text1">零钱充值</view>
+				<view :class="['dialog-text2',$store.state.user.inApp?'hideText':'']">请前往元音符APP进行充值</view>
+				<view v-if="$store.state.user.inApp" class="dialog-bottom" @tap="goNativePage({
+					page:'cashRechargePage',isNeedLogin:true,params:{}})">去充值</view>
+				<view v-else class="dialog-bottom" @tap="goDownload">下载APP</view>
 			</view>
 		</my-dialog>
 	</view>
@@ -117,7 +144,8 @@
 				password: [],
 				keyboardList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'C', '0', '清空'],
 				myAmount: 0, //余额
-				hasPw: null //是否设置了密码  null为请求loading状态
+				hasPw: null, //是否设置了密码  null为请求loading状态
+				pageOrigin: ''
 			};
 		},
 		components: {
@@ -187,6 +215,7 @@
 					if (this.count_down <= 1) {
 						clearInterval(this.timer)
 						uni.showToast({
+							icon: 'none',
 							title: '订单已失效请重新下单，即将为您返回到详情页',
 							mask: true,
 							duration: 3000
@@ -421,7 +450,8 @@
 						if (res.data.pay_status === 1) {
 							clearTimeout(this.timer)
 							uni.redirectTo({
-								url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}&order_id=${res.data.order_id}`
+								// url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}&order_id=${res.data.order_id}`
+								url: `/pages/paySuccess/paySuccess?data=${JSON.stringify(res.data)}&pageOrigin=${this.pageOrigin}`
 							})
 						} else {
 							uni.showToast({
@@ -440,13 +470,16 @@
 					})
 				}
 			},
+			handShowDialog2() {
+				this.$refs.myDialog2.show()
+			},
 			// 支付
 			handPay() {
 				try {
 					const pay_id = this.list.find(item => item.checked).pay_id
 					if (pay_id === 2) {
 						// 微信支付
-						this.wxPay(pay_id)
+						// this.wxPay(pay_id)  // 不再使用微信支付
 					} else if (pay_id === 4) {
 						// 打开零钱支付的密码输入框
 						if (this.hasPw === null) {
@@ -575,9 +608,13 @@
 			this.order_no = option.order_no
 			this.order_price = option.order_price
 			this.getOrderResult()
+			// 页面来源 用于跳转逻辑 优化体验
+			if (option.pageOrigin) {
+				this.pageOrigin = option.pageOrigin
+			}
 		},
 		onShow() {
-			this.listenPaySuccess()
+			// this.listenPaySuccess()  // 不再使用微信支付了，注释掉
 			this.getUserAmountAndHasPw()
 		},
 		onHide() {
@@ -597,23 +634,8 @@
 			height: 400rpx;
 			text-align: center;
 
-			.price {
-				padding-top: 150rpx;
-				height: 100rpx;
-				color: rgba(209, 9, 16, 1);
-				line-height: 100rpx;
-
-				.rmb {
-					font-size: 44rpx;
-				}
-
-				.count {
-					font-size: 58rpx;
-					font-weight: 600;
-				}
-			}
-
 			.time {
+				padding-top: 150rpx;
 				font-size: 28rpx;
 				line-height: 40rpx;
 				/* identical to box height */
@@ -628,10 +650,28 @@
 					margin-left: 8rpx;
 				}
 			}
+
+			.price {
+
+				height: 100rpx;
+				color: rgba(209, 9, 16, 1);
+				line-height: 100rpx;
+
+				.rmb {
+					font-size: 44rpx;
+				}
+
+				.count {
+					font-size: 64rpx;
+					font-weight: 600;
+				}
+			}
+
+
 		}
 
 		.box2 {
-			border-top: 1rpx solid #363636;
+			// border-top: 1rpx solid #363636;
 			overflow-y: scroll;
 			height: 800rpx;
 
@@ -641,47 +681,120 @@
 
 			.box2-item {
 				display: flex;
-				align-items: center;
+				// align-items: center;
 				height: 100rpx;
-				padding: 0 30rpx;
-				border-bottom: 1rpx solid #363636;
+				padding-top: 32rpx;
 
 				.icon {
 					width: 54rpx;
 					height: 54rpx;
+					margin-left: 30rpx;
+					// margin-top: 28rpx;
+
 				}
 
-				.text {
+				.item-right {
 					flex: 1;
-					margin-left: 20rpx;
-					margin-right: 20rpx;
-					font-size: 30rpx;
+					display: flex;
+					align-items: center;
+					margin-left: 40rpx;
+					border-bottom: 1rpx solid #363636;
+					padding-bottom: 28rpx;
 
-					.text-1 {
-						margin-left: 40rpx;
-						font-size: 20rpx;
-						color: #D10910;
+					.text {
+						flex: 1;
+						margin-right: 20rpx;
+						font-family: 'PingFang SC';
+						font-style: normal;
+						font-weight: 400;
+						color: #DDDDDD;
+						display: flex;
+
+						.text-1 {
+							// width: 358rpx;
+							flex: 1;
+							display: flex;
+
+							.text-1-1 {
+
+								.text-1-1-1 {
+									font-size: 30rpx;
+									line-height: 42rpx;
+									color: #DDDDDD;
+								}
+
+								.text-1-1-2 {
+									max-width: 250rpx;
+									padding-top: 2rpx;
+									font-size: 24rpx;
+									line-height: 34rpx;
+									color: #D10910;
+									overflow: hidden; // 溢出隐藏
+									white-space: nowrap; // 强制一行
+									text-overflow: ellipsis; // 文字溢出显示省略号
+								}
+							}
+
+							.text-1-2 {
+								margin-top: 38rpx;
+								margin-left: 10rpx;
+								border: 0.5rpx solid #C8A964;
+								border-radius: 19rpx;
+								width: 96rpx;
+								height: 38rpx;
+								display: flex;
+								align-items: center;
+								justify-content: center;
+
+								font-family: 'PingFang SC';
+								font-style: normal;
+								font-weight: 500;
+								font-size: 22rpx;
+								line-height: 38rpx;
+
+								color: #C8A964;
+							}
+						}
+
+						.text-2 {
+							font-family: 'PingFang SC';
+							font-style: normal;
+							font-weight: 400;
+							font-size: 24rpx;
+							line-height: 46rpx;
+							width: 200rpx;
+							height: 46rpx;
+							/* identical to box height */
+
+							text-align: center;
+							color: #ECECEC;
+
+							opacity: 0.8;
+							background: #292929;
+							border-radius: 23rpx 0 23rpx 23rpx;
+						}
 					}
-				}
 
-				.radio {
-					position: relative;
-					width: 44rpx;
-					height: 44rpx;
-
-					.nocheck {
-						width: 40rpx;
-						height: 40rpx;
-						border-radius: 22rpx;
-						border: 2rpx solid #363636;
-					}
-
-					.checked {
-						position: absolute;
-						top: 0rpx;
-						left: 0rpx;
+					.radio {
+						position: relative;
 						width: 44rpx;
 						height: 44rpx;
+						margin-right: 30rpx;
+
+						.nocheck {
+							width: 40rpx;
+							height: 40rpx;
+							border-radius: 22rpx;
+							border: 2rpx solid #363636;
+						}
+
+						.checked {
+							position: absolute;
+							top: 0rpx;
+							left: 0rpx;
+							width: 44rpx;
+							height: 44rpx;
+						}
 					}
 				}
 			}
@@ -703,7 +816,7 @@
 				background: #D10910;
 				border-radius: 48px;
 				height: 96rpx;
-				width: 474rpx;
+				width: 686rpx;
 				font-weight: 500;
 				font-size: 32rpx;
 
@@ -826,6 +939,7 @@
 			white-space: nowrap; // 强制一行
 			text-overflow: ellipsis; // 文字溢出显示省略号
 			text-align: center;
+			background-color: #fff;
 
 			.dialog-text1 {
 				padding-top: 70rpx;

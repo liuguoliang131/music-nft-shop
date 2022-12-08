@@ -56,7 +56,7 @@ export const getHashQuery = (url = window.location.href) => {
 			strArr1.forEach(item => {
 				if (item.includes('share_sign=')) {
 					const strArr2 = item.split('share_sign=')
-					console.log('share_sign', strArr2)
+					// console.log('share_sign', strArr2)
 					params.query.share_sign = strArr2[1]
 				} else {
 					const strArr2 = item.split('=')
@@ -103,7 +103,7 @@ export const goLogin = () => {
 			url = url + '?' + kvList.join('&')
 		}
 
-		uni.navigateTo({
+		uni.reLaunch({
 			url
 		})
 	}
@@ -216,7 +216,7 @@ export const shareUrlImage = ({
 	}))
 }
 // 判断应用系统
-export const isWhatSysTem = () => {
+export const isWhatSystem = () => {
 	const userMessage = navigator.userAgent
 	const isAndroid = userMessage.indexOf('Andriod') > -1 || userMessage.indexOf('Adr') > -1 // 当前为Andriod环境
 	// console.log('isAndroid', isAndroid)
@@ -419,7 +419,7 @@ export const jumpWxAuthUrl = () => {
 		}).then(res => {
 			// 删除地址url中的code  跳转
 			if (window.sessionStorage.getItem('afterBackUrl')) {
-				window.location.href = window.sessionStorage.getItem('afterBackUrl')
+				window.location.replace(window.sessionStorage.getItem('afterBackUrl'))
 			}
 
 		}).catch(error => {
@@ -429,12 +429,16 @@ export const jumpWxAuthUrl = () => {
 			})
 		})
 
+
 	} else {
 		if (getOpenId()) {
 			return false
 		} else {
 			// 离开时记录一下当前的地址 授权页返回code时跳转回这个地址
 			window.sessionStorage.setItem('afterBackUrl', window.location.href)
+			const afterBackQuery = getHashQuery()
+			window.sessionStorage.setItem('afterBackQuery', JSON.stringify(
+				afterBackQuery)) //记录初次进入后url携带信息，解决授权后可能丢失信息的问题
 			window.location.replace(
 				`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${config.appId}&redirect_uri=${config.appURL}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
 			)

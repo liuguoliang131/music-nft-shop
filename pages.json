@@ -201,7 +201,8 @@
 			"path": "pages/testPage1/testPage1",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
 			}
 
 		}, {
@@ -240,6 +241,22 @@
 			"path": "pages/digitalRecordsDetail/digitalRecordsDetail",
 			"style": {
 				"navigationBarTitleText": "唱片详情",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/subgift/subgift",
+			"style": {
+				"navigationBarTitleText": "转赠",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/subgiftRecord/subgiftRecord",
+			"style": {
+				"navigationBarTitleText": "转赠记录",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}

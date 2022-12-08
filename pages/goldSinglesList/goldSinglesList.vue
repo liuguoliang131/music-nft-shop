@@ -11,7 +11,8 @@
 			<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
 				<view class="item-1">
 					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
-						v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
+						v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode="">
+					</image>
 					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
 						v-else-if="item.rare_type==='UR'" src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode="">
 					</image>
@@ -122,7 +123,7 @@
 			},
 			async getList() {
 				try {
-					console.log('getlist')
+					// console.log('getlist')
 					this.loading = true
 					const res = await this.$post(collections_index_singleMusicList, {
 						page: this.page++

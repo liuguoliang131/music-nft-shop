@@ -11,16 +11,24 @@
 			<view class="box1-1">
 				<image :src="detail.index_url" mode=""></image>
 				<view class="sideline"></view>
+				<image class="rare" v-if="detail.rare_type==='SSR'"
+					src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
+				<image class="rare" v-else-if="detail.rare_type==='UR'"
+					src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode=""></image>
+				<image class="rare" v-else-if="detail.rare_type==='R'"
+					src="https://file.yuanyinfu.com/front-end-lib/R.png" mode=""></image>
+				<image class="rare" v-else-if="detail.rare_type==='SR'"
+					src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode=""></image>
 			</view>
 			<view class="box1-2">
 				<view class="box1-2-1">
 					{{detail.name}}
 				</view>
-				<!-- <view class="box1-2-2">
+				<view class="box1-2-2">
 					<view class="box1-2-2-r">
 						包含{{detail.singles_num}}首单曲
 					</view>
-				</view> -->
+				</view>
 				<view class="box1-2-2">
 					<view class="box1-2-2-l">
 						发行方
@@ -214,7 +222,6 @@
 <script>
 	import NavHead from '../../components/navHead.vue'
 	import {
-		collections_user_collectionInfo,
 		h5_order_detail
 	} from '../../request/api.js'
 	import {
@@ -232,6 +239,7 @@
 			return {
 				show: false,
 				product_type: 0,
+				order_id: null,
 				detail: {
 					"order_id": null,
 					"product_item_id": null,
@@ -256,10 +264,19 @@
 			}
 		},
 		onLoad(e) {
-			const id = e.id
+			this.order_id = Number(e.id)
 			this.product_type = Number(e.product_type)
-			this.getOrderDetail(id)
+			this.getOrderDetail()
 
+		},
+		onShow() {
+			if (this.$store.state.publicState.refresh) {
+				this.getOrderDetail()
+				this.$store.commit('publicState/set_refresh', false)
+			}
+		},
+		beforeDestroy() {
+			this.$store.commit('publicState/set_refresh', true)
 		},
 		filters: {
 			filterPayType(e) {
@@ -276,9 +293,9 @@
 			filterTimes(e) {
 				return dayjs(e).format('YYYY/MM/DD HH:mm:ss')
 			},
-			getOrderDetail(e) {
+			getOrderDetail() {
 				post(h5_order_detail, {
-					order_id: Number(e)
+					order_id: this.order_id
 				}).then(res => {
 					this.detail = res.data
 				})
@@ -358,6 +375,7 @@
 				position: relative;
 				width: 240rpx;
 				height: 240rpx;
+				border-radius: 20rpx;
 
 				image {
 					width: 240rpx;
@@ -377,11 +395,23 @@
 					border: 1rpx solid rgba(255, 255, 255, 0.2);
 					border-radius: 20rpx;
 				}
+
+				.rare {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 84rpx;
+					height: 40rpx;
+					border-radius: 0;
+				}
 			}
 
 			.box1-2 {
 				flex: 1;
 				padding-left: 40rpx;
+				overflow: hidden; // 溢出隐藏
+				white-space: nowrap; // 强制一行
+				text-overflow: ellipsis; // 文字溢出显示省略号
 
 				.box1-2-1 {
 					font-weight: 500;
@@ -400,10 +430,10 @@
 					font-weight: 400;
 					font-size: 26rpx;
 					line-height: 36rpx;
-
+					min-width: 0;
 
 					.box1-2-2-l {
-						width: 128rpx;
+						width: 122rpx;
 						color: #777777;
 					}
 

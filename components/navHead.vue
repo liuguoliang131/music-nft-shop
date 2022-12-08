@@ -1,8 +1,9 @@
 <template>
 	<view :class="$store.state.user.inApp?'slots':'web'">
 		<view class="nav">
-			<image v-show="left" @tap="navBack()" class="nav-left" src="https://file.yuanyinfu.com/front-end-lib/navLeft.png" mode=""></image>
-			<text class="nav-center">{{title}}</text>
+			<image v-show="left" @tap="navBack()" class="nav-left"
+				src="https://file.yuanyinfu.com/front-end-lib/navLeft.png" mode=""></image>
+			<text class="nav-center" v-show="$store.state.user.inApp">{{title}}</text>
 			<text v-show="right" class="nav-right">
 				<slot></slot>
 			</text>
@@ -29,6 +30,10 @@
 			},
 			right: {
 				default: true
+			},
+			useSelfBack: {
+				defalt: false,
+				description: '左侧返回键触发后调用新方法navBack'
 			}
 		},
 		data() {
@@ -38,6 +43,9 @@
 		},
 		methods: {
 			navBack() {
+				if (this.useSelfBack) {
+					return this.$emit('navBack', null)
+				}
 				if (this.$store.state.user.inApp) {
 					goBack()
 				} else {

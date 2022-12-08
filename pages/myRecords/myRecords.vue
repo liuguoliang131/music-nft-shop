@@ -1,19 +1,17 @@
 <template>
 	<view class="container">
 		<nav-head title="我的唱片"></nav-head>
-		<my-tab v-show="$store.state.user.inApp" :list="tabList" @active="handActiveBar" :activeBar="activeBar"
-			:slide="false"></my-tab>
+		<my-tab :list="tabList" @active="handActiveBar" :activeBar="activeBar" :slide="false"></my-tab>
 		<view class="notice">
 			当前拥有{{total_num}}张
 		</view>
-		<view :class="['empty',$store.state.user.inApp?'':'h5-scroll']" v-if="isFinish&&list.length===0">
+		<view :class="['empty']" v-if="isFinish&&list.length===0">
 			<view class="empty-center">
 				<image src="https://file.yuanyinfu.com/front-end-lib/emptybox.png" mode="" class="empty-img"></image>
 				<view class="empty-text">空空如也，请先去选购</view>
 			</view>
 		</view>
-		<my-scroll v-else :class="['scroll-box',$store.state.user.inApp?'':'h5-scroll']" :isFinish="isFinish"
-			:loading="loading" @load="getList">
+		<my-scroll v-else :class="['scroll-box']" :isFinish="isFinish" :loading="loading" @load="getList">
 			<view class="item" v-for="(item , index) in list" @click="handleGoToDetail(item)" :key='index'>
 				<!-- <view class="item-image">
 					<view class="item-image-image" :style="`background-image:url(${item.index_img})`">
@@ -40,11 +38,16 @@
 				<view class="cover">
 					<image class="cover-img" :src="item.index_img" mode=""></image>
 					<view class="type-icon" v-if="activeBar!==3">
-						<image v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
-						<image v-else-if="item.rare_type==='UR'" src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode=""></image>
-						<image v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png" mode=""></image>
-						<image v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png" mode=""></image>
-						<image v-else-if="item.rare_type==='SR'" src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode=""></image>
+						<image v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png"
+							mode=""></image>
+						<image v-else-if="item.rare_type==='UR'" src="https://file.yuanyinfu.com/front-end-lib/UR.png"
+							mode=""></image>
+						<image v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png"
+							mode=""></image>
+						<image v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png"
+							mode=""></image>
+						<image v-else-if="item.rare_type==='SR'" src="https://file.yuanyinfu.com/front-end-lib/SR.png"
+							mode=""></image>
 					</view>
 				</view>
 
@@ -85,15 +88,6 @@
 		data() {
 			return {
 				tabList: [{
-						name: '数字音乐',
-						id: 3,
-						isFinish: false,
-						loading: false,
-						page: 1,
-						list: [],
-						total_num: 0
-					},
-					{
 						name: '黄金单曲',
 						id: 1,
 						isFinish: false,
@@ -110,10 +104,19 @@
 						page: 1,
 						list: [],
 						total_num: 0
+					},
+					{
+						name: '数字音乐',
+						id: 3,
+						isFinish: false,
+						loading: false,
+						page: 1,
+						list: [],
+						total_num: 0
 					}
 
 				],
-				activeBar: 3,
+				activeBar: 1,
 				page: 1,
 				isFinish: false,
 				loading: false,
@@ -122,9 +125,7 @@
 			}
 		},
 		created() {
-			if (!this.$store.state.user.inApp) {
-				this.activeBar = 2
-			}
+
 		},
 		onShow() {
 			// this.getList()

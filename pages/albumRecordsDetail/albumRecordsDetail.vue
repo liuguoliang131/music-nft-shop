@@ -172,7 +172,7 @@
 						发行时间
 					</view>
 					<view class="row3-2">
-						{{filterTimes(detail.certificate.publish_time * 1000)}}
+						{{detail.certificate.publish_time?filterTimes(detail.certificate.publish_time * 1000):''}}
 					</view>
 				</view>
 				<view class="cert-row3">
@@ -193,14 +193,13 @@
 	import MyDialog from '../../components/dialog.vue'
 	import {
 		collections_user_collectionInfo,
-		h5_order_detail
+		h5_collections_donation_checkout
 	} from '../../request/api.js'
 	import {
 		post
 	} from '../../request/index.js'
 	import {
 		openAppPage,
-		jumpBefore,
 		playAlbum
 	} from '../../utils/index.js'
 	import dayjs from 'dayjs'
@@ -237,9 +236,7 @@
 					"pay_time": 0,
 					author_info: {},
 					music_list: [],
-					certificate: {
-
-					}
+					certificate: {}
 				}
 			}
 		},
@@ -276,9 +273,48 @@
 			handViewCert() {
 				this.$refs.dialog.show()
 			},
-			handZhuanZeng() {
-				// {"page":"sendDiskGiftPage","isNeedLogin”:true,"params":{"product_item_id": 29, "owner_id": 2}}
+			async handZhuanZeng() {
+				// 购买后24小时内不允许转赠
+				const startDate = new Date(this.detail.start_time).getTime() + 86400000 //可以转赠的时间
+				const now = Date.now()
+				const differ = Date.now() - startDate
 
+				const timeStr = dayjs(Math.abs(differ)).format('HH时mm分ss秒')
+				if (differ < 0) {
+					return uni.showModal({
+						title: '温馨提示',
+						showCancel: false,
+						confirmColor: '#DC2D1E',
+						confirmText: '好的，我知道了',
+						content: `转赠需在${timeStr}后方可赠与实名认证用户!`,
+						success: (e) => {
+
+						}
+					})
+				}
+				const res = await this.$post(h5_collections_donation_checkout, {
+					owner_id: this.detail.owner_id,
+					product_item_id: this.detail.product_item_id
+				})
+				if (res.code !== 0) {
+					if (res.code === 710) {
+						uni.showToast({
+							title: '还没有实名认证,即将跳转到实名认证页',
+							icon: 'none'
+						})
+						setTimeout(() => {
+							uni.navigateTo({
+								url: `/pages/idAuth/idAuth`
+							})
+						}, 2000)
+					} else {
+						uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+					return false
+				}
 				if (this.$store.state.user.inApp) {
 					let appConfig = window.localStorage.getItem('AppConfigInfo')
 					if (appConfig) {
@@ -301,7 +337,9 @@
 						})
 					}
 				} else {
-					jumpBefore(null)
+					uni.navigateTo({
+						url: `/pages/subgift/subgift?product_type=2&info=${JSON.stringify(res.data.info)}`
+					})
 				}
 			},
 			handTingGe() {
@@ -405,7 +443,8 @@
 
 			.box1-2 {
 				flex: 1;
-				padding-left: 40rpx;
+				margin-left: 40rpx;
+				min-width: 0;
 
 				.box1-2-1 {
 					font-weight: 500;

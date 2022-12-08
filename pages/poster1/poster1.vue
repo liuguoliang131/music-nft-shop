@@ -12,8 +12,10 @@
 			</view>
 			<view class="box3" v-show="inApp">
 				可分享至
-				<image src="https://file.yuanyinfu.com/front-end-lib/share-wx.png" mode="" @tap="handleShare('wxFriend')"></image>
-				<image src="https://file.yuanyinfu.com/front-end-lib/share-friends.png" mode="" @tap="handleShare('timeline')"></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/share-wx.png" mode=""
+					@tap="handleShare('wxFriend')"></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/share-friends.png" mode=""
+					@tap="handleShare('timeline')"></image>
 				<image src="../../static/weibo.png" mode="" @tap="handleShare('weibo')"></image>
 			</view>
 		</view>
@@ -402,7 +404,7 @@
 			.box2 {
 				display: flex;
 				justify-content: center;
-				margin-top: 24rpx;
+				margin-top: 48rpx;
 				width: 100%;
 
 				.save {

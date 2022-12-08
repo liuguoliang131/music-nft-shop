@@ -12,9 +12,12 @@
 			</view>
 			<view class="box3" v-show="inApp">
 				可分享至
-				<image src="https://file.yuanyinfu.com/front-end-lib/share-wx.png" mode="" @tap="handleShare('wxFriend')"></image>
-				<image src="https://file.yuanyinfu.com/front-end-lib/share-friends.png" mode="" @tap="handleShare('timeline')"></image>
-				<image src="https://file.yuanyinfu.com/front-end-lib/weibo.png" mode="" @tap="handleShare('weibo')"></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/share-wx.png" mode=""
+					@tap="handleShare('wxFriend')"></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/share-friends.png" mode=""
+					@tap="handleShare('timeline')"></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/weibo.png" mode="" @tap="handleShare('weibo')">
+				</image>
 			</view>
 		</view>
 	</view>
@@ -43,6 +46,7 @@
 				isWx: false,
 				inApp: false, //是否在app内
 				product_item_id: '',
+				product_type: null,
 				context: null,
 				posterData: {
 					poster_url: '',
@@ -134,7 +138,8 @@
 						url = collections_index_sharePoster
 					}
 					const res = await this.$post(url, {
-						product_item_id: this.product_item_id
+						product_item_id: this.product_item_id,
+						product_type: this.product_type
 					})
 					if (res.code !== 0) {
 						return uni.showToast({
@@ -353,6 +358,7 @@
 			this.inApp = isApp()
 			this.product_item_id = option.product_item_id ? Number(option.product_item_id) : null
 			const type = Number(option.product_type)
+			this.product_type = type
 			const urls = {
 				1: '/#/pages/goldSinglesDetail/goldSinglesDetail',
 				2: '/#/pages/preOrderDetails/preOrderDetails',
@@ -423,7 +429,7 @@
 			.box2 {
 				display: flex;
 				justify-content: center;
-				margin-top: 24rpx;
+				margin-top: 48rpx;
 				width: 100%;
 
 				.save {

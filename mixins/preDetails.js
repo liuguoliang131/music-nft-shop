@@ -2,6 +2,7 @@
 
 export default {
 	methods: {
+		// 从原生页面返回到当前页面时触发此方法  调用detail刷新页面数据
 		onWatchState() {
 			try {
 				const that = this

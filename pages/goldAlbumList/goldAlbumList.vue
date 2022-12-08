@@ -10,19 +10,20 @@
 		<my-scroll v-else class="list" @load="getList" :isFinish="isFinish" :loading="loading">
 			<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
 				<view class="item-1">
-					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign" v-if="item.rare_type==='SSR'"
-						src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
-					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign" v-else-if="item.rare_type==='UR'"
-						src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode="">
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+						v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode="">
 					</image>
-					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign" v-else-if="item.rare_type==='R'"
-						src="https://file.yuanyinfu.com/front-end-lib/R.png" mode="">
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+						v-else-if="item.rare_type==='UR'" src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode="">
 					</image>
-					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign" v-else-if="item.rare_type==='N'"
-						src="https://file.yuanyinfu.com/front-end-lib/N.png" mode="">
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+						v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png" mode="">
 					</image>
-					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign" v-else-if="item.rare_type==='SR'"
-						src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode="">
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+						v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png" mode="">
+					</image>
+					<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
+						v-else-if="item.rare_type==='SR'" src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode="">
 					</image>
 					<image class="item-1-out" :src="item.index_img" mode=""></image>
 					<image class="item-1-in" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode=""></image>
@@ -109,7 +110,7 @@
 			},
 			async getList() {
 				try {
-					console.log('getlist')
+					// console.log('getlist')
 					this.loading = true
 					const res = await this.$post(collections_index_albumMusicList, {
 						page: this.page++

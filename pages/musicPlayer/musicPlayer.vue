@@ -14,7 +14,8 @@
 					<text class="name">{{item.name}}</text>
 					<text class="author">{{item.singer}}</text>
 				</text>
-				<image v-if="item.checked" class="item-icon" src="https://file.yuanyinfu.com/front-end-lib/pauseIcon.png"></image>
+				<image v-if="item.checked" class="item-icon"
+					src="https://file.yuanyinfu.com/front-end-lib/pauseIcon.png"></image>
 				<image v-else class="item-icon" src="https://file.yuanyinfu.com/front-end-lib/playIcon.png"></image>
 
 			</view>
@@ -22,9 +23,9 @@
 		<view class="player">
 			<!-- 			<audio id="audio1" ref="audio1" :src="active.music_url" :name="active.name" :controls="true"
 				@error="onError" @play="onPlay" @pause="onPause" @timeupdate="onTimeupdate" @ended="onEnded"></audio> -->
-			<wxy-audio v-if="active.music_url" :name="active.name" id="audio1" :src="active.music_url"
+			<my-audio v-if="active.music_url" :name="active.name" id="audio1" :src="active.music_url"
 				:play.sync="audioPlay" autoplay>
-			</wxy-audio>
+			</my-audio>
 		</view>
 
 	</view>
@@ -32,10 +33,10 @@
 
 <script>
 	import NavHead from '../../components/navHead.vue'
-	import WxyAudio from '../../uni_modules/wxy-audio/components/wxy-audio/wxy-audio.vue'
+	import MyAudio from '../../components/my-audio/my-audio.vue'
 	export default {
 		components: {
-			WxyAudio,
+			MyAudio,
 			NavHead
 		},
 		data() {
@@ -53,10 +54,8 @@
 				audioPlay: false
 			};
 		},
-		components: {
-			CuHead
-		},
 		onLoad(option) {
+			this.$store.state.globalAudio.audioContext.pause()
 			if (option.music_list) {
 				const list = JSON.parse(option.music_list)
 				list.forEach((item, index) => {
