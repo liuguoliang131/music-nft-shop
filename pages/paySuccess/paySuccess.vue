@@ -61,9 +61,12 @@
 				// }
 
 				if (this.pageOrigin === 'settlement') {
-					// 返回到商品详情
-					uni.navigateBack({
-						delta: 2
+					// // 返回到商品详情
+					// uni.navigateBack({
+					// 	delta: 2
+					// })
+					uni.reLaunch({
+						url: `/pages/orderList/orderList?product_type=${this.data.product_type}`
 					})
 				} else {
 					// 返回到订单列表或者订单详情

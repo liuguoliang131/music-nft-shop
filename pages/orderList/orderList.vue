@@ -1,6 +1,6 @@
 <template>
 	<view class="container order">
-		<nav-head title="我的订单"></nav-head>
+		<nav-head title="我的订单" :useSelfBack="true" @navBack="handleBack"></nav-head>
 		<my-tab :list="tabList" :activeBar="activeBar" @active="handActive" :slide="false"></my-tab>
 		<view class="order-nav">
 			<view class="order-nav-item" :class="index === activeNav ? 'active' : ''"
@@ -187,6 +187,20 @@
 			}
 		},
 		methods: {
+			handleBack() {
+				let currentRoutes = getCurrentPages() // 获取当前打开过的页面路由数组
+				// return console.log(currentRoutes)
+				if (currentRoutes.length === 1) {
+					uni.reLaunch({
+						url: '/pages/mine/mine'
+					})
+				} else {
+					uni.navigateBack({
+						delta: 1, //返回层数，2则上上页
+					})
+				}
+			},
+
 			initParams() {
 				this.page = 1
 				this.list = []
