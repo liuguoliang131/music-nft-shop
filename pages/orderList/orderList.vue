@@ -66,7 +66,7 @@
 
 						<view class="order-body-item-box-flex" style="margin-top: 20rpx;" v-if="item.pay_status === 0">
 							<view style="display: flex;align-items: center;margin-left: auto;margin-top: 8rpx;">
-								<button class="my-btn" @click.stop="handleClickCancle(item)">取消订单</button>
+								<button class="my-btn cancel-my-btn" @click.stop="handleClickCancle(item)">取消订单</button>
 								<button class="my-btn" @click.stop="handleGoCashier(item)"
 									style="border-color: #C9A43D;color: #C9A43D;margin-left: 10rpx;">去支付</button>
 							</view>
@@ -483,19 +483,26 @@
 		}
 
 		.my-btn {
-			border: none;
-			height: 50rpx;
-			border-radius: 50rpx;
-			padding: 0 40rpx;
+			width: 156rpx;
+			height: 48rpx;
 			line-height: 50rpx;
+			border-radius: 24rpx;
+			font-family: 'PingFang SC';
+			font-style: normal;
+			font-weight: 500;
 			font-size: 24rpx;
-			background-color: #0D0D0D;
-			color: #AEAEAE;
-			border: 1rpx solid #666;
+			border: 1rpx solid #C8A964;
+			text-align: center;
+			color: #C8A964;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			font-weight: 500;
+			background-color: transparent;
+		}
+
+		.cancel-my-btn {
+			border: 1rpx solid #AEAEAE;
+			color: #AEAEAE;
 		}
 	}
 

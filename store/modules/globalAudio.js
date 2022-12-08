@@ -133,13 +133,17 @@ export default {
 			if (!context.state.show) {
 				context.commit('set_show', true)
 			}
-			WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
-				//在这里调用你的播放方法
-				if (data) {
-					context.state.audioContext.play()
-				}
 
-			}, false);
+			if (data) {
+				if (window.hasOwnProperty('WeixinJSBridge')) {
+					WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
+						//在这里调用你的播放方法
+						context.state.audioContext.play()
+
+					}, false);
+				}
+			}
+
 		},
 		// 播放或暂停
 		dispatch_play(context, data) {

@@ -77,7 +77,7 @@
 		height: 3.5em;
 		border-radius: 0.2em;
 		border: 1px solid rgba(0, 0, 0, 0.3);
-		background-color: #353535;
+		background-color: #ffff;
 		padding: 0.5em 0;
 		border-radius: 0.5em;
 	}
@@ -120,7 +120,7 @@
 		position: relative;
 		flex: 1;
 		padding: 0 1em;
-		background-color: #353535;
+		background-color: #ffff;
 
 		.audio-title {
 			position: absolute;
