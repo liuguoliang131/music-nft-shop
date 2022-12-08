@@ -64,7 +64,7 @@
 		color: #ffff;
 		position: fixed;
 		z-index: 11;
-		bottom: 0;
+		bottom: 30rpx;
 		left: 25rpx;
 		// width: 300rpx;
 		// height: 300rpx;

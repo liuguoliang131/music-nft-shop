@@ -103,7 +103,7 @@ export const goLogin = () => {
 			url = url + '?' + kvList.join('&')
 		}
 
-		uni.reLaunch({
+		uni.navigateTo({
 			url
 		})
 	}
