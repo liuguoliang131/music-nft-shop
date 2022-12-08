@@ -89,7 +89,7 @@
 						包含{{data.singles_num}}首单曲
 					</view>
 				</view> -->
-				<view class="box1-2-2" v-if="data.publish_type==1">
+				<view class="box1-2-2" v-if="data.publish_type!=2">
 					<view class="box1-2-2-l">
 						创作者
 					</view>
