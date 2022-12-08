@@ -179,6 +179,7 @@
 					</view>
 				</view>
 			</view>
+			<view class="footer"></view>
 		</my-scroll>
 		<view class="container-bottom" v-if="!isLogin">
 			<view class="need-login">
@@ -1098,6 +1099,10 @@
 					}
 				}
 			}
+		}
+
+		.footer {
+			height: 112rpx;
 		}
 
 		.need-login {
