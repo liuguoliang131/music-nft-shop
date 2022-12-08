@@ -179,7 +179,6 @@
 					</view>
 				</view>
 			</view>
-			<view class="footer"></view>
 		</my-scroll>
 		<view class="container-bottom" v-if="!isLogin">
 			<view class="need-login">
@@ -639,6 +638,10 @@
 
 		.scroll-box {
 			height: calc(100vh - 214rpx);
+
+			/deep/.footer {
+				height: 142rpx;
+			}
 		}
 
 		.list-content1 {
@@ -1101,9 +1104,6 @@
 			}
 		}
 
-		.footer {
-			height: 112rpx;
-		}
 
 		.need-login {
 			z-index: 12;

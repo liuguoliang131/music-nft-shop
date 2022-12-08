@@ -8,6 +8,7 @@
 			<view class="noMore" v-show="isFinish">
 				没有更多了
 			</view>
+			<view class="footer"></view>
 		</view>
 	</view>
 </template>
