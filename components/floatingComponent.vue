@@ -1,5 +1,9 @@
 <template>
-	<view class="floatingComponent" ref="floating" @touchstart="onStart" @touchmove="onMove" @touchend="onEnd">
+	<view v-if="drag" class="floatingComponent" ref="floating" @touchstart="onStart" @touchmove="onMove"
+		@touchend="onEnd">
+		<slot></slot>
+	</view>
+	<view v-else class="floatingComponent" ref="floating">
 		<slot></slot>
 	</view>
 </template>
@@ -7,6 +11,12 @@
 <script>
 	export default {
 		name: "floatingComponent",
+		props: {
+			drag: {
+				type: Boolean,
+				default: false
+			}
+		},
 		data() {
 			return {
 				fLeft: 0, //手指距离盒子内边缘的距离
@@ -54,7 +64,7 @@
 		color: #ffff;
 		position: fixed;
 		z-index: 11;
-		top: calc(100vh - 300rpx);
+		bottom: 0;
 		left: 25rpx;
 		// width: 300rpx;
 		// height: 300rpx;

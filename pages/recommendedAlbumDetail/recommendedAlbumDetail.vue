@@ -363,7 +363,7 @@
 				</view>
 			</view>
 		</wyb-popup>
-		<floating-component v-if="$store.state.globalAudio.show">
+		<floating-component class="floatingCom" v-if="$store.state.globalAudio.show">
 			<GlobalAudio></GlobalAudio>
 		</floating-component>
 	</view>
@@ -1209,6 +1209,11 @@
 
 		.footer {
 			height: 160rpx;
+		}
+
+		.floatingCom {
+			z-index: 8;
+			bottom: 120rpx;
 		}
 
 		.bottom1 {

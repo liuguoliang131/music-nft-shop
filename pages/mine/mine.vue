@@ -18,10 +18,10 @@
 				资产地址：
 			</view>
 			<view class="mine-notice-title">
-				{{userInfo.public_key}}
+				{{userInfo.address}}
 			</view>
 			<image src="https://file.yuanyinfu.com/front-end-lib/copy-icon.png" class="mine-notice-copy" mode=""
-				@click='copy(userInfo.public_key)'>
+				@click='copy(userInfo.address)'>
 			</image>
 		</view>
 
