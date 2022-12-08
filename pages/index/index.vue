@@ -464,22 +464,6 @@
 				if (!this.$store.state.user.token) {
 					return this.handLogin()
 				}
-				if (this.$store.state.globalAudio.music.product_item_id !== item.product_item_id) {
-					await post1(collections_index_play, {
-						product_item_id: item.product_item_id
-					})
-					const res = await this.$post(collections_index_musicPlay, {
-						product_item_id: item.product_item_id
-					})
-					if (res.code !== 0) {
-						return uni.showToast({
-							title: res.msg,
-							icon: 'none'
-						})
-					}
-					const musicInfo = res.data
-					this.$store.dispatch('globalAudio/dispatch_music', musicInfo)
-				}
 
 				if (this.activeBar === 1) {
 					uni.navigateTo({
