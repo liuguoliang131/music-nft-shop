@@ -212,8 +212,9 @@
 			// position: absolute;
 			// bottom: 240rpx;
 			// left: 0;
-			margin-top: 360rpx;
-			margin-bottom: 50rpx;
+			position: fixed;
+			bottom: 50rpx;
+			left: 0;
 			width: 100%;
 		}
 
