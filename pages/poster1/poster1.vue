@@ -16,7 +16,8 @@
 					@tap="handleShare('wxFriend')"></image>
 				<image src="https://file.yuanyinfu.com/front-end-lib/share-friends.png" mode=""
 					@tap="handleShare('timeline')"></image>
-				<image src="../../static/weibo.png" mode="" @tap="handleShare('weibo')"></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/weibo.png" mode="" @tap="handleShare('weibo')">
+				</image>
 			</view>
 		</view>
 	</view>

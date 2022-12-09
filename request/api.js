@@ -131,3 +131,9 @@ export const h5_collections_index_digitMusicList = '/h5/collections_index/digitM
 export const h5_collections_index_albumMusicList = '/h5/collections_index/albumMusicList'
 // 获取奇点积分余额
 export const h5_user_getIntegral = '/h5/user/getIntegral'
+
+// 千首版权版本
+// 注册
+export const h5_base_register = '/h5/base/register'
+// 获取版权的海报分享信息
+export const h5_music_sharePoster = '/h5/music/sharePoster'

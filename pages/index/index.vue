@@ -24,24 +24,19 @@
 			<view class="list-content1" v-if="activeBar===1">
 				<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
 					<view class="item-1">
-						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
-							v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png"
-							mode=""></image>
-						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
-							v-else-if="item.rare_type==='UR'" src="https://file.yuanyinfu.com/front-end-lib/UR.png"
-							mode="">
+						<image class="item-1-sign" v-if="item.rare_type==='SSR'"
+							src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
+						<image class="item-1-sign" v-else-if="item.rare_type==='UR'"
+							src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode="">
 						</image>
-						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
-							v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png"
-							mode="">
+						<image class="item-1-sign" v-else-if="item.rare_type==='R'"
+							src="https://file.yuanyinfu.com/front-end-lib/R.png" mode="">
 						</image>
-						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
-							v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png"
-							mode="">
+						<image class="item-1-sign" v-else-if="item.rare_type==='N'"
+							src="https://file.yuanyinfu.com/front-end-lib/N.png" mode="">
 						</image>
-						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
-							v-else-if="item.rare_type==='SR'" src="https://file.yuanyinfu.com/front-end-lib/SR.png"
-							mode="">
+						<image class="item-1-sign" v-else-if="item.rare_type==='SR'"
+							src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode="">
 						</image>
 						<image class="item-1-out" :src="item.index_img" mode=""></image>
 						<image class="item-1-in" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode="">
@@ -57,11 +52,11 @@
 								{{item.author_name}}
 							</view>
 						</view>
-						<view class="item-2-3" v-show="!$store.state.publicState.isApprove">
+						<view class="item-2-3">
 							限量{{item.stock_num_desc}}份
 						</view>
 						<view class="item-2-4">
-							<view class="item-2-4-1" v-show="!$store.state.publicState.isApprove">
+							<view class="item-2-4-1">
 								￥{{item.sale_price}}
 							</view>
 							<view class="item-2-4-2" @tap.stop="handPlay(item)">
@@ -85,24 +80,19 @@
 			<view class="list-content2" v-else-if="activeBar===2">
 				<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
 					<view class="item-1">
-						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
-							v-if="item.rare_type==='SSR'" src="https://file.yuanyinfu.com/front-end-lib/SSR.png"
-							mode=""></image>
-						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
-							v-else-if="item.rare_type==='UR'" src="https://file.yuanyinfu.com/front-end-lib/UR.png"
-							mode="">
+						<image class="item-1-sign" v-if="item.rare_type==='SSR'"
+							src="https://file.yuanyinfu.com/front-end-lib/SSR.png" mode=""></image>
+						<image class="item-1-sign" v-else-if="item.rare_type==='UR'"
+							src="https://file.yuanyinfu.com/front-end-lib/UR.png" mode="">
 						</image>
-						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
-							v-else-if="item.rare_type==='R'" src="https://file.yuanyinfu.com/front-end-lib/R.png"
-							mode="">
+						<image class="item-1-sign" v-else-if="item.rare_type==='R'"
+							src="https://file.yuanyinfu.com/front-end-lib/R.png" mode="">
 						</image>
-						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
-							v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png"
-							mode="">
+						<image class="item-1-sign" v-else-if="item.rare_type==='N'"
+							src="https://file.yuanyinfu.com/front-end-lib/N.png" mode="">
 						</image>
-						<image v-show="!$store.state.publicState.isApprove" class="item-1-sign"
-							v-else-if="item.rare_type==='SR'" src="https://file.yuanyinfu.com/front-end-lib/SR.png"
-							mode="">
+						<image class="item-1-sign" v-else-if="item.rare_type==='SR'"
+							src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode="">
 						</image>
 						<image class="item-1-out" :src="item.index_img" mode=""></image>
 						<image class="item-1-in" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode="">
@@ -121,14 +111,14 @@
 							</view>
 
 						</view>
-						<view class="item-2-3" v-show="!$store.state.publicState.isApprove">
+						<view class="item-2-3">
 							{{filterTimes(item.sale_time*1000)}}发售
 						</view>
-						<view class="item-2-3" v-show="!$store.state.publicState.isApprove">
+						<view class="item-2-3">
 							限量{{item.stock_num_desc}}份
 						</view>
 						<view class="item-2-4">
-							<view class="item-2-4-1" v-show="!$store.state.publicState.isApprove">
+							<view class="item-2-4-1">
 								￥{{item.sale_price}}
 							</view>
 							<view class="item-2-4-2" @tap="handGo(item)">
@@ -170,7 +160,7 @@
 						<text class="item-row2-1">
 							{{item.author_name}}
 						</text>
-						<text class="item-row2-2" v-show="!$store.state.publicState.isApprove">
+						<text class="item-row2-2">
 							<text class="row2-2-unit">
 								￥
 							</text>

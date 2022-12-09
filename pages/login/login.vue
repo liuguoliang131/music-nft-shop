@@ -40,13 +40,7 @@
 </template>
 
 <script>
-	import CuHead from '../../components/cu-head.vue'
-	import config from '../../utils/uniKey.js'
-	import WybPopup from '../../components/wyb-popup/wyb-popup.vue'
 	import TfVerifyImg from '../../components/tf-verify-img/tf-verify-img.vue'
-	import {
-		getHashQuery
-	} from '../../utils/index.js'
 	import {
 		h5_base_login,
 		h5_base_captcha,
@@ -54,9 +48,7 @@
 	} from '../../request/api.js'
 	export default {
 		components: {
-			WybPopup,
-			TfVerifyImg,
-			CuHead
+			TfVerifyImg
 		},
 		data() {
 			return {
@@ -166,9 +158,6 @@
 			},
 			async login() {
 				try {
-					const {
-						query
-					} = getHashQuery()
 					const data = {
 						phone: this.form.phone,
 						captcha: this.form.captcha
@@ -359,7 +348,7 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				width: 474rpx;
+				width: 650rpx;
 				height: 96rpx;
 				background: #D10910;
 				border-radius: 48rpx;

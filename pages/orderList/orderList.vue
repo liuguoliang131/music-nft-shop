@@ -30,7 +30,8 @@
 								mode=""></image>
 							<!-- <image v-else-if="item.rare_type==='N'" src="https://file.yuanyinfu.com/front-end-lib/N.png"
 								mode=""></image> -->
-							<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
+							<image v-else-if="item.rare_type==='SR'"
+								src="https://file.yuanyinfu.com/front-end-lib/SR.png" mode=""></image>
 						</view>
 					</view>
 					<view class="order-body-item-box">

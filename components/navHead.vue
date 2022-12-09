@@ -112,19 +112,17 @@
 			}
 
 			.nav-right {
-				position: absolute;
-				top: 60rpx;
-				right: 28rpx;
+				top: 80rpx;
+				left: 28rpx;
+				width: 48rpx;
+				height: 48rpx;
 				display: flex;
 				align-items: center;
 				justify-content: flex-end;
-				width: 88rpx;
-				height: 88rpx;
 
 				image {
-					background-color: red;
-					width: 48rpx !important;
-					height: 48rpx;
+					width: 100%;
+					height: 100%;
 				}
 			}
 		}

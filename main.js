@@ -7,6 +7,7 @@ import {
 	get
 } from './request/index.js'
 import store from './store/index.js'
+import NavHead from './components/navHead.vue'
 import GlobalAudio from './components/globalAudio/globalAudio.vue'
 import {
 	getUserInfo,
@@ -17,6 +18,7 @@ import {
 } from './utils/index.js'
 Vue.prototype.$store = store
 Vue.config.productionTip = false
+Vue.component('NavHead', NavHead)
 Vue.component('GlobalAudio', GlobalAudio)
 App.mpType = 'app'
 Vue.prototype.$post = post

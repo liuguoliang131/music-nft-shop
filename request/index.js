@@ -64,6 +64,12 @@ export const post = function(url, data = {}) {
 						icon: 'none'
 					})
 					reject(new Error('网络请求错误，请检查网络'))
+				} else if (res.statusCode === 404) {
+					uni.showToast({
+						title: '网络请求错误404',
+						icon: 'none'
+					})
+					reject(new Error('网络请求错误404'))
 				} else {
 					if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
 						clearUserData()
@@ -103,6 +109,12 @@ export const post1 = function(url, data = {}) {
 						icon: 'none'
 					})
 					reject(new Error('网络请求错误，请检查网络'))
+				} else if (res.statusCode === 404) {
+					uni.showToast({
+						title: '网络请求错误404',
+						icon: 'none'
+					})
+					reject(new Error('网络请求错误404'))
 				} else {
 					if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
 						clearUserData()
@@ -148,6 +160,12 @@ export const get = function(url, params = {}) {
 						icon: 'none'
 					})
 					reject(new Error('网络请求错误，请检查网络'))
+				} else if (res.statusCode === 404) {
+					uni.showToast({
+						title: '网络请求错误404',
+						icon: 'none'
+					})
+					reject(new Error('网络请求错误404'))
 				} else {
 					if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
 						clearUserData()
@@ -188,6 +206,12 @@ export const get1 = function(url, params = {}) {
 						icon: 'none'
 					})
 					reject(new Error('网络请求错误，请检查网络'))
+				} else if (res.statusCode === 404) {
+					uni.showToast({
+						title: '网络请求错误404',
+						icon: 'none'
+					})
+					reject(new Error('网络请求错误404'))
 				} else {
 					if (res.data.code === 700 || res.data.code === 701 || res.data.code === 702) {
 						clearUserData()

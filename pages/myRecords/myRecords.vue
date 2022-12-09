@@ -13,28 +13,6 @@
 		</view>
 		<my-scroll v-else :class="['scroll-box']" :isFinish="isFinish" :loading="loading" @load="getList">
 			<view class="item" v-for="(item , index) in list" @click="handleGoToDetail(item)" :key='index'>
-				<!-- <view class="item-image">
-					<view class="item-image-image" :style="`background-image:url(${item.index_img})`">
-					</view>
-					<view class="item-image-level">
-						<image v-if="item.rare_type==='SSR'" src="../../static/SSR.png" mode=""></image>
-						<image v-else-if="item.rare_type==='UR'" src="../../static/UR.png" mode=""></image>
-						<image v-else-if="item.rare_type==='R'" src="../../static/R.png" mode=""></image>
-						<image v-else-if="item.rare_type==='N'" src="../../static/N.png" mode=""></image>
-						<image v-else-if="item.rare_type==='SR'" src="../../static/SR.png" mode=""></image>
-					</view>
-				</view>
-				<view class="item-title">
-					{{item.name}}
-				</view>
-				<view class="flex">
-					<view class="item-number">
-						{{item.code_num}}
-					</view>
-					<view class="item-price">
-						￥<text>{{item.price}}</text>
-					</view>
-				</view> -->
 				<view class="cover">
 					<image class="cover-img" :src="item.index_img" mode=""></image>
 					<view class="type-icon" v-if="activeBar!==3">
