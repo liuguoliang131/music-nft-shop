@@ -182,7 +182,6 @@
 						})
 					}
 					this.$store.commit('user/set_userInfo', res1.data)
-					this.$store.commit('user/set_share_sign', '')
 					uni.showToast({
 						icon: 'success',
 						title: '登录成功'

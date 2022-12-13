@@ -784,15 +784,12 @@
 			// 	this.visitStatics()
 			// })
 			this.product_item_id = Number(option.product_item_id)
-			let share_sign = option.share_sign || ''
-			this.$store.commit('user/set_share_sign', share_sign)
-			this.share_sign = share_sign
 			this.getDetails(this.product_item_id)
 			this.visitStatics()
 
 		},
 		onShow() {
-			this.share_sign = this.$store.state.user.share_sign
+
 		},
 		created() {
 			console.log('created')

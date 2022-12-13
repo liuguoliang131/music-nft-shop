@@ -171,12 +171,11 @@
 				display: flex;
 				align-items: center;
 				justify-content: flex-end;
-				width: 88rpx;
+				width: 48rpx;
 				height: 88rpx;
 
 				image {
-					background-color: red;
-					width: 48rpx !important;
+					width: 48rpx;
 					height: 48rpx;
 				}
 			}

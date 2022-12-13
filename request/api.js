@@ -133,7 +133,17 @@ export const h5_collections_index_albumMusicList = '/h5/collections_index/albumM
 export const h5_user_getIntegral = '/h5/user/getIntegral'
 
 // 千首版权版本
+// 获取邀请人信息
+export const h5_base_inviterInfo = '/h5/base/inviterInfo'
 // 注册
 export const h5_base_register = '/h5/base/register'
 // 获取版权的海报分享信息
 export const h5_music_sharePoster = '/h5/music/sharePoster'
+// 版权的海报分享统计
+export const h5_music_share = '/h5/music/share'
+// 版权 作品信息
+export const h5_show_musicInfo = '/h5/show/musicInfo'
+// 版权 交易信息
+export const h5_show_musicTransactionInfo = '/h5/show/musicTransactionInfo'
+// 版权 其他作品
+export const h5_show_otherMusicList = '/h5/show/otherMusicList'

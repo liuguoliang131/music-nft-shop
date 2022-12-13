@@ -2,10 +2,10 @@
 	<view class="container">
 		<nav-head title="注册"></nav-head>
 		<view class="header">
-			<view class="" v-if="sharedByphone">
-				您的好友{{sharedByphone|filterPhone}}诚邀您加入元音符
+			<view class="" v-if="sharedByGuy">
+				您的好友{{sharedByGuy}}诚邀您加入元音符
 			</view>
-			<view class="" v-if="sharedByphone">
+			<view class="" v-if="sharedByGuy">
 				一起来共享版权回报
 			</view>
 		</view>
@@ -26,7 +26,7 @@
 				</view>
 				<view class="box-item">
 					<input class="uni-input" maxlength="16" type="text" placeholder="请输入昵称"
-						placeholder-style="color: #AEAEAE;" v-model.trim="form.name" />
+						placeholder-style="color: #AEAEAE;" v-model.trim="form.nick_name" />
 				</view>
 			</view>
 			<view class="submit" @tap="handValid">
@@ -54,13 +54,15 @@
 	export default {
 		data() {
 			return {
-				sharedByphone: '',
+				sharedByGuy: '',
 				form: {
 					phone: '',
 					captcha: '',
-					name: ''
+					nick_name: ''
 				},
-				share_sign: '',
+				sharedByGuy: '',
+				next: '/',
+				id: '',
 				showVerify: false,
 				agree: false,
 				timer: null,
@@ -95,7 +97,7 @@
 
 				const res = await this.$post(h5_base_captcha, {
 					phone: this.form.phone,
-					use_type: 6
+					use_type: 7
 				})
 				console.log(res)
 				if (res.code !== 0) {
@@ -159,6 +161,7 @@
 							title: res.msg
 						})
 					}
+					this.$store.commit('user/set_token', res.data.token)
 					this.login()
 
 				} catch (e) {
@@ -174,22 +177,7 @@
 			},
 			async login() {
 				try {
-					const data = {
-						phone: this.form.phone,
-						captcha: this.form.captcha
-					}
-					if (this.share_sign) {
-						data.share_sign = this.share_sign
-					}
-					const res = await post1(h5_base_login, data)
-					if (res.code !== 0) {
-						uni.hideLoading()
-						return uni.showToast({
-							icon: 'none',
-							title: res.msg
-						})
-					}
-					this.$store.commit('user/set_token', res.data.token)
+
 					const res1 = await this.$get(h5_user_info)
 					if (res1.code !== 0) {
 						uni.hideLoading()
@@ -199,15 +187,36 @@
 						})
 					}
 					this.$store.commit('user/set_userInfo', res1.data)
-					this.$store.commit('user/set_share_sign', '')
 					uni.hideLoading()
 					uni.showToast({
 						icon: 'success',
 						title: '登录成功'
 					})
-					uni.reLaunch({
-						url: '/pages/index/index'
-					})
+					if (!this.next) {
+						return uni.reLaunch({
+							url: '/pages/index/index'
+						})
+					}
+
+					if (this.next === 'goldSinglesDetail') {
+						uni.reLaunch({
+							url: '/pages/goldSinglesDetail/goldSinglesDetail?product_item_id=' + this.id
+						})
+					} else if (this.next === 'preOrderDetails') {
+						uni.reLaunch({
+							url: '/pages/preOrderDetails/preOrderDetails?product_item_id=' + this.id
+						})
+					} else if (this.next === 'recommendedAlbumDetail') {
+						uni.reLaunch({
+							url: '/pages/recommendedAlbumDetail/recommendedAlbumDetail?product_item_id=' + this
+								.id
+						})
+					} else if (this.next === 'copyrightDetail') {
+						uni.reLaunch({
+							url: '/pages/copyrightDetail/copyrightDetail?music_info_id=' + this.id
+						})
+					}
+
 
 				} catch (e) {
 					//TODO handle the exception
@@ -223,10 +232,24 @@
 				uni.navigateTo({
 					url: `/pages/login/login`
 				})
-			}
+			},
+			// 获取邀请人信息
+			getSharedByGuy(share_sign) {
+				post1(h5_base_inviterInfo, {
+					share_sign
+				}).then(res => {
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+					this.sharedByGuy = res.data.nick_name || ''
+				})
+			},
 		},
 		onLoad(option) {
-			this.sharedByphone = option.sharedByphone || ''
+			let share_sign = ''
 			// 先使用当前url携带的share_sign, 如果没有再使用本地储存的share_sign
 			const storage = window.sessionStorage.getItem('afterBackQuery')
 			if (storage) {
@@ -234,11 +257,20 @@
 					query
 				} = JSON.parse(storage)
 				if (query.share_sign) {
-					this.share_sign = decodeURIComponent(query.share_sign)
+					share_sign = decodeURIComponent(query.share_sign)
 				}
 			}
 			if (option.share_sign) {
-				this.share_sign = decodeURIComponent(option.share_sign)
+				share_sign = decodeURIComponent(option.share_sign)
+			}
+			if (share_sign) {
+				this.getSharedByGuy(share_sign)
+			}
+			if (option.next) {
+				this.next = option.next
+			}
+			if (option.id) {
+				this.id = option.id
 			}
 		}
 	}

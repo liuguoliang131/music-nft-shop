@@ -31,20 +31,31 @@
 		shareBase64Image
 	} from '../../utils/index.js'
 	import {
-		h5_community_sharePoster,
-		collections_index_share
+		h5_music_sharePoster, // h5内
+		h5_music_share // 统计
 	} from '../../request/api.js'
 	import {
 		post1
 	} from '../../request/index.js'
 	import NavHead from '../../components/navHead.vue'
+	// 版权的分享海报
 	export default {
+		name: 'posterCopyright',
 		data() {
 			return {
 				isWx: false,
+				music_info_id: '',
 				context: null,
+				posterData: {
+					poster_url: '',
+					ava_url: '',
+					user_name: '',
+					code: ''
+				},
 				posterImageBase64: '',
-				data: {}
+				data: {
+
+				}
 			};
 		},
 		components: {
@@ -53,7 +64,7 @@
 		computed: {
 			shareLink() {
 				const link = window.location.protocol + '//' + window.location.host +
-					`/#/pages/invitationToRegister/invitationToRegister?share_sign=${encodeURIComponent(this.data.share_sign)}`
+					`/#/pages/invitationToRegister/invitationToRegister&share_sign=${encodeURIComponent(this.data.share_sign)}&next=copyrightDetail&id=${this.music_info_id}`
 				return link
 			}
 		},
@@ -105,23 +116,18 @@
 						if (this.$store.state.user.inApp) {
 							saveBase64Image(res.tempFilePath)
 						} else {
-							if (this.$store.state.user.inPlus) {
-								// uni.saveImageToPhotosAlbum({ // 保存本地
-								// 	filePath: res.tempFilePath,
-								// 	success: (response) => {
-								// 		console.log(response, 'success')
-								// 	},
-								// 	fail: (response) => {}
-								// })
-							} else {
-								const btn = document.createElement('a')
-								btn.download = '分享海报'
-								btn.href = res.tempFilePath
-								btn.click()
-							}
-
+							const btn = document.createElement('a')
+							btn.download = '分享海报'
+							btn.href = res.tempFilePath
+							btn.click()
 						}
-
+						// uni.saveImageToPhotosAlbum({ // 保存本地
+						// 	filePath: res.tempFilePath,
+						// 	success: (response) => {
+						// 		console.log(response, 'success');
+						// 	},
+						// 	fail: (response) => {}
+						// })
 					},
 					fail: (error) => {
 						console.log(error)
@@ -131,21 +137,15 @@
 			},
 			async getInfo() {
 				try {
-					const res = await this.$post(h5_community_sharePoster, {})
+					const res = await this.$post(h5_music_sharePoster, {
+						music_info_id: this.music_info_id
+					})
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
 							icon: 'none'
 						})
 					}
-					// const res = {
-					// 	data: {
-					// 		user_name: '窝里giao',
-					// 		user_avatar: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-10-20%2F5f8eace52a8ff.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666683588&t=4296afb3ffe7983a07a9d16d8b3ccbbf',
-					// 		poster_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fphoto%2F2011-5-29%2Fenterdesk.com-F65D26B61244263D3A0F77230BCB9F16.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666675133&t=eec4a20e79b97c01f3804c90192c5dd1',
-					// 		share_sign: 'xasdasfasfadas'
-					// 	}
-					// }
 					this.data = res.data
 					this.initCanvas(res.data)
 				} catch (e) {
@@ -196,13 +196,7 @@
 						color: '#1C1C1E',
 						text: data.user_name
 					}
-					// const tips = {
-					// 	x: 121.5 * widowWidth / scaleScreenWidth,
-					// 	y: 358 * widowWidth / scaleScreenWidth,
-					// 	fontSize: 12 * widowWidth / scaleScreenWidth,
-					// 	color: '#1C1C1E',
-					// 	text: '扫码开始试听'
-					// }
+
 					// 二维码
 					const qr = {
 						x: 97.5 * widowWidth / scaleScreenWidth,
@@ -235,10 +229,7 @@
 							that.context.setFontSize(title.fontSize) // 字号
 							that.context.setFillStyle('Roboto ' + title.color) // 字体颜色
 							that.context.fillText(title.text, title.x, title.y); // （文字，x，y）
-							// tips
-							// that.context.setFontSize(tips.fontSize) // 字号
-							// that.context.setFillStyle(tips.color) // 字体颜色
-							// that.context.fillText(tips.text, tips.x, tips.y); // （文字，x，y）
+
 							uni.downloadFile({
 								url: code2Url,
 								success(code2res) {
@@ -296,8 +287,8 @@
 				})
 			},
 			handleShare(share_way) {
-
-				const share_title = '元音符' + this.shareLink
+				const link = this.shareLink
+				const share_title = '元音符' + link
 				let img = ''
 				uni.canvasToTempFilePath({ // res.tempFilePath临时路径
 					canvasId: 'firstCanvas',
@@ -328,21 +319,23 @@
 
 				}
 				this.shareStatics()
+
 			},
 			// 分享统计
 			async shareStatics() {
-				const res = await post1(collections_index_share, {
-					product_item_id: this.product_item_id
+				const res = await post1(h5_music_share, {
+					music_info_id: this.music_info_id
 				})
 
 			}
 		},
 		mounted() {
-			// this.initCanvas()
+
 		},
 		onLoad(option) {
 			console.log('poster onload', option)
 			this.isWx = isWxBrowser()
+			this.music_info_id = option.music_info_id ? Number(option.music_info_id) : null
 		},
 		onReady: function(e) {
 			console.log('poster onready')
