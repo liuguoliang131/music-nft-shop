@@ -448,6 +448,7 @@
 						post1(h5_conllections_buy_showsuccess, {
 							order_no: this.order_no
 						}).then(res => {
+							uni.hideLoading()
 							if (res.code !== 0) {
 								return uni.showToast({
 									title: res.msg,

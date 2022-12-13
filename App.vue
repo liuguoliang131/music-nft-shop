@@ -157,6 +157,13 @@
 
 	}
 
+	// 强制一行显示 超出显示省略号
+	.nowrap {
+		overflow: hidden; // 溢出隐藏
+		white-space: nowrap; // 强制一行
+		text-overflow: ellipsis; // 文字溢出显示省略号
+	}
+
 
 
 	// 下面是icon
