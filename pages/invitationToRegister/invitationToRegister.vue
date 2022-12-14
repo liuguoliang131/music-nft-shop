@@ -66,7 +66,8 @@
 				showVerify: false,
 				agree: false,
 				timer: null,
-				countDown: 0
+				countDown: 0,
+				share_sign: ''
 			}
 		},
 		filters: {
@@ -265,6 +266,7 @@
 				share_sign = decodeURIComponent(option.share_sign)
 			}
 			if (share_sign) {
+				this.share_sign = share_sign
 				this.getSharedByGuy(share_sign)
 			}
 			if (option.next) {
