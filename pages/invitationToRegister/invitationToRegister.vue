@@ -147,7 +147,8 @@
 					})
 					const data = {
 						phone: this.form.phone,
-						captcha: this.form.captcha
+						captcha: this.form.captcha,
+						nick_name: this.form.nick_name
 					}
 					if (this.share_sign) {
 						data.share_sign = this.share_sign
