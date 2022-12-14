@@ -44,12 +44,13 @@
 	import TfVerifyImg from '../../components/tf-verify-img/tf-verify-img.vue'
 	import {
 		h5_base_register,
-		h5_base_login,
 		h5_base_captcha,
-		h5_user_info
+		h5_user_info,
+		h5_base_inviterInfo
 	} from '../../request/api.js'
 	import {
-		post1
+		post1,
+		get1
 	} from '../../request/index.js'
 	export default {
 		data() {
@@ -180,7 +181,7 @@
 			async login() {
 				try {
 
-					const res1 = await this.$get(h5_user_info)
+					const res1 = await get1(h5_user_info)
 					if (res1.code !== 0) {
 						uni.hideLoading()
 						return uni.showToast({
@@ -216,6 +217,10 @@
 					} else if (this.next === 'copyrightDetail') {
 						uni.reLaunch({
 							url: '/pages/copyrightDetail/copyrightDetail?music_info_id=' + this.id
+						})
+					} else {
+						uni.reLaunch({
+							url: '/pages/index/index'
 						})
 					}
 

@@ -21,7 +21,7 @@
 						<checkbox class="checkbox" :value="true" />
 					</checkbox-group>
 					<text class="agree-label">
-						未注册的手机号，登录时将自动进行注册，<br />且代表您已同意
+						登录时代表您已同意
 						<text @tap="handView('https://h5.shenglangnft.com/base/agreement')">《用户协议》</text>和<text
 							@tap="handView('https://h5.shenglangnft.com/base/privacy_policy')">《隐私政策》</text>
 					</text>
@@ -210,18 +210,18 @@
 		},
 		onLoad(option) {
 			// 先使用当前url携带的share_sign, 如果没有再使用本地储存的share_sign
-			const storage = window.sessionStorage.getItem('afterBackQuery')
-			if (storage) {
-				const {
-					query
-				} = JSON.parse(storage)
-				if (query.share_sign) {
-					this.share_sign = decodeURIComponent(query.share_sign)
-				}
-			}
-			if (option.share_sign) {
-				this.share_sign = decodeURIComponent(option.share_sign)
-			}
+			// const storage = window.sessionStorage.getItem('afterBackQuery')
+			// if (storage) {
+			// 	const {
+			// 		query
+			// 	} = JSON.parse(storage)
+			// 	if (query.share_sign) {
+			// 		this.share_sign = decodeURIComponent(query.share_sign)
+			// 	}
+			// }
+			// if (option.share_sign) {
+			// 	this.share_sign = decodeURIComponent(option.share_sign)
+			// }
 		}
 	}
 </script>
@@ -304,7 +304,7 @@
 					color: #ffff;
 					font-size: 28rpx;
 					padding-top: 26rpx;
-					padding-bottom: 136rpx;
+					padding-bottom: 100rpx;
 
 					.checkbox {
 						margin-right: 24rpx;
@@ -325,7 +325,7 @@
 
 					.agree-label {
 						font-size: 22rpx;
-						line-height: 36rpx;
+						line-height: 48rpx;
 						color: #666666;
 
 						text {
