@@ -304,8 +304,12 @@
 		},
 		methods: {
 			navBack() {
-				if (this.$store.state.user.inApp) {
-					goBack()
+
+				let currentRoutes = getCurrentPages() // 获取当前打开过的页面路由数组
+				if (currentRoutes.length === 1) {
+					uni.redirectTo({
+						url: '/pages/index/index'
+					})
 				} else {
 					uni.navigateBack({
 						delta: 1, //返回层数，2则上上页

@@ -236,7 +236,7 @@
 
 			},
 			handGoLogin() {
-				uni.navigateTo({
+				uni.redirectTo({
 					url: `/pages/login/login`
 				})
 			},
