@@ -18,15 +18,23 @@
 		<view v-if="switchValue===0" class="container-body">
 			<view class="view1">
 				<view class="view1-left">
-					<image class="cover" src="https://file.yuanyinfu.com/front-end-lib/0.jpeg" mode=""></image>
-					<view class="insideline">
-						<image class="play-btn" @tap="handPlay" v-if="$store.state.globalAudio.paused"
-							src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""></image>
-						<image class="play-btn" @tap="handPlay" v-else
-							src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode="">
-						</image>
+					<image class="cover" :src="detail.music_pic" mode=""></image>
+					<view class=" insideline">
+						<template v-if="$store.state.globalAudio.music.music_info_id===music_info_id">
+							<image class="play-btn" @tap="handPlay(detail)" v-if="$store.state.globalAudio.paused"
+								src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""></image>
+							<image class="play-btn" @tap="handPlay(detail)" v-else
+								src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode="">
+							</image>
+						</template>
+						<template v-else>
+							<image class="play-btn" @tap="handPlay(detail)"
+								src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""></image>
+						</template>
+
 					</view>
-					<image class="sign" src="https://file.yuanyinfu.com/front-end-lib/sharedCopyright.png" mode="">
+					<image v-if="detail.sale_type===3" class="sign"
+						src="https://file.yuanyinfu.com/front-end-lib/sharedCopyright.png" mode="">
 					</image>
 				</view>
 				<view class="view1-right">
@@ -34,27 +42,27 @@
 						{{detail.music_name}}
 					</view>
 					<view class="right-2 nowrap">
-						<!-- <view class="right-2-1 nowrap">
+						<view v-if="detail.music_status===7" class="right-2-1 nowrap">
 							预告中
-						</view> -->
-						<view class="right-2-2 nowrap">
+						</view>
+						<view v-else class="right-2-2 nowrap">
 							￥{{detail.music_price}}
 						</view>
 						<view class="right-2-3 nowrap">
-							限量20份
+							{{detail.limit_amount||''}}
 						</view>
 					</view>
 					<view class="right-3">
 						<view class="right-3-1 nowrap">
-							<text>时长</text> 03:50
+							<text>时长</text> {{detail.music_time}}
 						</view>
 						<view class="right-3-2 nowrap">
-							<text>访问</text> 2344
+							<text>访问</text> {{detail.visit_num}}
 						</view>
 					</view>
 					<view class="right-4 nowrap">
 						<text>发行时间</text>
-						2022-08-19 17:39:20
+						{{formatTime(detail.publish_time)}}
 					</view>
 				</view>
 			</view>
@@ -62,19 +70,19 @@
 				<view class="view2-1">
 					<view class="view2-1-1">Contract Address</view>
 					<view class="view2-1-2 nowrap">
-						0xf9ec07f93e729qbqwbdibidadasdads
+						{{detail.contract_address}}
 					</view>
 				</view>
 				<view class="view2-1 nowrap">
 					<view class="view2-1-1">Token ID</view>
 					<view class="view2-1-2 nowrap">
-						0xf9ec07f93e729qbqwbdibidadasdads
+						{{detail.token_id}}
 					</view>
 				</view>
 				<view class="view2-1 nowrap">
 					<view class="view2-1-1">Token Standard</view>
 					<view class="view2-1-2 nowrap">
-						0xf9ec07f93e729qbqwbdibidadasdads
+						{{detail.token_standard}}
 					</view>
 				</view>
 			</view>
@@ -84,21 +92,17 @@
 					<text class="title-v"></text>
 					作品类型
 				</view>
-				<view class="paragraph">
-					共享音乐数字版权：音乐人发售多份音乐数字版权，购买人按照已购的共享音乐数字版权份额，在音乐作品获得收益后，享有作品后续产生的收益。而原音乐作品的版权归属依旧为原著作权人。
-				</view>
+				<view class="paragraph" v-html="detail.type_desc"></view>
 			</view>
 			<view class="splitline"></view>
 			<view class="view4">
 				<view class="view4-1">
-					黑旗子
+					<text class="nowrap">{{detail.author_name}}</text>
 					<image src="https://file.yuanyinfu.com/front-end-lib/stow.png" mode=""></image>
 				</view>
 				<view class="view4-2">
-					<image class="view4-2-1" src="https://file.yuanyinfu.com/front-end-lib/0.jpeg" mode=""></image>
-					<view class="view4-2-2">
-						原创音乐人，嗓音清澈通透，富有年少感，会创作各种风格的歌曲。擅长流行、古风、说唱、电子、R&B和摇滚。全平...原创音乐人，嗓音清澈通透，富有年少感，会创作各种风格的歌曲。擅长流行、古风、说唱、电子、R&B和摇滚。全平...原创音乐人，嗓音清澈通透，富有年少感，会创作各种风格的歌曲。擅长流行、古风、说唱、电子、R&B和摇滚。全平...
-					</view>
+					<image class="view4-2-1" :src="detail.avatar" mode=""></image>
+					<view class="view4-2-2 prewrap" v-html="detail.author_desc"></view>
 				</view>
 			</view>
 			<view class="splitline"></view>
@@ -107,46 +111,44 @@
 					<text class="title-v"></text>
 					创作灵感
 				</view>
-				<view class="paragraph">
-					陈荣乐（Fancy）,1986年出生于辽宁省锦州市，中国内地音乐制作人、作曲人、唱作人，毕业于沈阳音乐学院。赵传《你过得还好吗》作曲人，梁凡《首阳山的雨》作曲人，金润吉《境遇》作曲人。2018年与词人梦野合作，推出个人单曲《恬恬》《唱首歌给你听》。
-				</view>
+				<view class="paragraph prewrap" v-html="detail.create_desc"></view>
 			</view>
 			<view class="splitline"></view>
-			<view class="view6">
+			<view class="view6" v-if="otherList.length">
 				<view class="title">
 					<text class="title-v"></text>
 					其他作品
 				</view>
-				<view class="view6-item">
+				<view class="view6-item" v-for="item in otherList" :key="item.music_info_id" @tap="handGoDtail(item)">
 					<view class="item-left">
-						<image src="https://file.yuanyinfu.com/front-end-lib/0.jpeg" mode=""></image>
+						<image :src="item.music_pic" mode=""></image>
 						<view class="insideline">
-							<image @tap="handPlay" v-if="$store.state.globalAudio.paused" class="play-btn"
-								src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode="">
-							</image>
-							<!-- <template
-								v-if="item.product_item_id===$store.state.globalAudio.music.product_item_id&&$store.state.globalAudio.music.product_item_id!==''">
-								<image v-if="$store.state.globalAudio.paused"
-									src="https://file.yuanyinfu.com/front-end-lib/play.png" class="play-btn" mode="" @tap="handPlay(item)"></image>
-								<image v-else src="https://file.yuanyinfu.com/front-end-lib/pause.png" class="play-btn" mode="" @tap="handPlay(item)">
+							<template v-if="$store.state.globalAudio.music.music_info_id===item.music_info_id">
+								<image @tap.stop="handPlay(item)" v-if="$store.state.globalAudio.paused"
+									class="play-btn" src="https://file.yuanyinfu.com/front-end-lib/play.png" mode="">
+								</image>
+								<image @tap.stop="handPlay(item)" v-else class="play-btn"
+									src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode="">
 								</image>
 							</template>
 							<template v-else>
-								<image src="https://file.yuanyinfu.com/front-end-lib/play.png" class="play-btn" mode="" @tap="handPlay(item)"></image>
-							</template> -->
+								<image @tap.stop="handPlay(item)" class="play-btn"
+									src="https://file.yuanyinfu.com/front-end-lib/play.png" mode="">
+								</image>
+							</template>
 						</view>
 					</view>
 
 					<view class="item-right">
 						<view class="item-right-1 nowrap">
-							标题标题标题标题标题标题标题标题标题标题标题标题标题
+							{{item.music_name}}
 						</view>
 						<view class="item-right-2">
 							<view class="item-right-2-1">
-								<text>时长</text>02:32
+								<text>时长</text>{{item.music_time}}
 							</view>
 							<view class="item-right-2-2 nowrap">
-								￥123.12
+								￥{{item.price}}
 							</view>
 
 						</view>
@@ -155,41 +157,44 @@
 			</view>
 			<view class="footer"></view>
 			<view class="bottom1 nowrap">
-				还剩余100份可购买，抓紧抢购！
+				{{detail.stock_desc}}
 			</view>
 			<view class="bottom2">
-				<!-- <view class="dark">预告作品不可购买</view> -->
-				<view class="light" @tap="handGoDownload">购买</view>
+				<view class="light" v-if="detail.is_sale===1" @tap="handGoDownload">购买</view>
+				<view class="dark" v-else>预告作品不可购买</view>
 			</view>
 		</view>
 		<view v-else class="transaction">
 			<view class="trans1">
-				<image class="trans1-1" src="https://file.yuanyinfu.com/front-end-lib/0.jpeg" mode=""></image>
+				<image class="trans1-1" :src="transactionInfo.owner_info.avatar" mode=""></image>
 				<view class="trans1-2 nowrap">
-					姓名啊实打实打算啊啊实打实的vvvvv钱钱钱
+					{{transactionInfo.owner_info.nick_name}}
 				</view>
 				<image class="trans1-3" src="https://file.yuanyinfu.com/front-end-lib/belongicon.png" mode=""></image>
 			</view>
 			<view class="bgcr">
-				<view class="trans2">
+				<view class="trans2" v-if="transactionInfo.trans_info&&transactionInfo.trans_info.length">
 					<view class="title">
 						<text class="title-v"></text>
 						版权交易
 					</view>
-					<view class="trans2-item" v-for="(item,index) in 5" :key="index">
+					<view class="trans2-item" v-for="(item,index) in transactionInfo.trans_info" :key="index">
 						<view class="trans2-item-route">
 							<image class="route-point" src="https://file.yuanyinfu.com/front-end-lib/transroute.png"
 								mode=""></image>
-							<view class="route-dashed" v-if="index+1!==5"></view>
+							<view class="route-dashed" v-if="index+1!==transactionInfo.trans_info.length"></view>
 						</view>
 						<view class="trans2-item-content">
-							<image class="item-content-1" src="https://file.yuanyinfu.com/front-end-lib/0.jpeg" mode="">
+							<view class="item-content-0 nowrap">
+								{{item.key}}
+							</view>
+							<image class="item-content-1" :src="item.avatar" mode="">
 							</image>
 							<view class="item-content-2 nowrap">
-								138****7654567812432
+								{{item.name}}
 							</view>
 							<view class="item-content-3 nowrap">
-								￥123456.00
+								￥{{item.price}}
 							</view>
 							<view class="item-content-4">
 								买入
@@ -206,21 +211,21 @@
 					<view class="trans3-content">
 						<view class="trans3-content-1">
 							<view class="content-1-1 nowrap">
-								12345
+								{{transactionInfo.music_data.hot}}
 							</view>
 							<image class="content-1-2" src="https://file.yuanyinfu.com/front-end-lib/copyright-hot.png"
 								mode=""></image>
 						</view>
 						<view class="trans3-content-2">
 							<view class="content-1-1 nowrap">
-								123451231241
+								{{transactionInfo.music_data.play_num}}
 							</view>
 							<image class="content-1-2" src="https://file.yuanyinfu.com/front-end-lib/copyright-play.png"
 								mode=""></image>
 						</view>
 						<view class="trans3-content-3">
 							<view class="content-1-1 nowrap">
-								123451231241
+								{{transactionInfo.music_data.like_num}}
 							</view>
 							<image class="content-1-2"
 								src="https://file.yuanyinfu.com/front-end-lib/copyright-likes.png" mode=""></image>
@@ -233,16 +238,15 @@
 						<text class="title-v"></text>
 						交易规则
 					</view>
-					<view class="paragraph">
-						1.为尊重原创，每次流通需将交易额的1%给创作者
-						2.为尊重原创，每次流通需将交易额的2.5%给创作者
-						3…….
-					</view>
+					<view class="paragraph" v-for="(role,idx) in transactionInfo.role" :key="idx" v-html="role"></view>
 				</view>
 			</view>
 
 		</view>
-
+		<view class="audiofooter" v-if="$store.state.globalAudio.show"></view>
+		<floating-component v-if="$store.state.globalAudio.show">
+			<GlobalAudio></GlobalAudio>
+		</floating-component>
 	</view>
 </template>
 
@@ -251,18 +255,23 @@
 	import {
 		h5_show_musicInfo,
 		h5_show_musicTransactionInfo,
-		h5_show_otherMusicList
+		h5_show_otherMusicList,
+		h5_show_musicPlay
 	} from '../../request/api.js'
 	import {
 		post1
 	} from '../../request/index.js'
 	import MySwitch from '../../components/mySwitch.vue'
+	import FloatingComponent from '../../components/floatingComponent.vue'
 	import {
-		goDownload
+		goDownload,
+		goLogin
 	} from '../../utils/index.js'
+	import dayjs from 'dayjs'
 	export default {
 		components: {
-			MySwitch
+			MySwitch,
+			FloatingComponent
 		},
 		data() {
 			return {
@@ -279,7 +288,7 @@
 				otherList: [],
 				transactionInfo: {
 					trans_info: [],
-					role: '',
+					role: [],
 					owner_info: {
 						nick_name: '',
 						avatar: ''
@@ -303,6 +312,9 @@
 					})
 				}
 
+			},
+			formatTime(val) {
+				return dayjs(val).format('YYYY-MM-DD HH:mm:ss')
 			},
 			switchChange(val) {
 				if (val === 0) {
@@ -380,21 +392,19 @@
 				}
 				goDownload()
 			},
-			async handPlay() {
+			async handPlay(item) {
 				if (!this.$store.state.user.token) {
 					return goLogin()
 				}
 				try {
 
-					// if (this.$store.state.globalAudio.music.product_item_id === this.data.product_item_id) {
-					// 	this.$store.dispatch('globalAudio/dispatch_play')
-					// 	return false
-					// }
-					// await post1(collections_index_play, {
-					// 	product_item_id: this.product_item_id
-					// })
-					// const res = await this.$post(collections_index_musicPlay, {
-					// 	product_item_id: this.product_item_id
+					if (this.$store.state.globalAudio.music.music_info_id === item.music_info_id) {
+						this.$store.dispatch('globalAudio/dispatch_play')
+						return false
+					}
+
+					// const res = await this.$post(h5_show_musicPlay, {
+					// 	music_info_id: this.music_info_id
 					// })
 					// if (res.code !== 0) {
 					// 	return uni.showToast({
@@ -402,8 +412,8 @@
 					// 		icon: 'none'
 					// 	})
 					// }
-					// const musicInfo = res.data
-					// this.$store.dispatch('globalAudio/dispatch_music', musicInfo)
+					const musicInfo = item
+					this.$store.dispatch('globalAudio/dispatch_music', musicInfo)
 
 				} catch (e) {
 					//TODO handle the exception
@@ -413,6 +423,9 @@
 					})
 					throw e
 				}
+			},
+			handGoDtail(item) {
+
 			}
 
 		},
@@ -542,6 +555,14 @@
 			}
 		}
 
+		/deep/.floatingComponent {
+			bottom: 195rpx;
+		}
+
+		.audiofooter {
+			height: 350rpx;
+		}
+
 		.container-body {
 			text-align: center;
 
@@ -581,6 +602,7 @@
 				color: #AEAEAE;
 				white-space: pre-wrap; //识别换行符 并且超过父盒子宽度自动换行
 			}
+
 
 			.view1 {
 				display: flex;
@@ -652,6 +674,7 @@
 							box-sizing: border-box;
 							width: 156rpx;
 							height: 48rpx;
+							padding: 0 10rpx;
 							line-height: 48rpx;
 							mix-blend-mode: normal;
 							border: 1rpx solid #C8A964;
@@ -663,6 +686,7 @@
 							box-sizing: border-box;
 							width: 156rpx;
 							height: 48rpx;
+							padding: 0 10rpx;
 							line-height: 48rpx;
 							mix-blend-mode: normal;
 							border-radius: 24rpx;
@@ -675,6 +699,7 @@
 							box-sizing: border-box;
 							width: 156rpx;
 							height: 48rpx;
+							padding: 0 10rpx;
 							line-height: 48rpx;
 							margin-left: 16rpx;
 							mix-blend-mode: normal;
@@ -767,6 +792,11 @@
 					font-size: 28rpx;
 					line-height: 40rpx;
 					color: #ECECEC;
+					min-width: 0;
+
+					text {
+						flex: 1;
+					}
 
 					image {
 						width: 30rpx;
@@ -893,6 +923,7 @@
 								box-sizing: border-box;
 								width: 156rpx;
 								height: 48rpx;
+								padding: 0 10rpx;
 								margin-left: 20rpx;
 								line-height: 48rpx;
 								mix-blend-mode: normal;
@@ -1079,6 +1110,11 @@
 						display: flex;
 						min-width: 0;
 						height: 140rpx;
+
+						.item-content-0 {
+							max-width: 100rpx;
+							margin-right: 20rpx;
+						}
 
 						.item-content-1 {
 							width: 50rpx;

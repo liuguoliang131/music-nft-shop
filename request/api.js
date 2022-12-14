@@ -147,3 +147,5 @@ export const h5_show_musicInfo = '/h5/show/musicInfo'
 export const h5_show_musicTransactionInfo = '/h5/show/musicTransactionInfo'
 // 版权 其他作品
 export const h5_show_otherMusicList = '/h5/show/otherMusicList'
+// 版权播放信息
+export const h5_show_musicPlay = '/h5/show/musicPlay'

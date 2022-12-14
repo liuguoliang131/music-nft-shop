@@ -1,8 +1,12 @@
 <template>
 	<view class="audio-warp">
-		<view class="cover-warp" :class="{ hasbg: !$store.state.globalAudio.music.index_url }">
-			<image class="cover-img" :src="$store.state.globalAudio.music.index_url"
-				v-if="$store.state.globalAudio.music.index_url"></image>
+		<image class="close-icon" src="https://file.yuanyinfu.com/front-end-lib/navClose.png" mode="" @tap="handClose">
+		</image>
+		<view class="cover-warp"
+			:class="{ hasbg: !($store.state.globalAudio.music.index_url||$store.state.globalAudio.music.music_pic) }">
+			<image class="cover-img"
+				:src="$store.state.globalAudio.music.index_url||$store.state.globalAudio.music.music_pic"
+				v-if="$store.state.globalAudio.music.index_url||$store.state.globalAudio.music.music_pic"></image>
 			<view class="play-btn" :class="{ pause: !$store.state.globalAudio.audioContext.paused }"
 				@click="handleBtnClick"></view>
 		</view>
@@ -13,7 +17,8 @@
 					:value="$store.state.globalAudio.slider" @changing="_seeking" @change="_seeked" />
 				<text class="audio-time">{{ $store.state.globalAudio.audioTimeTotal }}</text>
 			</view>
-			<text class="audio-title am-text-eill">{{ $store.state.globalAudio.music.product_name }}</text>
+			<text
+				class="audio-title am-text-eill">{{ $store.state.globalAudio.music.product_name||$store.state.globalAudio.music.music_name }}</text>
 			<!-- <text class="audio-author am-text-eill">{{ $store.state.globalAudio.music.author_name }}</text> -->
 		</view>
 	</view>
@@ -57,6 +62,10 @@
 				const val = (e.detail.value / 100) * this.$store.state.globalAudio.audioContext.duration
 				this.$store.state.globalAudio.audioContext.seek(val) //跳转进度
 				// this.$store.commit('globalAudio/set_slider', e.detail.value)
+			},
+			handClose() {
+				this.$store.state.globalAudio.audioContext.pause()
+				this.$store.commit('globalAudio/set_show', false)
 			}
 		}
 	};
@@ -71,6 +80,7 @@
 	}
 
 	.audio-warp {
+		position: relative;
 		display: flex;
 		overflow: hidden;
 		width: 700rpx;
@@ -80,6 +90,17 @@
 		background-color: #ffff;
 		// padding: 0.5em 0;
 		border-radius: 0.5em;
+
+		.close-icon {
+			position: absolute;
+			top: 5rpx;
+			right: 5rpx;
+			z-index: 2;
+			width: 30rpx;
+			height: 30rpx;
+			background-color: rgba(71, 71, 71, 0.3);
+			border-radius: 0.5em;
+		}
 	}
 
 	.cover-warp {

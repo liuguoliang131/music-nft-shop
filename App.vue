@@ -164,6 +164,11 @@
 		text-overflow: ellipsis; // 文字溢出显示省略号
 	}
 
+	// 用于v-html 
+	.prewrap {
+		white-space: pre-wrap; //识别换行符 并且超过父盒子宽度自动换行
+	}
+
 
 
 	// 下面是icon

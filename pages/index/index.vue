@@ -61,7 +61,7 @@
 							</view>
 							<view class="item-2-4-2" @tap.stop="handPlay(item)">
 								<template
-									v-if="item.product_item_id===$store.state.globalAudio.music.product_item_id&&$store.state.globalAudio.music.product_item_id!==''">
+									v-if="item.product_item_id===$store.state.globalAudio.music.product_item_id&&$store.state.globalAudio.music.product_item_id">
 									<image v-if="$store.state.globalAudio.paused"
 										src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""></image>
 									<image v-else src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode="">
@@ -137,7 +137,7 @@
 						<image class="cover-turn1" :src="item.index_img" mode=""></image>
 
 						<template
-							v-if="item.product_item_id===$store.state.globalAudio.music.product_item_id&&$store.state.globalAudio.music.product_item_id!==''">
+							v-if="item.product_item_id===$store.state.globalAudio.music.product_item_id&&$store.state.globalAudio.music.product_item_id">
 							<image v-if="$store.state.globalAudio.paused" v-show="item.publish_type===1"
 								class="cover-play" src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""
 								@tap.stop="handPlay(item)">

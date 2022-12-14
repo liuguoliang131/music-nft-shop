@@ -153,6 +153,9 @@ export default {
 			} else {
 				context.state.audioContext.pause()
 			}
+			if (!context.state.show) {
+				context.commit('set_show', true)
+			}
 
 		}
 	}
