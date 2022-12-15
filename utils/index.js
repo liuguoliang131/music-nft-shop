@@ -83,7 +83,8 @@ export const isApp = () => {
 		return false
 	}
 }
-export const goLogin = () => {
+// 去登录页  路由传参info：Object
+export const goLogin = (info = {}) => {
 	if (isApp()) {
 		HSApp.postMessage(JSON.stringify({
 			type: 'goLogin',
@@ -95,13 +96,26 @@ export const goLogin = () => {
 		const {
 			query
 		} = getHashQuery()
-		if (Object.keys(query)) {
+		if (Object.keys(query).length) {
 			const kvList = []
 			Object.keys(query).forEach(k => {
 				kvList.push(`${k}=${query[k]}`)
 			})
 			url = url + '?' + kvList.join('&')
 		}
+		if (Object.keys(info).length) {
+			const kvList1 = []
+			Object.keys(info).forEach(k => {
+				kvList1.push(`${k}=${info[k]}`)
+			})
+			if (url.includes('?')) {
+				url = url + '&' + kvList1.join('&')
+			} else {
+				url = url + '?' + kvList1.join('&')
+			}
+
+		}
+
 
 		uni.navigateTo({
 			url

@@ -52,7 +52,10 @@
 		},
 		data() {
 			return {
-				share_sign: '',
+				share_sign: '', //分享绑定code
+				next: '', //下一个页面
+				id: '', //下一个页面需要参数
+				origin: '', //上一个页面
 				form: {
 					phone: '',
 					captcha: ''
@@ -186,16 +189,7 @@
 						icon: 'success',
 						title: '登录成功'
 					})
-					if (getCurrentPages().length > 1) {
-						uni.$emit('updateData', null)
-						uni.navigateBack({
-							delta: 1
-						})
-					} else {
-						uni.redirectTo({
-							url: '/pages/index/index'
-						})
-					}
+					this.nextGoWhere()
 
 				} catch (e) {
 					//TODO handle the exception
@@ -206,22 +200,72 @@
 					})
 				}
 
+			},
+			// 跳转到下一页
+			nextGoWhere() {
+				if (this.origin === 'invitationToRegister') {
+					// 上一页注册 
+					if (!this.next) {
+						return uni.reLaunch({
+							url: '/pages/index/index'
+						})
+					}
+
+					if (this.next === 'goldSinglesDetail') {
+						uni.reLaunch({
+							url: '/pages/goldSinglesDetail/goldSinglesDetail?product_item_id=' + this.id
+						})
+					} else if (this.next === 'preOrderDetails') {
+						uni.reLaunch({
+							url: '/pages/preOrderDetails/preOrderDetails?product_item_id=' + this.id
+						})
+					} else if (this.next === 'recommendedAlbumDetail') {
+						uni.reLaunch({
+							url: '/pages/recommendedAlbumDetail/recommendedAlbumDetail?product_item_id=' + this
+								.id
+						})
+					} else if (this.next === 'copyrightDetail') {
+						uni.reLaunch({
+							url: '/pages/copyrightDetail/copyrightDetail?music_info_id=' + this.id
+						})
+					} else {
+						uni.reLaunch({
+							url: '/pages/index/index'
+						})
+					}
+				} else {
+					if (getCurrentPages().length > 1) {
+						uni.$emit('updateData', null)
+						uni.navigateBack({
+							delta: 1
+						})
+					} else {
+						uni.redirectTo({
+							url: '/pages/index/index'
+						})
+					}
+				}
+
+
 			}
 		},
 		onLoad(option) {
 			// 先使用当前url携带的share_sign, 如果没有再使用本地储存的share_sign
-			// const storage = window.sessionStorage.getItem('afterBackQuery')
-			// if (storage) {
-			// 	const {
-			// 		query
-			// 	} = JSON.parse(storage)
-			// 	if (query.share_sign) {
-			// 		this.share_sign = decodeURIComponent(query.share_sign)
-			// 	}
-			// }
-			// if (option.share_sign) {
-			// 	this.share_sign = decodeURIComponent(option.share_sign)
-			// }
+			const storage = window.sessionStorage.getItem('afterBackQuery')
+			if (storage) {
+				const {
+					query
+				} = JSON.parse(storage)
+				if (query.share_sign) {
+					this.share_sign = decodeURIComponent(query.share_sign)
+				}
+			}
+			if (option.share_sign) {
+				this.share_sign = decodeURIComponent(option.share_sign)
+			}
+			this.next = option.next || ''
+			this.id = option.id || ''
+			this.origin = option.origin || ''
 		}
 	}
 </script>

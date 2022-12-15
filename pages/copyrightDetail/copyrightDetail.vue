@@ -2,8 +2,8 @@
 	<view class="container">
 		<view :class="$store.state.user.inApp?'slots':'web'">
 			<view class="nav">
-				<image @tap="navBack()" class="nav-left" src="https://file.yuanyinfu.com/front-end-lib/navLeft.png"
-					mode=""></image>
+				<!-- <image @tap="navBack()" class="nav-left" src="https://file.yuanyinfu.com/front-end-lib/navLeft.png"
+					mode=""></image> -->
 				<text class="nav-center">
 					<my-switch :options="options" :value.sync="switchValue" @change="switchChange"></my-switch>
 				</text>
@@ -114,6 +114,14 @@
 				<view class="paragraph prewrap" v-html="detail.create_desc"></view>
 			</view>
 			<view class="splitline"></view>
+			<view class="view5">
+				<view class="title">
+					<text class="title-v"></text>
+					购买须知
+				</view>
+				<view class="paragraph prewrap" v-html="detail.buy_notice"></view>
+			</view>
+			<view class="splitline"></view>
 			<view class="view6" v-if="otherList.length">
 				<view class="title">
 					<text class="title-v"></text>
@@ -145,7 +153,7 @@
 						</view>
 						<view class="item-right-2">
 							<view class="item-right-2-1">
-								<text>时长</text>{{item.music_time}}
+								<text>时长</text>{{formatMusicTime(item.music_time)}}
 							</view>
 							<view class="item-right-2-2 nowrap">
 								￥{{item.price}}
@@ -153,6 +161,9 @@
 
 						</view>
 					</view>
+				</view>
+				<view class="tiptext">
+					当前艺术作品已通过国密技术进行加密
 				</view>
 			</view>
 			<view class="footer"></view>
@@ -176,7 +187,7 @@
 				<view class="trans2" v-if="transactionInfo.trans_info&&transactionInfo.trans_info.length">
 					<view class="title">
 						<text class="title-v"></text>
-						版权交易
+						交易记录
 					</view>
 					<view class="trans2-item" v-for="(item,index) in transactionInfo.trans_info" :key="index">
 						<view class="trans2-item-route">
@@ -319,6 +330,17 @@
 			},
 			formatTime(val) {
 				return dayjs(val).format('YYYY-MM-DD HH:mm:ss')
+			},
+			formatMusicTime(val) {
+				if (Number(val) === NaN) {
+					return val
+				} else {
+					let m = parseInt(val / 60)
+					let s = parseInt(val % 60)
+					let mm = m < 10 ? `0${m}` : m
+					let ss = s < 10 ? `0${s}` : s
+					return `${mm}:${ss}`
+				}
 			},
 			switchChange(val) {
 				if (val === 0) {
@@ -939,6 +961,12 @@
 
 						}
 					}
+				}
+
+				.tiptext {
+					font-size: 24rpx;
+					line-height: 80rpx;
+					color: #777777;
 				}
 			}
 

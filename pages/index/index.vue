@@ -267,11 +267,6 @@
 		},
 		onHide() {
 			console.log('index hide')
-			const init = {
-				...this.$store.state.publicState.music,
-				show: false
-			}
-			this.$store.commit('publicState/set_music', init)
 
 		},
 		filters: {

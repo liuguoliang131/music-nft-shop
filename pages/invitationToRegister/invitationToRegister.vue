@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<nav-head title="注册"></nav-head>
+		<nav-head :left="false" title="注册"></nav-head>
 		<view class="header">
 			<view class="" v-if="sharedByGuy">
 				您的好友{{sharedByGuy}}诚邀您加入元音符
@@ -25,7 +25,7 @@
 					<view v-else class="getcaptcha">{{countDown}}</view>
 				</view>
 				<view class="box-item">
-					<input class="uni-input" maxlength="16" type="text" placeholder="请输入昵称"
+					<input class="uni-input" maxlength="12" type="text" placeholder="请输入昵称"
 						placeholder-style="color: #AEAEAE;" v-model.trim="form.nick_name" />
 				</view>
 			</view>
@@ -52,6 +52,9 @@
 		post1,
 		get1
 	} from '../../request/index.js'
+	import {
+		goLogin
+	} from '../../utils/index.js'
 	export default {
 		data() {
 			return {
@@ -195,35 +198,7 @@
 						icon: 'success',
 						title: '登录成功'
 					})
-					if (!this.next) {
-						return uni.reLaunch({
-							url: '/pages/index/index'
-						})
-					}
-
-					if (this.next === 'goldSinglesDetail') {
-						uni.reLaunch({
-							url: '/pages/goldSinglesDetail/goldSinglesDetail?product_item_id=' + this.id
-						})
-					} else if (this.next === 'preOrderDetails') {
-						uni.reLaunch({
-							url: '/pages/preOrderDetails/preOrderDetails?product_item_id=' + this.id
-						})
-					} else if (this.next === 'recommendedAlbumDetail') {
-						uni.reLaunch({
-							url: '/pages/recommendedAlbumDetail/recommendedAlbumDetail?product_item_id=' + this
-								.id
-						})
-					} else if (this.next === 'copyrightDetail') {
-						uni.reLaunch({
-							url: '/pages/copyrightDetail/copyrightDetail?music_info_id=' + this.id
-						})
-					} else {
-						uni.reLaunch({
-							url: '/pages/index/index'
-						})
-					}
-
+					this.nextGoWhere()
 
 				} catch (e) {
 					//TODO handle the exception
@@ -236,8 +211,9 @@
 
 			},
 			handGoLogin() {
-				uni.redirectTo({
-					url: `/pages/login/login`
+
+				goLogin({
+					origin: 'invitationToRegister'
 				})
 			},
 			// 获取邀请人信息
@@ -254,6 +230,37 @@
 					this.sharedByGuy = res.data.nick_name || ''
 				})
 			},
+			nextGoWhere() {
+				if (!this.next) {
+					return uni.reLaunch({
+						url: '/pages/index/index'
+					})
+				}
+
+				if (this.next === 'goldSinglesDetail') {
+					uni.reLaunch({
+						url: '/pages/goldSinglesDetail/goldSinglesDetail?product_item_id=' + this.id
+					})
+				} else if (this.next === 'preOrderDetails') {
+					uni.reLaunch({
+						url: '/pages/preOrderDetails/preOrderDetails?product_item_id=' + this.id
+					})
+				} else if (this.next === 'recommendedAlbumDetail') {
+					uni.reLaunch({
+						url: '/pages/recommendedAlbumDetail/recommendedAlbumDetail?product_item_id=' + this
+							.id
+					})
+				} else if (this.next === 'copyrightDetail') {
+					uni.reLaunch({
+						url: '/pages/copyrightDetail/copyrightDetail?music_info_id=' + this.id
+					})
+				} else {
+					uni.reLaunch({
+						url: '/pages/index/index'
+					})
+				}
+
+			}
 		},
 		onLoad(option) {
 			let share_sign = ''
