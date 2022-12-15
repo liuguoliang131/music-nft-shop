@@ -54,7 +54,7 @@
 					</view>
 					<view class="right-3">
 						<view class="right-3-1 nowrap">
-							<text>时长</text> {{detail.music_time}}
+							<text>时长</text> {{formatMusicTime(detail.music_time)}}
 						</view>
 						<view class="right-3-2 nowrap">
 							<text>访问</text> {{detail.visit_num}}
@@ -769,6 +769,7 @@
 						color: #AEAEAE;
 						font-size: 26rpx;
 						line-height: 36rpx;
+						text-align: left;
 
 						text {
 							margin-right: 24rpx;
