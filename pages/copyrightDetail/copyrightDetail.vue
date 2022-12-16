@@ -1110,7 +1110,7 @@
 				.status6-2 {
 					width: 356rpx;
 					height: 96rpx;
-					background: #7C7C7C;
+					background: #363636;
 					border-radius: 48rpx;
 					font-family: 'PingFang SC';
 					font-style: normal;
@@ -1129,7 +1129,8 @@
 						width: 100%;
 						padding: 0 12rpx;
 						font-weight: 500;
-						font-size: 28rpx;
+						font-size: 32rpx;
+						color: #ECECEC;
 						line-height: 48rpx;
 						height: 48rpx;
 					}
@@ -1139,8 +1140,9 @@
 						width: 100%;
 						padding: 0 12rpx;
 						height: 48rpx;
-						font-weight: 400;
-						font-size: 24rpx;
+						font-weight: 500;
+						font-size: 32rpx;
+						color: #ECECEC;
 						line-height: 48rpx;
 					}
 				}
