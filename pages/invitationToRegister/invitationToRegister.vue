@@ -29,6 +29,16 @@
 						placeholder-style="color: #AEAEAE;" v-model.trim="form.nick_name" />
 				</view>
 			</view>
+			<view class="agree">
+				<checkbox-group @change="handCheckboxChange($event)" name="agree">
+					<checkbox class="checkbox" :value="true" />
+				</checkbox-group>
+				<text class="agree-label">
+					登录时代表您已同意
+					<text @tap="handView('https://h5.shenglangnft.com/base/agreement')">《用户协议》</text>和<text
+						@tap="handView('https://h5.shenglangnft.com/base/privacy_policy')">《隐私政策》</text>
+				</text>
+			</view>
 			<view class="submit" @tap="handValid">
 				注册
 			</view>
@@ -58,7 +68,6 @@
 	export default {
 		data() {
 			return {
-				sharedByGuy: '',
 				form: {
 					phone: '',
 					captcha: '',
@@ -80,6 +89,15 @@
 			}
 		},
 		methods: {
+			handCheckboxChange(e) {
+				this.agree = !this.agree
+			},
+			// 查看协议
+			handView(url) {
+				uni.navigateTo({
+					url: `/pages/userAgreement/userAgreement?url=${url}`
+				})
+			},
 			// 打开弹窗
 			handShowPopup() {
 				if (!/^[1]{1}[0-9]{10}$/.test(this.form.phone)) {
@@ -127,7 +145,12 @@
 			},
 			// 点击登录
 			handValid() {
-
+				if (!this.agree) {
+					return uni.showToast({
+						title: '请勾选同意用户协议和隐私政策',
+						icon: 'none'
+					})
+				}
 				if (!/^[1]{1}[0-9]{10}$/.test(this.form.phone)) {
 					console.log(this.form.phone)
 					return uni.showToast({
@@ -320,7 +343,7 @@
 			position: relative;
 			top: -271.22rpx;
 			width: 686rpx;
-			height: 630rpx;
+			height: 670rpx;
 			background: #292929;
 			border-radius: 16rpx;
 			margin: auto;
@@ -375,7 +398,7 @@
 				align-items: center;
 				justify-content: center;
 				margin: auto;
-				margin-top: 65rpx;
+				margin-top: 25rpx;
 				width: 650rpx;
 				height: 96rpx;
 				font-weight: 500;
@@ -396,6 +419,44 @@
 				line-height: 36rpx;
 				text-align: center;
 				color: #AEAEAE;
+
+			}
+
+			.agree {
+				display: flex;
+				color: #ffff;
+				font-size: 28rpx;
+				width: 622rpx;
+				padding-top: 26rpx;
+				margin: auto;
+				// padding-bottom: 100rpx;
+
+				.checkbox {
+					margin-right: 24rpx;
+					margin-left: 10rpx;
+
+					/deep/.uni-checkbox-input {
+						width: 24rpx;
+						height: 24rpx;
+						border: 0.5px solid #868686;
+						border-radius: 6rpx;
+						background-color: transparent;
+					}
+
+					/deep/.uni-checkbox-input::before {
+						font-size: 24rpx;
+					}
+				}
+
+				.agree-label {
+					font-size: 22rpx;
+					line-height: 48rpx;
+					color: #666666;
+
+					text {
+						color: rgba(172, 145, 71, 1)
+					}
+				}
 
 			}
 
