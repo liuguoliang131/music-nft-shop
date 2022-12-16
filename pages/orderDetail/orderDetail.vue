@@ -481,10 +481,10 @@
 		.splitline {
 			margin-top: 33rpx;
 			margin-bottom: 32rpx;
-			height: 1rpx;
+			height: 0.5px;
 			opacity: 0.3;
 			background-color: #AEAEAE;
-			border-radius: 1rpx;
+			border-radius: 0.5px;
 		}
 
 		.box3 {

@@ -341,7 +341,7 @@
 
 		.main {
 			position: relative;
-			top: -271.22rpx;
+			top: -290.22rpx;
 			width: 686rpx;
 			height: 670rpx;
 			background: #292929;
@@ -370,14 +370,14 @@
 						box-sizing: border-box;
 						height: 96rpx;
 						width: 100%;
-						border-bottom: 1rpx solid rgba(174, 174, 174, 1);
-						border-radius: 1rpx;
+						border-bottom: 0.5px solid rgba(174, 174, 174, 0.3);
+						border-radius: 0.5rpx;
 						color: #AEAEAE;
 						font-size: 28rpx;
 						text-align: left;
 
 						&:hover {
-							border-bottom: 1rpx solid #ffff;
+							border-bottom: 0.5px solid #ffff;
 						}
 					}
 

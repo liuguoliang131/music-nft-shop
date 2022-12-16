@@ -178,8 +178,11 @@
 			</view>
 			<!-- 预售中 -->
 			<view class="bottom2 status6" v-else-if="detail.music_status==6">
-				<view class="dark status6-1 nowrap" @tap="handGoDownload">
-					{{detail.pre_sale_time_desc||(formatTime1(detail.pre_sale_time*1000)+'开售')}}
+				<view class="status6-2 nowrap" @tap="handGoDownload">
+					<text
+						class="status6-2-1 nowrap">{{detail.pre_sale_time_desc||(formatTime1(detail.pre_sale_time*1000)+'开售')}}</text>
+					<text class="status6-2-2 nowrap">设置提醒</text>
+
 				</view>
 				<view class="light status6-1" v-if="detail.is_sale===1" @tap="handGoDownload">预约购买</view>
 				<view class="dark status6-1" v-else @tap="handGoDownload">已停售</view>
@@ -233,7 +236,7 @@
 						</view>
 					</view>
 				</view>
-				<view class="splitline"></view>
+				<view class="splitline" v-if="transactionInfo.trans_info&&transactionInfo.trans_info.length"></view>
 				<view class="trans3">
 					<view class="title">
 						<text class="title-v"></text>
@@ -638,8 +641,8 @@
 			text-align: center;
 
 			.splitline {
-				border: 0.5rpx solid rgba(174, 174, 174, 0.3);
-				border-radius: 0.5rpx;
+				border-bottom: 0.5px solid rgba(174, 174, 174, 0.3);
+				border-radius: 0.5px;
 				margin: 32rpx;
 			}
 
@@ -1050,7 +1053,7 @@
 				font-style: normal;
 				font-weight: 500;
 				font-size: 30rpx;
-				line-height: 48rpx;
+				line-height: 58rpx;
 				text-align: center;
 				color: #FFFFFF;
 
@@ -1103,6 +1106,44 @@
 				.status6-1 {
 					width: 356rpx;
 				}
+
+				.status6-2 {
+					width: 356rpx;
+					height: 96rpx;
+					background: #7C7C7C;
+					border-radius: 48rpx;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 500;
+					font-size: 32rpx;
+					line-height: 96rpx;
+					text-align: center;
+					color: #ECECEC;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					flex-direction: column;
+
+					.status6-2-1 {
+						box-sizing: border-box;
+						width: 100%;
+						padding: 0 12rpx;
+						font-weight: 500;
+						font-size: 28rpx;
+						line-height: 48rpx;
+						height: 48rpx;
+					}
+
+					.status6-2-2 {
+						box-sizing: border-box;
+						width: 100%;
+						padding: 0 12rpx;
+						height: 48rpx;
+						font-weight: 400;
+						font-size: 24rpx;
+						line-height: 48rpx;
+					}
+				}
 			}
 		}
 
@@ -1112,8 +1153,8 @@
 			font-size: 24rpx;
 
 			.splitline {
-				border: 0.5rpx solid rgba(174, 174, 174, 0.3);
-				border-radius: 0.5rpx;
+				border-bottom: 0.5px solid rgba(174, 174, 174, 0.3);
+				border-radius: 0.5px;
 				margin: 32rpx 0;
 			}
 
