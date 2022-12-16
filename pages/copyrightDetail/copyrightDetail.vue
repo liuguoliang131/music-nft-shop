@@ -178,21 +178,21 @@
 			</view>
 			<!-- 预售中 -->
 			<view class="bottom2 status6" v-else-if="detail.music_status==6">
-				<view class="dark status6-1 nowrap">
+				<view class="dark status6-1 nowrap" @tap="handGoDownload">
 					{{detail.pre_sale_time_desc||(formatTime1(detail.pre_sale_time*1000)+'开售')}}
 				</view>
 				<view class="light status6-1" v-if="detail.is_sale===1" @tap="handGoDownload">预约购买</view>
-				<view class="dark status6-1" v-else>已停售</view>
+				<view class="dark status6-1" v-else @tap="handGoDownload">已停售</view>
 			</view>
 			<!-- 预告中 -->
 			<view class="bottom2" v-else-if="detail.music_status==7">
-				<view class="dark">预告作品不可购买</view>
+				<view class="dark" @tap="handGoDownload">预告作品不可购买</view>
 			</view>
 			<view class="bottom2" v-else-if="detail.music_status==3">
-				<view class="dark">已售罄</view>
+				<view class="dark" @tap="handGoDownload">已售罄</view>
 			</view>
 			<view class="bottom2" v-else-if="detail.music_status==5">
-				<view class="dark">已下架</view>
+				<view class="dark" @tap="handGoDownload">已下架</view>
 			</view>
 		</view>
 		<view v-else class="transaction">
@@ -314,6 +314,7 @@
 					pre_buy_info: {
 
 					},
+					stock_desc: ''
 
 				},
 				otherList: [],

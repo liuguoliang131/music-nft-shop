@@ -150,6 +150,7 @@
 			position: absolute;
 			left: 20rpx;
 			top: 14rpx;
+			width: 500rpx;
 			color: #1E1E1E;
 			font-size: 26rpx;
 		}
