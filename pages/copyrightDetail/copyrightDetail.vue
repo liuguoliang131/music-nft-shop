@@ -98,9 +98,10 @@
 			<view class="view4">
 				<view class="view4-1">
 					<text class="nowrap">{{detail.author_name}}</text>
-					<image src="https://file.yuanyinfu.com/front-end-lib/stow.png" mode=""></image>
+					<image @tap="desc_open=!desc_open" :class="[desc_open?'desc_open':'']"
+						src="https://file.yuanyinfu.com/front-end-lib/stow.png" mode=""></image>
 				</view>
-				<view class="view4-2">
+				<view :class="['view4-2',desc_open?'autoheight':'']">
 					<image class="view4-2-1" :src="detail.avatar" mode=""></image>
 					<view class="view4-2-2 prewrap" v-html="detail.author_desc"></view>
 				</view>
@@ -167,12 +168,31 @@
 				</view>
 			</view>
 			<view class="footer"></view>
-			<view class="bottom1 nowrap">
+			<view class="bottom1 nowrap" v-if="detail.stock_desc">
 				{{detail.stock_desc}}
 			</view>
-			<view class="bottom2">
+			<!-- 发售中 -->
+			<view class="bottom2" v-if="detail.music_status===2">
 				<view class="light" v-if="detail.is_sale===1" @tap="handGoDownload">购买</view>
-				<view class="dark" v-else>预告作品不可购买</view>
+				<view class="dark" v-else>已停售</view>
+			</view>
+			<!-- 预售中 -->
+			<view class="bottom2 status6" v-else-if="detail.music_status==6">
+				<view class="dark status6-1 nowrap">
+					{{detail.pre_sale_time_desc||(formatTime1(detail.pre_sale_time*1000)+'开售')}}
+				</view>
+				<view class="light status6-1" v-if="detail.is_sale===1" @tap="handGoDownload">预约购买</view>
+				<view class="dark status6-1" v-else>已停售</view>
+			</view>
+			<!-- 预告中 -->
+			<view class="bottom2" v-else-if="detail.music_status==7">
+				<view class="dark">预告作品不可购买</view>
+			</view>
+			<view class="bottom2" v-else-if="detail.music_status==3">
+				<view class="dark">已售罄</view>
+			</view>
+			<view class="bottom2" v-else-if="detail.music_status==5">
+				<view class="dark">已下架</view>
 			</view>
 		</view>
 		<view v-else class="transaction">
@@ -297,6 +317,7 @@
 
 				},
 				otherList: [],
+				desc_open: false, //作者介绍展开
 				transactionInfo: {
 					trans_info: [],
 					role: [],
@@ -309,7 +330,8 @@
 						like_num: '-',
 						hot: '-'
 					}
-				}
+				},
+				timer: null
 
 			}
 		},
@@ -330,6 +352,9 @@
 			},
 			formatTime(val) {
 				return dayjs(val).format('YYYY-MM-DD HH:mm:ss')
+			},
+			formatTime1(val) {
+				return dayjs(val).format('MM月DD日 HH:mm')
 			},
 			formatMusicTime(val) {
 				if (Number(val) === NaN) {
@@ -366,8 +391,27 @@
 						})
 					}
 					this.detail = Object.assign(this.detail, res.data.info)
+					// 定时刷新页面
+					this.setRefreshTime()
+
 					this.getOthers()
 				})
+			},
+			setRefreshTime() {
+				if (this.timer) {
+					clearTimeout(this.timer)
+				}
+
+				if (this.detail.music_status === 6) {
+					this.timer = setInterval(() => {
+						const date = Date.now()
+						if (date >= this.detail.pre_sale_time * 1000 + 3000) {
+							clearTimeout(this.timer)
+							this.getMusicInfo()
+						}
+					}, 1000)
+				}
+
 			},
 			// 交易详情
 			getTransactionInfo() {
@@ -830,12 +874,17 @@
 						height: 30rpx;
 					}
 
+					.desc_open {
+						transform-origin: center;
+						transform: rotate(180deg);
+					}
+
 				}
 
 				.view4-2 {
 					display: flex;
 					justify-content: center;
-					align-items: center;
+					// align-items: center;
 					margin: auto;
 					margin-top: 12rpx;
 					background: rgba(132, 115, 83, 0.2);
@@ -843,10 +892,12 @@
 					border-radius: 16rpx;
 					width: 670rpx;
 					height: 156rpx;
+					box-sizing: border-box;
+					padding: 20rpx 0;
 
 					.view4-2-1 {
 						position: relative;
-						top: -47%;
+						top: -56.4rpx;
 						width: 120rpx;
 						height: 120rpx;
 						border-radius: 60rpx
@@ -869,6 +920,17 @@
 						-webkit-line-clamp: 3;
 						-webkit-box-orient: vertical;
 
+					}
+				}
+
+				.autoheight {
+					height: auto;
+
+					.view4-2-2 {
+						height: auto;
+						display: block;
+						overflow: auto;
+						text-overflow: auto;
 					}
 				}
 			}
@@ -1031,6 +1093,14 @@
 					line-height: 96rpx;
 					text-align: center;
 					color: #ECECEC;
+				}
+			}
+
+			.status6 {
+				justify-content: space-around;
+
+				.status6-1 {
+					width: 356rpx;
 				}
 			}
 		}
