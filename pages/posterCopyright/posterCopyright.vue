@@ -64,7 +64,7 @@
 		computed: {
 			shareLink() {
 				const link = window.location.protocol + '//' + window.location.host +
-					`/#/pages/invitationToRegister/invitationToRegister&share_sign=${encodeURIComponent(this.data.share_sign)}&next=copyrightDetail&id=${this.music_info_id}`
+					`/#/pages/invitationToRegister/invitationToRegister?share_sign=${encodeURIComponent(this.data.share_sign)}&next=copyrightDetail&id=${this.music_info_id}`
 				return link
 			}
 		},
