@@ -296,7 +296,7 @@
 		padding: 0;
 		text-align: center;
 		max-height: 100vh;
-		// overflow-y: scroll;
+		overflow-y: hidden;
 		font-family: 'PingFang SC';
 		font-style: normal;
 		font-weight: 400;

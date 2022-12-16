@@ -127,7 +127,7 @@
 		position: relative;
 		font-family: 'PingFang SC';
 		padding-bottom: 40rpx;
-		overflow: hidden;
+		overflow-y: scroll;
 
 		&-header {
 			display: flex;
