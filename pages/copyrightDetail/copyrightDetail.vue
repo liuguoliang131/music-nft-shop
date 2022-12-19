@@ -758,7 +758,7 @@
 
 						.right-2-2 {
 							box-sizing: border-box;
-							width: 156rpx;
+							min-width: 156rpx;
 							height: 48rpx;
 							padding: 0 10rpx;
 							line-height: 48rpx;
@@ -771,7 +771,7 @@
 
 						.right-2-3 {
 							box-sizing: border-box;
-							width: 156rpx;
+							min-width: 156rpx;
 							height: 48rpx;
 							padding: 0 10rpx;
 							line-height: 48rpx;
@@ -870,6 +870,7 @@
 					min-width: 0;
 
 					text {
+						text-align: left;
 						flex: 1;
 					}
 
@@ -1014,7 +1015,7 @@
 
 							.item-right-2-2 {
 								box-sizing: border-box;
-								width: 156rpx;
+								min-width: 156rpx;
 								height: 48rpx;
 								padding: 0 10rpx;
 								margin-left: 20rpx;
