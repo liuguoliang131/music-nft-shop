@@ -277,8 +277,8 @@
 			</view>
 
 		</view>
-		<view class="audiofooter" v-if="$store.state.globalAudio.show"></view>
-		<floating-component v-if="$store.state.globalAudio.show">
+		<view :class="[detail.stock_desc?'height350':'height292']" v-if="$store.state.globalAudio.show"></view>
+		<floating-component :class="[detail.stock_desc?'fixed_b195':'fixed_b137']" v-if="$store.state.globalAudio.show">
 			<GlobalAudio></GlobalAudio>
 		</floating-component>
 	</view>
@@ -629,11 +629,19 @@
 			}
 		}
 
-		/deep/.floatingComponent {
+		.fixed_b137 {
+			bottom: 137rpx;
+		}
+
+		.fixed_b195 {
 			bottom: 195rpx;
 		}
 
-		.audiofooter {
+		.height292 {
+			height: 292rpx;
+		}
+
+		.height350 {
 			height: 350rpx;
 		}
 
