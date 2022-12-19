@@ -10,7 +10,7 @@
 				<view v-if="isWx" class="save noactive">长按二维码保存海报</view>
 				<view v-else class="save" @tap="handleSavePhoto()">点击保存海报到相册</view>
 			</view>
-			<view class="box3" v-show="inApp">
+			<view class="box3" v-show="$store.state.user.inApp">
 				可分享至
 				<image src="https://file.yuanyinfu.com/front-end-lib/share-wx.png" mode=""
 					@tap="handleShare('wxFriend')"></image>
@@ -26,7 +26,6 @@
 <script>
 	import QRCode from 'qrcodejs2'
 	import {
-		isApp,
 		isWxBrowser,
 		saveBase64Image,
 		shareBase64Image
@@ -44,7 +43,6 @@
 		data() {
 			return {
 				isWx: false,
-				inApp: false, //是否在app内
 				product_item_id: '',
 				product_type: null,
 				context: null,
@@ -55,7 +53,6 @@
 					code: ''
 				},
 				posterImageBase64: '',
-				path: '',
 				data: {
 
 				}
@@ -63,6 +60,19 @@
 		},
 		components: {
 			NavHead
+		},
+		computed: {
+			shareLink() {
+				const urls = {
+					1: `goldSinglesDetail`,
+					2: `preOrderDetails`,
+					3: `recommendedAlbumDetail`
+				}
+				const next = urls[this.product_type]
+				const link = window.location.protocol + '//' + window.location.host +
+					`/#/pages/invitationToRegister/invitationToRegister?share_sign=${encodeURIComponent(this.data.share_sign)}&next=${next}&id=${this.product_item_id}`
+				return link
+			}
 		},
 		methods: {
 			handleBack() {
@@ -109,7 +119,7 @@
 					canvasId: 'firstCanvas',
 					success: (res) => {
 						console.log('res', res)
-						if (isApp()) {
+						if (this.$store.state.user.inApp) {
 							saveBase64Image(res.tempFilePath)
 						} else {
 							const btn = document.createElement('a')
@@ -147,14 +157,7 @@
 							icon: 'none'
 						})
 					}
-					// const res = {
-					// 	data: {
-					// 		user_name: '窝里giao',
-					// 		user_avatar: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-10-20%2F5f8eace52a8ff.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666683588&t=4296afb3ffe7983a07a9d16d8b3ccbbf',
-					// 		poster_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fphoto%2F2011-5-29%2Fenterdesk.com-F65D26B61244263D3A0F77230BCB9F16.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666675133&t=eec4a20e79b97c01f3804c90192c5dd1',
-					// 		share_sign: 'xasdasfasfadas'
-					// 	}
-					// }
+
 					this.data = res.data
 					this.initCanvas(res.data)
 				} catch (e) {
@@ -205,21 +208,14 @@
 						color: '#1C1C1E',
 						text: data.user_name
 					}
-					const tips = {
-						x: 121.5 * widowWidth / scaleScreenWidth,
-						y: 358 * widowWidth / scaleScreenWidth,
-						fontSize: 12 * widowWidth / scaleScreenWidth,
-						color: '#1C1C1E',
-						text: '扫码开始试听'
-					}
+
 					// 二维码
 					const qr = {
 						x: 97.5 * widowWidth / scaleScreenWidth,
 						y: 218 * widowWidth / scaleScreenWidth,
 						width: 120 * widowWidth / scaleScreenWidth,
 						height: 120 * widowWidth / scaleScreenWidth,
-						shareUrl: window.location.protocol + '//' + window.location.host +
-							`${this.path}?product_item_id=${this.product_item_id}&share_sign=${encodeURIComponent(data.share_sign)}`,
+						shareUrl: this.shareLink
 					}
 
 					// 生成二维码
@@ -245,10 +241,7 @@
 							that.context.setFontSize(title.fontSize) // 字号
 							that.context.setFillStyle('Roboto ' + title.color) // 字体颜色
 							that.context.fillText(title.text, title.x, title.y); // （文字，x，y）
-							// tips
-							// that.context.setFontSize(tips.fontSize) // 字号
-							// that.context.setFillStyle(tips.color) // 字体颜色
-							// that.context.fillText(tips.text, tips.x, tips.y); // （文字，x，y）
+
 							uni.downloadFile({
 								url: code2Url,
 								success(code2res) {
@@ -306,9 +299,8 @@
 				})
 			},
 			handleShare(share_way) {
-				const url = window.location.protocol + '//' + window.location.host +
-					`${this.path}?product_item_id=${this.product_item_id}&share_sign=${encodeURIComponent(this.data.share_sign)}`
-				const share_title = '元音符' + url
+				const link = this.shareLink
+				const share_title = '元音符' + link
 				let img = ''
 				uni.canvasToTempFilePath({ // res.tempFilePath临时路径
 					canvasId: 'firstCanvas',
@@ -355,16 +347,11 @@
 		onLoad(option) {
 			console.log('poster onload', option)
 			this.isWx = isWxBrowser()
-			this.inApp = isApp()
 			this.product_item_id = option.product_item_id ? Number(option.product_item_id) : null
 			const type = Number(option.product_type)
 			this.product_type = type
-			const urls = {
-				1: '/#/pages/goldSinglesDetail/goldSinglesDetail',
-				2: '/#/pages/preOrderDetails/preOrderDetails',
-				3: '/#/pages/recommendedAlbumDetail/recommendedAlbumDetail'
-			}
-			this.path = urls[type]
+
+
 		},
 		onReady: function(e) {
 			console.log('poster onready')

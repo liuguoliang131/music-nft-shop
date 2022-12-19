@@ -51,14 +51,9 @@
 				} else {
 					let currentRoutes = getCurrentPages(); // 获取当前打开过的页面路由数组
 					if (currentRoutes.length === 1) {
-						if (this.$store.state.user.token) {
-							uni.redirectTo({
-								url: '/pages/index/index'
-							})
-
-						} else {
-							goLogin()
-						}
+						uni.redirectTo({
+							url: '/pages/index/index'
+						})
 					} else {
 						uni.navigateBack({
 							delta: 1, //返回层数，2则上上页
@@ -112,19 +107,17 @@
 			}
 
 			.nav-right {
-				position: absolute;
-				top: 60rpx;
-				right: 28rpx;
+				top: 80rpx;
+				left: 28rpx;
+				width: 48rpx;
+				height: 48rpx;
 				display: flex;
 				align-items: center;
 				justify-content: flex-end;
-				width: 88rpx;
-				height: 88rpx;
 
 				image {
-					background-color: red;
-					width: 48rpx !important;
-					height: 48rpx;
+					width: 100%;
+					height: 100%;
 				}
 			}
 		}
@@ -173,12 +166,11 @@
 				display: flex;
 				align-items: center;
 				justify-content: flex-end;
-				width: 88rpx;
+				width: 48rpx;
 				height: 88rpx;
 
 				image {
-					background-color: red;
-					width: 48rpx !important;
+					width: 48rpx;
 					height: 48rpx;
 				}
 			}

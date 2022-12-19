@@ -21,7 +21,7 @@
 						<checkbox class="checkbox" :value="true" />
 					</checkbox-group>
 					<text class="agree-label">
-						未注册的手机号，登录时将自动进行注册，<br />且代表您已同意
+						登录时代表您已同意
 						<text @tap="handView('https://h5.shenglangnft.com/base/agreement')">《用户协议》</text>和<text
 							@tap="handView('https://h5.shenglangnft.com/base/privacy_policy')">《隐私政策》</text>
 					</text>
@@ -40,13 +40,7 @@
 </template>
 
 <script>
-	import CuHead from '../../components/cu-head.vue'
-	import config from '../../utils/uniKey.js'
-	import WybPopup from '../../components/wyb-popup/wyb-popup.vue'
 	import TfVerifyImg from '../../components/tf-verify-img/tf-verify-img.vue'
-	import {
-		getHashQuery
-	} from '../../utils/index.js'
 	import {
 		h5_base_login,
 		h5_base_captcha,
@@ -54,13 +48,14 @@
 	} from '../../request/api.js'
 	export default {
 		components: {
-			WybPopup,
-			TfVerifyImg,
-			CuHead
+			TfVerifyImg
 		},
 		data() {
 			return {
-				share_sign: '',
+				share_sign: '', //分享绑定code
+				next: '', //下一个页面
+				id: '', //下一个页面需要参数
+				origin: '', //上一个页面
 				form: {
 					phone: '',
 					captcha: ''
@@ -166,9 +161,6 @@
 			},
 			async login() {
 				try {
-					const {
-						query
-					} = getHashQuery()
 					const data = {
 						phone: this.form.phone,
 						captcha: this.form.captcha
@@ -193,11 +185,55 @@
 						})
 					}
 					this.$store.commit('user/set_userInfo', res1.data)
-					this.$store.commit('user/set_share_sign', '')
 					uni.showToast({
 						icon: 'success',
 						title: '登录成功'
 					})
+					this.nextGoWhere()
+
+				} catch (e) {
+					//TODO handle the exception
+					console.log('error', e)
+					uni.showToast({
+						icon: 'none',
+						title: e.message
+					})
+				}
+
+			},
+			// 跳转到下一页
+			nextGoWhere() {
+				if (this.origin === 'invitationToRegister') {
+					// 上一页注册 
+					if (!this.next) {
+						return uni.reLaunch({
+							url: '/pages/index/index'
+						})
+					}
+
+					if (this.next === 'goldSinglesDetail') {
+						uni.reLaunch({
+							url: '/pages/goldSinglesDetail/goldSinglesDetail?product_item_id=' + this.id
+						})
+					} else if (this.next === 'preOrderDetails') {
+						uni.reLaunch({
+							url: '/pages/preOrderDetails/preOrderDetails?product_item_id=' + this.id
+						})
+					} else if (this.next === 'recommendedAlbumDetail') {
+						uni.reLaunch({
+							url: '/pages/recommendedAlbumDetail/recommendedAlbumDetail?product_item_id=' + this
+								.id
+						})
+					} else if (this.next === 'copyrightDetail') {
+						uni.reLaunch({
+							url: '/pages/copyrightDetail/copyrightDetail?music_info_id=' + this.id
+						})
+					} else {
+						uni.reLaunch({
+							url: '/pages/index/index'
+						})
+					}
+				} else {
 					if (getCurrentPages().length > 1) {
 						uni.$emit('updateData', null)
 						uni.navigateBack({
@@ -208,15 +244,8 @@
 							url: '/pages/index/index'
 						})
 					}
-
-				} catch (e) {
-					//TODO handle the exception
-					console.log('error', e)
-					uni.showToast({
-						icon: 'none',
-						title: e.message
-					})
 				}
+
 
 			}
 		},
@@ -234,6 +263,9 @@
 			if (option.share_sign) {
 				this.share_sign = decodeURIComponent(option.share_sign)
 			}
+			this.next = option.next || ''
+			this.id = option.id || ''
+			this.origin = option.origin || ''
 		}
 	}
 </script>
@@ -316,7 +348,7 @@
 					color: #ffff;
 					font-size: 28rpx;
 					padding-top: 26rpx;
-					padding-bottom: 136rpx;
+					padding-bottom: 100rpx;
 
 					.checkbox {
 						margin-right: 24rpx;
@@ -337,7 +369,7 @@
 
 					.agree-label {
 						font-size: 22rpx;
-						line-height: 36rpx;
+						line-height: 48rpx;
 						color: #666666;
 
 						text {
@@ -359,7 +391,7 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				width: 474rpx;
+				width: 650rpx;
 				height: 96rpx;
 				background: #D10910;
 				border-radius: 48rpx;

@@ -127,7 +127,7 @@
 		position: relative;
 		font-family: 'PingFang SC';
 		padding-bottom: 40rpx;
-		overflow: hidden;
+		overflow-y: scroll;
 
 		&-header {
 			display: flex;
@@ -155,6 +155,18 @@
 			margin-bottom: 20rpx;
 		}
 
+	}
+
+	// 强制一行显示 超出显示省略号
+	.nowrap {
+		overflow: hidden; // 溢出隐藏
+		white-space: nowrap; // 强制一行
+		text-overflow: ellipsis; // 文字溢出显示省略号
+	}
+
+	// 用于v-html 
+	.prewrap {
+		white-space: pre-wrap; //识别换行符 并且超过父盒子宽度自动换行
 	}
 
 

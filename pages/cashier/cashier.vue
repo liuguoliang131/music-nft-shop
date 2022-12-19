@@ -415,53 +415,63 @@
 			},
 			// 零钱支付
 			async balancePay() {
-
+				uni.showLoading({
+					mask: true,
+					title: '支付中'
+				})
 				try {
 					const params = {
 						order_no: this.order_no,
 						module_type: 3,
 						password: md5(this.password.join(''))
 					}
-					const res = await this.$post(h5_collections_wallet_pay_wallet, params)
+					const res = await post1(h5_collections_wallet_pay_wallet, params)
 					if (res.code === 900) {
 						// 未设置密码
+						uni.hideLoading()
 						return this.$refs.myDialog1.show()
 					} else if (res.code === 901) {
 						// 余额不足
+						uni.hideLoading()
 						return this.$refs.myDialog.show()
 					} else if (res.code !== 0 && res.code !== 900 && res.code !== 901) {
 						// 其他报错
+						uni.hideLoading()
 						return uni.showToast({
 							title: res.msg,
 							icon: 'none'
 						})
 					}
-					this.$refs.popup.close()
-					post1(h5_conllections_buy_showsuccess, {
-						order_no: this.order_no
-					}).then(res => {
-						if (res.code !== 0) {
-							return uni.showToast({
-								title: res.msg,
-								icon: 'none'
-							})
-						}
+					// 购买多份时有可能服务器没处理完 返回的结果不正确，添加一个定时器
+					setTimeout(() => {
+						this.$refs.popup.close()
+						post1(h5_conllections_buy_showsuccess, {
+							order_no: this.order_no
+						}).then(res => {
+							uni.hideLoading()
+							if (res.code !== 0) {
+								return uni.showToast({
+									title: res.msg,
+									icon: 'none'
+								})
+							}
 
-						if (res.data.pay_status === 1) {
-							clearTimeout(this.timer)
-							uni.redirectTo({
-								// url: `/pages/paySuccess/paySuccess?order_no=${this.order_no}&order_price=${this.order_price}&product_item_id=${this.product_item_id}&order_id=${res.data.order_id}`
-								url: `/pages/paySuccess/paySuccess?data=${JSON.stringify(res.data)}&pageOrigin=${this.pageOrigin}`
-							})
-						} else {
-							uni.showToast({
-								title: res.msg,
-								icon: 'none'
-							})
+							if (res.data.pay_status === 1) {
+								clearTimeout(this.timer)
+								uni.redirectTo({
+									url: `/pages/paySuccess/paySuccess?data=${JSON.stringify(res.data)}&pageOrigin=${this.pageOrigin}`
+								})
+							} else {
+								uni.showToast({
+									title: res.msg,
+									icon: 'none'
+								})
 
-						}
+							}
 
-					})
+						})
+					}, 400)
+
 
 				} catch (e) {
 					//TODO handle the exception

@@ -23,14 +23,6 @@
 				"navigationStyle": "custom"
 			}
 		}, {
-			"path": "pages/collectionsDetail/collectionsDetail",
-			"style": {
-				"navigationBarTitleText": "详情",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-
-		}, {
 			"path": "pages/customerService/customerService",
 			"style": {
 				"navigationStyle": "custom",
@@ -257,6 +249,30 @@
 			"path": "pages/subgiftRecord/subgiftRecord",
 			"style": {
 				"navigationBarTitleText": "转赠记录",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/copyrightDetail/copyrightDetail",
+			"style": {
+				"navigationBarTitleText": "详情",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/invitationToRegister/invitationToRegister",
+			"style": {
+				"navigationBarTitleText": "注册",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/posterCopyright/posterCopyright",
+			"style": {
+				"navigationBarTitleText": "分享海报",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}

@@ -10,13 +10,14 @@
 				<view v-if="isWx" class="save noactive">长按二维码保存海报</view>
 				<view v-else class="save" @tap="handleSavePhoto()">点击保存海报到相册</view>
 			</view>
-			<view class="box3" v-show="inApp">
+			<view class="box3" v-show="$store.state.user.inApp">
 				可分享至
 				<image src="https://file.yuanyinfu.com/front-end-lib/share-wx.png" mode=""
 					@tap="handleShare('wxFriend')"></image>
 				<image src="https://file.yuanyinfu.com/front-end-lib/share-friends.png" mode=""
 					@tap="handleShare('timeline')"></image>
-				<image src="../../static/weibo.png" mode="" @tap="handleShare('weibo')"></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/weibo.png" mode="" @tap="handleShare('weibo')">
+				</image>
 			</view>
 		</view>
 	</view>
@@ -25,7 +26,6 @@
 <script>
 	import QRCode from 'qrcodejs2'
 	import {
-		isApp,
 		isWxBrowser,
 		saveBase64Image,
 		shareBase64Image
@@ -42,7 +42,6 @@
 		data() {
 			return {
 				isWx: false,
-				inApp: false, //是否在app内
 				context: null,
 				posterImageBase64: '',
 				data: {}
@@ -50,6 +49,13 @@
 		},
 		components: {
 			NavHead
+		},
+		computed: {
+			shareLink() {
+				const link = window.location.protocol + '//' + window.location.host +
+					`/#/pages/invitationToRegister/invitationToRegister?share_sign=${encodeURIComponent(this.data.share_sign)}`
+				return link
+			}
 		},
 		methods: {
 			handleBack() {
@@ -96,7 +102,7 @@
 					canvasId: 'firstCanvas',
 					success: (res) => {
 						console.log('res', res)
-						if (isApp()) {
+						if (this.$store.state.user.inApp) {
 							saveBase64Image(res.tempFilePath)
 						} else {
 							if (this.$store.state.user.inPlus) {
@@ -190,21 +196,20 @@
 						color: '#1C1C1E',
 						text: data.user_name
 					}
-					const tips = {
-						x: 121.5 * widowWidth / scaleScreenWidth,
-						y: 358 * widowWidth / scaleScreenWidth,
-						fontSize: 12 * widowWidth / scaleScreenWidth,
-						color: '#1C1C1E',
-						text: '扫码开始试听'
-					}
+					// const tips = {
+					// 	x: 121.5 * widowWidth / scaleScreenWidth,
+					// 	y: 358 * widowWidth / scaleScreenWidth,
+					// 	fontSize: 12 * widowWidth / scaleScreenWidth,
+					// 	color: '#1C1C1E',
+					// 	text: '扫码开始试听'
+					// }
 					// 二维码
 					const qr = {
 						x: 97.5 * widowWidth / scaleScreenWidth,
 						y: 218 * widowWidth / scaleScreenWidth,
 						width: 120 * widowWidth / scaleScreenWidth,
 						height: 120 * widowWidth / scaleScreenWidth,
-						shareUrl: window.location.protocol + '//' + window.location.host +
-							`/#/pages/index/index?share_sign=${encodeURIComponent(data.share_sign)}`
+						shareUrl: this.shareLink
 					}
 
 					// 生成二维码
@@ -291,9 +296,8 @@
 				})
 			},
 			handleShare(share_way) {
-				const url = window.location.protocol + '//' + window.location.host +
-					`/#/pages/preOrderDetails/preOrderDetails?product_item_id=${this.product_item_id}&share_sign=${encodeURIComponent(this.data.share_sign)}`
-				const share_title = '元音符' + url
+
+				const share_title = '元音符' + this.shareLink
 				let img = ''
 				uni.canvasToTempFilePath({ // res.tempFilePath临时路径
 					canvasId: 'firstCanvas',
@@ -339,7 +343,6 @@
 		onLoad(option) {
 			console.log('poster onload', option)
 			this.isWx = isWxBrowser()
-			this.inApp = isApp()
 		},
 		onReady: function(e) {
 			console.log('poster onready')
