@@ -84,12 +84,9 @@
 		display: flex;
 		overflow: hidden;
 		width: 700rpx;
-		height: 3.5em;
-		border-radius: 0.2em;
-		// border: 1px solid rgba(0, 0, 0, 0.3);
+		height: 112rpx;
+		border-radius: 15rpx;
 		background-color: #ffff;
-		// padding: 0.5em 0;
-		border-radius: 0.5em;
 
 		.close-icon {
 			position: absolute;
@@ -99,7 +96,7 @@
 			width: 30rpx;
 			height: 30rpx;
 			background-color: rgba(71, 71, 71, 0.3);
-			border-radius: 0.5em;
+			border-radius: 15rpx;
 		}
 	}
 
