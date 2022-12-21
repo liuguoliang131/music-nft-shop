@@ -33,12 +33,12 @@
 				邀请好友
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
 			</view>
-			<view class="mine-list-item" @click="goToMyTeam">
+			<!-- <view class="mine-list-item" @click="goToMyTeam">
 				<image src="https://file.yuanyinfu.com/front-end-lib/team.png" class="mine-list-item-image" mode="">
 				</image>
 				我的团队
 				<text class="cuIcon-right mine-head-icon" style="color: #fff;"></text>
-			</view>
+			</view> -->
 			<view class="mine-list-item" @click="goToCollections">
 				<image src="https://file.yuanyinfu.com/front-end-lib/mine.png" class="mine-list-item-image" mode="">
 				</image>
