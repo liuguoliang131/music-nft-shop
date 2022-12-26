@@ -39,53 +39,7 @@
 					<text class="unit">/张</text>
 				</view>
 			</view>
-			<!-- <view class="preOrderDetails-body">
-				<view class="card cardbox1" v-show="!$store.state.publicState.isApprove">
-					<view class="card-body">
-						<view class="row1">专辑信息</view>
-						<view class="row2">
-							<view class="row2-1">
-								<text class="row2-1-l">专辑名称</text>
-								<text class="row2-1-r">{{data.name}}</text>
-							</view>
-							<view class="row2-1">
-								<text class="row2-1-l">稀有度</text>
-								<text class="row2-1-r">{{data.rare_type}}</text>
-							</view>
-							<view class="row2-1">
-								<text class="row2-1-l">发行量</text>
-								<text class="row2-1-r">{{data.stock_num_desc}}张</text>
-							</view>
-							<view class="row2-1">
-								<text class="row2-1-l">发行方</text>
-								<text class="row2-1-r">{{data.publish_author}}</text>
-							</view>
-							<view class="row2-1">
-								<text class="row2-1-l">发行时间</text>
-								<text class="row2-1-r">{{data.publish_time1}}</text>
-							</view>
-						</view>
-						<view class="row3">
-							购买须知
-						</view>
-						<view class="row4" v-html="data.buy_notice">
-						</view>
-					</view>
-				</view>
-				<view class="card cardbox2">
-					<view class="card-body">
-						<view class="work" v-show="data.introduction">
-							<view class="row1">专辑介绍</view>
-							<view class="row2" v-html="data.introduction"></view>
-						</view>
-						<view class="work" v-for="(item,idx) in data.music_list" :key="idx">
-							<view class="row1">{{item.name}}</view>
-							<view class="row2" v-html="item.desc">
-							</view>
-						</view>
-					</view>
-				</view>
-			</view> -->
+
 			<view class="card1" v-show="!$store.state.publicState.isApprove">
 				<view class="card1-body">
 					<view class="title1">专辑信息</view>
@@ -155,7 +109,35 @@
 				</view>
 			</view>
 			<view class="h120"></view>
-			<view class="bottom1" v-show="!$store.state.publicState.isApprove">
+			<!-- 优先购显示 -->
+			<view class="YouXianGouBottom" v-if="youxiangou" v-show="!$store.state.publicState.isApprove">
+				<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
+					<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png" mode="">
+					</image>
+					<view class="bottom1-1-2 followed">
+						关注
+					</view>
+				</view>
+				<view v-else class="bottom1-1" @tap="handFollow(1)">
+					<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png" mode="">
+					</image>
+					<view class="bottom1-1-2 unfollow">
+						关注
+					</view>
+				</view>
+				<view class="bottom1-2">
+					<view class="bottom1-2-left" @tap="handBuyTheYxg">
+						优先购
+					</view>
+					<view class="bottom1-2-right" @tap="handOrLogin(0)">
+						<text class="bottom1-2-right-1 nowrap">距离开售</text>
+						<text class="bottom1-2-right-2 nowrap">{{countDown}}</text>
+					</view>
+
+				</view>
+			</view>
+			<!-- 不是优先购显示 -->
+			<view class="bottom1" v-else v-show="!$store.state.publicState.isApprove">
 				<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
 					<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png" mode="">
 					</image>
@@ -174,7 +156,7 @@
 					<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handOrLogin(3)">已停售</view>
 					<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0"
 						@tap="handOrLogin(0)">
-						{{countDown}}
+						{{`距离开售 ${countDown}`}}
 					</view>
 					<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1" @tap="handBuyThe">
 						立即抢购
@@ -188,7 +170,7 @@
 		</template>
 		<!-- H5 -->
 		<template v-else>
-			<nav-head-pre :share_sign="!!share_sign"></nav-head-pre>
+			<nav-head-pre :share_sign="false"></nav-head-pre>
 			<view class="preOrderDetails-header">
 				<view class="cover">
 					<div class="cover-content">
@@ -292,19 +274,22 @@
 				</view>
 			</view>
 			<view class="h120"></view>
-			<view class="bottom1" v-if="share_sign" v-show="!$store.state.publicState.isApprove">
+			<view class="YouXianGouBottom" v-if="youxiangou" v-show="!$store.state.publicState.isApprove">
+				<view class="bottom1-1" @tap="handShare">
+					<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/share1.png" mode="">
+					</image>
+					<view class="bottom1-1-2">
+						分享
+					</view>
+				</view>
 				<view class="bottom1-2">
-					<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handOrLogin(3)">已停售</view>
-					<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0"
-						@tap="handOrLogin(0)">
-						{{countDown}}
+					<view class="bottom1-2-left" @tap="handBuyTheYxg">
+						优先购
 					</view>
-					<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1" @tap="handBuyThe">
-						立即抢购
+					<view class="bottom1-2-right" @tap="handOrLogin(0)">
+						<text class="bottom1-2-right-1 nowrap">距离开售</text>
+						<text class="bottom1-2-right-2 nowrap">{{countDown}}</text>
 					</view>
-					<view v-else-if="data.is_halt===1&&data.sale_status===2" class="bottom1-status2"
-						@tap="handOrLogin(2)">
-						已售罄</view>
 
 				</view>
 			</view>
@@ -320,7 +305,7 @@
 					<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handOrLogin(3)">已停售</view>
 					<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0"
 						@tap="handOrLogin(0)">
-						{{countDown}}
+						{{`距离开售 ${countDown}`}}
 					</view>
 					<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1" @tap="handBuyThe">
 						立即抢购
@@ -332,8 +317,8 @@
 				</view>
 			</view>
 		</template>
-		<wyb-popup ref="popup" type="bottom" height="800" width="750" radius="6" bgColor="#1D1D1D"
-			:showCloseIcon="true">
+		<wyb-popup ref="popup" type="bottom" height="800" width="750" radius="6" bgColor="#1D1D1D" :showCloseIcon="true"
+			@hide="handClear()">
 			<view class="popup-content" ref="popupContent">
 				<view class="popup-i">
 					<view class="i-img">
@@ -402,6 +387,76 @@
 				</view>
 			</view>
 		</wyb-popup>
+		<wyb-popup ref="YouXianGouPopup" type="bottom" height="800" width="750" radius="6" bgColor="#1D1D1D"
+			:showCloseIcon="true" @hide="handClear()">
+			<view class="popup-content YouXianGouPopupContent" ref="YouXianGouPopupContent">
+				<view class="popup-i">
+					<view class="i-img">
+						<image :src="data.index_img" mode=""></image>
+						<view class="img-line"></view>
+					</view>
+					<view class="i-title">
+						<view class="title-t">{{data.name}}</view>
+						<view class="title-p">
+							发行价格
+							<text class="title-p-rmb">￥{{data.sale_price}}</text>
+							/张
+						</view>
+					</view>
+				</view>
+				<view class="popup-f">
+					<image class="popup-f-img" src="https://file.yuanyinfu.com/front-end-lib/popupYf.png"></image>
+					<text>购买专辑可以永久聆听</text>
+				</view>
+				<view class="popup-g" v-if="data.rare_type!=='N'">
+					<view class="g-1">
+						级别
+					</view>
+					<view class="g-2">
+						<view class="popup-h-btn">
+							{{data.rare_type}}级
+						</view>
+					</view>
+				</view>
+				<view class="popup-count">
+					<view class="count-text">
+						数量
+					</view>
+					<view class="number-count">
+						<view class="minus" @tap="handMinusYxg()">
+							<!-- <image class="minus-img" src="../../static/Frame 1000006244.png" mode=""></image> -->
+							<view class="minus-img">
+								<view :class="['h',this.count>1?'active-icon':'']"></view>
+							</view>
+						</view>
+						<input class="countc" type="number" maxlength="3" name="" id="" v-model="count"
+							@blur="onCountChangeYxg()">
+						<view class="plus" @tap="handPlusYxg()">
+							<!-- <image class="plus-img" src="../../static/Group 1000004650.png" mode=""></image> -->
+							<view class="plus-img">
+								<view :class="['h',this.count<100?'active-icon':'']"></view>
+								<view :class="['v',this.count<100?'active-icon':'']"></view>
+							</view>
+						</view>
+					</view>
+				</view>
+				<view class="popup-e">
+					<view class="e-text">
+						实付
+					</view>
+					<view class="e-price">
+						<text class="rmb">￥</text>
+						<text class="count">{{total}}</text>
+					</view>
+				</view>
+				<view class="popup-d">
+					<view class="d-btn" @tap="handOrder()">优先购</view>
+				</view>
+				<view class="popup-c">
+					喜欢的话，就不要错过哦！
+				</view>
+			</view>
+		</wyb-popup>
 	</view>
 </template>
 
@@ -438,7 +493,6 @@
 		data() {
 			return {
 				product_item_id: '',
-				share_sign: '',
 				data: {
 					name: '',
 					product_item_id: '',
@@ -476,7 +530,8 @@
 				count: 1,
 				statusTimer: null,
 				countDown: '',
-				followTimer: null
+				followTimer: null,
+				youxiangou: true
 			};
 		},
 		computed: {
@@ -594,7 +649,7 @@
 							hh = hh < 10 ? '0' + hh : hh
 							MM = MM < 10 ? '0' + MM : MM
 							ss = ss < 10 ? '0' + ss : ss
-							this.countDown = `距离开售 ${hh}时${MM}分${ss}秒`
+							this.countDown = `${hh}时${MM}分${ss}秒`
 						} else {
 							this.getDetails(this.product_item_id)
 							clearTimeout(this.statusTimer)
@@ -624,11 +679,41 @@
 				}
 
 			},
-			// +1
+			// +1 
 			handPlus() {
 				if (this.count < 100) {
 					this.count++
 				}
+			},
+			// 数量改变
+			onCountChangeYxg() {
+				if (this.count > 100) {
+					uni.showToast({
+						icon: 'none',
+						title: '单次购买数量不可超过100张',
+						duration: 3000
+					})
+					this.count = 100
+				} else if (this.count < 1) {
+					this.count = 1
+				}
+				this.$refs.popupContent.$el.style.height = 'auto'
+			},
+			// -1 优先购
+			handMinusYxg() {
+				if (this.count > 1) {
+					this.count--
+				}
+
+			},
+			// +1 优先购
+			handPlusYxg() {
+				if (this.count < 100) {
+					this.count++
+				}
+			},
+			handClear() {
+				this.count = 1
 			},
 			// 分享
 			handShare() {
@@ -668,6 +753,14 @@
 				} else {
 					this.$refs.popup.show()
 				}
+			},
+			// 优先购 
+			handBuyTheYxg() {
+				if (!this.$store.state.user.token) {
+					return goLogin()
+				}
+
+				this.$refs.YouXianGouPopup.show()
 			},
 			// 立即抢购
 			async handOrder() {
@@ -777,12 +870,6 @@
 		},
 		onLoad(option) {
 			console.log('onload````', option)
-			// this.getApprove().then(() => {
-			// 	this.product_item_id = Number(option.product_item_id)
-			// 	this.share_sign = option.share_sign || ''
-			// 	this.getDetails(this.product_item_id)
-			// 	this.visitStatics()
-			// })
 			this.product_item_id = Number(option.product_item_id)
 			this.getDetails(this.product_item_id)
 			this.visitStatics()
@@ -1358,6 +1445,120 @@
 
 		}
 
+		// 优先购
+		.YouXianGouBottom {
+			z-index: 8;
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			box-sizing: border-box;
+			width: 100%;
+			height: 120rpx;
+			padding: 0 40rpx 0 40rpx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: #212121;
+
+			.bottom1-1 {
+				flex: 1;
+
+				.bottom1-1-1 {
+					width: 48rpx;
+					height: 48rpx;
+				}
+
+				.bottom1-1-2 {
+					position: relative;
+					top: -5rpx;
+					left: 1rpx;
+					width: 57.62rpx;
+					text-align: center;
+					font-family: 'PingFang HK';
+					font-style: normal;
+					font-weight: 400;
+					line-height: 28rpx;
+					font-size: 24rpx;
+					transform-origin: 0 0;
+					transform: scale(0.83);
+				}
+
+				.followed {
+					color: #C8A964;
+				}
+
+				.unfollow {
+					color: #777777;
+				}
+			}
+
+			.bottom1-2 {
+				width: 588rpx;
+				height: 74rpx;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+
+				.bottom1-2-left {
+					width: 284rpx;
+					height: 74rpx;
+					border-radius: 48rpx;
+					text-align: center;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 500;
+					font-size: 32rpx;
+					line-height: 74rpx;
+					color: #532609;
+					background: #C8A964;
+
+					&:active {
+						background-color: #C8A990;
+						color: #532622;
+					}
+				}
+
+				.bottom1-2-right {
+					width: 284rpx;
+					height: 74rpx;
+					background: #D10910;
+					border-radius: 48rpx;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 500;
+					font-size: 32rpx;
+					line-height: 74rpx;
+					text-align: center;
+					color: #ECECEC;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					min-height: 0;
+					min-width: 0;
+
+					&:active {
+						background-color: rgba(209, 9, 16, 0.6);
+						color: rgba(134, 134, 134, 1);
+					}
+
+					.bottom1-2-right-1 {
+						line-height: 40rpx;
+						height: 40rpx;
+						font-size: 32rpx;
+
+					}
+
+					.bottom1-2-right-2 {
+						line-height: 34rpx;
+						height: 34rpx;
+						font-size: 24rpx;
+					}
+				}
+
+			}
+		}
+
 		/deep/.icon-close {
 			font-size: 36rpx;
 		}
@@ -1665,6 +1866,28 @@
 			}
 
 
+		}
+
+		.YouXianGouPopupContent {
+			.d-btn {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				line-height: 0;
+				margin: auto;
+				width: 474rpx;
+				height: 96rpx;
+				border-radius: 90rpx;
+				font-weight: 500;
+				font-size: 32rpx;
+				color: #532609 !important;
+				background-color: #C8A964 !important;
+
+				&:active {
+					background-color: #C8A990 !important;
+					color: #532622 !important;
+				}
+			}
 		}
 	}
 </style>
