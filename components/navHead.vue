@@ -4,9 +4,9 @@
 			<image v-show="left" @tap="navBack()" class="nav-left"
 				src="https://file.yuanyinfu.com/front-end-lib/navLeft.png" mode=""></image>
 			<text class="nav-center" v-show="$store.state.user.inApp">{{title}}</text>
-			<text v-show="right" class="nav-right">
+			<view v-show="right" class="nav-right">
 				<slot></slot>
-			</text>
+			</view>
 		</view>
 	</view>
 
@@ -107,17 +107,18 @@
 			}
 
 			.nav-right {
-				top: 80rpx;
-				left: 28rpx;
+				position: absolute;
+				top: 60rpx;
+				right: 28rpx;
 				width: 48rpx;
-				height: 48rpx;
+				height: 88rpx;
 				display: flex;
 				align-items: center;
 				justify-content: flex-end;
 
 				image {
-					width: 100%;
-					height: 100%;
+					width: 48rpx;
+					height: 48rpx;
 				}
 			}
 		}
