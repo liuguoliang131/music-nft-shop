@@ -574,7 +574,7 @@
 					}
 				],
 				followTimer: null,
-				youxiangou: true
+				youxiangou: false
 			};
 		},
 		computed: {
