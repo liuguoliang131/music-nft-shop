@@ -780,6 +780,70 @@
 
 				this.$refs.YouXianGouPopup.show()
 			},
+			// 优先购 立即抢购
+			async handOrderYxg() {
+				try {
+					if (!this.$store.state.user.token) {
+						return goLogin()
+					}
+					const res = await this.$post(h5_conllections_buy_checkout, {
+						product_item_id: this.product_item_id,
+						buy_num: Number(this.count)
+					})
+					if (res.code !== 0) {
+						if (res.code === 710) {
+							uni.navigateTo({
+								url: `/pages/idAuth/idAuth`
+							})
+						} else {
+							return uni.showToast({
+								title: res.msg,
+								icon: 'none'
+							})
+						}
+
+					} else {
+						if (!res.data.info.hasOwnProperty('priority_buy')) {
+							res.data.info.priority_buy = this.data.priority_buy
+						}
+						const params = res.data.info
+
+						if (this.$store.state.user.inApp) {
+							// let appConfig = window.localStorage.getItem('AppConfigInfo')
+							let appConfig = this.$store.state.publicState.appConfig
+
+							if (Number(appConfig['version-code']) >= 1930) {
+								let data = {
+									page: "diskConfirmOrderPage",
+									isNeedLogin: true,
+									params
+								}
+								openAppPage(data)
+							} else {
+								uni.showToast({
+									title: '请更新到最新版本后重试',
+									icon: 'none'
+								})
+							}
+						} else {
+							uni.navigateTo({
+								url: `/pages/settlement/settlement?product_item_id=${this.product_item_id}&buy_num=${this.count}&params=${JSON.stringify(params)}&type=3`
+							})
+						}
+
+
+					}
+
+
+				} catch (e) {
+					//TODO handle the exception
+					console.log('error', e)
+					uni.showToast({
+						title: e.message,
+						icon: 'none'
+					})
+				}
+			},
 			// 立即抢购
 			async handOrder() {
 				try {
