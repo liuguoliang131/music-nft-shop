@@ -276,7 +276,7 @@
 						<image :src="data.author_info.author_avatar" mode=""></image>
 						<text>{{data.author_info.author_name}}</text>
 					</view>
-					<view class="text2" v-html="data.author_info.desc"></view>
+					<view class="text2 mb8" v-html="data.author_info.desc"></view>
 					<view class="text3" v-if="data.video_url">
 						<!-- <my-swiper :list="swiperList"></my-swiper> -->
 						<video class="text3-video" :src="data.video_url" controls
