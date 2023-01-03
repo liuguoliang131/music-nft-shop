@@ -33,8 +33,8 @@
 						</template>
 
 					</view>
-          <image v-if="detail.sale_type===2" class="sign"
-						src="https://file.yuanyinfu.com/front-end-lib/shuzibanquan.png" mode="">
+					<image v-if="detail.sale_type===4" class="sign"
+						src="https://file.yuanyinfu.com/front-end-lib/quanyibanquan.png" mode="">
 					</image>
 					<image v-else-if="detail.sale_type===3" class="sign"
 						src="https://file.yuanyinfu.com/front-end-lib/sharedCopyright.png" mode="">
