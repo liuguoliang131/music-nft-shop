@@ -314,14 +314,14 @@
 						border: none;
 						outline: none;
 						background: transparent;
-						border-bottom: 0.5rpx solid #363636;
+						border-bottom: 0.5px solid #363636;
 						font-weight: 400;
 						font-size: 28rpx;
 						color: #ECECEC;
 						font-size: 28rpx;
 
 						&:hover {
-							border-bottom: 0.5rpx solid #ECECEC;
+							border-bottom: 0.5px solid #ECECEC;
 						}
 					}
 				}

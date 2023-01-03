@@ -277,6 +277,14 @@
 				"navigationStyle": "custom"
 			}
 
+		}, {
+			"path": "pages/preEmptive/preEmptive",
+			"style": {
+				"navigationBarTitleText": "我的优先购",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
 		}
 	],
 	"globalStyle": {
