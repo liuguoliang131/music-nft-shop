@@ -285,6 +285,14 @@
 				"navigationStyle": "custom"
 			}
 
+		}, {
+			"path": "pages/transition/transition",
+			"style": {
+				"navigationBarTitleText": "欢迎",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
 		}
 	],
 	"globalStyle": {
