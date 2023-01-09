@@ -108,7 +108,7 @@
 						3: `/pages/recommendedAlbumDetail/recommendedAlbumDetail`
 					}
 					uni.navigateTo({
-						url: `${urls[item.publish_type]}?product_item_id=${item.item_id}`
+						url: `${urls[item.product_type]}?product_item_id=${item.item_id}`
 					})
 				}
 

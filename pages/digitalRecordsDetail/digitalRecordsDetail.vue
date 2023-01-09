@@ -300,10 +300,11 @@
 			async handZhuanZeng() {
 				// 购买后24小时内不允许转赠
 				const startDate = new Date(this.detail.start_time).getTime() + 86400000 //可以转赠的时间
-				const now = Date.now()
 				const differ = Date.now() - startDate
-
-				const timeStr = dayjs(Math.abs(differ)).format('HH时mm分ss秒')
+				const hh = parseInt(Math.abs(differ) / 1000 / 60 / 60)
+				const MM = parseInt(Math.abs(differ) / 1000 / 60 % 60)
+				const ss = parseInt(Math.abs(differ) / 1000 % 60)
+				const timeStr = `${hh}时${MM}分${ss}秒`
 				if (differ < 0) {
 					return uni.showModal({
 						title: '温馨提示',

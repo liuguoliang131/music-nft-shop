@@ -121,7 +121,8 @@
 				</view>
 			</view>
 			<view class="footer"></view>
-			<view class="YouXianGouBottom" v-if="youxiangou" v-show="!$store.state.publicState.isApprove">
+      <!-- if 优先购按钮 -->
+			<view class="YouXianGouBottom" v-if="data.show_priority===1" v-show="!$store.state.publicState.isApprove">
 				<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
 					<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png" mode="">
 					</image>
@@ -147,7 +148,8 @@
 
 				</view>
 			</view>
-			<view class="bottom1" v-else v-show="!$store.state.publicState.isApprove">
+      <!-- else 不显示优先购按钮 -->
+			<view class="bottom1" v-else-if="data.show_priority===0" v-show="!$store.state.publicState.isApprove">
 				<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
 					<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png" mode="">
 					</image>
@@ -289,7 +291,8 @@
 				</view>
 			</view>
 			<view class="footer"></view>
-			<view class="YouXianGouBottom" v-if="youxiangou" v-show="!$store.state.publicState.isApprove">
+      <!-- if 优先购按钮 -->
+			<view class="YouXianGouBottom" v-if="data.show_priority===1" v-show="!$store.state.publicState.isApprove">
 
 				<view class="bottom1-1" @tap="handShare">
 					<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/share1.png" mode="">
@@ -310,7 +313,8 @@
 
 				</view>
 			</view>
-			<view class="bottom1" v-else v-show="!$store.state.publicState.isApprove">
+      <!-- else 不显示优先购 -->
+			<view class="bottom1" v-else-if="data.show_priority===0" v-show="!$store.state.publicState.isApprove">
 
 				<view class="bottom1-1" @tap="handShare">
 					<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/share1.png" mode="">
@@ -408,6 +412,7 @@
 				</view>
 			</view>
 		</wyb-popup>
+    <!-- 优先购购买弹窗 -->
 		<wyb-popup ref="YouXianGouPopup" type="bottom" height="800" width="750" radius="6" bgColor="#1D1D1D"
 			:showCloseIcon="true" @hide="handClear()">
 			<view class="popup-content YouXianGouPopupContent" ref="YouXianGouPopupContent">
@@ -427,7 +432,7 @@
 				</view>
 				<view class="popup-f">
 					<image class="popup-f-img" src="https://file.yuanyinfu.com/front-end-lib/popupYf.png"></image>
-					<text>购买专辑可以永久聆听</text>
+					<text>购买唱片可以永久聆听</text>
 				</view>
 				<view class="popup-g" v-if="data.rare_type!=='N'">
 					<view class="g-1">
@@ -455,8 +460,8 @@
 						<view class="plus" @tap="handPlusYxg()">
 							<!-- <image class="plus-img" src="../../static/Group 1000004650.png" mode=""></image> -->
 							<view class="plus-img">
-								<view :class="['h',this.count<100?'active-icon':'']"></view>
-								<view :class="['v',this.count<100?'active-icon':'']"></view>
+								<view :class="['h',this.count<data.priority_info.priority_stock?'active-icon':'']"></view>
+								<view :class="['v',this.count<data.priority_info.priority_stock?'active-icon':'']"></view>
 							</view>
 						</view>
 					</view>
@@ -493,7 +498,6 @@
 	import FloatingComponent from '../../components/floatingComponent.vue'
 	import {
 		collections_index_detail,
-		h5_collections_user_if_approve,
 		h5_conllections_buy_checkout,
 		collections_index_like,
 		collections_index_musicPlay,
@@ -506,8 +510,7 @@
 	import {
 		getTimeData,
 		goLogin,
-		openAppPage,
-		goDownload
+		openAppPage
 	} from '../../utils/index.js'
 	import Mixins from '../../mixins/index.js'
 	import RefreshMixins from '../../mixins/preDetails.js'
@@ -524,7 +527,6 @@
 		data() {
 			return {
 				product_item_id: '',
-				show_pop: false,
 				data: {
 					name: '',
 					product_item_id: '',
@@ -558,23 +560,27 @@
 						play: '',
 						visit: '',
 						share: ''
-					}
+					},
+          show_priority:'', // 是否显示优先购
+          priority_info:{
+            priority_stock:0,  //优先购权益剩余
+            is_have:2   //是否拥有优先购权益 1有 2无
+          }
 				},
 				count: 1,
 				statusTimer: null,
 				countDown: '',
-				swiperList: [{
-						image: 'https://file.yuanyinfu.com/a_2022-04-29-12-38-59-100047-6ef232385b64eb08ab69c42926bac532.jpg'
-					},
-					{
-						image: 'https://file.yuanyinfu.com/a_2022-04-29-12-47-12-100051-854b10175a60e5a41130357fbbfb4f04.jpg'
-					},
-					{
-						image: 'https://file.yuanyinfu.com/a_2022-04-29-12-55-22-100053-5b9775e1fb6d29664102d4a3ef5a09b1.jpg'
-					}
-				],
-				followTimer: null,
-				youxiangou: false
+				// swiperList: [{
+				// 		image: 'https://file.yuanyinfu.com/a_2022-04-29-12-38-59-100047-6ef232385b64eb08ab69c42926bac532.jpg'
+				// 	},
+				// 	{
+				// 		image: 'https://file.yuanyinfu.com/a_2022-04-29-12-47-12-100051-854b10175a60e5a41130357fbbfb4f04.jpg'
+				// 	},
+				// 	{
+				// 		image: 'https://file.yuanyinfu.com/a_2022-04-29-12-55-22-100053-5b9775e1fb6d29664102d4a3ef5a09b1.jpg'
+				// 	}
+				// ],
+				followTimer: null
 			};
 		},
 		computed: {
@@ -722,15 +728,15 @@
 					this.count++
 				}
 			},
-			// 数量改变
+			// 优先购 数量改变
 			onCountChangeYxg() {
-				if (this.count > 100) {
+				if (this.count > this.data.priority_info.priority_stock) {
 					uni.showToast({
 						icon: 'none',
-						title: '单次购买数量不可超过100张',
+						title: `单次购买数量不可超过${this.data.priority_info.priority_stock}张`,
 						duration: 3000
 					})
-					this.count = 100
+					this.count = this.data.priority_info.priority_stock
 				} else if (this.count < 1) {
 					this.count = 1
 				}
@@ -745,7 +751,7 @@
 			},
 			// +1 优先购
 			handPlusYxg() {
-				if (this.count < 100) {
+				if (this.count < this.data.priority_info.priority_stock) {
 					this.count++
 				}
 			},
@@ -825,7 +831,7 @@
 
 					} else {
 						if (!res.data.info.hasOwnProperty('priority_buy')) {
-							res.data.info.priority_buy = this.data.priority_buy
+							res.data.info.priority_buy = this.data.show_priority
 						}
 						const params = res.data.info
 
