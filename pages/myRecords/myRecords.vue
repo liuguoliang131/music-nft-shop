@@ -108,8 +108,11 @@
 		onShow() {
 			// this.getList()
 		},
-		onLoad() {
+		onLoad(e) {
 			console.log('onload')
+			if (e.bar) {
+				this.activeBar = Number(e.bar) || 1
+			}
 		},
 		methods: {
 			mock() {
