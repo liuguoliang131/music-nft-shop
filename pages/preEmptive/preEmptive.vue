@@ -12,23 +12,23 @@
 			<my-scroll v-else class="scroll-box" @load="getList" :loading="loading" :isFinish="isFinish">
 				<view class="item" v-for="(item,index) in list" :key="index" @tap="handGo(item)">
 					<view class="item-1 nowrap">
-						唱片《做自己的梦》优先购
+						{{item.priority_name}}
 					</view>
 					<view class="item-2 nowrap">
-						<text class="item-2-1">份数：5</text>
-						<text class="item-2-2">剩余：5</text>
+						<text class="item-2-1">份数：{{item.total_num}}</text>
+						<text class="item-2-2">剩余：{{item.surplus_num}}</text>
 					</view>
 					<view class="item-3 nowrap">
-						优先购时间：{{formatTime(Date.now())}}-{{formatTime(Date.now())}}
+						优先购时间：{{formatTime(item.start_time*1000)}}-{{formatTime(item.stop_time*1000)}}
 					</view>
 					<view class="item-4"></view>
 					<view class="item-5">
-						<view class="status1">
+						<view class="status1" v-if="item.status===1">
 							生效中
 						</view>
-						<!-- <view class="status2">
+						<view class="status2" v-else-if="item.status===2">
 							已失效
-						</view> -->
+						</view>
 						<view class="item-5-2">
 							查看商品
 						</view>
@@ -42,14 +42,17 @@
 <script>
 	import MyScroll from '../../components/myScroll.vue'
 	import dayjs from 'dayjs'
+	import {
+		h5_user_priorityList
+	} from '../../request/api.js'
 	export default {
 		components: {
 			MyScroll
 		},
 		data() {
 			return {
-				list: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, ],
-				// list: [],
+				list: [],
+				page: 1,
 				isFinish: false,
 				loading: false
 			}
@@ -58,18 +61,57 @@
 			formatTime(val) {
 				return dayjs(val).format('YYYY.MM.DD hh:mm')
 			},
-			getList() {
+			async getList() {
+				try {
+					this.loading = true
+					const res = await this.$post1(h5_user_priorityList, {
+						page: this.page++
+					})
 
+					if (res.code !== 0) {
+						this.isFinish = true
+						this.loading = false
+						return uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+					if (res.data.list && Array.isArray(res.data.list) && res.data.list.length) {
+
+						this.list = [...this.list, ...res.data.list]
+
+					} else {
+						this.isFinish = true
+						this.page = this.page - 1
+					}
+					this.loading = false
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						title: e.message,
+						icon: 'none'
+					})
+					throw e
+				}
 			},
 			handGo(item) {
-				const urls = {
-					1: `/pages/goldSinglesDetail/goldSinglesDetail`,
-					2: `/pages/preOrderDetails/preOrderDetails`,
-					3: `/pages/recommendedAlbumDetail/recommendedAlbumDetail`
+				if (item.item_type === 1) {
+					// 版权
+					uni.navigateTo({
+						url: `/pages/copyrightDetail/copyrightDetail?music_info_id=${item.item_id}`
+					})
+				} else if (item.item_type === 2) {
+					// 唱片
+					const urls = {
+						1: `/pages/goldSinglesDetail/goldSinglesDetail`,
+						2: `/pages/preOrderDetails/preOrderDetails`,
+						3: `/pages/recommendedAlbumDetail/recommendedAlbumDetail`
+					}
+					uni.navigateTo({
+						url: `${urls[item.publish_type]}?product_item_id=${item.item_id}`
+					})
 				}
-				uni.navigateTo({
-					url: urls[1] + '?product_item_id=1'
-				})
+
 			}
 		}
 	}

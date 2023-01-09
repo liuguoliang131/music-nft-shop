@@ -149,3 +149,6 @@ export const h5_show_musicTransactionInfo = '/h5/show/musicTransactionInfo'
 export const h5_show_otherMusicList = '/h5/show/otherMusicList'
 // 版权播放信息
 export const h5_show_musicPlay = '/h5/show/musicPlay'
+
+// 我的优先购 列表
+export const h5_user_priorityList = '/h5/user/priorityList'
