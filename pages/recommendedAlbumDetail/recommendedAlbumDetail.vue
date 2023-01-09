@@ -1281,6 +1281,7 @@
 		}
 
 		.card1 {
+			margin: auto;
 			margin-top: 24rpx;
 			background: #292929;
 			border-radius: 8rpx;
@@ -1327,6 +1328,7 @@
 		}
 
 		.card2 {
+			margin: auto;
 			margin-top: 24rpx;
 			background: #292929;
 			border-radius: 8rpx;

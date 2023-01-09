@@ -2,7 +2,14 @@
 	<view class="container">
 		<nav-head></nav-head>
 		<view class="container-body">
-			<my-scroll class="scroll-box" @load="getList" :loading="loading" :isFinish="isFinish">
+			<view class="empty" v-if="isFinish&&list.length===0">
+				<view class="empty-center">
+					<image src="https://file.yuanyinfu.com/front-end-lib/unhappy-icon.png" mode="" class="empty-img">
+					</image>
+					<view class="empty-text">您还没有相关权益</view>
+				</view>
+			</view>
+			<my-scroll v-else class="scroll-box" @load="getList" :loading="loading" :isFinish="isFinish">
 				<view class="item" v-for="(item,index) in list" :key="index" @tap="handGo(item)">
 					<view class="item-1 nowrap">
 						唱片《做自己的梦》优先购
@@ -41,7 +48,8 @@
 		},
 		data() {
 			return {
-				list: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, ],
+				// list: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, ],
+				list: [],
 				isFinish: false,
 				loading: false
 			}
@@ -78,6 +86,35 @@
 		color: #333333;
 
 		.container-body {
+			.empty {
+				position: relative;
+				box-sizing: border-box;
+				padding: 0 32rpx 32rpx 32rpx;
+				height: calc(100vh - 148rpx);
+				text-align: center;
+				overflow: hidden;
+				padding-top: 300rpx;
+
+				.empty-center {
+					.empty-img {
+						width: 120rpx;
+						height: 120rpx;
+					}
+
+					.empty-text {
+						margin-top: 44rpx;
+						font-size: 24rpx;
+						line-height: 34rpx;
+						/* identical to box height */
+
+						text-align: center;
+
+						color: #CDCDCD;
+					}
+				}
+
+			}
+
 			.scroll-box {
 				height: calc(100vh - 88rpx);
 				padding: 0 20rpx;
