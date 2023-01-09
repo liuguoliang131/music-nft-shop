@@ -109,64 +109,93 @@
 				</view>
 			</view>
 			<view class="h120"></view>
-			<!-- 优先购显示 -->
-			<view class="YouXianGouBottom" v-if="data.show_priority===1" v-show="!$store.state.publicState.isApprove">
-				<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
-					<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png" mode="">
-					</image>
-					<view class="bottom1-1-2 followed">
-						关注
+			<!-- 已停售 -->
+			<template v-if="data.is_halt===2">
+				<view class="bottom1" v-show="!$store.state.publicState.isApprove">
+					<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
+						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png"
+							mode="">
+						</image>
+						<view class="bottom1-1-2 followed">
+							关注
+						</view>
+					</view>
+					<view v-else class="bottom1-1" @tap="handFollow(1)">
+						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png"
+							mode="">
+						</image>
+						<view class="bottom1-1-2 unfollow">
+							关注
+						</view>
+					</view>
+					<view class="bottom1-2">
+						<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handOrLogin(3)">已停售</view>
 					</view>
 				</view>
-				<view v-else class="bottom1-1" @tap="handFollow(1)">
-					<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png" mode="">
-					</image>
-					<view class="bottom1-1-2 unfollow">
-						关注
+			</template>
+			<!-- 没停售 -->
+			<template v-else>
+				<!-- 优先购显示 -->
+				<view class="YouXianGouBottom" v-if="data.show_priority===1"
+					v-show="!$store.state.publicState.isApprove">
+					<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
+						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png"
+							mode="">
+						</image>
+						<view class="bottom1-1-2 followed">
+							关注
+						</view>
 					</view>
-				</view>
-				<view class="bottom1-2">
-					<view class="bottom1-2-left" @tap="handBuyTheYxg">
-						优先购
+					<view v-else class="bottom1-1" @tap="handFollow(1)">
+						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png"
+							mode="">
+						</image>
+						<view class="bottom1-1-2 unfollow">
+							关注
+						</view>
 					</view>
-					<view class="bottom1-2-right" @tap="handOrLogin(0)">
-						<text class="bottom1-2-right-1 nowrap">距离开售</text>
-						<text class="bottom1-2-right-2 nowrap">{{countDown}}</text>
-					</view>
+					<view class="bottom1-2">
+						<view class="bottom1-2-left" @tap="handBuyTheYxg">
+							优先购
+						</view>
+						<view class="bottom1-2-right" @tap="handOrLogin(0)">
+							<text class="bottom1-2-right-1 nowrap">距离开售</text>
+							<text class="bottom1-2-right-2 nowrap">{{countDown}}</text>
+						</view>
 
-				</view>
-			</view>
-			<!-- 不是优先购显示 -->
-			<view class="bottom1" v-else-if="data.show_priority===0" v-show="!$store.state.publicState.isApprove">
-				<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
-					<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png" mode="">
-					</image>
-					<view class="bottom1-1-2 followed">
-						关注
 					</view>
 				</view>
-				<view v-else class="bottom1-1" @tap="handFollow(1)">
-					<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png" mode="">
-					</image>
-					<view class="bottom1-1-2 unfollow">
-						关注
+				<!-- 优先购不显示 -->
+				<view class="bottom1" v-else-if="data.show_priority===0" v-show="!$store.state.publicState.isApprove">
+					<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
+						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png"
+							mode="">
+						</image>
+						<view class="bottom1-1-2 followed">
+							关注
+						</view>
 					</view>
-				</view>
-				<view class="bottom1-2">
-					<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handOrLogin(3)">已停售</view>
-					<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0"
-						@tap="handOrLogin(0)">
-						{{`距离开售 ${countDown}`}}
+					<view v-else class="bottom1-1" @tap="handFollow(1)">
+						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png"
+							mode="">
+						</image>
+						<view class="bottom1-1-2 unfollow">
+							关注
+						</view>
 					</view>
-					<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1" @tap="handBuyThe">
-						立即抢购
-					</view>
-					<view v-else-if="data.is_halt===1&&data.sale_status===2" class="bottom1-status2"
-						@tap="handOrLogin(2)">
-						已售罄</view>
+					<view class="bottom1-2">
+						<view v-if="data.sale_status===0" class="bottom1-status0" @tap="handOrLogin(0)">
+							{{`距离开售 ${countDown}`}}
+						</view>
+						<view v-else-if="data.sale_status===1" class="bottom1-status1" @tap="handBuyThe">
+							立即抢购
+						</view>
+						<view v-else-if="data.sale_status===2" class="bottom1-status2" @tap="handOrLogin(2)">
+							已售罄</view>
 
+					</view>
 				</view>
-			</view>
+			</template>
 		</template>
 		<!-- H5 -->
 		<template v-else>
@@ -274,50 +303,93 @@
 				</view>
 			</view>
 			<view class="h120"></view>
-      <!-- if 优先购显示 -->
-			<view class="YouXianGouBottom" v-if="data.show_priority===1" v-show="!$store.state.publicState.isApprove">
-				<view class="bottom1-1" @tap="handShare">
-					<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/share1.png" mode="">
-					</image>
-					<view class="bottom1-1-2">
-						分享
+			<!-- 已停售 -->
+			<template v-if="data.is_halt===2">
+				<view class="bottom1" v-show="!$store.state.publicState.isApprove">
+					<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
+						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png"
+							mode="">
+						</image>
+						<view class="bottom1-1-2 followed">
+							关注
+						</view>
+					</view>
+					<view v-else class="bottom1-1" @tap="handFollow(1)">
+						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png"
+							mode="">
+						</image>
+						<view class="bottom1-1-2 unfollow">
+							关注
+						</view>
+					</view>
+					<view class="bottom1-2">
+						<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handOrLogin(3)">已停售</view>
 					</view>
 				</view>
-				<view class="bottom1-2">
-					<view class="bottom1-2-left" @tap="handBuyTheYxg">
-						优先购
+			</template>
+			<!-- 没停售 -->
+			<template v-else>
+				<!-- 优先购显示 -->
+				<view class="YouXianGouBottom" v-if="data.show_priority===1"
+					v-show="!$store.state.publicState.isApprove">
+					<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
+						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png"
+							mode="">
+						</image>
+						<view class="bottom1-1-2 followed">
+							关注
+						</view>
 					</view>
-					<view class="bottom1-2-right" @tap="handOrLogin(0)">
-						<text class="bottom1-2-right-1 nowrap">距离开售</text>
-						<text class="bottom1-2-right-2 nowrap">{{countDown}}</text>
+					<view v-else class="bottom1-1" @tap="handFollow(1)">
+						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png"
+							mode="">
+						</image>
+						<view class="bottom1-1-2 unfollow">
+							关注
+						</view>
 					</view>
+					<view class="bottom1-2">
+						<view class="bottom1-2-left" @tap="handBuyTheYxg">
+							优先购
+						</view>
+						<view class="bottom1-2-right" @tap="handOrLogin(0)">
+							<text class="bottom1-2-right-1 nowrap">距离开售</text>
+							<text class="bottom1-2-right-2 nowrap">{{countDown}}</text>
+						</view>
 
-				</view>
-			</view>
-      <!-- else 不是优先购 -->
-			<view class="bottom1" v-else-if="data.show_priority===0" v-show="!$store.state.publicState.isApprove">
-				<view class="bottom1-1" @tap="handShare">
-					<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/share1.png" mode="">
-					</image>
-					<view class="bottom1-1-2">
-						分享
 					</view>
 				</view>
-				<view class="bottom1-2">
-					<view v-if="data.is_halt===2" class="bottom1-status2" @tap="handOrLogin(3)">已停售</view>
-					<view v-else-if="data.is_halt===1&&data.sale_status===0" class="bottom1-status0"
-						@tap="handOrLogin(0)">
-						{{`距离开售 ${countDown}`}}
+				<!-- 优先购不显示 -->
+				<view class="bottom1" v-else-if="data.show_priority===0" v-show="!$store.state.publicState.isApprove">
+					<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
+						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png"
+							mode="">
+						</image>
+						<view class="bottom1-1-2 followed">
+							关注
+						</view>
 					</view>
-					<view v-else-if="data.is_halt===1&&data.sale_status===1" class="bottom1-status1" @tap="handBuyThe">
-						立即抢购
+					<view v-else class="bottom1-1" @tap="handFollow(1)">
+						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png"
+							mode="">
+						</image>
+						<view class="bottom1-1-2 unfollow">
+							关注
+						</view>
 					</view>
-					<view v-else-if="data.is_halt===1&&data.sale_status===2" class="bottom1-status2"
-						@tap="handOrLogin(2)">
-						已售罄</view>
+					<view class="bottom1-2">
+						<view v-if="data.sale_status===0" class="bottom1-status0" @tap="handOrLogin(0)">
+							{{`距离开售 ${countDown}`}}
+						</view>
+						<view v-else-if="data.sale_status===1" class="bottom1-status1" @tap="handBuyThe">
+							立即抢购
+						</view>
+						<view v-else-if="data.sale_status===2" class="bottom1-status2" @tap="handOrLogin(2)">
+							已售罄</view>
 
+					</view>
 				</view>
-			</view>
+			</template>
 		</template>
 		<wyb-popup ref="popup" type="bottom" height="800" width="750" radius="6" bgColor="#1D1D1D" :showCloseIcon="true"
 			@hide="handClear()">
@@ -389,7 +461,7 @@
 				</view>
 			</view>
 		</wyb-popup>
-    <!-- 优先购购买弹窗 -->
+		<!-- 优先购购买弹窗 -->
 		<wyb-popup ref="YouXianGouPopup" type="bottom" height="800" width="750" radius="6" bgColor="#1D1D1D"
 			:showCloseIcon="true" @hide="handClear()">
 			<view class="popup-content YouXianGouPopupContent" ref="YouXianGouPopupContent">
@@ -437,8 +509,10 @@
 						<view class="plus" @tap="handPlusYxg()">
 							<!-- <image class="plus-img" src="../../static/Group 1000004650.png" mode=""></image> -->
 							<view class="plus-img">
-								<view :class="['h',this.count<data.priority_info.priority_stock?'active-icon':'']"></view>
-								<view :class="['v',this.count<data.priority_info.priority_stock?'active-icon':'']"></view>
+								<view :class="['h',this.count<data.priority_info.priority_stock?'active-icon':'']">
+								</view>
+								<view :class="['v',this.count<data.priority_info.priority_stock?'active-icon':'']">
+								</view>
 							</view>
 						</view>
 					</view>
@@ -526,11 +600,11 @@
 						visit: '',
 						share: ''
 					},
-          show_priority:'', // 是否显示优先购
-          priority_info:{
-            priority_stock:0,  //优先购权益剩余
-            is_have:2   //是否拥有优先购权益 1有 2无
-          }
+					show_priority: '', // 是否显示优先购
+					priority_info: {
+						priority_stock: 0, //优先购权益剩余
+						is_have: 2 //是否拥有优先购权益 1有 2无
+					}
 				},
 				count: 1,
 				statusTimer: null,
@@ -774,7 +848,9 @@
 					}
 					const res = await this.$post(h5_conllections_buy_checkout, {
 						product_item_id: this.product_item_id,
-						buy_num: Number(this.count)
+						buy_num: Number(this.count),
+						priority_buy: this.data.priority_info.priority_buy
+
 					})
 					if (res.code !== 0) {
 						if (res.code === 710) {
@@ -838,7 +914,8 @@
 					}
 					const res = await this.$post(h5_conllections_buy_checkout, {
 						product_item_id: this.product_item_id,
-						buy_num: Number(this.count)
+						buy_num: Number(this.count),
+						priority_buy: this.data.priority_info.priority_buy
 					})
 					if (res.code !== 0) {
 						if (res.code === 710) {
