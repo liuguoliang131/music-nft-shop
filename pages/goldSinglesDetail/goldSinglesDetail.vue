@@ -888,7 +888,7 @@
 					const res = await this.$post(h5_conllections_buy_checkout, {
 						product_item_id: this.product_item_id,
 						buy_num: Number(this.count),
-						priority_buy: this.data.priority_info.priority_buy
+						priority_buy: this.data.show_priority
 					})
 					if (res.code !== 0) {
 						if (res.code === 710) {
@@ -953,7 +953,7 @@
 					const res = await this.$post(h5_conllections_buy_checkout, {
 						product_item_id: this.product_item_id,
 						buy_num: Number(this.count),
-						priority_buy: this.data.priority_info.priority_buy
+						priority_buy: this.data.show_priority
 					})
 					if (res.code !== 0) {
 						if (res.code === 710) {
