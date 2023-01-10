@@ -849,7 +849,7 @@
 					const res = await this.$post(h5_conllections_buy_checkout, {
 						product_item_id: this.product_item_id,
 						buy_num: Number(this.count),
-						priority_buy: this.data.show_priority
+						priority_buy: 1
 
 					})
 					if (res.code !== 0) {
@@ -865,9 +865,7 @@
 						}
 
 					} else {
-						if (!res.data.info.hasOwnProperty('priority_buy')) {
-							res.data.info.priority_buy = this.data.priority_buy
-						}
+						res.data.info.priority_buy = 1
 						const params = res.data.info
 
 						if (this.$store.state.user.inApp) {
@@ -915,7 +913,7 @@
 					const res = await this.$post(h5_conllections_buy_checkout, {
 						product_item_id: this.product_item_id,
 						buy_num: Number(this.count),
-						priority_buy: this.data.show_priority
+						priority_buy: 0
 					})
 					if (res.code !== 0) {
 						if (res.code === 710) {
@@ -930,6 +928,7 @@
 						}
 
 					} else {
+						res.data.info.priority_buy = 0
 						const params = res.data.info
 						if (this.$store.state.user.inApp) {
 							let appConfig = window.localStorage.getItem('AppConfigInfo')
