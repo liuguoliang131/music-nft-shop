@@ -527,7 +527,7 @@
 					</view>
 				</view>
 				<view class="popup-d">
-					<view class="d-btn" @tap="handOrder()">优先购</view>
+					<view class="d-btn" @tap="handOrderYxg()">优先购</view>
 				</view>
 				<view class="popup-c">
 					喜欢的话，就不要错过哦！
