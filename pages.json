@@ -4,7 +4,7 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "   "
+				"navigationBarTitleText": "元音符"
 			}
 		}, {
 			"path": "pages/login/login",
@@ -289,7 +289,7 @@
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "    ",
+		"navigationBarTitleText": "",
 		"navigationBarBackgroundColor": "#0D0D0D",
 		"backgroundColor": "#0D0D0D"
 	}
