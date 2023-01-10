@@ -60,7 +60,7 @@
 		},
 		methods: {
 			formatTime(val) {
-				return dayjs(val).format('YYYY.MM.DD hh:mm')
+				return dayjs(val).format('YYYY.MM.DD HH:mm')
 			},
 			async getList() {
 				try {
