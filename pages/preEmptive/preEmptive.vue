@@ -9,7 +9,8 @@
 					<view class="empty-text">您还没有相关权益</view>
 				</view>
 			</view>
-			<my-scroll v-else class="scroll-box" @load="getList" :loading="loading" :isFinish="isFinish">
+			<my-scroll v-else :class="['scroll-box',$store.state.user.inApp?'heightSub148':'']" @load="getList"
+				:loading="loading" :isFinish="isFinish">
 				<view class="item" v-for="(item,index) in list" :key="index" @tap="handGo(item)">
 					<view class="item-1 nowrap">
 						{{item.priority_name}}
@@ -254,6 +255,11 @@
 						filter: blur(2rpx);
 					}
 				}
+			}
+
+			// 在App中的高度
+			.heightSub148 {
+				height: calc(100vh - 148rpx);
 			}
 		}
 	}
