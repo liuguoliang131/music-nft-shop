@@ -803,16 +803,23 @@
 			// 优先购 数量改变
 			onCountChangeYxg() {
 				if (this.count > this.data.priority_info.priority_stock) {
-					uni.showToast({
-						icon: 'none',
-						title: `单次购买数量不可超过${this.data.priority_info.priority_stock}张`,
-						duration: 3000
-					})
-					this.count = this.data.priority_info.priority_stock
+					if (this.data.priority_info.priority_stock === 0) {
+						uni.showToast({
+							title: '您的优先购数量已经不足',
+							icon: 'none'
+						})
+					} else {
+						uni.showToast({
+							icon: 'none',
+							title: `购买数量不可超过${this.data.priority_info.priority_stock}张`,
+							duration: 3000
+						})
+					}
+
+					this.count = 1
 				} else if (this.count < 1) {
 					this.count = 1
 				}
-				this.$refs.popupContent.$el.style.height = 'auto'
 			},
 			// -1 优先购
 			handMinusYxg() {
@@ -876,7 +883,12 @@
 				if (!this.$store.state.user.token) {
 					return goLogin()
 				}
-
+				if (this.data.priority_info.priority_stock === 0) {
+					return uni.showToast({
+						title: '您的优先购数量已经不足',
+						icon: 'none'
+					})
+				}
 				this.$refs.YouXianGouPopup.show()
 			},
 			// 优先购 立即抢购
@@ -884,6 +896,20 @@
 				try {
 					if (!this.$store.state.user.token) {
 						return goLogin()
+					}
+					if (this.data.priority_info.priority_stock === 0) {
+						return uni.showToast({
+							title: '您的优先购数量已经不足,请确认后再次提交',
+							icon: 'none'
+						})
+					} else {
+						if (this.count > this.data.priority_info.priority_stock) {
+							return uni.showToast({
+								icon: 'none',
+								title: `购买数量不可超过${this.data.priority_info.priority_stock}张`,
+								duration: 3000
+							})
+						}
 					}
 					const res = await this.$post(h5_conllections_buy_checkout, {
 						product_item_id: this.product_item_id,

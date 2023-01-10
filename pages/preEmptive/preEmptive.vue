@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<nav-head></nav-head>
+		<nav-head title="我的优先购"></nav-head>
 		<view class="container-body">
 			<view class="empty" v-if="isFinish&&list.length===0">
 				<view class="empty-center">
