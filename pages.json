@@ -293,6 +293,14 @@
 				"navigationStyle": "custom"
 			}
 
+		}, {
+			"path": "pages/demoAssistance/demoAssistance",
+			"style": {
+				"navigationBarTitleText": "DEMO助力",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
 		}
 	],
 	"globalStyle": {
