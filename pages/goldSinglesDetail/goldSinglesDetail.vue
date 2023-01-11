@@ -885,7 +885,7 @@
 				}
 				if (this.data.priority_info.priority_stock === 0) {
 					return uni.showToast({
-						title: '您的优先购数量已经不足',
+						title: '您的优先购权益已用尽',
 						icon: 'none'
 					})
 				}

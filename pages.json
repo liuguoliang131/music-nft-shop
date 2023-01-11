@@ -285,6 +285,14 @@
 				"navigationStyle": "custom"
 			}
 
+		}, {
+			"path": "pages/authorizationService/authorizationService",
+			"style": {
+				"navigationBarTitleText": "授权服务",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
 		}
 	],
 	"globalStyle": {
