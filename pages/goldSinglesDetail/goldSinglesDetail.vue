@@ -883,6 +883,12 @@
 				if (!this.$store.state.user.token) {
 					return goLogin()
 				}
+				if (this.data.priority_info.is_have === 2) {
+					return uni.showToast({
+						title: '您还不具有本唱片的优先购权益，联系客服了解更多',
+						icon: 'none'
+					})
+				}
 				if (this.data.priority_info.priority_stock === 0) {
 					return uni.showToast({
 						title: '您的优先购权益已用尽',
