@@ -2048,7 +2048,7 @@
 				justify-content: center;
 				line-height: 0;
 				margin: auto;
-				width: 474rpx;
+				width: 670rpx !important;
 				height: 96rpx;
 				border-radius: 90rpx;
 				font-weight: 500;
