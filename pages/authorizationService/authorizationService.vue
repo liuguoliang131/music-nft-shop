@@ -3,7 +3,7 @@
 		<nav-head title="授权服务"></nav-head>
 		<view class="box">
 			<view class="code2">
-				<image src="../../static/code2.png" mode=""></image>
+				<image src="https://file.yuanyinfu.com/front-end-lib/mandyQRcode2.jpg" mode=""></image>
 				<view class="text">
 					商务合作咨询二维码
 				</view>
