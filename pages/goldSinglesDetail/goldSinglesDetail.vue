@@ -217,7 +217,8 @@
 					<image class="cover-1-1" src="https://file.yuanyinfu.com/front-end-lib/albumbg.png" mode=""></image>
 					<image class="cover-1-2" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode=""></image>
 					<image class="cover-1-3" :src="data.index_img" mode=""></image>
-					<template v-if="data.product_item_id===$store.state.globalAudio.music.product_item_id">
+					<template
+						v-if="data.product_item_id===$store.state.globalAudio.music.product_item_id&&$store.state.globalAudio.music.whatType === '1'">
 						<image class="cover-1-4 aa" v-if="$store.state.globalAudio.paused"
 							src="https://file.yuanyinfu.com/front-end-lib/play.png" mode="" @tap="handPlay"></image>
 						<image class="cover-1-4 bb" v-else src="https://file.yuanyinfu.com/front-end-lib/pause.png"
@@ -1095,7 +1096,8 @@
 						}
 						openAppPage(data)
 					} else {
-						if (this.$store.state.globalAudio.music.product_item_id === this.data.product_item_id) {
+						if (this.$store.state.globalAudio.music.product_item_id === this.data.product_item_id && this
+							.$store.state.globalAudio.music.whatType === '1') {
 							this.$store.dispatch('globalAudio/dispatch_play')
 							return false
 						}
@@ -1113,6 +1115,7 @@
 							})
 						}
 						const musicInfo = res.data
+						musicInfo.whatType = '1'
 						this.$store.dispatch('globalAudio/dispatch_music', musicInfo)
 
 					}

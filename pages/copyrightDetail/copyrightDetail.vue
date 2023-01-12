@@ -20,7 +20,8 @@
 				<view class="view1-left">
 					<image class="cover" :src="detail.music_pic" mode=""></image>
 					<view class=" insideline">
-						<template v-if="$store.state.globalAudio.music.music_info_id===music_info_id">
+						<template
+							v-if="$store.state.globalAudio.music.product_item_id===music_info_id&&$store.state.globalAudio.music.whatType==='2'">
 							<image class="play-btn" @tap="handPlay(detail)" v-if="$store.state.globalAudio.paused"
 								src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""></image>
 							<image class="play-btn" @tap="handPlay(detail)" v-else
@@ -475,7 +476,8 @@
 				}
 				try {
 
-					if (this.$store.state.globalAudio.music.music_info_id === item.music_info_id) {
+					if (this.$store.state.globalAudio.music.music_info_id === item.music_info_id && this
+						.$store.state.globalAudio.music.whatType === '2') {
 						this.$store.dispatch('globalAudio/dispatch_play')
 						return false
 					}
@@ -490,6 +492,7 @@
 					// 	})
 					// }
 					const musicInfo = item
+					musicInfo.whatType = '2'
 					this.$store.dispatch('globalAudio/dispatch_music', musicInfo)
 
 				} catch (e) {
