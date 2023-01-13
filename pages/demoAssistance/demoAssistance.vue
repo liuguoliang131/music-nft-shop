@@ -6,7 +6,7 @@
 				<image class='box1-1-1' src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode=''></image>
 				<image class='box1-1-2' :src='data.index_url' mode=''></image>
 				<template
-					v-if="data.demo_item_id===$store.state.globalAudio.music.product_item_id&&$store.state.globalAudio.music.whatType==='3'">
+					v-if="demo_item_id===$store.state.globalAudio.music.product_item_id&&$store.state.globalAudio.music.whatType==='3'">
 					<image class='box1-1-3' v-if="$store.state.globalAudio.paused"
 						src='https://file.yuanyinfu.com/front-end-lib/play.png' mode='' @tap="handPlay"></image>
 					<image class='box1-1-3' v-else src='https://file.yuanyinfu.com/front-end-lib/pause.png' mode=''
@@ -18,27 +18,24 @@
 				</template>
 			</view>
 		</view>
-		<view class='box2'>
+		<view class='box2' v-if="data.share_status===1||data.share_status===2">
 			<view class='countdown'>
 				孵化期剩余
-				<text class='nowrap'>01</text>
+				<text class='nowrap'>{{countDown.dd}}</text>
 				天
-				<text class='nowrap'>23</text>
+				<text class='nowrap'>{{countDown.hh}}</text>
 				时
-				<text class='nowrap'>44</text>
+				<text class='nowrap'>{{countDown.MM}}</text>
 				分
-				<text class='nowrap'>33</text>
+				<text class='nowrap'>{{countDown.ss}}</text>
 				秒
 			</view>
 		</view>
 		<view class='box3'>
 			<view class='box3-1 nowrap'>{{data.demo_name}}</view>
 			<view class='box3-2 nowrap'>
-				<view class='box3-2-1'>
-					{{data.publish_type_desc}}
-				</view>
-				<view class='box3-2-1'>
-					限量{{data.stock}}份
+				<view class='box3-2-1' v-for="(item,index) in data.tags" :key="index">
+					{{item.content}}
 				</view>
 			</view>
 			<view class='box3-3 nowrap'>
@@ -72,7 +69,7 @@
 				<image src='https://file.yuanyinfu.com/front-end-lib/redu-icon.png' mode='' class='box5-1-icon'></image>
 				<text class='box5-1-text nowrap'>
 					<text class='text-1'>热度</text>
-					<text class='text-2'>1.13543653456万</text>
+					<text class='text-2'>{{data.statistics_info.visit}}</text>
 				</text>
 			</view>
 			<view class='box5-1'>
@@ -80,7 +77,7 @@
 				</image>
 				<text class='box5-1-text nowrap'>
 					<text class='text-1'>热度</text>
-					<text class='text-2'>1.212541252356万</text>
+					<text class='text-2'>{{data.statistics_info.play}}</text>
 				</text>
 			</view>
 			<view class='box5-1'>
@@ -88,7 +85,7 @@
 					class='box5-1-icon'></image>
 				<text class='box5-1-text nowrap'>
 					<text class='text-1'>助力</text>
-					<text class='text-2'>124152</text>
+					<text class='text-2'>{{data.statistics_info.share}}</text>
 				</text>
 			</view>
 		</view>
@@ -98,17 +95,7 @@
 					模式介绍
 				</view>
 				<view class='h16'></view>
-				<view class='desc' v-html='`“Demo孵化”致力于让更多乐迷朋友可以参与到歌曲的创作中。Demo小样上传平台开启孵化助力后，用户可根据自己对作品的喜爱程度进行购买助力。
-当助力进度满足成功基准线，该demo作品视为孵化成功，孵化成功后持有者可按份额共享该demo制作成的成品歌曲的50%歌曲版权收益（线上+线下）。
-歌曲版权收益包括但不限于：
-1.线上线下演唱会
-2.集团城市中心品牌推广歌曲使用授权
-3.ME等流媒体发行按播放量计费
-4.快手等短视频BGM使用
-5.电台/电视台/网播/直播等付费授权
-6.线下公共播放：KTV/商超等付费播放
-助力进度未满足成功基准线，作品将视为孵化失败，进行退款。
-作品助力成功后，将进入成品打造阶段，平台会邀请知名且唱功一流的实力歌手、音乐圈迅速蹿升或音乐垂类的佼佼者、网红等进行成品的演唱。`'>
+				<view class='desc' v-html='data.introduction_note'>
 
 				</view>
 			</view>
@@ -119,12 +106,7 @@
 					孵化助力须知
 				</view>
 				<view class='h16'></view>
-				<view class='desc' v-html='`1.用户点击“购买助力”后2分钟内未付款，则订单将自动取消。
-2.本商品为虚拟商品而非实物，仅限经实名认证满18周岁的用户购买。
-3.本商品一经售出（助力成功），不支持退换。
-4.本商品的版权由平台拥有，用户不得用于任何商业用途。
-5.请远离非理性炒作，防范欺诈风险。
-6.最终解释权归官方所有。`'>
+				<view class='desc' v-html='data.buy_note'>
 
 				</view>
 			</view>
@@ -134,13 +116,14 @@
 				<view class='title'>
 					孵化详情
 				</view>
+				<view class='h16'></view>
 				<view class='detail'>
 					<view class='detail-1'>
 						<view class='detail-1-1'>
 							孵化歌曲
 						</view>
 						<view class='detail-1-2 nowrap'>
-							风继续吹
+							{{data.demo_name}}
 						</view>
 					</view>
 					<view class='detail-1'>
@@ -148,7 +131,7 @@
 							作品风格
 						</view>
 						<view class='detail-1-2 nowrap'>
-							风继续吹asdasdfgghjjklcvbcvbsdfsdfwerfwetweysdfdghdfhdfhdfsdfrewq为的人
+							{{data.demo_style}}
 						</view>
 					</view>
 					<view class='detail-1'>
@@ -156,7 +139,7 @@
 							作品类型
 						</view>
 						<view class='detail-1-2 nowrap'>
-							风继续吹
+							{{data.publish_type_desc}}
 						</view>
 					</view>
 					<view class='detail-1'>
@@ -164,7 +147,7 @@
 							作 曲 人
 						</view>
 						<view class='detail-1-2 nowrap'>
-							阿松大沙发沙发
+							{{data.composer_name}}
 						</view>
 					</view>
 					<view class='detail-1'>
@@ -172,7 +155,7 @@
 							作 词 人
 						</view>
 						<view class='detail-1-2 nowrap'>
-							大大撒旦
+							{{data.lyrics_name}}
 						</view>
 					</view>
 					<view class='detail-1'>
@@ -180,7 +163,7 @@
 							收益比例
 						</view>
 						<view class='detail-1-2 nowrap'>
-							风继续吹
+							{{data.income_ratio}}
 						</view>
 					</view>
 					<view class='detail-1'>
@@ -188,7 +171,7 @@
 							收益周期
 						</view>
 						<view class='detail-1-2 nowrap'>
-							风继续吹
+							{{data.income_cycle}}
 						</view>
 					</view>
 					<view class='detail-1'>
@@ -196,7 +179,7 @@
 							发行价格
 						</view>
 						<view class='detail-1-2 nowrap'>
-							风继续吹
+							{{data.price}}
 						</view>
 					</view>
 					<view class='detail-1'>
@@ -204,7 +187,7 @@
 							发行限量
 						</view>
 						<view class='detail-1-2 nowrap'>
-							风继续吹
+							{{data.stock}}
 						</view>
 					</view>
 					<view class='detail-1'>
@@ -212,7 +195,7 @@
 							发布时间
 						</view>
 						<view class='detail-1-2 nowrap'>
-							风继续吹
+							{{data.publish_time}}
 						</view>
 					</view>
 					<view class='detail-1'>
@@ -220,7 +203,7 @@
 							孵化周期
 						</view>
 						<view class='detail-1-2 nowrap'>
-							风继续吹
+							{{data.sale_cycle}}天
 						</view>
 					</view>
 					<view class='detail-1'>
@@ -228,7 +211,7 @@
 							成功基线
 						</view>
 						<view class='detail-1-2 nowrap'>
-							风继续吹
+							{{data.baseline_amount}}元
 						</view>
 					</view>
 				</view>
@@ -237,8 +220,7 @@
 					类型说明
 				</view>
 				<view class='h16'></view>
-				<view class='desc'
-					v-html='`共享DEMO：限量发售，不增发，具有稀有性。购买者按照自身意愿进行对应份额购买，持有者可按份额共享该demo制作成的成品歌曲的50%歌曲版权收益（线上+线下），具体将以官方公告为准，最终解释权归平台所有。`'>
+				<view class='desc' v-html="data.publish_type_note">
 
 				</view>
 				<view class='h24'></view>
@@ -253,7 +235,7 @@
 							Contract Address
 						</view>
 						<view class='info-1-2 nowrap'>
-							0xf9ec07f93e729...
+							{{data.contract_address}}
 						</view>
 					</view>
 					<view class='info-1'>
@@ -261,7 +243,7 @@
 							Token ID
 						</view>
 						<view class='info-1-2 nowrap'>
-							1557552839199234asdasdasdafgggg
+							{{data.token_id}}
 						</view>
 					</view>
 					<view class='info-1'>
@@ -269,7 +251,7 @@
 							Token Standard
 						</view>
 						<view class='info-1-2 nowrap'>
-							1557552839199234aasssssssss
+							{{data.token_standard}}
 						</view>
 					</view>
 				</view>
@@ -277,13 +259,16 @@
 		</view>
 		<view class='box6'>
 			<view class='oa'>
-				<image src='https://file.yuanyinfu.com/front-end-lib/wxoaQRcode2.jpg' mode=''></image>
+				<image :src="data.official_account_qrcode||'https://file.yuanyinfu.com/front-end-lib/wxoaQRcode2.jpg'"
+					mode=''></image>
 				<view class='txt'>
 					公众号二维码
 				</view>
 			</view>
 			<view class='service'>
-				<image src='https://file.yuanyinfu.com/front-end-lib/serviceQRcode2.png' mode=''></image>
+				<image
+					:src="data.customer_service_qrcode||'https://file.yuanyinfu.com/front-end-lib/serviceQRcode2.png'"
+					mode=''></image>
 				<view class='txt'>
 					客服二维码
 				</view>
@@ -291,21 +276,21 @@
 		</view>
 		<view class='box7'>
 			<view class='fixb'>
-				<view class='status1' v-if='status===1'>
-					<view class='status1-1' @tap='handShowShare'>
+				<view class='status1' v-if="data.share_status===1||data.share_status===2">
+					<view class='status1-1' @tap="handShowShare">
 						邀请好友一起助力
 					</view>
 					<!--会有处理中的情况，点击购买助力就提示助力已结束  -->
-					<view class='status1-2' @tap='handShowBuy'>
+					<view class='status1-2' @tap="handShowBuy(data.share_status)">
 						购买助力
 					</view>
 				</view>
-				<view class='status2' v-if='status===2'>
+				<view class='status2' v-if='data.share_status===3'>
 					<view class='status2-1'>
 						助力完成
 					</view>
 				</view>
-				<view class='status3' v-if='status===3'>
+				<view class='status3' v-if='data.share_status===4'>
 					<view class='status3-1'>
 						助力失败
 					</view>
@@ -342,11 +327,11 @@
 			<view class='popup-content' ref='popupContent'>
 				<view class='popup-i'>
 					<view class='i-img'>
-						<image :src='data.index_img' mode=''></image>
+						<image :src='data.index_url' mode=''></image>
 						<view class='img-line'></view>
 					</view>
 					<view class='i-title'>
-						<view class='title-t nowrap'>{{data.name}}</view>
+						<view class='title-t nowrap'>{{data.demo_name}}</view>
 						<view class='title-p'>
 							<text class='title-p-rmb'>￥{{data.price}}</text>
 							/份
@@ -404,7 +389,9 @@
 	import WybPopup from '@/components/wyb-popup/wyb-popup.vue'
 	import dayjs from 'dayjs'
 	import {
-		shareUrlImage
+		shareUrlImage,
+		goDownload,
+		goLogin
 	} from '@/utils/index.js'
 	import {
 		collections_index_detail,
@@ -412,7 +399,8 @@
 		h5_demo_index_share, //分享统计打点
 		h5_demo_index_play, //播放统计打点
 		h5_demo_index_visit, //访问统计打点
-		h5_demo_index_demoPlay //播放信息
+		h5_demo_index_demoPlay, //播放信息
+		h5_demo_sharePoster //海报信息
 	} from '@/request/api.js'
 	import FloatingComponent from '../../components/floatingComponent.vue'
 	export default {
@@ -448,7 +436,7 @@
 					stock: 0,
 					publish_time: '',
 					sale_cycle: 0,
-					baseline_amount: '',
+					baseline_amount: '0',
 					buy_note: '',
 					introduction_note: '',
 					statistics_info: {
@@ -471,7 +459,16 @@
 					customer_service_qrcode: '',
 					sale_end_time_desc: ''
 				},
-				count: 1
+				count: 1,
+				statusTimer: null,
+				countDown: {
+					dd: '00',
+					hh: '00',
+					MM: '00',
+					ss: '00'
+				},
+				musicInfo: null,
+				link: '' //分享出去的链接
 			};
 		},
 		computed: {
@@ -490,6 +487,9 @@
 			},
 			// 显示分享弹窗
 			handShowShare() {
+				if (!this.$store.state.user.token) {
+					return goLogin()
+				}
 				this.$refs.sharePopup.show()
 			},
 			handClear() {
@@ -497,15 +497,11 @@
 			},
 			// 点击微信或朋友圈分享
 			handleShare(share_way) {
+				const share_title = '邀请你助力一首好歌，快来元音符看看吧！' + this.link
+				const img = this.data.index_url
 				if (this.$store.state.user.inApp) {
-					const link = '注册地址和参数'
-					const share_title = '邀请你助力一首好歌，快来元音符看看吧！' + link
-					const img = ''
-
-					let appConfig = window.localStorage.getItem('AppConfigInfo')
-					if (appConfig) {
-						appConfig = JSON.parse(appConfig)
-					} else {
+					let appConfig = this.$store.state.publicState.appConfig
+					if (!appConfig) {
 						appConfig = {
 							'version-code': '1710'
 						}
@@ -516,72 +512,129 @@
 							share_way,
 							img
 						})
+					} else {
+						uni.showToast({
+							title: '请您更新到最新版本再试',
+							icon: 'none'
+						})
 					}
 				} else {
 					uni.setClipboardData({
-						data: 'string',
+						data: share_title,
 						success: function() {
-							console.log('success')
+
 						}
 					})
 				}
+				// 分享打点
+				this.$post1(h5_demo_index_share, {
+					demo_item_id: this.demo_item_id
+				})
+				this.$refs.sharePopup.hide()
 
 
 			},
-			handShowBuy() {
+			handShowBuy(status) {
+				if (!this.$store.state.user.token) {
+					return goLogin()
+				}
+				if (!status) return false
+				if (status === 2) {
+					return uni.showToast({
+						title: '助力已结束',
+						icon: 'none'
+					})
+				}
 				this.$refs.popup.show()
 			},
 			mock(e) {
 				return new Promise((resolve) => {
 					if (e == 1) {
 						resolve({
-							'data': {
-								'demo_item_id': 1204126,
-								'demo_name': 'c',
-								'publish_type': 22019782,
-								'publish_type_desc': 'ullamco',
-								'share_status': 'ut minim fugiat dolore',
-								'share_status_desc': 'in exercitation adipisicing in laboru',
-								'index_url': 'amet ad',
-								'contract_address': 'exercitation laborum pariatur sed eiusmod',
-								'token_id': 'minim Lorem sit',
-								'publish_type_note': 'incididunt',
-								'demo_style': 'ut occaecat Ut labore',
-								'lyrics_name': 'cillum Excepteur Ut',
-								'composer_name': 'aute Duis dolore in',
-								'income_ratio': 'anim et sint',
-								'income_cycle': 'aliquip nulla sint',
-								'price': '',
-								'stock': 78106148,
-								'publish_time': 'sit cillum eu',
-								'sale_cycle': -34554766,
-								'baseline_amount': '20000',
-								'buy_note': 'qui exercitation ullamco incididunt tempor',
-								'introduction_note': 'Lorem dolore Excepteur labore',
-								'statistics_info': {
-									'like': 14786531,
-									'share': 15301721,
-									'visit': 28272025,
-									'play': 50654958
+							"code": 0,
+							"data": {
+								"demo_item_id": 5,
+								"demo_name": "结算下单测试-勿删",
+								"publish_type": 1,
+								"publish_type_desc": "共享DEMO",
+								"publish_time": "2023-01-13 11:07:23",
+								"status": 3,
+								"share_status": 1,
+								"share_status_desc": "",
+								"index_url": "https://media.shenglangnft.com/poster/1673579356072384.png",
+								"create_desc": "333",
+								"demo_url": "https://media.shenglangnft.com/music/1673579313205498.mp3",
+								"demo_time": 0,
+								"demo_style": "3",
+								"sing_name": "多啦梦-1",
+								"lyrics_name": "多啦梦-2",
+								"composer_name": "多啦梦-2",
+								"sale_time": "2023-01-13 11:07:23",
+								"sale_end_time": "2023-01-17 08:00:00",
+								"sale_end_time_desc": "孵化于2023-01-17 08:00:00结束",
+								"price": "30.00",
+								"baseline_amount": "50.00",
+								"sale_cycle": 0,
+								"author_id": 51,
+								"author_name": "哆啦A梦",
+								"stock": 10,
+								"remain_stock": 10,
+								"income_ratio": "最高50%的歌曲版权收益",
+								"income_cycle": "永久",
+								"publish_type_note": "共享DEMO：限量发售，不增发，具有稀有性。购买者按照自身意愿进行对应份额购买，持有者可按份额共享该demo制作成的成品歌曲的50%歌曲版权收益（线上+线下），具体将以官方公告为准，最终解释权归平台所有。",
+								"buy_note": "1.用户点击“购买助力”后2分钟内未付款，则订单将自动取消。\n 2.本商品为虚拟商品而非实物，仅限经实名认证满18周岁的用户购买。\n 3.本商品一经售出（助力成功），不支持退换。\n 4.本商品的版权由平台拥有，用户不得用于任何商业用途。\n 5.请远离非理性炒作，防范欺诈风险。\n 6.最终解释权归官方所有",
+								"introduction_note": "“Demo孵化”致力于让更多乐迷朋友可以参与到歌曲的创作中。Demo小样上传平台开启孵化助力后，用户可根据自己对作品的喜爱程度进行购买助力。\n 当助力进度满足成功基准线，该demo作品视为孵化成功，孵化成功后持有者可按份额共享该demo制作成的成品歌曲的50%歌曲版权收益（线上+线下）。\n 歌曲版权收益包括但不限于：\n 1.线上线下演唱会\n 2.集团城市中心品牌推广歌曲使用授权\n 3.ME等流媒体发行按播放量计费\n 4.快手等短视频BGM使用\n 5.电台/电视台/网播/直播等付费授权\n 6.线下公共播放：KTV/商超等付费播放\n 助力进度未满足成功基准线，作品将视为孵化失败，进行退款。\n 作品助力成功后，将进入成品打造阶段，平台会邀请知名且唱功一流的实力歌手、音乐圈迅速蹿升或音乐垂类的佼佼者、网红等进行成品的演唱。",
+								"contract_address": "",
+								"token_id": "",
+								"statistics_info": {
+									"like": "0",
+									"play": "0",
+									"visit": "0",
+									"share": "0"
 								},
-								'author_name': 'quis',
-								'author_id': 40523697,
-								'remain_stock': 29822665,
-								'buy_user_num': 2085646,
-								'sale_time': 'et cupidatat sunt',
-								'sale_end_time': '2023-1-17 20:09:00',
-								'progress_info': {
-									'percentage': 34,
-									'percentage_desc': '34%'
+								"progress_info": {
+									"percentage": "0.00",
+									"percentage_desc": "0.00%"
 								},
-								'official_account_qrcode': 'in proident et',
-								'customer_service_qrcode': 'voluptate aute sed nisi laborum',
-								'sale_end_time_desc': ''
+								"tags": [{
+										"content": "共享DEMO"
+									},
+									{
+										"content": "限量10份"
+									}
+								],
+								"buy_user_num": 1,
+								"official_account_qrcode": "https://file.yuanyinfu.com/collections/product/product-1673501721062.jpeg",
+								"customer_service_qrcode": "https://file.yuanyinfu.com/collections/product/product-1673501728152.png"
 							},
-							'msg': 'in ut aliquip Excepteur'
+							"msg": "success"
 						})
 					} else if (e == 2) {
-
+						resolve({
+							"msg": "ut Duis labore",
+							"code": 20520301,
+							"data": {
+								"demo_url": "https://media.shenglangnft.com/真的吗MMM.wav",
+								"index_url": "https://file.yuanyinfu.com/collections/product/product-1673417192883.jpeg",
+								"author_avatar": "https://media.shenglangnft.com/avatar/1664246249958732.png",
+								"author_name": "giao",
+								"lyrics": "sint Excepteur dolor voluptate",
+								"has_buy": true,
+								"demo_name": "阿松大方法",
+								"demo_item_id": this.demo_item_id
+							}
+						})
+					} else if (e === 3) {
+						resolve({
+							"code": 4602441070260276,
+							"msg": "voluptate nulla",
+							"data": {
+								"user_name": "名字",
+								"user_ avatar": "头像",
+								"poster_url": "海报背景",
+								"share_sign": "share_sign"
+							}
+						})
 					}
 				})
 			},
@@ -598,13 +651,12 @@
 					// 	})
 					// }
 					const res = await this.mock(1)
-					// const date = getTimeData(res.data.sale_time * 1000)
-					// const date1 = getTimeData(res.data.publish_time * 1000)
-					// res.data.sale_time1 = `${date.mon}月${date.dd}日${date.hh}:${date.MM}`
-					// res.data.publish_time1 = `${date1.y}-${date1.mon}-${date1.dd}`
 					this.data = res.data
 					this.progressStyle.width = `${res.data.progress_info.percentage}%`
-					console.log(this.data)
+					if (this.data.share_status === 1 || this.data.share_status === 2) {
+						this.handSetTimeout()
+					}
+
 				} catch (e) {
 					//TODO handle the exception
 					uni.showToast({
@@ -615,26 +667,32 @@
 			},
 			// 更新状态定时器
 			handSetTimeout() {
-				clearInterval(this.statusTimer)
-				if (this.data.sale_status === 0) {
-					this.statusTimer = setInterval(() => {
-						const date = new Date().getTime()
-						const count = this.data.sale_time * 1000 - date
-						if (count > 0) {
-							let hh = parseInt(count / 1000 / 60 / 60)
-							let MM = parseInt(count / 1000 / 60 % 60)
-							let ss = parseInt(count / 1000 % 60)
-							hh = hh < 10 ? '0' + hh : hh
-							MM = MM < 10 ? '0' + MM : MM
-							ss = ss < 10 ? '0' + ss : ss
-							this.countDown = `${hh}时${MM}分${ss}秒`
-						} else {
-							this.getDetails(this.product_item_id)
-							clearTimeout(this.statusTimer)
+				this.statusTimer = setInterval(() => {
+					const nowDate = new Date().getTime()
+					const endDate = new Date(this.data.sale_end_time).getTime()
+					const count = endDate - nowDate
+					if (count > 0) {
+						let dd = parseInt(count / 1000 / 60 / 60 / 24)
+						let hh = parseInt(count / 1000 / 60 / 60 % 24)
+						let MM = parseInt(count / 1000 / 60 % 60)
+						let ss = parseInt(count / 1000 % 60)
+						dd = dd < 10 ? '0' + dd : dd
+						hh = hh < 10 ? '0' + hh : hh
+						MM = MM < 10 ? '0' + MM : MM
+						ss = ss < 10 ? '0' + ss : ss
+						this.countDown = {
+							dd,
+							hh,
+							MM,
+							ss
 						}
+					} else {
+						clearTimeout(this.statusTimer)
+						this.getDetails()
 
-					}, 1000)
-				}
+					}
+
+				}, 1000)
 			},
 			// 数量改变
 			onCountChange() {
@@ -648,7 +706,6 @@
 				} else if (this.count < 1) {
 					this.count = 1
 				}
-				this.$refs.popupContent.$el.style.height = 'auto'
 			},
 			// -1
 			handMinus() {
@@ -670,15 +727,115 @@
 				}
 			},
 			handOrder() {
-				return uni.showToast({
-					title: 'order',
-					icon: 'none'
+				if (this.$store.state.user.inApp) {
+					openAppPage({
+						"page": "demoConfirmOrderPage",
+						"isNeedLogin": true,
+						"params": {
+							"demo_item_id": this.demo_item_id,
+							"buy_num": this.count
+						}
+					})
+				} else {
+					goDownload()
+				}
+				this.$refs.popup.hide()
+
+			},
+			// 获取播放信息
+			async getPlayInfo() {
+				try {
+					const res = await this.mock(2)
+					// const res = await this.$post1(h5_demo_index_demoPlay,{
+					// 	demo_item_id:this.demo_item_id
+					// })
+					// if (res.code !== 0) {
+					// 	return uni.showToast({
+					// 		icon: 'none',
+					// 		title: res.msg
+					// 	})
+					// }
+					res.data.whatType = '3'
+					this.musicInfo = res.data
+
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						title: e.message,
+						icon: 'none'
+					})
+					throw e
+				}
+			},
+			// 点击播放键
+			handPlay() {
+				if (!this.musicInfo) {
+					return uni.showToast({
+						title: '音乐还没有准备好',
+						icon: 'none'
+					})
+				}
+				if (!this.$store.state.user.token) {
+					return goLogin()
+				}
+				if (this.demo_item_id === this.$store.state.globalAudio.music.product_item_id && this.$store
+					.state.globalAudio.music.whatType === '3') {
+					this.$store.dispatch('globalAudio/dispatch_play')
+					return false
+				}
+				this.$store.dispatch('globalAudio/dispatch_music', this.musicInfo)
+				// 首次点击打点
+				this.$post1(h5_demo_index_play, {
+					demo_item_id: this.demo_item_id
 				})
+
+			},
+			// 获取海报信息
+			async getSharePosterInfo() {
+
+				try {
+					// const res = await this.$post1(h5_demo_sharePoster, {
+					// 	demo_item_id: this.demo_item_id
+					// })
+					const res = await this.mock(3)
+					this.link =
+						`${window.location.protocol}//${window.location.host}/#/pages/invitationToRegister/invitationToRegister?next=demoAssistance&id=${this.demo_item_id}&share_sign=${encodeURIComponent(res.data.share_sign)}`
+				} catch (e) {
+					//TODO handle the exception
+					uni.showToast({
+						title: e.message,
+						icon: 'none'
+					})
+					throw e
+				}
+			},
+			// 访问页面统计打点
+			detailStatistics() {
+				this.$post1(h5_demo_index_visit, {
+					demo_item_id: this.demo_item_id
+				})
+			},
+			// 从原生页面返回到当前页面时触发此方法  调用detail刷新页面数据
+			onWatchState() {
+				try {
+					const that = this
+
+					window.onPageAppear = function() {
+						that.getDetails()
+					}
+				} catch (e) {
+					//TODO handle the exception
+					throw e
+				}
 			}
 		},
 		onLoad(e) {
 			this.demo_item_id = Number(e.demo_item_id)
+			this.onWatchState()
+			this.detailStatistics()
 			this.getDetails()
+			this.getPlayInfo()
+			this.getSharePosterInfo()
 		}
 	}
 </script>

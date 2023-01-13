@@ -277,6 +277,10 @@
 					uni.reLaunch({
 						url: '/pages/copyrightDetail/copyrightDetail?music_info_id=' + this.id
 					})
+				} else if (this.next === 'demoAssistance') {
+					uni.reLaunch({
+						url: '/pages/demoAssistance/demoAssistance?demo_item_id=' + this.id
+					})
 				} else {
 					uni.reLaunch({
 						url: '/pages/index/index'

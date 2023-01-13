@@ -164,3 +164,5 @@ export const h5_demo_index_play = '/h5/demo_index/play'
 export const h5_demo_index_visit = '/h5/demo_index/visit'
 // demo播放信息
 export const h5_demo_index_demoPlay = '/h5/demo_index/demoPlay'
+// demo海报分享信息
+export const h5_demo_sharePoster = '/h5/demo/sharePoster'
