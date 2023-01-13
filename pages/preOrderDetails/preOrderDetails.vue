@@ -306,20 +306,11 @@
 			<!-- 已停售 -->
 			<template v-if="data.is_halt===2">
 				<view class="bottom1" v-show="!$store.state.publicState.isApprove">
-					<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
-						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png"
-							mode="">
+					<view class="bottom1-1" @tap="handShare()">
+						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/share1.png" mode="">
 						</image>
-						<view class="bottom1-1-2 followed">
-							关注
-						</view>
-					</view>
-					<view v-else class="bottom1-1" @tap="handFollow(1)">
-						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png"
-							mode="">
-						</image>
-						<view class="bottom1-1-2 unfollow">
-							关注
+						<view class="bottom1-1-2">
+							分享
 						</view>
 					</view>
 					<view class="bottom1-2">
@@ -332,20 +323,11 @@
 				<!-- 优先购显示 -->
 				<view class="YouXianGouBottom" v-if="data.show_priority===1"
 					v-show="!$store.state.publicState.isApprove">
-					<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
-						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png"
-							mode="">
+					<view class="bottom1-1" @tap="handShare()">
+						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/share1.png" mode="">
 						</image>
-						<view class="bottom1-1-2 followed">
-							关注
-						</view>
-					</view>
-					<view v-else class="bottom1-1" @tap="handFollow(1)">
-						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png"
-							mode="">
-						</image>
-						<view class="bottom1-1-2 unfollow">
-							关注
+						<view class="bottom1-1-2">
+							分享
 						</view>
 					</view>
 					<view class="bottom1-2">
@@ -361,20 +343,11 @@
 				</view>
 				<!-- 优先购不显示 -->
 				<view class="bottom1" v-else-if="data.show_priority===0" v-show="!$store.state.publicState.isApprove">
-					<view v-if="data.is_like===1" class="bottom1-1" @tap="handFollow(2)">
-						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-solid.png"
-							mode="">
+					<view class="bottom1-1" @tap="handShare()">
+						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/share1.png" mode="">
 						</image>
-						<view class="bottom1-1-2 followed">
-							关注
-						</view>
-					</view>
-					<view v-else class="bottom1-1" @tap="handFollow(1)">
-						<image class="bottom1-1-1" src="https://file.yuanyinfu.com/front-end-lib/follow-hollow.png"
-							mode="">
-						</image>
-						<view class="bottom1-1-2 unfollow">
-							关注
+						<view class="bottom1-1-2">
+							分享
 						</view>
 					</view>
 					<view class="bottom1-2">
