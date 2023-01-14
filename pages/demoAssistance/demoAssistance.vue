@@ -831,11 +831,14 @@
 		},
 		onLoad(e) {
 			this.demo_item_id = Number(e.demo_item_id)
-			this.onWatchState()
+
 			this.detailStatistics()
 			this.getDetails()
 			this.getPlayInfo()
 			this.getSharePosterInfo()
+		},
+		onReady() {
+			this.onWatchState()
 		}
 	}
 </script>
