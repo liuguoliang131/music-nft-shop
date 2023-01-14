@@ -391,7 +391,8 @@
 	import {
 		shareUrlImage,
 		goDownload,
-		goLogin
+		goLogin,
+		openAppPage
 	} from '@/utils/index.js'
 	import {
 		collections_index_detail,
