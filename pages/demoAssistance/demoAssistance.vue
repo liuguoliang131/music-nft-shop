@@ -396,14 +396,17 @@
 		openAppPage
 	} from '@/utils/index.js'
 	import {
+		demoSharePosterApi, //海报信息
 		collections_index_detail,
 		h5_demo_index_detail,
 		h5_demo_index_share, //分享统计打点
 		h5_demo_index_play, //播放统计打点
 		h5_demo_index_visit, //访问统计打点
 		h5_demo_index_demoPlay, //播放信息
-		h5_demo_index_sharePoster //海报信息
 	} from '@/request/api.js'
+	import {
+		post1
+	} from '@/request/index.js'
 	import FloatingComponent from '../../components/floatingComponent.vue'
 	export default {
 		components: {
@@ -417,8 +420,6 @@
 				progressStyle: {
 					width: '0%'
 				},
-				status: 1,
-				copyLink: 'https://c.yuanyinfu.com',
 				data: {
 					demo_item_id: '',
 					demo_name: '',
@@ -471,7 +472,7 @@
 					ss: '00'
 				},
 				musicInfo: null,
-				link: '' //分享出去的链接
+				link: `${window.location.protocol}//${window.location.host}` //分享出去的链接
 			};
 		},
 		computed: {
@@ -488,13 +489,13 @@
 				console.log(e)
 				return dayjs(e).format('YYYY.MM.DD HH:mm:ss')
 			},
-			// 显示分享弹窗
-			handShowShare() {
-				if (!this.$store.state.user.token) {
-					return goLogin()
-				}
-				this.$refs.sharePopup.show()
-			},
+			// // 显示分享弹窗
+			// handShowShare() {
+			// 	if (!this.$store.state.user.token) {
+			// 		return goLogin()
+			// 	}
+			// 	this.$refs.sharePopup.show()
+			// },
 			handClear() {
 
 			},
@@ -518,6 +519,7 @@
 						})
 					}
 				} else {
+
 					const share_title = '邀请你助力一首好歌，快来元音符看看吧！' + this.link
 					uni.setClipboardData({
 						data: share_title,
@@ -526,6 +528,9 @@
 								title: '链接已复制，请手动分享给朋友吧',
 								icon: 'none'
 							})
+						},
+						fail: function(e) {
+							alert(e)
 						}
 					})
 				}
@@ -533,7 +538,7 @@
 				this.$post1(h5_demo_index_share, {
 					demo_item_id: this.demo_item_id
 				})
-				this.$refs.sharePopup.hide()
+				// this.$refs.sharePopup.hide()
 
 
 			},
@@ -800,25 +805,7 @@
 
 
 			},
-			// 获取海报信息
-			async getSharePosterInfo() {
 
-				try {
-					const res = await this.$post1(h5_demo_index_sharePoster, {
-						demo_item_id: this.demo_item_id
-					})
-					// const res = await this.mock(3)
-					this.link =
-						`${window.location.protocol}//${window.location.host}/#/pages/invitationToRegister/invitationToRegister?next=demoAssistance&id=${this.demo_item_id}&share_sign=${encodeURIComponent(res.data.share_sign)}`
-				} catch (e) {
-					//TODO handle the exception
-					uni.showToast({
-						title: e.message,
-						icon: 'none'
-					})
-					throw e
-				}
-			},
 			// 访问页面统计打点
 			detailStatistics() {
 				this.$post1(h5_demo_index_visit, {
@@ -837,6 +824,24 @@
 					//TODO handle the exception
 					throw e
 				}
+			},
+			// 获取海报信息
+			getSharePosterInfo() {
+				this.$post1(demoSharePosterApi, {
+					demo_item_id: this.demo_item_id
+				}).then(res => {
+					alert('1')
+					if (res.code !== 0) {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+					// const res = await this.mock(3)
+					this.link =
+						`${window.location.protocol}//${window.location.host}/#/pages/invitationToRegister/invitationToRegister?next=demoAssistance&id=${this.demo_item_id}&share_sign=${encodeURIComponent(res.data.share_sign)}`
+				})
+
 			}
 		},
 		onLoad(e) {
@@ -846,9 +851,11 @@
 			this.getDetails()
 			this.getPlayInfo()
 			this.getSharePosterInfo()
+
 		},
 		onReady() {
 			this.onWatchState()
+
 		}
 	}
 </script>
