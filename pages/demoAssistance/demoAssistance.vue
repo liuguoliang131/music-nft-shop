@@ -396,7 +396,7 @@
 		openAppPage
 	} from '@/utils/index.js'
 	import {
-		demoSharePosterApi, //海报信息
+		h5_demo_index_sharePoster, //海报信息
 		collections_index_detail,
 		h5_demo_index_detail,
 		h5_demo_index_share, //分享统计打点
@@ -404,9 +404,7 @@
 		h5_demo_index_visit, //访问统计打点
 		h5_demo_index_demoPlay, //播放信息
 	} from '@/request/api.js'
-	import {
-		post1
-	} from '@/request/index.js'
+
 	import FloatingComponent from '../../components/floatingComponent.vue'
 	export default {
 		components: {
@@ -472,7 +470,7 @@
 					ss: '00'
 				},
 				musicInfo: null,
-				link: `${window.location.protocol}//${window.location.host}` //分享出去的链接
+				link: '' //分享出去的链接
 			};
 		},
 		computed: {
@@ -501,7 +499,11 @@
 			},
 			// 点击微信或朋友圈分享
 			handleShare() {
-
+				if (!this.$store.state.user.token) {
+					return goLogin()
+				}
+				const shareLink = this.link ||
+					`${window.location.protocol}//${window.location.host}/#/pages/invitationToRegister/invitationToRegister`
 				if (this.$store.state.user.inApp) {
 					const share_title = '邀请你助力一首好歌，快来元音符看看吧！'
 					let appConfig = this.$store.state.publicState.appConfig
@@ -511,7 +513,7 @@
 						}
 					}
 					if (Number(appConfig['version-code']) >= 1750) {
-						shareWebToWX(this.data.demo_name, share_title, this.link, this.data.index_url)
+						shareWebToWX(this.data.demo_name, share_title, shareLink, this.data.index_url)
 					} else {
 						uni.showToast({
 							title: '请您更新到最新版本再试',
@@ -520,7 +522,7 @@
 					}
 				} else {
 
-					const share_title = '邀请你助力一首好歌，快来元音符看看吧！' + this.link
+					const share_title = '邀请你助力一首好歌，快来元音符看看吧！' + shareLink
 					uni.setClipboardData({
 						data: share_title,
 						success: function() {
@@ -530,7 +532,10 @@
 							})
 						},
 						fail: function(e) {
-							alert(e)
+							uni.showToast({
+								title: '链接复制失败了',
+								icon: 'none'
+							})
 						}
 					})
 				}
@@ -827,10 +832,9 @@
 			},
 			// 获取海报信息
 			getSharePosterInfo() {
-				this.$post1(demoSharePosterApi, {
+				this.$post1(h5_demo_index_sharePoster, {
 					demo_item_id: this.demo_item_id
 				}).then(res => {
-					alert('1')
 					if (res.code !== 0) {
 						return uni.showToast({
 							title: res.msg,
@@ -840,21 +844,31 @@
 					// const res = await this.mock(3)
 					this.link =
 						`${window.location.protocol}//${window.location.host}/#/pages/invitationToRegister/invitationToRegister?next=demoAssistance&id=${this.demo_item_id}&share_sign=${encodeURIComponent(res.data.share_sign)}`
+				}).catch(err => {
+					throw err
 				})
 
 			}
 		},
 		onLoad(e) {
+			// console.log('load')
 			this.demo_item_id = Number(e.demo_item_id)
-
-			this.detailStatistics()
 			this.getDetails()
+			this.detailStatistics()
 			this.getPlayInfo()
-			this.getSharePosterInfo()
-
+			if (this.$store.state.user.token) {
+				this.getSharePosterInfo()
+			}
 		},
 		onReady() {
 			this.onWatchState()
+
+		},
+		onShow() {
+			// console.log('show')
+			uni.$on('updateData', (data) => {
+				this.getSharePosterInfo()
+			})
 
 		}
 	}

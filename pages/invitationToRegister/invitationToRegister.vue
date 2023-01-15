@@ -234,9 +234,9 @@
 
 			},
 			handGoLogin() {
-
+				// goLogin方法会携带当前url的参数的，不用手动再传一遍
 				goLogin({
-					origin: 'invitationToRegister'
+					origin: 'invitationToRegister' //有origin属性后登录页跳转到其他页面为reLaunch方式
 				})
 			},
 			// 获取邀请人信息
