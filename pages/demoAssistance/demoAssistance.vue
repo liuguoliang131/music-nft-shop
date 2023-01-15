@@ -401,7 +401,7 @@
 		h5_demo_index_play, //播放统计打点
 		h5_demo_index_visit, //访问统计打点
 		h5_demo_index_demoPlay, //播放信息
-		h5_demo_sharePoster //海报信息
+		h5_demo_index_sharePoster //海报信息
 	} from '@/request/api.js'
 	import FloatingComponent from '../../components/floatingComponent.vue'
 	export default {
@@ -523,7 +523,10 @@
 					uni.setClipboardData({
 						data: share_title,
 						success: function() {
-
+							uni.showToast({
+								title: '链接已复制，请手动分享给朋友吧',
+								icon: 'none'
+							})
 						}
 					})
 				}
@@ -782,7 +785,7 @@
 			async getSharePosterInfo() {
 
 				try {
-					const res = await this.$post1(h5_demo_sharePoster, {
+					const res = await this.$post1(h5_demo_index_sharePoster, {
 						demo_item_id: this.demo_item_id
 					})
 					// const res = await this.mock(3)
