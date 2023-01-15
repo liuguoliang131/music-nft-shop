@@ -179,7 +179,7 @@
 							发行价格
 						</view>
 						<view class='detail-1-2 nowrap'>
-							{{data.price}}
+							{{data.price}}元/份
 						</view>
 					</view>
 					<view class='detail-1'>
