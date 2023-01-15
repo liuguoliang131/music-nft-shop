@@ -641,17 +641,17 @@
 			},
 			async getDetails() {
 				try {
-					// const res = await this.$post1(h5_demo_index_detail, {
-					// 	demo_item_id: this.demo_item_id
-					// })
-					// console.log(res)
-					// if (res.code !== 0) {
-					// 	return uni.showToast({
-					// 		icon: 'none',
-					// 		title: res.msg
-					// 	})
-					// }
-					const res = await this.mock(1)
+					const res = await this.$post1(h5_demo_index_detail, {
+						demo_item_id: this.demo_item_id
+					})
+					console.log(res)
+					if (res.code !== 0) {
+						return uni.showToast({
+							icon: 'none',
+							title: res.msg
+						})
+					}
+					// const res = await this.mock(1)
 					this.data = res.data
 					this.progressStyle.width = `${res.data.progress_info.percentage}%`
 					if (this.data.share_status === 1 || this.data.share_status === 2) {
@@ -695,19 +695,6 @@
 
 				}, 1000)
 			},
-			// 数量改变
-			onCountChange() {
-				if (this.count > 100) {
-					uni.showToast({
-						icon: 'none',
-						title: '单次购买数量不可超过100张',
-						duration: 3000
-					})
-					this.count = 100
-				} else if (this.count < 1) {
-					this.count = 1
-				}
-			},
 			// -1
 			handMinus() {
 				if (this.count > 1) {
@@ -746,16 +733,16 @@
 			// 获取播放信息
 			async getPlayInfo() {
 				try {
-					const res = await this.mock(2)
-					// const res = await this.$post1(h5_demo_index_demoPlay,{
-					// 	demo_item_id:this.demo_item_id
-					// })
-					// if (res.code !== 0) {
-					// 	return uni.showToast({
-					// 		icon: 'none',
-					// 		title: res.msg
-					// 	})
-					// }
+					// const res = await this.mock(2)
+					const res = await this.$post1(h5_demo_index_demoPlay, {
+						demo_item_id: this.demo_item_id
+					})
+					if (res.code !== 0) {
+						return uni.showToast({
+							icon: 'none',
+							title: res.msg
+						})
+					}
 					res.data.whatType = '3'
 					this.musicInfo = res.data
 
@@ -795,10 +782,10 @@
 			async getSharePosterInfo() {
 
 				try {
-					// const res = await this.$post1(h5_demo_sharePoster, {
-					// 	demo_item_id: this.demo_item_id
-					// })
-					const res = await this.mock(3)
+					const res = await this.$post1(h5_demo_sharePoster, {
+						demo_item_id: this.demo_item_id
+					})
+					// const res = await this.mock(3)
 					this.link =
 						`${window.location.protocol}//${window.location.host}/#/pages/invitationToRegister/invitationToRegister?next=demoAssistance&id=${this.demo_item_id}&share_sign=${encodeURIComponent(res.data.share_sign)}`
 				} catch (e) {
