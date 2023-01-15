@@ -187,7 +187,7 @@
 							发行限量
 						</view>
 						<view class='detail-1-2 nowrap'>
-							{{data.stock}}
+							{{data.stock}}份
 						</view>
 					</view>
 					<view class='detail-1'>
@@ -860,15 +860,20 @@
 
 		/deep/.slots {
 			background-image: linear-gradient(to top, #0e0e10, #0f0f10);
+
+			.nav {
+				background-color: transparent;
+			}
 		}
 
 		/deep/.web {
 			background-image: linear-gradient(to top, #0e0e10, #0f0f10);
+
+			.nav {
+				background-color: transparent;
+			}
 		}
 
-		/deep/.web .nav {
-			background-color: transparent;
-		}
 
 
 
