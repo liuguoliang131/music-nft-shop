@@ -500,8 +500,9 @@
 			},
 			// 点击微信或朋友圈分享
 			handleShare() {
-				const share_title = '邀请你助力一首好歌，快来元音符看看吧！'
+
 				if (this.$store.state.user.inApp) {
+					const share_title = '邀请你助力一首好歌，快来元音符看看吧！'
 					let appConfig = this.$store.state.publicState.appConfig
 					if (!appConfig) {
 						appConfig = {
@@ -517,6 +518,7 @@
 						})
 					}
 				} else {
+					const share_title = '邀请你助力一首好歌，快来元音符看看吧！' + this.link
 					uni.setClipboardData({
 						data: share_title,
 						success: function() {
