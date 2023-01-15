@@ -277,7 +277,7 @@
 		<view class='box7'>
 			<view class='fixb'>
 				<view class='status1' v-if="data.share_status===1||data.share_status===2">
-					<view class='status1-1' @tap="handShowShare">
+					<view class='status1-1' @tap="handleShare">
 						邀请好友一起助力
 					</view>
 					<!--会有处理中的情况，点击购买助力就提示助力已结束  -->
@@ -299,7 +299,7 @@
 		</view>
 
 		<!-- 分享弹窗 -->
-		<wyb-popup ref='sharePopup' type='bottom' height='250' width='750' radius='6' bgColor='#1D1D1D'
+		<!-- <wyb-popup ref='sharePopup' type='bottom' height='250' width='750' radius='6' bgColor='#1D1D1D'
 			:showCloseIcon='true' :duration='200' zIndex='12' @hide='handClear'>
 			<view class='sharePopup-content'>
 				<view class='sharePopup-content-1'>
@@ -319,7 +319,7 @@
 					</view>
 				</view>
 			</view>
-		</wyb-popup>
+		</wyb-popup> -->
 
 		<!-- 购买弹窗 -->
 		<wyb-popup ref='popup' type='bottom' zIndex='12' height='701' width='750' radius='6' bgColor='#1D1D1D'
@@ -389,6 +389,7 @@
 	import WybPopup from '@/components/wyb-popup/wyb-popup.vue'
 	import dayjs from 'dayjs'
 	import {
+		shareWebToWX, //分享链接到微信
 		shareUrlImage,
 		goDownload,
 		goLogin,
@@ -497,9 +498,8 @@
 
 			},
 			// 点击微信或朋友圈分享
-			handleShare(share_way) {
-				const share_title = '邀请你助力一首好歌，快来元音符看看吧！' + this.link
-				const img = this.data.index_url
+			handleShare() {
+				const share_title = '邀请你助力一首好歌，快来元音符看看吧！'
 				if (this.$store.state.user.inApp) {
 					let appConfig = this.$store.state.publicState.appConfig
 					if (!appConfig) {
@@ -508,11 +508,7 @@
 						}
 					}
 					if (Number(appConfig['version-code']) >= 1750) {
-						shareUrlImage({
-							share_title,
-							share_way,
-							img
-						})
+						shareWebToWX(this.data.demo_name, share_title, this.link, this.data.index_url)
 					} else {
 						uni.showToast({
 							title: '请您更新到最新版本再试',
@@ -718,6 +714,7 @@
 				}
 			},
 			handOrder() {
+				console.log(this.count)
 				if (this.$store.state.user.inApp) {
 					openAppPage({
 						"page": "demoConfirmOrderPage",
