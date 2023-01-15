@@ -874,6 +874,7 @@
 					transform: translate(0, -50%);
 					width: 297.3rpx;
 					height: 297.3rpx;
+
 				}
 
 				.box1-1-2 {
@@ -882,6 +883,8 @@
 					left: 0;
 					width: 328rpx;
 					height: 328rpx;
+					border-radius: 13rpx;
+					box-shadow: 5rpx 3rpx 6rpx 3rpx #0F0F10;
 				}
 
 				.box1-1-3 {
