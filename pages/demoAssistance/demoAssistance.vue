@@ -413,6 +413,7 @@
 		data() {
 			return {
 				demo_item_id: null,
+				firstPlay: true, //进入页面后只调用一次播放打点
 				progressStyle: {
 					width: '0%'
 				},
@@ -766,16 +767,35 @@
 				if (!this.$store.state.user.token) {
 					return goLogin()
 				}
-				if (this.demo_item_id === this.$store.state.globalAudio.music.product_item_id && this.$store
-					.state.globalAudio.music.whatType === '3') {
-					this.$store.dispatch('globalAudio/dispatch_play')
-					return false
+				if (this.$store.state.user.inApp) {
+					const data = {
+						"page": "musicPlayPage",
+						"isNeedLogin": false,
+						"params": {
+							demo_item_id: this.demo_item_id
+						}
+					}
+					openAppPage(data)
+
+				} else {
+					if (this.demo_item_id === this.$store.state.globalAudio.music.product_item_id && this.$store
+						.state.globalAudio.music.whatType === '3') {
+						this.$store.dispatch('globalAudio/dispatch_play')
+						return false
+					}
+					this.$store.dispatch('globalAudio/dispatch_music', this.musicInfo)
+
 				}
-				this.$store.dispatch('globalAudio/dispatch_music', this.musicInfo)
 				// 首次点击打点
-				this.$post1(h5_demo_index_play, {
-					demo_item_id: this.demo_item_id
-				})
+				if (this.firstPlay) {
+					this.$post1(h5_demo_index_play, {
+						demo_item_id: this.demo_item_id
+					})
+					this.firstPlay = false
+				}
+
+
+
 
 			},
 			// 获取海报信息
