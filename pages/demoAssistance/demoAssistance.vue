@@ -87,7 +87,7 @@
 					class='box5-1-icon'></image>
 				<text class='box5-1-text nowrap'>
 					<text class='text-1'>助力</text>
-					<text class='text-2'>{{data.statistics_info.share}}</text>
+					<text class='text-2'>{{data.progress_info.buy_user_num}}</text>
 				</text>
 			</view>
 		</view>
@@ -453,12 +453,13 @@
 					author_name: '',
 					author_id: '',
 					remain_stock: 0,
-					buy_user_num: 0,
 					sale_time: '',
 					sale_end_time: '',
 					progress_info: {
-						percentage: 0,
-						percentage_desc: '0%'
+						percentage: '0',
+						percentage_desc: '0%',
+						buy_user_num: 0,
+						buy_user_num_desc: ''
 					},
 					official_account_qrcode: '',
 					customer_service_qrcode: '',
