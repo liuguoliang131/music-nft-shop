@@ -87,7 +87,7 @@
 					class='box5-1-icon'></image>
 				<text class='box5-1-text nowrap'>
 					<text class='text-1'>助力</text>
-					<text class='text-2'>{{data.progress_info.buy_user_num}}</text>
+					<text class='text-2'>{{data.statistics_info.buy_user_num}}</text>
 				</text>
 			</view>
 		</view>
