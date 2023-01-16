@@ -733,8 +733,8 @@
 						"page": "demoConfirmOrderPage",
 						"isNeedLogin": true,
 						"params": {
-							"demo_item_id": this.demo_item_id,
-							"buy_num": this.count
+							"demo_item_id": Number(this.demo_item_id),
+							"buy_num": Number(this.count)
 						}
 					})
 				} else {
