@@ -42,11 +42,15 @@
 			havePlace: {
 				default: true,
 				description: '标题栏是否占位置'
+			},
+			otherHeight: {
+				default: '0rpx',
+				description: '传参高度，navHead组件计算出自身高度后，将这个参数传入vuex，用于给myScroll组件高度赋值'
 			}
 		},
 		data() {
 			return {
-				isWeb: false //是否是浏览器环境下
+
 			};
 		},
 		methods: {
@@ -81,6 +85,11 @@
 				const newSlotHeight = this.$refs.slots.$el.offsetHeight + pt
 				this.$refs.slots.$el.style.height = newSlotHeight + 'px'
 				this.$refs.nav.$el.style.paddingTop = pt + 'px'
+				// 为计算my-scroll组件高度
+				this.$store.commit('publicState/set_navHeadHeight', {
+					navHeadHeight: this.$refs.slots.$el.offsetHeight + 'px',
+					otherHeight: this.otherHeight
+				})
 			}
 
 		}

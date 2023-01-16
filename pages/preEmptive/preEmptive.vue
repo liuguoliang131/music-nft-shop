@@ -2,15 +2,15 @@
 	<view class="container">
 		<nav-head title="我的优先购"></nav-head>
 		<view class="container-body">
-			<view class="empty" v-if="isFinish&&list.length===0">
+			<view class="empty" :style="{height:$store.state.publicState.remainingHeight}"
+				v-if="isFinish&&list.length===0">
 				<view class="empty-center">
 					<image src="https://file.yuanyinfu.com/front-end-lib/unhappy-icon.png" mode="" class="empty-img">
 					</image>
 					<view class="empty-text">您还没有相关权益</view>
 				</view>
 			</view>
-			<my-scroll v-else :class="['scroll-box',$store.state.user.inApp?'heightSub148':'']" @load="getList"
-				:loading="loading" :isFinish="isFinish">
+			<my-scroll v-else :class="['scroll-box']" @load="getList" :loading="loading" :isFinish="isFinish">
 				<view class="item" v-for="(item,index) in list" :key="index" @tap="handGo(item)">
 					<view class="item-1 nowrap">
 						{{item.priority_name}}
@@ -172,7 +172,6 @@
 			}
 
 			.scroll-box {
-				height: calc(100vh - 88rpx);
 				padding: 0 20rpx;
 
 				.item {

@@ -18,7 +18,7 @@
 				</template>
 			</view>
 		</view>
-		<view class='box2' v-if="data.share_status===1||data.share_status===2">
+		<view class='box2' v-if="data.status===1||data.status===2">
 			<view class='countdown'>
 				孵化期剩余
 				<text class='nowrap'>{{countDown.dd}}</text>
@@ -278,21 +278,21 @@
 		</view>
 		<view class='box7'>
 			<view class='fixb'>
-				<view class='status1' v-if="data.share_status===1||data.share_status===2">
+				<view class='status1' v-if="data.status===1||data.status===2">
 					<view class='status1-1' @tap="handleShare">
 						邀请好友一起助力
 					</view>
 					<!--会有处理中的情况，点击购买助力就提示助力已结束  -->
-					<view class='status1-2' @tap="handShowBuy(data.share_status)">
+					<view class='status1-2' @tap="handShowBuy(data.status)">
 						购买助力
 					</view>
 				</view>
-				<view class='status2' v-if='data.share_status===3'>
+				<view class='status2' v-if='data.status===3'>
 					<view class='status2-1'>
 						助力完成
 					</view>
 				</view>
-				<view class='status3' v-if='data.share_status===4'>
+				<view class='status3' v-if='data.status===4'>
 					<view class='status3-1'>
 						助力失败
 					</view>
@@ -429,6 +429,7 @@
 					publish_type_desc: '',
 					share_status: '', //共享状态 1：共享中 2:共享结束处理中 3：共享成功 4：共享失败（仅共享demo使用）
 					share_status_desc: '',
+					status: '',
 					index_url: '',
 					contract_address: '',
 					token_id: '',
@@ -673,7 +674,7 @@
 					// const res = await this.mock(1)
 					this.data = res.data
 					this.progressStyle.width = res.data.progress_info.percentage_desc
-					if (this.data.share_status === 1 || this.data.share_status === 2) {
+					if (this.data.status === 1 || this.data.status === 2) {
 						this.handSetTimeout()
 					}
 

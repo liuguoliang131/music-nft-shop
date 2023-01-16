@@ -1,7 +1,8 @@
 <template>
 	<view class="container">
 		<nav-head title="黄金单曲"></nav-head>
-		<view class="empty" v-if="isFinish&&list.length===0">
+		<view class="empty" :style="{height:this.$store.state.publicState.remainingHeight}"
+			v-if="isFinish&&list.length===0">
 			<view class="empty-center">
 				<image src="https://file.yuanyinfu.com/front-end-lib/empty-icon.png" mode="" class="empty-img"></image>
 				<view class="empty-text">空空如也</view>
@@ -201,7 +202,7 @@
 			position: relative;
 			box-sizing: border-box;
 			padding: 0 32rpx 32rpx 32rpx;
-			height: calc(100vh - 148rpx);
+			// height: calc(100vh - 148rpx);
 			text-align: center;
 			overflow: hidden;
 			padding-top: 300rpx;
@@ -228,7 +229,7 @@
 
 		.list {
 			width: 100vw;
-			height: calc(100vh -88rpx);
+			// height: calc(100vh -88rpx);
 
 			/deep/.scroll {
 

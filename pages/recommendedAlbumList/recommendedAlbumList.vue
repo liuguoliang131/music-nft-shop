@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<nav-head title="数字音乐"></nav-head>
-		<view class="empty" v-if="isFinish&&list.length===0">
+		<view class="empty" :style="{height:$store.state.publicState.remainingHeight}" v-if="isFinish&&list.length===0">
 			<view class="empty-center">
 				<image src="https://file.yuanyinfu.com/front-end-lib/emptybox.png" mode="" class="empty-img"></image>
 				<view class="empty-text">空空如也</view>
