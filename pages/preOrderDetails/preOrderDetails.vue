@@ -871,6 +871,8 @@
 						}
 
 					} else {
+						// 触发优先购下单 回退到上一级页面优先购列表时刷新
+						this.$store.commit('publicState/set_refresh', true)
 						res.data.info.priority_buy = 1
 						const params = res.data.info
 

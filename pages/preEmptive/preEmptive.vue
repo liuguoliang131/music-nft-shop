@@ -113,6 +113,19 @@
 					})
 				}
 
+			},
+			initParams() {
+				this.page = 1
+				this.list = []
+				this.isFinish = false
+				this.loading = true
+			}
+		},
+		onShow() {
+			if (this.$store.state.publicState.refresh) {
+				this.initParams()
+				this.getList()
+				this.$store.commit('publicState/set_refresh', false)
 			}
 		}
 	}
