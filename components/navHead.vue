@@ -80,7 +80,7 @@
 				const pt = this.$store.state.publicState.appConfig.statusHeight
 				const newSlotHeight = this.$refs.slots.$el.offsetHeight + pt
 				this.$refs.slots.$el.style.height = newSlotHeight + 'px'
-				this.$refs.nav.$el.style.top = pt + 'px'
+				this.$refs.nav.$el.style.paddingTop = pt + 'px'
 			}
 
 		}
@@ -161,7 +161,7 @@
 
 			.nav-left {
 				position: absolute;
-				top: 20rpx;
+				bottom: 20rpx;
 				left: 28rpx;
 				width: 48rpx;
 				height: 48rpx;
@@ -181,7 +181,7 @@
 
 			.nav-right {
 				position: absolute;
-				top: 0rpx;
+				bottom: 0;
 				right: 28rpx;
 				display: flex;
 				align-items: center;
