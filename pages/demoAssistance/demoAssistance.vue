@@ -52,7 +52,7 @@
 					{{data.sale_end_time_desc||(`孵化于${formatDate(data.sale_end_time)}结束`)}}
 				</view>
 				<view class='box3-4-2 nowrap'>
-					助力目标￥{{data.baseline_amount}}
+					助力目标￥{{data.progress_info.done_price}}
 				</view>
 			</view>
 		</view>
@@ -61,7 +61,8 @@
 				助力榜单
 			</view>
 			<view class='box4-2'>
-				计算中
+				{{data.progress_info
+.buy_user_num_desc||计算中}}
 			</view>
 		</view>
 		<view class='box5'>
@@ -667,7 +668,7 @@
 					}
 					// const res = await this.mock(1)
 					this.data = res.data
-					this.progressStyle.width = `${res.data.progress_info.percentage}%`
+					this.progressStyle.width = res.data.progress_info.percentage_desc
 					if (this.data.share_status === 1 || this.data.share_status === 2) {
 						this.handSetTimeout()
 					}
