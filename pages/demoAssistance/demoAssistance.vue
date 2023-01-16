@@ -1101,7 +1101,7 @@
 				}
 
 				.fail-val {
-					background: #AEAEAE;
+					color: #AEAEAE;
 
 				}
 			}
