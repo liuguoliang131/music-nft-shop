@@ -1,6 +1,6 @@
 <template>
 	<view class='container' ref="container" @scroll="onScroll">
-		<nav-head :left="showLeft" title='Demo助力' ref="navHead" :havePlace="false" :transparent="true"></nav-head>
+		<nav-head :left="showLeft" title='详情' ref="navHead" :havePlace="false" :transparent="true"></nav-head>
 		<view class='box1'>
 			<view class='box1-1'>
 				<image class='box1-1-1' src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode=''></image>
@@ -78,7 +78,7 @@
 				<image src='https://file.yuanyinfu.com/front-end-lib/bofangliang-icon.png' mode='' class='box5-1-icon'>
 				</image>
 				<text class='box5-1-text nowrap'>
-					<text class='text-1'>播放量</text>
+					<text class='text-1'>播放</text>
 					<text class='text-2'>{{data.statistics_info.play}}</text>
 				</text>
 			</view>
