@@ -1,6 +1,6 @@
 <template>
-	<view class='container'>
-		<nav-head title='DEMO助力'></nav-head>
+	<view class='container' ref="container" @scroll="onScroll">
+		<nav-head :left="showLeft" title='Demo助力' ref="navHead" :havePlace="false" :transparent="true"></nav-head>
 		<view class='box1'>
 			<view class='box1-1'>
 				<image class='box1-1-1' src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode=''></image>
@@ -78,7 +78,7 @@
 				<image src='https://file.yuanyinfu.com/front-end-lib/bofangliang-icon.png' mode='' class='box5-1-icon'>
 				</image>
 				<text class='box5-1-text nowrap'>
-					<text class='text-1'>热度</text>
+					<text class='text-1'>播放量</text>
 					<text class='text-2'>{{data.statistics_info.play}}</text>
 				</text>
 			</view>
@@ -324,7 +324,7 @@
 		</wyb-popup> -->
 
 		<!-- 购买弹窗 -->
-		<wyb-popup ref='popup' type='bottom' zIndex='12' height='701' width='750' radius='6' bgColor='#1D1D1D'
+		<wyb-popup ref='popup' type='bottom' zIndex='12' height='701' width='750' radius='6' bgColor='#292929'
 			:showCloseIcon='true' @hide='handClear()'>
 			<view class='popup-content' ref='popupContent'>
 				<view class='popup-i'>
@@ -416,6 +416,7 @@
 		},
 		data() {
 			return {
+				showLeft: false,
 				demo_item_id: null,
 				firstPlay: true, //进入页面后只调用一次播放打点
 				progressStyle: {
@@ -873,10 +874,17 @@
 					throw err
 				})
 
+			},
+			onScroll(e) {
+				if (this.$refs.container.$el.scrollTop > 10) {
+					this.$refs.navHead.$refs.nav.$el.style.backgroundColor = '#0D0D0D'
+				} else {
+					this.$refs.navHead.$refs.nav.$el.style.backgroundColor = 'transparent'
+				}
 			}
 		},
 		onLoad(e) {
-			// console.log('load')
+			this.showLeft = !(e.origin === 'invitationToRegister' || e.origin === 'login')
 			this.demo_item_id = Number(e.demo_item_id)
 			this.getDetails()
 			this.detailStatistics()
@@ -902,25 +910,10 @@
 <style lang="scss">
 	.container {
 		position: relative;
+		height: 100vh;
 		padding: 0;
 		text-align: center;
 		overflow-y: scroll;
-
-		/deep/.slots {
-			background-image: linear-gradient(to top, #0e0e10, #0f0f10);
-
-			.nav {
-				background-color: transparent;
-			}
-		}
-
-		/deep/.web {
-			background-image: linear-gradient(to top, #0e0e10, #0f0f10);
-
-			.nav {
-				background-color: transparent;
-			}
-		}
 
 
 
@@ -1365,7 +1358,7 @@
 				.status1 {
 					display: flex;
 					align-items: center;
-					justify-content: space-around;
+					justify-content: center;
 					height: 100%;
 
 					.status1-1 {
@@ -1374,6 +1367,7 @@
 						justify-content: center;
 						width: 332rpx;
 						height: 96rpx;
+						margin-right: 22rpx;
 						border-radius: 48rpx;
 						background: #C8A964;
 						font-family: 'PingFang SC';
@@ -1548,7 +1542,7 @@
 			.popup-i {
 				position: relative;
 				display: flex;
-				padding-top: 24rpx;
+				padding-top: 28rpx;
 				padding-left: 28rpx;
 
 				.i-img {
@@ -1640,7 +1634,7 @@
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				padding: 0 32rpx 24rpx 40rpx;
+				padding: 32rpx 32rpx 24rpx 40rpx;
 				color: #ECECEC;
 				font-size: 28rpx;
 

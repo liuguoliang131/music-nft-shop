@@ -279,7 +279,8 @@
 					})
 				} else if (this.next === 'demoAssistance') {
 					uni.reLaunch({
-						url: '/pages/demoAssistance/demoAssistance?demo_item_id=' + this.id
+						url: '/pages/demoAssistance/demoAssistance?origin=invitationToRegister&demo_item_id=' +
+							this.id
 					})
 				} else {
 					uni.reLaunch({
