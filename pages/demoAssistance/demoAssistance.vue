@@ -40,9 +40,11 @@
 			</view>
 			<view class='box3-3 nowrap'>
 				<view class='total'>
-					<view :class="['progress',data.status===4?'fail-progress':'']" :style="progressStyle"></view>
+					<view
+						:class="['progress',data.status===4||data.progress_info.percentage_desc==='100%'?'fail-progress':'']"
+						:style="progressStyle"></view>
 				</view>
-				<view :class="['val',data.status===4?'fail-val':'']">
+				<view :class="['val',data.status===4||data.progress_info.percentage_desc==='100%'?'fail-val':'']">
 					{{data.progress_info.percentage_desc||'0%'}}
 				</view>
 			</view>
@@ -61,8 +63,7 @@
 				助力榜单
 			</view>
 			<view class='box4-2'>
-				{{data.progress_info
-.buy_user_num_desc||计算中}}
+				计算中
 			</view>
 		</view>
 		<view class='box5'>
@@ -404,6 +405,7 @@
 		h5_demo_index_play, //播放统计打点
 		h5_demo_index_visit, //访问统计打点
 		h5_demo_index_demoPlay, //播放信息
+		h5_demo_buy_checkout //下单前检查
 	} from '@/request/api.js'
 
 	import FloatingComponent from '../../components/floatingComponent.vue'
@@ -729,21 +731,40 @@
 					this.count = 1
 				}
 			},
-			handOrder() {
-				console.log(this.count)
-				if (this.$store.state.user.inApp) {
-					openAppPage({
-						"page": "demoConfirmOrderPage",
-						"isNeedLogin": true,
-						"params": {
-							"demo_item_id": Number(this.demo_item_id),
-							"buy_num": Number(this.count)
-						}
-					})
+			async handOrder() {
+				const res = await this.$post(h5_demo_buy_checkout, {
+					demo_item_id: this.demo_item_id,
+					buy_num: Number(this.count)
+				})
+				if (res.code !== 0) {
+					if (res.code === 710) {
+						uni.navigateTo({
+							url: `/pages/idAuth/idAuth`
+						})
+					} else {
+						return uni.showToast({
+							title: res.msg,
+							icon: 'none'
+						})
+					}
+
 				} else {
-					goDownload()
+					if (this.$store.state.user.inApp) {
+						openAppPage({
+							"page": "demoConfirmOrderPage",
+							"isNeedLogin": true,
+							"params": {
+								"demo_item_id": Number(this.demo_item_id),
+								"buy_num": Number(this.count)
+							}
+						})
+					} else {
+						goDownload()
+					}
+					this.$refs.popup.hide()
 				}
-				this.$refs.popup.hide()
+
+
 
 			},
 			// 获取播放信息

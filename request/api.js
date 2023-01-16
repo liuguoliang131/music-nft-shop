@@ -166,3 +166,5 @@ export const h5_demo_index_visit = '/h5/demo_index/visit'
 export const h5_demo_index_demoPlay = '/h5/demo_index/demoPlay'
 // demo海报分享信息
 export const h5_demo_index_sharePoster = '/h5/demo_index/sharePoster'
+// demo助力详情页点击购买助力后检查
+export const h5_demo_buy_checkout = '/h5/demo_buy/checkout'
