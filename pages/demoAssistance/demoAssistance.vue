@@ -18,7 +18,7 @@
 				</template>
 			</view>
 		</view>
-		<view class='box2' v-if="data.status===1||data.status===2">
+		<view class='box2' v-if="statusTimer!==null">
 			<view class='countdown'>
 				孵化期剩余
 				<text class='nowrap'>{{countDown.dd}}</text>
@@ -41,10 +41,10 @@
 			<view class='box3-3 nowrap'>
 				<view class='total'>
 					<view
-						:class="['progress',data.status===4||data.progress_info.percentage_desc==='100%'?'fail-progress':'']"
+						:class="['progress',data.share_status===4||data.progress_info.percentage_desc==='100%'?'fail-progress':'']"
 						:style="progressStyle"></view>
 				</view>
-				<view :class="['val',data.status===4||data.progress_info.percentage_desc==='100%'?'fail-val':'']">
+				<view :class="['val',data.share_status===4||data.progress_info.percentage_desc==='100%'?'fail-val':'']">
 					{{data.progress_info.percentage_desc||'0%'}}
 				</view>
 			</view>
@@ -278,21 +278,21 @@
 		</view>
 		<view class='box7'>
 			<view class='fixb'>
-				<view class='status1' v-if="data.status===1||data.status===2">
+				<view class='status1' v-if="data.share_status===1||data.share_status===2">
 					<view class='status1-1' @tap="handleShare">
 						邀请好友一起助力
 					</view>
 					<!--会有处理中的情况，点击购买助力就提示助力已结束  -->
-					<view class='status1-2' @tap="handShowBuy(data.status)">
+					<view class='status1-2' @tap="handShowBuy(data.share_status)">
 						购买助力
 					</view>
 				</view>
-				<view class='status2' v-if='data.status===3'>
+				<view class='status2' v-if='data.share_status===3'>
 					<view class='status2-1'>
 						助力完成
 					</view>
 				</view>
-				<view class='status3' v-if='data.status===4'>
+				<view class='status3' v-if='data.share_status===4'>
 					<view class='status3-1'>
 						助力失败
 					</view>
@@ -674,9 +674,16 @@
 					// const res = await this.mock(1)
 					this.data = res.data
 					this.progressStyle.width = res.data.progress_info.percentage_desc
-					if (this.data.status === 1 || this.data.status === 2) {
+					const nowDate = new Date().getTime()
+					const endDate = new Date(this.data.sale_end_time).getTime()
+					const count = endDate - nowDate
+					if (count > 0) {
 						this.handSetTimeout()
 					}
+
+					// if (this.data.share_status === 1 || this.data.share_status === 2) {
+					// 	this.handSetTimeout()
+					// }
 
 				} catch (e) {
 					//TODO handle the exception
@@ -709,6 +716,7 @@
 						}
 					} else {
 						clearTimeout(this.statusTimer)
+						this.statusTimer = null
 						this.getDetails()
 
 					}
