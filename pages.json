@@ -296,7 +296,7 @@
 		}, {
 			"path": "pages/demoAssistance/demoAssistance",
 			"style": {
-				"navigationBarTitleText": "DEMO助力",
+				"navigationBarTitleText": "Demo助力",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}

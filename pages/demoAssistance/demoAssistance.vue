@@ -40,9 +40,9 @@
 			</view>
 			<view class='box3-3 nowrap'>
 				<view class='total'>
-					<view class='progress' :style="progressStyle"></view>
+					<view :class="['progress',data.status===4?'fail-progress':'']" :style="progressStyle"></view>
 				</view>
-				<view class='val'>
+				<view :class="['val',data.status===4?'fail-val':'']">
 					{{data.progress_info.percentage_desc||'0%'}}
 				</view>
 			</view>
@@ -551,7 +551,9 @@
 				if (!this.$store.state.user.token) {
 					return goLogin()
 				}
-				if (!status) return false
+				if (!this.$store.state.user.inApp) {
+					return goDownload()
+				}
 				if (status === 2) {
 					return uni.showToast({
 						title: '助力已结束',
@@ -1060,7 +1062,7 @@
 						transition: all 1s;
 					}
 
-					.progress-fail {
+					.fail-progress {
 						background: #696969;
 					}
 				}
@@ -1075,7 +1077,7 @@
 					color: #D10910;
 				}
 
-				.val-fail {
+				.fail-val {
 					background: #AEAEAE;
 
 				}
