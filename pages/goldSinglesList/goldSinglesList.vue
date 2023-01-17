@@ -47,8 +47,13 @@
 							￥{{item.sale_price}}
 						</view>
 						<view class="item-2-4-2" @tap.stop="handPlay(item)">
-							<image src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""></image>
-							<!-- <image src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode=""></image> -->
+							<template
+								v-if="item.product_item_id===$store.state.publicState.appPlayState.product_item_id&&$store.state.publicState.appPlayState.whatType==='1'">
+								<image src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode=""></image>
+							</template>
+							<template v-else>
+								<image src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""></image>
+							</template>
 							<text>立即试听</text>
 						</view>
 					</view>
@@ -185,10 +190,31 @@
 					})
 					throw e
 				}
+			},
+			// 从原生页面返回到当前页面时触发此方法  调用detail刷新页面数据
+			onWatchState() {
+				try {
+					const that = this
+
+					window.onPageAppear = function() {
+						that.$store.dispatch('publicState/dispatch_appPlayState') //获取APP同步播放信息
+					}
+				} catch (e) {
+					//TODO handle the exception
+					throw e
+				}
+
+
 			}
 		},
 		onLoad() {
 
+		},
+		onReady() {
+			this.onWatchState()
+		},
+		onShow() {
+			this.$store.dispatch('publicState/dispatch_appPlayState') //获取APP同步播放信息
 		}
 	}
 </script>

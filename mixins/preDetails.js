@@ -9,6 +9,7 @@ export default {
 
 				window.onPageAppear = function() {
 					that.getDetails(that.product_item_id)
+					that.$store.dispatch('publicState/dispatch_appPlayState') //获取APP同步播放信息
 				}
 			} catch (e) {
 				//TODO handle the exception
