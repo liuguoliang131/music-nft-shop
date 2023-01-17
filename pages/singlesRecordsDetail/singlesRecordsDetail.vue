@@ -105,7 +105,7 @@
 				{{detail.author_info.author_name}}
 			</view>
 		</view>
-		<view class="text" v-html="detail.author_info.desc"></view>
+		<view class="text mb9" v-html="detail.author_info.desc"></view>
 		<view class="text3" v-if="detail.video_url">
 			<!-- <my-swiper :list="swiperList"></my-swiper> -->
 			<video class="text3-video" :src="detail.video_url" controls :poster="detail.video_index_pic"></video>
@@ -114,7 +114,7 @@
 			<text class="title-v"></text>
 			创作灵感
 		</view>
-		<view class="text" v-if="detail.music_list.length" v-html="detail.music_list[0].desc"></view>
+		<view class="text mb9" v-if="detail.music_list.length" v-html="detail.music_list[0].desc"></view>
 		<view class="h116">
 
 		</view>

@@ -261,14 +261,15 @@
 		</view>
 		<view class='box6'>
 			<view class='oa'>
-				<image :src="data.official_account_qrcode||'https://file.yuanyinfu.com/front-end-lib/wxoaQRcode2.jpg'"
+				<image @tap="handDownloadImg(data.official_account_qrcode,'公众号')"
+					:src="data.official_account_qrcode||'https://file.yuanyinfu.com/front-end-lib/wxoaQRcode2.jpg'"
 					mode=''></image>
 				<view class='txt'>
 					公众号二维码
 				</view>
 			</view>
 			<view class='service'>
-				<image
+				<image @tap="handDownloadImg(data.customer_service_qrcode,'客服')"
 					:src="data.customer_service_qrcode||'https://file.yuanyinfu.com/front-end-lib/serviceQRcode2.png'"
 					mode=''></image>
 				<view class='txt'>
@@ -391,6 +392,7 @@
 	import WybPopup from '@/components/wyb-popup/wyb-popup.vue'
 	import dayjs from 'dayjs'
 	import {
+		saveUrlImage, //保存URL图片到本地
 		shareWebToWX, //分享链接到微信
 		shareUrlImage,
 		goDownload,
@@ -884,11 +886,55 @@
 				})
 
 			},
+			// 标题栏透明效果
 			onScroll(e) {
 				if (this.$refs.container.$el.scrollTop > 10) {
 					this.$refs.navHead.$refs.nav.$el.style.backgroundColor = '#0D0D0D'
 				} else {
 					this.$refs.navHead.$refs.nav.$el.style.backgroundColor = 'transparent'
+				}
+			},
+			downloadIamge(imgsrc) {
+				// 新建图片对象
+				let image = new Image();
+				// 解决跨域 Canvas 污染问题
+				image.setAttribute("crossOrigin", "anonymous");
+				// 图片加载
+				image.onload = function() {
+					// 新建 canvas标签
+					let canvas = document.createElement("canvas");
+					// 设置 canvas宽高
+					canvas.width = image.width;
+					canvas.height = image.height;
+					// 添加 canvas画笔
+					let context = canvas.getContext("2d");
+					// 绘制图片
+					context.drawImage(image, 0, 0, image.width, image.height);
+					// 得到图片的 base64 编码
+					let url = canvas.toDataURL("image/png");
+					// 新建 a标签
+					let a = document.createElement("a");
+					a.href = url
+					a.click()
+					// // 新建点击事件
+					// let event = new MouseEvent("click");
+					// // 将图片的 base64 编码，设置为 a标签的地址
+					// a.href = url;
+					// // 触发点击事件
+					// a.dispatchEvent(event);
+				};
+				// 将图片地址 设置为 传入的参数 imgsrc
+				image.src = imgsrc;
+			},
+			// 下载二维码
+			handDownloadImg(path, name) {
+				if (this.$store.state.user.inApp) {
+					saveUrlImage(path)
+				} else {
+					uni.showToast({
+						title: '请长按图片手动保存',
+						icon: 'none'
+					})
 				}
 			}
 		},

@@ -69,11 +69,12 @@ const addAudioEvent = (context) => {
 // 改变audio实例属性状态
 
 const changeAudioContext = (context) => {
-	context.state.audioContext.src = context.state.music.music_url
+	context.state.audioContext.src = context.state.music && context.state.music.music_url
 }
 
 // 兼容多个字段处理
 const formatDataFn = (data) => {
+	console.log('globalAudio', data)
 	let newData = null
 	if (data.whatType === '1') {
 		newData = {
@@ -159,14 +160,16 @@ export default {
 	},
 	actions: {
 		// 新增播放歌曲
-		dispatch_music(context, data) {
-			context.commit('set_audioTimeTotal', sToHs(Math.floor(0)))
-			context.commit('set_audioTimeUpdate', sToHs(Math.floor(0)))
-			context.commit('set_slider', 0)
+		async dispatch_music(context, data = {}) {
 
-			context.commit('set_music', formatDataFn(data))
-			addAudioEvent(context)
-			changeAudioContext(context)
+			await context.commit('set_audioTimeTotal', sToHs(Math.floor(0)))
+			await context.commit('set_audioTimeUpdate', sToHs(Math.floor(0)))
+			await context.commit('set_slider', 0)
+
+			await context.commit('set_music', formatDataFn(data))
+
+			await addAudioEvent(context)
+			await changeAudioContext(context)
 			if (!context.state.show) {
 				context.commit('set_show', true)
 			}
