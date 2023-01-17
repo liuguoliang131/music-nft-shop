@@ -1,5 +1,5 @@
 <template>
-	<view class="window" @scroll="scroll" ref="window">
+	<view class="window" @scroll="scroll" ref="window" :style="{height:this.$store.state.publicState.remainingHeight}">
 		<view class="scroll" ref="scroll">
 			<slot :data="data"></slot>
 			<!-- <view class="loading" v-show="loading">
@@ -33,17 +33,7 @@
 				description: '和myTab组件组合使用，接收每个tab的list'
 			}
 		},
-		watch: {
-			// loading: {
-			// 	handler(newVal) {
-			// 		// console.log('watch loading', newVal)
-			// 		if (newVal === false) {
-			// 			// console.log('watch loading1', newVal)
-			// 			this.notFull()
-			// 		}
-			// 	}
-			// }
-		},
+
 		methods: {
 			scroll(e) {
 				this.scrollTop = this.$refs.window.$el.scrollTop

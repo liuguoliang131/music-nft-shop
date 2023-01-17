@@ -1,9 +1,10 @@
 <template>
 	<view class="container">
-		<nav-head title="我的关注"></nav-head>
+		<nav-head title="我的关注" otherHeight="80rpx"></nav-head>
 		<view class="tabbar">
 			<my-tab :list="tabList" @active="handActiveBar" :activeBar="activeBar" :slide="false"></my-tab>
-			<view class="empty" v-if="isFinish&&list.length===0">
+			<view class="empty" :style="{height:$store.state.publicState.remainingHeight}"
+				v-if="isFinish&&list.length===0">
 				<view class="empty-center">
 					<image src="https://file.yuanyinfu.com/front-end-lib/emptybox.png" mode="" class="empty-img">
 					</image>
@@ -289,7 +290,7 @@
 
 		.scroll-box {
 			width: 750rpx;
-			height: calc(100vh - 168rpx);
+			// height: calc(100vh - 168rpx);
 
 			/deep/.scroll {
 				display: flex;

@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<nav-head title="转赠记录"></nav-head>
+		<nav-head title="转赠记录" otherHeight="140rpx"></nav-head>
 		<my-tab :list="tabList" :activeBar="activeBar" @active="handActive" :slide="false"></my-tab>
 		<view class="type-nav">
 			<view class="type-nav-item" :class="index === activeNav ? 'active' : ''" v-for="( item , index ) in navList"
@@ -8,7 +8,8 @@
 				{{item}}
 			</view>
 		</view>
-		<view :class="['empty']" v-if="isFinish&&list.length===0">
+		<view :class="['empty']" v-if="isFinish&&list.length===0"
+			:style="{height:$store.state.publicState.remainingHeight}">
 			<view class="empty-center">
 				<image src="https://file.yuanyinfu.com/front-end-lib/empty-icon.png" mode="" class="empty-img"></image>
 				<view class="empty-text">还没有转赠记录</view>
@@ -257,7 +258,7 @@
 
 		.scroll-box {
 			width: 750rpx;
-			height: calc(100vh - 228rpx);
+			// height: calc(100vh - 228rpx);
 		}
 
 		.get-item {

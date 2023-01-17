@@ -68,6 +68,12 @@
 			this.active = this.music_list[0]
 
 		},
+		onHide() {
+			this.$store.state.globalAudio.audioContext.pause()
+		},
+		beforeDestroy() {
+			this.$store.state.globalAudio.audioContext.pause()
+		},
 		methods: {
 			handleBack() {
 

@@ -1,11 +1,12 @@
 <template>
 	<view class="container">
-		<nav-head title="我的唱片"></nav-head>
+		<nav-head title="我的唱片" otherHeight="144rpx"></nav-head>
 		<my-tab :list="tabList" @active="handActiveBar" :activeBar="activeBar" :slide="false"></my-tab>
 		<view class="notice">
 			当前拥有{{total_num}}张
 		</view>
-		<view :class="['empty']" v-if="isFinish&&list.length===0">
+		<view :class="['empty']" :style="{height:$store.state.publicState.remainingHeight}"
+			v-if="isFinish&&list.length===0">
 			<view class="empty-center">
 				<image src="https://file.yuanyinfu.com/front-end-lib/emptybox.png" mode="" class="empty-img"></image>
 				<view class="empty-text">空空如也，请先去选购</view>
@@ -108,8 +109,11 @@
 		onShow() {
 			// this.getList()
 		},
-		onLoad() {
+		onLoad(e) {
 			console.log('onload')
+			if (e.bar) {
+				this.activeBar = Number(e.bar) || 1
+			}
 		},
 		methods: {
 			mock() {
@@ -304,7 +308,7 @@
 
 		.scroll-box {
 			width: 750rpx;
-			height: calc(100vh - 252rpx);
+			// height: calc(100vh - 252rpx);
 
 			/deep/.scroll {
 				box-sizing: border-box;

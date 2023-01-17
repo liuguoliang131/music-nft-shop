@@ -1,6 +1,6 @@
 <template>
 	<view class="container order">
-		<nav-head title="我的订单" :useSelfBack="true" @navBack="handleBack"></nav-head>
+		<nav-head title="我的订单" otherHeight="140rpx" :useSelfBack="true" @navBack="handleBack"></nav-head>
 		<my-tab :list="tabList" :activeBar="activeBar" @active="handActive" :slide="false"></my-tab>
 		<view class="order-nav">
 			<view class="order-nav-item" :class="index === activeNav ? 'active' : ''"
@@ -8,7 +8,8 @@
 				{{item}}
 			</view>
 		</view>
-		<view :class="['empty']" v-if="isFinish&&list.length===0">
+		<view :class="['empty']" :style="{height:$store.state.publicState.remainingHeight}"
+			v-if="isFinish&&list.length===0">
 			<view class="empty-center">
 				<image src="https://file.yuanyinfu.com/front-end-lib/empty-icon.png" mode="" class="empty-img"></image>
 				<view class="empty-text">还没有相关订单</view>
@@ -393,12 +394,9 @@
 
 		.scroll-box {
 			width: 750rpx;
-			height: calc(100vh - 238rpx);
+			// height: calc(100vh - 238rpx);
 		}
 
-		.h5-scroll {
-			height: calc(100vh - 80rpx);
-		}
 
 		.splitline {
 			width: 542rpx;

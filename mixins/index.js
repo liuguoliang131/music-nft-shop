@@ -1,3 +1,5 @@
+// 弃用了
+
 import {
 	post1
 } from "../request/index.js"

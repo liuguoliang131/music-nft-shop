@@ -69,7 +69,43 @@ const addAudioEvent = (context) => {
 // 改变audio实例属性状态
 
 const changeAudioContext = (context) => {
-	context.state.audioContext.src = context.state.music.music_url
+	context.state.audioContext.src = context.state.music && context.state.music.music_url
+}
+
+// 兼容多个字段处理
+const formatDataFn = (data) => {
+	console.log('globalAudio', data)
+	let newData = null
+	if (data.whatType === '1') {
+		newData = {
+			whatType: '1',
+			index_url: data.index_url, //封面图
+			music_url: data.music_url, //歌曲链接
+			author_name: data.author_name,
+			product_item_id: data.product_item_id,
+			product_name: data.product_name //歌名
+		}
+	} else if (data.whatType === '2') {
+		newData = {
+			whatType: '2',
+			index_url: data.music_pic, //封面图
+			music_url: data.music_url, //歌曲链接
+			author_name: data.author_name,
+			product_item_id: data.music_info_id,
+			product_name: data.music_name //歌名
+		}
+	} else if (data.whatType === '3') {
+		newData = {
+			whatType: '3',
+			index_url: data.index_url, //封面图
+			music_url: data.demo_url, //歌曲链接
+			author_name: data.author_name,
+			product_item_id: data.demo_item_id,
+			product_name: data.demo_name //歌名
+		}
+	}
+
+	return newData
 }
 
 export default {
@@ -77,6 +113,7 @@ export default {
 	state: {
 		show: false, //播放器是否显示
 		music: {
+			whatType: '', // string 用这个字段判断 1唱片 2版权 3Demo
 			index_url: '', //封面图
 			music_url: '', //歌曲链接
 			author_name: '',
@@ -123,13 +160,16 @@ export default {
 	},
 	actions: {
 		// 新增播放歌曲
-		dispatch_music(context, data) {
-			context.commit('set_audioTimeTotal', sToHs(Math.floor(0)))
-			context.commit('set_audioTimeUpdate', sToHs(Math.floor(0)))
-			context.commit('set_slider', 0)
-			context.commit('set_music', data)
-			addAudioEvent(context)
-			changeAudioContext(context)
+		async dispatch_music(context, data = {}) {
+
+			await context.commit('set_audioTimeTotal', sToHs(Math.floor(0)))
+			await context.commit('set_audioTimeUpdate', sToHs(Math.floor(0)))
+			await context.commit('set_slider', 0)
+
+			await context.commit('set_music', formatDataFn(data))
+
+			await addAudioEvent(context)
+			await changeAudioContext(context)
 			if (!context.state.show) {
 				context.commit('set_show', true)
 			}

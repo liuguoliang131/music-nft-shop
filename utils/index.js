@@ -169,6 +169,9 @@ export const openAppPage = (pageJSON) => {
 
 	// 跳转转赠页面：v1.9
 	//   {"page":"sendDiskGiftPage","isNeedLogin”:true,"params":{"product_item_id": 29, "owner_id": 2}}
+
+	// 跳转demo结算页面
+	// {"page":"demoConfirmOrderPage","isNeedLogin":true,"params":{"demo_item_id":0,"buy_num":10 }}
 	if (isApp()) {
 		HSApp.postMessage(JSON.stringify({
 			type: 'openAppPage',
@@ -562,4 +565,50 @@ window.appConfig = function(config) {
 	}
 	window.localStorage.setItem('AppConfigInfo', AppConfigInfo)
 	window.appConfigReady = JSON.parse(AppConfigInfo)
+}
+
+// 获取APP当前播放信息  异步的
+export const currentPlayInfo = () => {
+	let getPlayInfoTimer = null
+	return new Promise((resolve) => {
+		window.yyfAppPlayInfoJson = null
+		HSApp.postMessage(JSON.stringify({
+			'type': 'currentPlayInfo',
+			'params': {},
+			'callback': 'appPlayInfoResult'
+		}))
+		getPlayInfoTimer = setInterval(() => {
+			if (window.yyfAppPlayInfoJson) {
+				clearInterval(getPlayInfoTimer)
+				resolve(window.yyfAppPlayInfoJson)
+			}
+		}, 10)
+	})
+
+}
+// APP播放信息回调 
+window.appPlayInfoResult = function(data) {
+	/*
+	版权：
+	{
+	"type":"copyright",
+	"music_id":music_id,
+	"music_info_id":music_info_id,
+	"music_url":"播放地址"
+	}
+	唱片：
+	{
+	"type":"collections",
+	"product_item_id":product_item_id,
+	"music_url":"播放地址"
+	}
+	demo:
+	{
+	"type":"demo",
+	"demo_item_id":demo_item_id,
+	"music_url":"播放地址"
+	}
+	*/
+	window.yyfAppPlayInfoJson = data
+
 }

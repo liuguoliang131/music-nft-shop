@@ -149,3 +149,22 @@ export const h5_show_musicTransactionInfo = '/h5/show/musicTransactionInfo'
 export const h5_show_otherMusicList = '/h5/show/otherMusicList'
 // 版权播放信息
 export const h5_show_musicPlay = '/h5/show/musicPlay'
+
+// 我的优先购 列表
+export const h5_user_priorityList = '/h5/user/priorityList'
+
+// demo
+// demo详情页
+export const h5_demo_index_detail = '/h5/demo_index/detail'
+// demo分享统计
+export const h5_demo_index_share = '/h5/demo_index/share'
+// demo播放统计
+export const h5_demo_index_play = '/h5/demo_index/play'
+// demo详情访问统计
+export const h5_demo_index_visit = '/h5/demo_index/visit'
+// demo播放信息
+export const h5_demo_index_demoPlay = '/h5/demo_index/demoPlay'
+// demo海报分享信息
+export const h5_demo_index_sharePoster = '/h5/demo_index/sharePoster'
+// demo助力详情页点击购买助力后检查
+export const h5_demo_buy_checkout = '/h5/demo_buy/checkout'
