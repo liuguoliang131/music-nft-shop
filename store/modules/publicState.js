@@ -56,6 +56,12 @@ export default {
 					whatType: '3',
 					product_item_id: data.demo_item_id
 				}
+			} else {
+				// 空为暂停
+				state.appPlayState = {
+					whatType: '',
+					product_item_id: ''
+				}
 			}
 		}
 
