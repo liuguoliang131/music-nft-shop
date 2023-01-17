@@ -170,9 +170,15 @@
 						<view class="bottom1-2-left" @tap="handBuyTheYxg">
 							优先购
 						</view>
-						<view class="bottom1-2-right" @tap="handOrLogin(0)">
+						<view v-if="data.sale_status===0" class="bottom1-2-right" @tap="handOrLogin(0)">
 							<text class="bottom1-2-right-1 nowrap">距离开售</text>
 							<text class="bottom1-2-right-2 nowrap">{{countDown}}</text>
+						</view>
+						<view v-else-if="data.sale_status===1" class="bottom1-2-right1" @tap="handBuyThe">
+							立即抢购
+						</view>
+						<view v-else-if="data.sale_status===2" class="bottom1-2-right2" @tap="handOrLogin(2)">
+							已售罄
 						</view>
 
 					</view>
@@ -353,9 +359,15 @@
 						<view class="bottom1-2-left" @tap="handBuyTheYxg">
 							优先购
 						</view>
-						<view class="bottom1-2-right" @tap="handOrLogin(0)">
+						<view v-if="data.sale_status===0" class="bottom1-2-right" @tap="handOrLogin(0)">
 							<text class="bottom1-2-right-1 nowrap">距离开售</text>
 							<text class="bottom1-2-right-2 nowrap">{{countDown}}</text>
+						</view>
+						<view v-else-if="data.sale_status===1" class="bottom1-2-right1" @tap="handBuyThe">
+							立即抢购
+						</view>
+						<view v-else-if="data.sale_status===2" class="bottom1-2-right2" @tap="handOrLogin(2)">
+							已售罄
 						</view>
 
 					</view>
@@ -1674,6 +1686,54 @@
 						line-height: 34rpx;
 						height: 34rpx;
 						font-size: 24rpx;
+					}
+				}
+
+				.bottom1-2-right1 {
+					width: 284rpx;
+					height: 74rpx;
+					background: #D10910;
+					border-radius: 48rpx;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 500;
+					font-size: 32rpx;
+					line-height: 74rpx;
+					text-align: center;
+					color: #ECECEC;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					min-height: 0;
+					min-width: 0;
+
+					&:active {
+						background-color: rgba(209, 9, 16, 0.6);
+						color: rgba(134, 134, 134, 1);
+					}
+				}
+
+				.bottom1-2-right2 {
+					width: 284rpx;
+					height: 74rpx;
+					background: #D10910;
+					border-radius: 48rpx;
+					font-family: 'PingFang SC';
+					font-style: normal;
+					font-weight: 500;
+					font-size: 32rpx;
+					line-height: 74rpx;
+					text-align: center;
+					color: #ECECEC;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					min-height: 0;
+					min-width: 0;
+
+					&:active {
+						background-color: rgba(209, 9, 16, 0.6);
+						color: rgba(134, 134, 134, 1);
 					}
 				}
 

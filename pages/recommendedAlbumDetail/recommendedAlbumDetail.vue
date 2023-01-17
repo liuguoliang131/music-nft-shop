@@ -167,9 +167,15 @@
 						<view class="bottom1-2-left" @tap="handBuyTheYxg">
 							优先购
 						</view>
-						<view class="bottom1-2-right" @tap="handOrLogin(0)">
+						<view v-if="data.sale_status===0" class="bottom1-2-right" @tap="handOrLogin(0)">
 							<text class="bottom1-2-right-1 nowrap">距离开售</text>
 							<text class="bottom1-2-right-2 nowrap">{{countDown}}</text>
+						</view>
+						<view v-else-if="data.sale_status===1" class="bottom1-2-right1" @tap="handBuyThe">
+							立即抢购
+						</view>
+						<view v-else-if="data.sale_status===2" class="bottom1-2-right2" @tap="handOrLogin(2)">
+							已售罄
 						</view>
 
 					</view>
@@ -350,9 +356,15 @@
 						<view class="bottom1-2-left" @tap="handBuyTheYxg">
 							优先购
 						</view>
-						<view class="bottom1-2-right" @tap="handOrLogin(0)">
+						<view v-if="data.sale_status===0" class="bottom1-2-right" @tap="handOrLogin(0)">
 							<text class="bottom1-2-right-1 nowrap">距离开售</text>
 							<text class="bottom1-2-right-2 nowrap">{{countDown}}</text>
+						</view>
+						<view v-else-if="data.sale_status===1" class="bottom1-2-right1" @tap="handBuyThe">
+							立即抢购
+						</view>
+						<view v-else-if="data.sale_status===2" class="bottom1-2-right2" @tap="handOrLogin(2)">
+							已售罄
 						</view>
 
 					</view>
