@@ -2,7 +2,20 @@
 	<view class='container' ref="container" @scroll="onScroll">
 		<nav-head :left="showLeft" title='详情' ref="navHead" :havePlace="false" :transparent="true"></nav-head>
 		<view class='box1'>
-			<view class='box1-1'>
+			<view class='box1-1' v-if="$store.state.user.inApp">
+				<image class='box1-1-1' src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode=''></image>
+				<image class='box1-1-2' :src='data.index_url' mode=''></image>
+				<template
+					v-if="demo_item_id===$store.state.publicState.appPlayState.product_item_id&&$store.state.publicState.appPlayState.whatType==='3'">
+					<image class='box1-1-3' src='https://file.yuanyinfu.com/front-end-lib/pause.png' mode=''
+						@tap="handPlay"></image>
+				</template>
+				<template v-else>
+					<image class='box1-1-3' src='https://file.yuanyinfu.com/front-end-lib/play.png' mode=''
+						@tap="handPlay"></image>
+				</template>
+			</view>
+			<view class='box1-1' v-else>
 				<image class='box1-1-1' src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode=''></image>
 				<image class='box1-1-2' :src='data.index_url' mode=''></image>
 				<template
@@ -862,7 +875,7 @@
 
 					window.onPageAppear = function() {
 						that.getDetails()
-						that.$commit('publicState/dispatch_appPlayState') //获取APP同步播放信息
+						that.$store.dispatch('publicState/dispatch_appPlayState') //获取APP同步播放信息
 					}
 				} catch (e) {
 					//TODO handle the exception
@@ -961,7 +974,7 @@
 		},
 		onShow() {
 			// console.log('show')
-			this.$commit('publicState/dispatch_appPlayState') //获取APP同步播放信息
+			this.$store.dispatch('publicState/dispatch_appPlayState') //获取APP同步播放信息
 			uni.$on('updateData', (data) => {
 				this.getSharePosterInfo()
 			})

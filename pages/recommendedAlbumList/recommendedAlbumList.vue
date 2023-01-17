@@ -9,14 +9,26 @@
 		</view>
 		<my-scroll v-else class="list" @load="getList" :isFinish="isFinish" :loading="loading">
 			<view class="item" v-for="(item,idx) in list" :key="idx" @tap="handGo(item)">
-				<view class="cover-content">
+				<view class="cover-content" v-if="item.publish_type===1">
 					<image class="cover-img" src="https://file.yuanyinfu.com/front-end-lib/albumbg.png"></image>
 					<image class="cover-turn" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode=""></image>
 					<image class="cover-turn1" :src="item.index_img" mode=""></image>
-					<image v-show="item.publish_type===1" class="cover-play"
-						src="https://file.yuanyinfu.com/front-end-lib/play.png" mode="" @tap.stop="handPlay(item)">
-					</image>
-					<!-- <image class="cover-play" src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode="" @tap.stop="handPlay(item)"></image> -->
+					<template
+						v-if="item.product_item_id===$store.state.publicState.appPlayState.product_item_id&&$store.state.publicState.appPlayState.whatType==='1'">
+						<image class="cover-play" src="https://file.yuanyinfu.com/front-end-lib/pause.png" mode=""
+							@tap.stop="handPlay(item)">
+						</image>
+					</template>
+					<template v-else>
+						<image class="cover-play" src="https://file.yuanyinfu.com/front-end-lib/play.png" mode=""
+							@tap.stop="handPlay(item)">
+						</image>
+					</template>
+				</view>
+				<view class="cover-content" v-else>
+					<image class="cover-img" src="https://file.yuanyinfu.com/front-end-lib/albumbg.png"></image>
+					<image class="cover-turn" src="https://file.yuanyinfu.com/front-end-lib/turn.png" mode=""></image>
+					<image class="cover-turn1" :src="item.index_img" mode=""></image>
 				</view>
 				<view class="item-row1">
 					{{item.product_name}}
@@ -177,10 +189,31 @@
 					})
 					throw e
 				}
+			},
+			// 从原生页面返回到当前页面时触发此方法  调用detail刷新页面数据
+			onWatchState() {
+				try {
+					const that = this
+
+					window.onPageAppear = function() {
+						that.$store.dispatch('publicState/dispatch_appPlayState') //获取APP同步播放信息
+					}
+				} catch (e) {
+					//TODO handle the exception
+					throw e
+				}
+
+
 			}
 		},
 		onLoad() {
 
+		},
+		onReady() {
+			this.onWatchState()
+		},
+		onShow() {
+			this.$store.dispatch('publicState/dispatch_appPlayState') //获取APP同步播放信息
 		}
 	}
 </script>
