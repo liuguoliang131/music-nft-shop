@@ -397,7 +397,8 @@
 		shareUrlImage,
 		goDownload,
 		goLogin,
-		openAppPage
+		openAppPage,
+		currentPlayInfo //获取app播放状态
 	} from '@/utils/index.js'
 	import {
 		h5_demo_index_sharePoster, //海报信息
@@ -861,6 +862,7 @@
 
 					window.onPageAppear = function() {
 						that.getDetails()
+						that.$commit('publicState/dispatch_appPlayState') //获取APP同步播放信息
 					}
 				} catch (e) {
 					//TODO handle the exception
@@ -936,7 +938,12 @@
 						icon: 'none'
 					})
 				}
-			}
+			},
+			// 获取app播放状态
+			// async getCurrentPlayInfo() {
+			// 	const str = await currentPlayInfo()
+			// 	this.$store.commit('publicState/set_appPlayState', JSON.parse(str))
+			// }
 		},
 		onLoad(e) {
 			this.showLeft = !(e.origin === 'invitationToRegister' || e.origin === 'login')
@@ -954,6 +961,7 @@
 		},
 		onShow() {
 			// console.log('show')
+			this.$commit('publicState/dispatch_appPlayState') //获取APP同步播放信息
 			uni.$on('updateData', (data) => {
 				this.getSharePosterInfo()
 			})

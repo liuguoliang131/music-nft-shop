@@ -566,3 +566,49 @@ window.appConfig = function(config) {
 	window.localStorage.setItem('AppConfigInfo', AppConfigInfo)
 	window.appConfigReady = JSON.parse(AppConfigInfo)
 }
+
+// 获取APP当前播放信息  异步的
+export const currentPlayInfo = () => {
+	let getPlayInfoTimer = null
+	return new Promise((resolve) => {
+		window.yyfAppPlayInfoJson = null
+		HSApp.postMessage(JSON.stringify({
+			'type': 'currentPlayInfo',
+			'params': {},
+			'callback': 'appPlayInfoResult'
+		}))
+		getPlayInfoTimer = setInterval(() => {
+			if (window.yyfAppPlayInfoJson) {
+				clearInterval(getPlayInfoTimer)
+				resolve(window.yyfAppPlayInfoJson)
+			}
+		}, 10)
+	})
+
+}
+// APP播放信息回调 
+window.appPlayInfoResult = function(data) {
+	/*
+	版权：
+	{
+	"type":"copyright",
+	"music_id":music_id,
+	"music_info_id":music_info_id,
+	"music_url":"播放地址"
+	}
+	唱片：
+	{
+	"type":"collections",
+	"product_item_id":product_item_id,
+	"music_url":"播放地址"
+	}
+	demo:
+	{
+	"type":"demo",
+	"demo_item_id":demo_item_id,
+	"music_url":"播放地址"
+	}
+	*/
+	window.yyfAppPlayInfoJson = data
+
+}
